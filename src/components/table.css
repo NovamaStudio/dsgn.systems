@@ -90,7 +90,7 @@
 @media (hover: hover) { .dsgn-table-sort:hover { color: var(--dsgn-text); } }
 .dsgn-table-sort:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus-neutral); outline-offset: var(--dsgn-focus-offset); }
 .dsgn-table th[aria-sort] { color: var(--dsgn-text); }
-.dsgn-table th[aria-sort] .dsgn-table-sort > .dsgn-icon { color: var(--dsgn-accent-text); }
+.dsgn-table th[aria-sort] .dsgn-table-sort > .dsgn-icon { color: var(--dsgn-control-text); }
 
 /* rows. Things inside a row that have their own hover (ghost / subtle buttons, chips, badges) are
    shifted one step, so they never melt into the row's own hover or selection colour: the cell keeps
@@ -104,17 +104,17 @@
     --dsgn-neutral-subtle: var(--_n1); --dsgn-neutral-subtle-hover: var(--_n2); --dsgn-neutral-subtle-pressed: var(--_n2);
   }
 }
-/* selected row: accent tint; neutral things inside take the accent tint one step up, so grey never sits on blue */
+/* selected row: control tint (accent, or grey with neutral controls); neutral things inside take the tint one step up */
 .dsgn-table tbody tr[aria-selected="true"] > td {
-  background: var(--dsgn-accent-subtle);
-  --_a1: var(--dsgn-accent-subtle-hover); --_a2: var(--dsgn-accent-subtle-pressed);
+  background: var(--dsgn-control-subtle);
+  --_a1: var(--dsgn-control-subtle-hover); --_a2: var(--dsgn-control-subtle-pressed);
 }
 @media (hover: hover) {
-  .dsgn-table tbody tr[aria-selected="true"]:hover > td { background: var(--dsgn-accent-subtle-hover); --_a1: var(--dsgn-accent-subtle-pressed); }
+  .dsgn-table tbody tr[aria-selected="true"]:hover > td { background: var(--dsgn-control-subtle-hover); --_a1: var(--dsgn-control-subtle-pressed); }
 }
 .dsgn-table tbody tr[aria-selected="true"] > td > * {
   --dsgn-neutral-subtle: var(--_a1); --dsgn-neutral-subtle-hover: var(--_a2); --dsgn-neutral-subtle-pressed: var(--_a2);
-  --dsgn-accent-subtle: var(--_a1); --dsgn-accent-subtle-hover: var(--_a2); --dsgn-accent-subtle-pressed: var(--_a2);
+  --dsgn-control-subtle: var(--_a1); --dsgn-control-subtle-hover: var(--_a2); --dsgn-control-subtle-pressed: var(--_a2);
 }
 .dsgn-table td[data-muted], .dsgn-table .dsgn-table-muted { color: var(--dsgn-text-muted); }
 

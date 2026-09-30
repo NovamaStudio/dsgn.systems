@@ -114,7 +114,7 @@ ${dsgnCss}
     </fieldset>
     <fieldset><legend>Controls</legend>
       ${radios('controls', 'Colour of controls', [['accent', 'Accent'], ['neutral', 'Neutral']])}
-      <p class="dsgn-hint">Neutral: buttons, checkboxes and focus in near-black / near-white.</p>
+      <p class="dsgn-hint">Neutral: checkboxes, switches, selection and focus in near-black / near-white. Buttons keep the accent.</p>
     </fieldset>
     <fieldset><legend>Greys</legend>
       <label class="dsgn-choice"><input type="checkbox" role="switch" class="dsgn-switch" id="follow"> Tint towards the accent</label>

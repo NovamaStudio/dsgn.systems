@@ -31,10 +31,10 @@
   font-variant-numeric: tabular-nums;
 }
 .dsgn-pagination > .dsgn-button[aria-current="page"] {
-  --_bg: var(--dsgn-accent-subtle);
-  --_bg-hover: var(--dsgn-accent-subtle-hover);
-  --_bg-pressed: var(--dsgn-accent-subtle-pressed);
-  --_fg: var(--dsgn-accent-text);
+  --_bg: var(--dsgn-control-subtle);
+  --_bg-hover: var(--dsgn-control-subtle-hover);
+  --_bg-pressed: var(--dsgn-control-subtle-pressed);
+  --_fg: var(--dsgn-control-text);
   font-weight: var(--dsgn-font-weight-semibold);
 }
 .dsgn-pagination-gap {

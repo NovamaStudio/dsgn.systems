@@ -19,7 +19,7 @@
  * the app should also ignore repeat submits while busy.
  */
 .dsgn-progress {
-  --_bar: var(--dsgn-accent-solid);
+  --_bar: var(--dsgn-control-solid);
   -webkit-appearance: none;
   appearance: none;
   box-sizing: border-box;

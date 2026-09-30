@@ -95,11 +95,25 @@
   --dsgn-accent-fill-light: var(--dsgn-accent-54);
   --dsgn-accent-fill-hover-light: var(--dsgn-accent-46);
   --dsgn-accent-fill-pressed-light: var(--dsgn-accent-38);
-  --dsgn-accent-focus-light: var(--dsgn-accent-54);
+  --dsgn-control-fill-light: var(--dsgn-accent-54);
+  --dsgn-control-fill-hover-light: var(--dsgn-accent-46);
+  --dsgn-control-fill-pressed-light: var(--dsgn-accent-38);
+  --dsgn-control-tint-light: var(--dsgn-accent-94);
+  --dsgn-control-tint-hover-light: var(--dsgn-accent-90);
+  --dsgn-control-tint-pressed-light: var(--dsgn-accent-85);
+  --dsgn-control-text-light: var(--dsgn-accent-38);
+  --dsgn-control-focus-light: var(--dsgn-accent-54);
   --dsgn-accent-fill-dark: var(--dsgn-accent-64);
   --dsgn-accent-fill-hover-dark: var(--dsgn-accent-70);
   --dsgn-accent-fill-pressed-dark: var(--dsgn-accent-76);
-  --dsgn-accent-focus-dark: var(--dsgn-accent-70);
+  --dsgn-control-fill-dark: var(--dsgn-accent-64);
+  --dsgn-control-fill-hover-dark: var(--dsgn-accent-70);
+  --dsgn-control-fill-pressed-dark: var(--dsgn-accent-76);
+  --dsgn-control-tint-dark: var(--dsgn-accent-26);
+  --dsgn-control-tint-hover-dark: var(--dsgn-accent-30);
+  --dsgn-control-tint-pressed-dark: var(--dsgn-accent-38);
+  --dsgn-control-text-dark: var(--dsgn-accent-85);
+  --dsgn-control-focus-dark: var(--dsgn-accent-70);
   /* type (sizes live in the dimension blocks below) */
   --dsgn-font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
   --dsgn-font-icon: 'Material Symbols Rounded';
@@ -144,7 +158,7 @@
   --dsgn-border: var(--dsgn-neutral-85);
   --dsgn-border-strong: var(--dsgn-neutral-54);
   --dsgn-border-control: var(--dsgn-neutral-64);
-  --dsgn-focus: var(--dsgn-accent-focus-light);
+  --dsgn-focus: var(--dsgn-control-focus-light);
   --dsgn-focus-neutral: var(--dsgn-neutral-38);
   --dsgn-focus-danger: var(--dsgn-danger-54);
   --dsgn-control-track: var(--dsgn-neutral-94);
@@ -177,6 +191,14 @@
   --dsgn-danger-text: var(--dsgn-danger-38);
   --dsgn-danger-border: var(--dsgn-danger-76);
   --dsgn-danger-solid-text: var(--dsgn-neutral-99);
+  --dsgn-control-solid: var(--dsgn-control-fill-light);
+  --dsgn-control-solid-hover: var(--dsgn-control-fill-hover-light);
+  --dsgn-control-solid-pressed: var(--dsgn-control-fill-pressed-light);
+  --dsgn-control-solid-text: var(--dsgn-neutral-99);
+  --dsgn-control-subtle: var(--dsgn-control-tint-light);
+  --dsgn-control-subtle-hover: var(--dsgn-control-tint-hover-light);
+  --dsgn-control-subtle-pressed: var(--dsgn-control-tint-pressed-light);
+  --dsgn-control-text: var(--dsgn-control-text-light);
   --dsgn-success-solid: var(--dsgn-success-54);
   --dsgn-success-subtle: var(--dsgn-success-94);
   --dsgn-success-text: var(--dsgn-success-38);
@@ -206,8 +228,8 @@
   --dsgn-text-disabled: var(--dsgn-neutral-46);
   --dsgn-border: var(--dsgn-neutral-30);
   --dsgn-border-strong: var(--dsgn-neutral-54);
-  --dsgn-border-control: var(--dsgn-neutral-46);
-  --dsgn-focus: var(--dsgn-accent-focus-dark);
+  --dsgn-border-control: var(--dsgn-neutral-54);
+  --dsgn-focus: var(--dsgn-control-focus-dark);
   --dsgn-focus-neutral: var(--dsgn-neutral-85);
   --dsgn-focus-danger: var(--dsgn-danger-70);
   --dsgn-control-track: var(--dsgn-neutral-14);
@@ -240,6 +262,14 @@
   --dsgn-danger-text: var(--dsgn-danger-85);
   --dsgn-danger-border: var(--dsgn-danger-38);
   --dsgn-danger-solid-text: var(--dsgn-neutral-14);
+  --dsgn-control-solid: var(--dsgn-control-fill-dark);
+  --dsgn-control-solid-hover: var(--dsgn-control-fill-hover-dark);
+  --dsgn-control-solid-pressed: var(--dsgn-control-fill-pressed-dark);
+  --dsgn-control-solid-text: var(--dsgn-neutral-14);
+  --dsgn-control-subtle: var(--dsgn-control-tint-dark);
+  --dsgn-control-subtle-hover: var(--dsgn-control-tint-hover-dark);
+  --dsgn-control-subtle-pressed: var(--dsgn-control-tint-pressed-dark);
+  --dsgn-control-text: var(--dsgn-control-text-dark);
   --dsgn-success-solid: var(--dsgn-success-64);
   --dsgn-success-subtle: var(--dsgn-success-26);
   --dsgn-success-text: var(--dsgn-success-85);
@@ -270,8 +300,8 @@
     --dsgn-text-disabled: var(--dsgn-neutral-46);
     --dsgn-border: var(--dsgn-neutral-30);
     --dsgn-border-strong: var(--dsgn-neutral-54);
-    --dsgn-border-control: var(--dsgn-neutral-46);
-    --dsgn-focus: var(--dsgn-accent-focus-dark);
+    --dsgn-border-control: var(--dsgn-neutral-54);
+    --dsgn-focus: var(--dsgn-control-focus-dark);
     --dsgn-focus-neutral: var(--dsgn-neutral-85);
     --dsgn-focus-danger: var(--dsgn-danger-70);
     --dsgn-control-track: var(--dsgn-neutral-14);
@@ -304,6 +334,14 @@
     --dsgn-danger-text: var(--dsgn-danger-85);
     --dsgn-danger-border: var(--dsgn-danger-38);
     --dsgn-danger-solid-text: var(--dsgn-neutral-14);
+    --dsgn-control-solid: var(--dsgn-control-fill-dark);
+    --dsgn-control-solid-hover: var(--dsgn-control-fill-hover-dark);
+    --dsgn-control-solid-pressed: var(--dsgn-control-fill-pressed-dark);
+    --dsgn-control-solid-text: var(--dsgn-neutral-14);
+    --dsgn-control-subtle: var(--dsgn-control-tint-dark);
+    --dsgn-control-subtle-hover: var(--dsgn-control-tint-hover-dark);
+    --dsgn-control-subtle-pressed: var(--dsgn-control-tint-pressed-dark);
+    --dsgn-control-text: var(--dsgn-control-text-dark);
     --dsgn-success-solid: var(--dsgn-success-64);
     --dsgn-success-subtle: var(--dsgn-success-26);
     --dsgn-success-text: var(--dsgn-success-85);
@@ -1065,10 +1103,12 @@
 
 .dsgn-icon-button { padding: var(--dsgn-control-pad-y); }
 
-/* icon + text: the glyph carries its own white space, so the icon side gets space-4 less padding
-   and the button looks balanced (Figma: Density control/pad-x-icon) */
-.dsgn-button:has(> .dsgn-icon:first-child) { padding-inline-start: calc(var(--dsgn-control-pad-x) - var(--dsgn-space-4)); }
-.dsgn-button:has(> .dsgn-icon:last-child) { padding-inline-end: calc(var(--dsgn-control-pad-x) - var(--dsgn-space-4)); }
+/* icon + text: the glyph carries its own white space (about 2–3 px each side), so the icon side gets
+   6 px less padding and the gap is 2 px tighter; the button then looks optically balanced.
+   Figma: Density control/pad-x-icon and control/gap-icon. */
+.dsgn-button:has(> .dsgn-icon) { gap: calc(var(--dsgn-control-gap) - var(--dsgn-space-2)); }
+.dsgn-button:has(> .dsgn-icon:first-child) { padding-inline-start: calc(var(--dsgn-control-pad-x) - var(--dsgn-space-4) - var(--dsgn-space-2)); }
+.dsgn-button:has(> .dsgn-icon:last-child) { padding-inline-end: calc(var(--dsgn-control-pad-x) - var(--dsgn-space-4) - var(--dsgn-space-2)); }
 
 /* ── intents ─────────────────────────────────────────────────────────────── */
 :is(.dsgn-button, .dsgn-icon-button)[data-intent="neutral"] {
@@ -1265,9 +1305,9 @@ button.dsgn-chip:not(:disabled):active { background: var(--dsgn-neutral-subtle-h
 
 .dsgn-chip[aria-pressed="true"] {
   padding-inline-start: var(--dsgn-space-8);
-  background: var(--dsgn-accent-subtle);
-  box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-accent-solid);
-  color: var(--dsgn-accent-text);
+  background: var(--dsgn-control-subtle);
+  box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-control-solid);
+  color: var(--dsgn-control-text);
 }
 .dsgn-chip[aria-pressed="true"]::before {
   content: 'check';
@@ -1280,7 +1320,7 @@ button.dsgn-chip:not(:disabled):active { background: var(--dsgn-neutral-subtle-h
 }
 .dsgn-chip[aria-pressed="true"] > .dsgn-icon { display: none; }  /* the check replaces the leading icon */
 @media (hover: hover) {
-  button.dsgn-chip[aria-pressed="true"]:not(:disabled):hover { background: var(--dsgn-accent-subtle-hover); }
+  button.dsgn-chip[aria-pressed="true"]:not(:disabled):hover { background: var(--dsgn-control-subtle-hover); }
 }
 .dsgn-chip:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus-neutral); outline-offset: var(--dsgn-focus-offset); }
 .dsgn-chip:disabled { background: var(--dsgn-neutral-subtle); box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border); color: var(--dsgn-text-disabled); cursor: not-allowed; }
@@ -1340,7 +1380,7 @@ button.dsgn-chip:not(:disabled):active { background: var(--dsgn-neutral-subtle-h
   border-radius: var(--dsgn-radius-s);
   background: var(--dsgn-surface-raised);
   box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--_border), var(--dsgn-shadow-control);
-  color: var(--dsgn-accent-solid-text);
+  color: var(--dsgn-control-solid-text);
   cursor: pointer;
 }
 .dsgn-radio { border-radius: var(--dsgn-radius-full); }
@@ -1359,21 +1399,21 @@ button.dsgn-chip:not(:disabled):active { background: var(--dsgn-neutral-subtle-h
 .dsgn-checkbox:indeterminate::after { content: 'remove'; }
 
 .dsgn-checkbox:is(:checked, :indeterminate) {
-  background: var(--dsgn-accent-solid);
+  background: var(--dsgn-control-solid);
   box-shadow: none;
 }
 .dsgn-radio:checked {
-  background: var(--dsgn-accent-solid-text);
-  box-shadow: inset 0 0 0 var(--dsgn-space-4) var(--dsgn-accent-solid);
+  background: var(--dsgn-control-solid-text);
+  box-shadow: inset 0 0 0 var(--dsgn-space-4) var(--dsgn-control-solid);
 }
 
 @media (hover: hover) {
   .dsgn-choice:hover > :is(.dsgn-checkbox, .dsgn-radio):not(:disabled),
   :is(.dsgn-checkbox, .dsgn-radio):not(:disabled):hover { --_border: var(--dsgn-text-muted); }
   .dsgn-choice:hover > .dsgn-checkbox:is(:checked, :indeterminate):not(:disabled),
-  .dsgn-checkbox:is(:checked, :indeterminate):not(:disabled):hover { background: var(--dsgn-accent-solid-hover); }
+  .dsgn-checkbox:is(:checked, :indeterminate):not(:disabled):hover { background: var(--dsgn-control-solid-hover); }
   .dsgn-choice:hover > .dsgn-radio:checked:not(:disabled),
-  .dsgn-radio:checked:not(:disabled):hover { box-shadow: inset 0 0 0 var(--dsgn-space-4) var(--dsgn-accent-solid-hover); }
+  .dsgn-radio:checked:not(:disabled):hover { box-shadow: inset 0 0 0 var(--dsgn-space-4) var(--dsgn-control-solid-hover); }
 }
 :is(.dsgn-checkbox, .dsgn-radio)[aria-invalid="true"] { --_border: var(--dsgn-danger-solid); }
 
@@ -1414,12 +1454,12 @@ button.dsgn-chip:not(:disabled):active { background: var(--dsgn-neutral-subtle-h
   background: var(--dsgn-neutral-text);
   box-shadow: var(--dsgn-shadow-control);
 }
-.dsgn-switch:checked { background: var(--dsgn-accent-solid); box-shadow: none; }
-.dsgn-switch:checked::before { background: var(--dsgn-accent-solid-text); translate: var(--_thumb) 0; }
+.dsgn-switch:checked { background: var(--dsgn-control-solid); box-shadow: none; }
+.dsgn-switch:checked::before { background: var(--dsgn-control-solid-text); translate: var(--_thumb) 0; }
 .dsgn-switch:checked:dir(rtl)::before { translate: calc(-1 * var(--_thumb)) 0; }
 @media (hover: hover) {
   .dsgn-choice:hover > .dsgn-switch:checked:not(:disabled),
-  .dsgn-switch:checked:not(:disabled):hover { background: var(--dsgn-accent-solid-hover); }
+  .dsgn-switch:checked:not(:disabled):hover { background: var(--dsgn-control-solid-hover); }
 }
 .dsgn-switch:disabled { background: var(--dsgn-neutral-subtle); box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border); cursor: not-allowed; }
 .dsgn-switch:disabled::before { background: var(--dsgn-text-disabled); }
@@ -1803,7 +1843,7 @@ textarea.dsgn-input {
 
 /* ── states ──────────────────────────────────────────────────────────────── */
 @media (hover: hover) {
-  .dsgn-input:hover { --_border: var(--dsgn-border-strong); }
+  .dsgn-input:hover { --_border: var(--dsgn-text-muted); }
 }
 .dsgn-input:is(:focus, :focus-within) {
   outline: var(--dsgn-focus-width) solid var(--_focus);
@@ -2076,8 +2116,8 @@ textarea.dsgn-input {
 }
 :is(a, button).dsgn-list-item:active { background: var(--dsgn-neutral-subtle-hover); }
 :is(a, button).dsgn-list-item:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus-neutral); outline-offset: calc(-1 * var(--dsgn-focus-width)); }
-.dsgn-list-item[aria-current]:not([aria-current="false"]) { background: var(--dsgn-accent-subtle); }
-.dsgn-list-item[aria-current]:not([aria-current="false"]) > .dsgn-icon { --_fill: 1; color: var(--dsgn-accent-text); }
+.dsgn-list-item[aria-current]:not([aria-current="false"]) { background: var(--dsgn-control-subtle); }
+.dsgn-list-item[aria-current]:not([aria-current="false"]) > .dsgn-icon { --_fill: 1; color: var(--dsgn-control-text); }
 
 @media (prefers-reduced-motion: no-preference) {
   :is(a, button).dsgn-list-item { transition: background-color var(--dsgn-duration-fast) var(--dsgn-ease); }
@@ -2166,7 +2206,7 @@ textarea.dsgn-input {
   line-height: 1;
   font-feature-settings: 'liga';
   font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' var(--dsgn-icon-grade, 0), 'opsz' 20;
-  color: var(--dsgn-accent-text);
+  color: var(--dsgn-control-text);
 }
 .dsgn-menu-item[aria-checked="true"]::after { visibility: visible; }
 
@@ -2237,7 +2277,7 @@ textarea.dsgn-input {
     font-size: var(--dsgn-control-line-height);
     line-height: 1;
     font-feature-settings: 'liga';
-    color: var(--dsgn-accent-text);
+    color: var(--dsgn-control-text);
   }
   .dsgn-input > select option:hover,
   .dsgn-input > select option:focus-visible { background: var(--dsgn-neutral-subtle); outline: none; }
@@ -2370,11 +2410,11 @@ textarea.dsgn-input {
 .dsgn-option-card-meta { color: var(--dsgn-text); font-weight: var(--dsgn-font-weight-medium); font-variant-numeric: tabular-nums; white-space: nowrap; }
 
 @media (hover: hover) {
-  .dsgn-option-card:not(:has(> :disabled)):hover { box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border-strong), var(--dsgn-shadow-raised); }
+  .dsgn-option-card:not(:has(> :disabled)):hover { box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-text-muted), var(--dsgn-shadow-raised); }
 }
 .dsgn-option-card:has(> :checked) {
-  background: var(--dsgn-accent-subtle);
-  box-shadow: inset 0 0 0 var(--dsgn-space-2) var(--dsgn-accent-solid), var(--dsgn-shadow-raised);
+  background: var(--dsgn-control-subtle);
+  box-shadow: inset 0 0 0 var(--dsgn-space-2) var(--dsgn-control-solid), var(--dsgn-shadow-raised);
 }
 .dsgn-option-card:has(> :focus-visible) { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: var(--dsgn-focus-offset); }
 .dsgn-option-card:has(> :disabled) { background: var(--dsgn-neutral-subtle); color: var(--dsgn-text-disabled); cursor: not-allowed; }
@@ -2422,10 +2462,10 @@ textarea.dsgn-input {
   font-variant-numeric: tabular-nums;
 }
 .dsgn-pagination > .dsgn-button[aria-current="page"] {
-  --_bg: var(--dsgn-accent-subtle);
-  --_bg-hover: var(--dsgn-accent-subtle-hover);
-  --_bg-pressed: var(--dsgn-accent-subtle-pressed);
-  --_fg: var(--dsgn-accent-text);
+  --_bg: var(--dsgn-control-subtle);
+  --_bg-hover: var(--dsgn-control-subtle-hover);
+  --_bg-pressed: var(--dsgn-control-subtle-pressed);
+  --_fg: var(--dsgn-control-text);
   font-weight: var(--dsgn-font-weight-semibold);
 }
 .dsgn-pagination-gap {
@@ -2580,7 +2620,7 @@ textarea.dsgn-input {
  * the app should also ignore repeat submits while busy.
  */
 .dsgn-progress {
-  --_bar: var(--dsgn-accent-solid);
+  --_bar: var(--dsgn-control-solid);
   -webkit-appearance: none;
   appearance: none;
   box-sizing: border-box;
@@ -2894,7 +2934,7 @@ textarea.dsgn-input {
   --_pct: 50%;
   --_track: var(--dsgn-space-4);
   --_thumb: var(--dsgn-control-indicator);
-  --_fill: var(--dsgn-accent-solid);
+  --_fill: var(--dsgn-control-solid);
   --_rest: var(--dsgn-border-strong);
   -webkit-appearance: none;
   appearance: none;
@@ -2935,9 +2975,9 @@ textarea.dsgn-input {
   box-shadow: 0 0 0 var(--dsgn-space-2) var(--dsgn-surface-raised);
 }
 @media (hover: hover) {
-  .dsgn-slider:not(:disabled):hover { --_fill: var(--dsgn-accent-solid-hover); }
+  .dsgn-slider:not(:disabled):hover { --_fill: var(--dsgn-control-solid-hover); }
 }
-.dsgn-slider:active:not(:disabled) { --_fill: var(--dsgn-accent-solid-pressed); }
+.dsgn-slider:active:not(:disabled) { --_fill: var(--dsgn-control-solid-pressed); }
 .dsgn-slider:focus-visible { outline: none; }
 .dsgn-slider:focus-visible::-webkit-slider-thumb { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: var(--dsgn-focus-offset); }
 .dsgn-slider:focus-visible::-moz-range-thumb { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: var(--dsgn-focus-offset); }
@@ -3076,17 +3116,17 @@ textarea.dsgn-input {
 .dsgn-steps > li[data-state="done"] { color: var(--dsgn-text); }
 .dsgn-steps > li[data-state="done"]::before {
   content: 'check';
-  background: var(--dsgn-accent-solid);
+  background: var(--dsgn-control-solid);
   box-shadow: none;
-  color: var(--dsgn-accent-solid-text);
+  color: var(--dsgn-control-solid-text);
   font-family: var(--dsgn-font-icon);
   font-size: var(--dsgn-font-size-body-s);
   font-feature-settings: 'liga';
   font-variation-settings: 'FILL' 1, 'wght' 600, 'GRAD' var(--dsgn-icon-grade, 0), 'opsz' 20;
 }
-.dsgn-steps > li[data-state="done"]::after { background: var(--dsgn-accent-solid); }
+.dsgn-steps > li[data-state="done"]::after { background: var(--dsgn-control-solid); }
 .dsgn-steps > li[aria-current="step"] { color: var(--dsgn-text); font-weight: var(--dsgn-font-weight-medium); }
-.dsgn-steps > li[aria-current="step"]::before { box-shadow: inset 0 0 0 var(--dsgn-space-2) var(--dsgn-accent-solid); color: var(--dsgn-accent-text); }
+.dsgn-steps > li[aria-current="step"]::before { box-shadow: inset 0 0 0 var(--dsgn-space-2) var(--dsgn-control-solid); color: var(--dsgn-control-text); }
 
 @container (width < 32rem) {
   .dsgn-steps > li:not([aria-current="step"]) > .dsgn-steps-label {
@@ -3194,7 +3234,7 @@ textarea.dsgn-input {
 @media (hover: hover) { .dsgn-table-sort:hover { color: var(--dsgn-text); } }
 .dsgn-table-sort:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus-neutral); outline-offset: var(--dsgn-focus-offset); }
 .dsgn-table th[aria-sort] { color: var(--dsgn-text); }
-.dsgn-table th[aria-sort] .dsgn-table-sort > .dsgn-icon { color: var(--dsgn-accent-text); }
+.dsgn-table th[aria-sort] .dsgn-table-sort > .dsgn-icon { color: var(--dsgn-control-text); }
 
 /* rows. Things inside a row that have their own hover (ghost / subtle buttons, chips, badges) are
    shifted one step, so they never melt into the row's own hover or selection colour: the cell keeps
@@ -3208,17 +3248,17 @@ textarea.dsgn-input {
     --dsgn-neutral-subtle: var(--_n1); --dsgn-neutral-subtle-hover: var(--_n2); --dsgn-neutral-subtle-pressed: var(--_n2);
   }
 }
-/* selected row: accent tint; neutral things inside take the accent tint one step up, so grey never sits on blue */
+/* selected row: control tint (accent, or grey with neutral controls); neutral things inside take the tint one step up */
 .dsgn-table tbody tr[aria-selected="true"] > td {
-  background: var(--dsgn-accent-subtle);
-  --_a1: var(--dsgn-accent-subtle-hover); --_a2: var(--dsgn-accent-subtle-pressed);
+  background: var(--dsgn-control-subtle);
+  --_a1: var(--dsgn-control-subtle-hover); --_a2: var(--dsgn-control-subtle-pressed);
 }
 @media (hover: hover) {
-  .dsgn-table tbody tr[aria-selected="true"]:hover > td { background: var(--dsgn-accent-subtle-hover); --_a1: var(--dsgn-accent-subtle-pressed); }
+  .dsgn-table tbody tr[aria-selected="true"]:hover > td { background: var(--dsgn-control-subtle-hover); --_a1: var(--dsgn-control-subtle-pressed); }
 }
 .dsgn-table tbody tr[aria-selected="true"] > td > * {
   --dsgn-neutral-subtle: var(--_a1); --dsgn-neutral-subtle-hover: var(--_a2); --dsgn-neutral-subtle-pressed: var(--_a2);
-  --dsgn-accent-subtle: var(--_a1); --dsgn-accent-subtle-hover: var(--_a2); --dsgn-accent-subtle-pressed: var(--_a2);
+  --dsgn-control-subtle: var(--_a1); --dsgn-control-subtle-hover: var(--_a2); --dsgn-control-subtle-pressed: var(--_a2);
 }
 .dsgn-table td[data-muted], .dsgn-table .dsgn-table-muted { color: var(--dsgn-text-muted); }
 
@@ -3287,7 +3327,7 @@ textarea.dsgn-input {
   .dsgn-tab:hover::after { background: var(--dsgn-border); }
 }
 .dsgn-tab[aria-selected="true"] { color: var(--dsgn-text); }
-.dsgn-tab[aria-selected="true"]::after { background: var(--dsgn-accent-solid); }
+.dsgn-tab[aria-selected="true"]::after { background: var(--dsgn-control-solid); }
 .dsgn-tab[aria-selected="true"] .dsgn-icon { --_fill: 1; }
 .dsgn-tab:focus-visible {
   outline: var(--dsgn-focus-width) solid var(--dsgn-focus);
@@ -3465,7 +3505,7 @@ textarea.dsgn-input {
     </fieldset>
     <fieldset><legend>Controls</legend>
       <div class="dsgn-field"><span class="dsgn-label" id="r-controls">Colour of controls</span><div class="dsgn-segmented" data-width="full" role="radiogroup" aria-labelledby="r-controls"><label class="dsgn-segment"><input type="radio" name="controls" value="accent" checked>Accent</label><label class="dsgn-segment"><input type="radio" name="controls" value="neutral">Neutral</label></div></div>
-      <p class="dsgn-hint">Neutral: buttons, checkboxes and focus in near-black / near-white.</p>
+      <p class="dsgn-hint">Neutral: checkboxes, switches, selection and focus in near-black / near-white. Buttons keep the accent.</p>
     </fieldset>
     <fieldset><legend>Greys</legend>
       <label class="dsgn-choice"><input type="checkbox" role="switch" class="dsgn-switch" id="follow"> Tint towards the accent</label>
@@ -3655,9 +3695,9 @@ const semanticColor = {
   'border':         { light: ['neutral', 85], dark: ['neutral', 30] },
   'border-strong':  { light: ['neutral', 54], dark: ['neutral', 54] },
   // outline of fields and selectable containers (input, select, chip, option card, segmented track in dark)
-  'border-control': { light: ['neutral', 64], dark: ['neutral', 46] },
+  'border-control': { light: ['neutral', 64], dark: ['neutral', 54] },
   // focus ring follows the element: accent (default), neutral elements, danger elements
-  'focus':          { light: ['accent', 54],  dark: ['accent', 70], role: 'accent-focus' },
+  'focus':          { light: ['accent', 54],  dark: ['accent', 70], role: 'control-focus' },
   'focus-neutral':  { light: ['neutral', 38], dark: ['neutral', 85] },
   'focus-danger':   { light: ['danger', 54],  dark: ['danger', 70] },
   // track of a segmented control: tinted in light; in dark an outlined, near-surface track with a lighter selected segment
@@ -3674,6 +3714,17 @@ const semanticColor = {
   // accent fills go through role slots (see below) so a project theme can make them stronger or neutral
   ...intentTokens('accent', interactiveKeys, {}, { 'solid': 'accent-fill', 'solid-hover': 'accent-fill-hover', 'solid-pressed': 'accent-fill-pressed' }),
   ...intentTokens('danger', interactiveKeys),
+  // controls and selection (checkbox, radio, switch, slider, progress, tabs, steps, selected option card /
+  // chip / row / page): accent by default, neutral when a project theme sets controls: 'neutral'.
+  // Buttons keep the accent (they have their own neutral intent).
+  'control-solid':          { light: ['accent', 54], dark: ['accent', 64], role: 'control-fill' },
+  'control-solid-hover':    { light: ['accent', 46], dark: ['accent', 70], role: 'control-fill-hover' },
+  'control-solid-pressed':  { light: ['accent', 38], dark: ['accent', 76], role: 'control-fill-pressed' },
+  'control-solid-text':     { light: ['neutral', 99], dark: ['neutral', 14] },
+  'control-subtle':         { light: ['accent', 94], dark: ['accent', 26], role: 'control-tint' },
+  'control-subtle-hover':   { light: ['accent', 90], dark: ['accent', 30], role: 'control-tint-hover' },
+  'control-subtle-pressed': { light: ['accent', 85], dark: ['accent', 38], role: 'control-tint-pressed' },
+  'control-text':           { light: ['accent', 38], dark: ['accent', 85], role: 'control-text' },
   ...intentTokens('success', status),
   ...intentTokens('warning', status),
 };
@@ -3688,8 +3739,9 @@ const roleChoices = {
     strong:   { light: [46, 38, 30], dark: [70, 76, 85] },
     stronger: { light: [38, 30, 26], dark: [76, 85, 90] },
   },
-  // controls: 'neutral' makes solid buttons, checkboxes, switches, sliders and the focus ring near-black / near-white
-  neutralControls: { fill: { light: [22, 30, 38], dark: [90, 85, 76] }, focus: { light: 38, dark: 85 } },
+  // controls: 'neutral' makes checkboxes, switches, sliders, selection and the focus ring near-black / near-white
+  // (and their tints grey); buttons keep the accent
+  neutralControls: { fill: { light: [22, 30, 38], dark: [90, 85, 76] }, tint: { light: [94, 90, 85], dark: [26, 30, 38] }, text: { light: 38, dark: 85 }, focus: { light: 38, dark: 85 } },
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -3731,6 +3783,16 @@ function contrastPairs() {
     add('text-muted', b, TEXT, 'muted cell in selected row');
   }
   add('accent-solid', 'accent-subtle', UI, 'selected option card / chip ring');
+  for (const s of ['surface-base', 'surface-raised']) add('border-control', s, UI, 'field / selectable outline (1.4.11)');
+  // controls and selection
+  for (const s of surfaces) { add('control-solid', s, UI, 'checkbox / radio / switch / slider'); add('control-text', s, TEXT, 'selected text'); }
+  for (const b of ['control-solid', 'control-solid-hover', 'control-solid-pressed']) add('control-solid-text', b, TEXT, 'check mark, switch thumb, step number');
+  for (const b of ['control-subtle', 'control-subtle-hover', 'control-subtle-pressed']) { add('control-text', b, TEXT, 'selected chip / page / item'); add('text', b, TEXT, 'selected row'); }
+  for (const b of ['control-subtle', 'control-subtle-hover']) add('text-muted', b, TEXT, 'muted cell in selected row');
+  add('control-solid', 'control-subtle', UI, 'selected option card / chip ring');
+  add('control-solid', 'neutral-subtle', UI, 'progress bar / slider on its track');
+  // inside a selected table row, neutral things take the control tint one or two steps up
+  for (const b of ['control-subtle-hover', 'control-subtle-pressed']) add('neutral-text', b, TEXT, 'ghost button / badge in a selected row');
   for (const i of ['success', 'warning']) {
     for (const s of surfaces) add(`${i}-text`, s, TEXT, 'status text');
     add(`${i}-text`, `${i}-subtle`, TEXT, 'alert / badge');
@@ -3890,17 +3952,26 @@ function buildPrimitives(pals = basePalettes) {
   return out;
 }
 /** Role slots (accent-fill, accent-fill-hover, accent-fill-pressed, accent-focus) → [palette, step] per theme. */
-const ROLES = ['accent-fill', 'accent-fill-hover', 'accent-fill-pressed', 'accent-focus'];
+const ROLES = ['accent-fill', 'accent-fill-hover', 'accent-fill-pressed', 'control-fill', 'control-fill-hover', 'control-fill-pressed', 'control-tint', 'control-tint-hover', 'control-tint-pressed', 'control-text', 'control-focus'];
 function roleRefs({ accentFill = 'default', controls = 'accent' } = {}) {
   const out = { light: {}, dark: {} };
+  const N = roleChoices.neutralControls;
   for (const theme of ['light', 'dark']) {
-    const neutral = controls === 'neutral';
-    const steps = neutral ? roleChoices.neutralControls.fill[theme] : (roleChoices.accentFill[accentFill] || roleChoices.accentFill.default)[theme];
-    const pal = neutral ? 'neutral' : 'accent';
-    out[theme]['accent-fill'] = [pal, steps[0]];
-    out[theme]['accent-fill-hover'] = [pal, steps[1]];
-    out[theme]['accent-fill-pressed'] = [pal, steps[2]];
-    out[theme]['accent-focus'] = neutral ? ['neutral', roleChoices.neutralControls.focus[theme]] : semanticColor.focus[theme];
+    const fill = (roleChoices.accentFill[accentFill] || roleChoices.accentFill.default)[theme];
+    const r = out[theme];
+    // buttons: accent, strength from accentFill
+    r['accent-fill'] = ['accent', fill[0]]; r['accent-fill-hover'] = ['accent', fill[1]]; r['accent-fill-pressed'] = ['accent', fill[2]];
+    if (controls === 'neutral') {
+      [r['control-fill'], r['control-fill-hover'], r['control-fill-pressed']] = N.fill[theme].map((st) => ['neutral', st]);
+      [r['control-tint'], r['control-tint-hover'], r['control-tint-pressed']] = N.tint[theme].map((st) => ['neutral', st]);
+      r['control-text'] = ['neutral', N.text[theme]];
+      r['control-focus'] = ['neutral', N.focus[theme]];
+    } else {
+      [r['control-fill'], r['control-fill-hover'], r['control-fill-pressed']] = fill.map((st) => ['accent', st]);   // controls match the button fill
+      r['control-tint'] = semanticColor['control-subtle'][theme]; r['control-tint-hover'] = semanticColor['control-subtle-hover'][theme];
+      r['control-tint-pressed'] = semanticColor['control-subtle-pressed'][theme]; r['control-text'] = semanticColor['control-text'][theme];
+      r['control-focus'] = semanticColor.focus[theme];
+    }
   }
   return out;
 }
@@ -4164,7 +4235,7 @@ function themeCode(cfg) {
   if (cfg.brand) L.push(`  brand: ${q(cfg.brand)},`);
   if (cfg.font && cfg.font.sans) L.push(`  font: { sans: ${q(cfg.font.sans)}${cfg.font.import ? `, import: ${q(cfg.font.import)}` : ''} },`);
   if (cfg.accentFill && cfg.accentFill !== 'default') L.push(`  accentFill: ${q(cfg.accentFill)},          // default | strong | stronger | auto (closest to the brand colour)`);
-  if (cfg.controls && cfg.controls !== 'accent') L.push(`  controls: ${q(cfg.controls)},             // accent | neutral (near-black / near-white buttons, checkboxes, focus)`);
+  if (cfg.controls && cfg.controls !== 'accent') L.push(`  controls: ${q(cfg.controls)},             // accent | neutral (grey checkboxes, switches, selection, focus; buttons stay accent)`);
   L.push(`  radius: ${q(cfg.radius || radius.default)},`, `  density: ${q(cfg.density || density.default)},`);
   if (cfg.elevation && cfg.elevation !== elevation.default) L.push(`  elevation: ${q(cfg.elevation)},            // flat | soft (small shadows on controls and cards)`);
   L.push('};');

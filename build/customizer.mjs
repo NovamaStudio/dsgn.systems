@@ -67,7 +67,7 @@ export function customizerPage({ ic, esc }) {
         ${segL('fill', 'Button fill', [['default', 'Default'], ['strong', 'Strong'], ['stronger', 'Stronger'], ['auto', 'Match brand']], 'default', 'How dark solid buttons are (lighter in dark mode). Every option keeps the contrast.')}
       </fieldset>
       <fieldset class="docs-theme-group"><legend class="dsgn-title">Controls</legend>
-        ${segL('controls', 'Colour of controls', [['accent', 'Accent'], ['neutral', 'Neutral']], 'accent', 'Neutral: buttons, checkboxes, switches and focus in near-black (light) or near-white (dark); the accent stays for links and highlights.')}
+        ${segL('controls', 'Colour of controls', [['accent', 'Accent'], ['neutral', 'Neutral']], 'accent', 'Neutral: checkboxes, switches, sliders, selection and focus in near-black (light) or near-white (dark). Buttons and links keep the accent; use the neutral button intent for monochrome buttons.')}
       </fieldset>
       <fieldset class="docs-theme-group"><legend class="dsgn-title">Greys</legend>
         <label class="dsgn-choice"><input type="checkbox" role="switch" class="dsgn-switch" id="th-neutral-follow"> Tint towards the accent</label>

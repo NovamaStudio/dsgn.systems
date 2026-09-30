@@ -69,10 +69,12 @@
 
 .dsgn-icon-button { padding: var(--dsgn-control-pad-y); }
 
-/* icon + text: the glyph carries its own white space, so the icon side gets space-4 less padding
-   and the button looks balanced (Figma: Density control/pad-x-icon) */
-.dsgn-button:has(> .dsgn-icon:first-child) { padding-inline-start: calc(var(--dsgn-control-pad-x) - var(--dsgn-space-4)); }
-.dsgn-button:has(> .dsgn-icon:last-child) { padding-inline-end: calc(var(--dsgn-control-pad-x) - var(--dsgn-space-4)); }
+/* icon + text: the glyph carries its own white space (about 2–3 px each side), so the icon side gets
+   6 px less padding and the gap is 2 px tighter; the button then looks optically balanced.
+   Figma: Density control/pad-x-icon and control/gap-icon. */
+.dsgn-button:has(> .dsgn-icon) { gap: calc(var(--dsgn-control-gap) - var(--dsgn-space-2)); }
+.dsgn-button:has(> .dsgn-icon:first-child) { padding-inline-start: calc(var(--dsgn-control-pad-x) - var(--dsgn-space-4) - var(--dsgn-space-2)); }
+.dsgn-button:has(> .dsgn-icon:last-child) { padding-inline-end: calc(var(--dsgn-control-pad-x) - var(--dsgn-space-4) - var(--dsgn-space-2)); }
 
 /* ── intents ─────────────────────────────────────────────────────────────── */
 :is(.dsgn-button, .dsgn-icon-button)[data-intent="neutral"] {

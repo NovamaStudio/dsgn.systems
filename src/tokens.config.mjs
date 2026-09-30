@@ -92,9 +92,9 @@ export const semanticColor = {
   'border':         { light: ['neutral', 85], dark: ['neutral', 30] },
   'border-strong':  { light: ['neutral', 54], dark: ['neutral', 54] },
   // outline of fields and selectable containers (input, select, chip, option card, segmented track in dark)
-  'border-control': { light: ['neutral', 64], dark: ['neutral', 46] },
+  'border-control': { light: ['neutral', 64], dark: ['neutral', 54] },
   // focus ring follows the element: accent (default), neutral elements, danger elements
-  'focus':          { light: ['accent', 54],  dark: ['accent', 70], role: 'accent-focus' },
+  'focus':          { light: ['accent', 54],  dark: ['accent', 70], role: 'control-focus' },
   'focus-neutral':  { light: ['neutral', 38], dark: ['neutral', 85] },
   'focus-danger':   { light: ['danger', 54],  dark: ['danger', 70] },
   // track of a segmented control: tinted in light; in dark an outlined, near-surface track with a lighter selected segment
@@ -111,6 +111,17 @@ export const semanticColor = {
   // accent fills go through role slots (see below) so a project theme can make them stronger or neutral
   ...intentTokens('accent', interactiveKeys, {}, { 'solid': 'accent-fill', 'solid-hover': 'accent-fill-hover', 'solid-pressed': 'accent-fill-pressed' }),
   ...intentTokens('danger', interactiveKeys),
+  // controls and selection (checkbox, radio, switch, slider, progress, tabs, steps, selected option card /
+  // chip / row / page): accent by default, neutral when a project theme sets controls: 'neutral'.
+  // Buttons keep the accent (they have their own neutral intent).
+  'control-solid':          { light: ['accent', 54], dark: ['accent', 64], role: 'control-fill' },
+  'control-solid-hover':    { light: ['accent', 46], dark: ['accent', 70], role: 'control-fill-hover' },
+  'control-solid-pressed':  { light: ['accent', 38], dark: ['accent', 76], role: 'control-fill-pressed' },
+  'control-solid-text':     { light: ['neutral', 99], dark: ['neutral', 14] },
+  'control-subtle':         { light: ['accent', 94], dark: ['accent', 26], role: 'control-tint' },
+  'control-subtle-hover':   { light: ['accent', 90], dark: ['accent', 30], role: 'control-tint-hover' },
+  'control-subtle-pressed': { light: ['accent', 85], dark: ['accent', 38], role: 'control-tint-pressed' },
+  'control-text':           { light: ['accent', 38], dark: ['accent', 85], role: 'control-text' },
   ...intentTokens('success', status),
   ...intentTokens('warning', status),
 };
@@ -125,8 +136,9 @@ export const roleChoices = {
     strong:   { light: [46, 38, 30], dark: [70, 76, 85] },
     stronger: { light: [38, 30, 26], dark: [76, 85, 90] },
   },
-  // controls: 'neutral' makes solid buttons, checkboxes, switches, sliders and the focus ring near-black / near-white
-  neutralControls: { fill: { light: [22, 30, 38], dark: [90, 85, 76] }, focus: { light: 38, dark: 85 } },
+  // controls: 'neutral' makes checkboxes, switches, sliders, selection and the focus ring near-black / near-white
+  // (and their tints grey); buttons keep the accent
+  neutralControls: { fill: { light: [22, 30, 38], dark: [90, 85, 76] }, tint: { light: [94, 90, 85], dark: [26, 30, 38] }, text: { light: 38, dark: 85 }, focus: { light: 38, dark: 85 } },
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -168,6 +180,16 @@ export function contrastPairs() {
     add('text-muted', b, TEXT, 'muted cell in selected row');
   }
   add('accent-solid', 'accent-subtle', UI, 'selected option card / chip ring');
+  for (const s of ['surface-base', 'surface-raised']) add('border-control', s, UI, 'field / selectable outline (1.4.11)');
+  // controls and selection
+  for (const s of surfaces) { add('control-solid', s, UI, 'checkbox / radio / switch / slider'); add('control-text', s, TEXT, 'selected text'); }
+  for (const b of ['control-solid', 'control-solid-hover', 'control-solid-pressed']) add('control-solid-text', b, TEXT, 'check mark, switch thumb, step number');
+  for (const b of ['control-subtle', 'control-subtle-hover', 'control-subtle-pressed']) { add('control-text', b, TEXT, 'selected chip / page / item'); add('text', b, TEXT, 'selected row'); }
+  for (const b of ['control-subtle', 'control-subtle-hover']) add('text-muted', b, TEXT, 'muted cell in selected row');
+  add('control-solid', 'control-subtle', UI, 'selected option card / chip ring');
+  add('control-solid', 'neutral-subtle', UI, 'progress bar / slider on its track');
+  // inside a selected table row, neutral things take the control tint one or two steps up
+  for (const b of ['control-subtle-hover', 'control-subtle-pressed']) add('neutral-text', b, TEXT, 'ghost button / badge in a selected row');
   for (const i of ['success', 'warning']) {
     for (const s of surfaces) add(`${i}-text`, s, TEXT, 'status text');
     add(`${i}-text`, `${i}-subtle`, TEXT, 'alert / badge');

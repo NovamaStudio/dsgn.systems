@@ -76,7 +76,7 @@
   line-height: 1;
   font-feature-settings: 'liga';
   font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' var(--dsgn-icon-grade, 0), 'opsz' 20;
-  color: var(--dsgn-accent-text);
+  color: var(--dsgn-control-text);
 }
 .dsgn-menu-item[aria-checked="true"]::after { visibility: visible; }
 
@@ -147,7 +147,7 @@
     font-size: var(--dsgn-control-line-height);
     line-height: 1;
     font-feature-settings: 'liga';
-    color: var(--dsgn-accent-text);
+    color: var(--dsgn-control-text);
   }
   .dsgn-input > select option:hover,
   .dsgn-input > select option:focus-visible { background: var(--dsgn-neutral-subtle); outline: none; }

@@ -68,8 +68,8 @@
 }
 :is(a, button).dsgn-list-item:active { background: var(--dsgn-neutral-subtle-hover); }
 :is(a, button).dsgn-list-item:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus-neutral); outline-offset: calc(-1 * var(--dsgn-focus-width)); }
-.dsgn-list-item[aria-current]:not([aria-current="false"]) { background: var(--dsgn-accent-subtle); }
-.dsgn-list-item[aria-current]:not([aria-current="false"]) > .dsgn-icon { --_fill: 1; color: var(--dsgn-accent-text); }
+.dsgn-list-item[aria-current]:not([aria-current="false"]) { background: var(--dsgn-control-subtle); }
+.dsgn-list-item[aria-current]:not([aria-current="false"]) > .dsgn-icon { --_fill: 1; color: var(--dsgn-control-text); }
 
 @media (prefers-reduced-motion: no-preference) {
   :is(a, button).dsgn-list-item { transition: background-color var(--dsgn-duration-fast) var(--dsgn-ease); }

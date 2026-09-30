@@ -211,8 +211,10 @@ dens.variables.push({ name: 'segment/pad-y', type: 'FLOAT', scopes: ['GAP'], cod
   description: '= control/pad-y − space-2 (CSS calc). Figma only.', values: Object.fromEntries(T.density.modes.map((m, i) => [m.toUpperCase(), dI('control-pad-y')[i] - 2])) });
 dens.variables.push({ name: 'segment/pad-x', type: 'FLOAT', scopes: ['GAP'], codeSyntax: { WEB: `calc(var(${v('control-pad-x')}) - var(${v('space-2')}))` },
   description: '= control/pad-x − space-2 (CSS calc). Figma only.', values: Object.fromEntries(T.density.modes.map((m, i) => [m.toUpperCase(), dI('control-pad-x')[i] - 2])) });
-dens.variables.push({ name: 'control/pad-x-icon', type: 'FLOAT', scopes: ['GAP'], codeSyntax: { WEB: `calc(var(${v('control-pad-x')}) - var(${v('space-4')}))` },
-  description: '= control/pad-x − space-4: the side of a button that starts or ends with an icon (the glyph has its own white space). Figma only.', values: Object.fromEntries(T.density.modes.map((m, i) => [m.toUpperCase(), dI('control-pad-x')[i] - 4])) });
+dens.variables.push({ name: 'control/pad-x-icon', type: 'FLOAT', scopes: ['GAP'], codeSyntax: { WEB: `calc(var(${v('control-pad-x')}) - var(${v('space-4')}) - var(${v('space-2')}))` },
+  description: '= control/pad-x − 6: the side of a button that starts or ends with an icon (the glyph has its own white space). Figma only.', values: Object.fromEntries(T.density.modes.map((m, i) => [m.toUpperCase(), dI('control-pad-x')[i] - 6])) });
+dens.variables.push({ name: 'control/gap-icon', type: 'FLOAT', scopes: ['GAP'], codeSyntax: { WEB: `calc(var(${v('control-gap')}) - var(${v('space-2')}))` },
+  description: '= control/gap − 2: gap between icon and text in a button. Figma only.', values: Object.fromEntries(T.density.modes.map((m, i) => [m.toUpperCase(), dI('control-gap')[i] - 2])) });
 figma.collections.push(dens);
 
 const rad = { name: 'Radius', modes: defaultFirst(T.radius).map(([m]) => cap(m)), variables: [] };

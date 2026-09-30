@@ -43,7 +43,7 @@
   border-radius: var(--dsgn-radius-s);
   background: var(--dsgn-surface-raised);
   box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--_border), var(--dsgn-shadow-control);
-  color: var(--dsgn-accent-solid-text);
+  color: var(--dsgn-control-solid-text);
   cursor: pointer;
 }
 .dsgn-radio { border-radius: var(--dsgn-radius-full); }
@@ -62,21 +62,21 @@
 .dsgn-checkbox:indeterminate::after { content: 'remove'; }
 
 .dsgn-checkbox:is(:checked, :indeterminate) {
-  background: var(--dsgn-accent-solid);
+  background: var(--dsgn-control-solid);
   box-shadow: none;
 }
 .dsgn-radio:checked {
-  background: var(--dsgn-accent-solid-text);
-  box-shadow: inset 0 0 0 var(--dsgn-space-4) var(--dsgn-accent-solid);
+  background: var(--dsgn-control-solid-text);
+  box-shadow: inset 0 0 0 var(--dsgn-space-4) var(--dsgn-control-solid);
 }
 
 @media (hover: hover) {
   .dsgn-choice:hover > :is(.dsgn-checkbox, .dsgn-radio):not(:disabled),
   :is(.dsgn-checkbox, .dsgn-radio):not(:disabled):hover { --_border: var(--dsgn-text-muted); }
   .dsgn-choice:hover > .dsgn-checkbox:is(:checked, :indeterminate):not(:disabled),
-  .dsgn-checkbox:is(:checked, :indeterminate):not(:disabled):hover { background: var(--dsgn-accent-solid-hover); }
+  .dsgn-checkbox:is(:checked, :indeterminate):not(:disabled):hover { background: var(--dsgn-control-solid-hover); }
   .dsgn-choice:hover > .dsgn-radio:checked:not(:disabled),
-  .dsgn-radio:checked:not(:disabled):hover { box-shadow: inset 0 0 0 var(--dsgn-space-4) var(--dsgn-accent-solid-hover); }
+  .dsgn-radio:checked:not(:disabled):hover { box-shadow: inset 0 0 0 var(--dsgn-space-4) var(--dsgn-control-solid-hover); }
 }
 :is(.dsgn-checkbox, .dsgn-radio)[aria-invalid="true"] { --_border: var(--dsgn-danger-solid); }
 
@@ -117,12 +117,12 @@
   background: var(--dsgn-neutral-text);
   box-shadow: var(--dsgn-shadow-control);
 }
-.dsgn-switch:checked { background: var(--dsgn-accent-solid); box-shadow: none; }
-.dsgn-switch:checked::before { background: var(--dsgn-accent-solid-text); translate: var(--_thumb) 0; }
+.dsgn-switch:checked { background: var(--dsgn-control-solid); box-shadow: none; }
+.dsgn-switch:checked::before { background: var(--dsgn-control-solid-text); translate: var(--_thumb) 0; }
 .dsgn-switch:checked:dir(rtl)::before { translate: calc(-1 * var(--_thumb)) 0; }
 @media (hover: hover) {
   .dsgn-choice:hover > .dsgn-switch:checked:not(:disabled),
-  .dsgn-switch:checked:not(:disabled):hover { background: var(--dsgn-accent-solid-hover); }
+  .dsgn-switch:checked:not(:disabled):hover { background: var(--dsgn-control-solid-hover); }
 }
 .dsgn-switch:disabled { background: var(--dsgn-neutral-subtle); box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border); cursor: not-allowed; }
 .dsgn-switch:disabled::before { background: var(--dsgn-text-disabled); }

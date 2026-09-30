@@ -55,7 +55,7 @@
   .dsgn-tab:hover::after { background: var(--dsgn-border); }
 }
 .dsgn-tab[aria-selected="true"] { color: var(--dsgn-text); }
-.dsgn-tab[aria-selected="true"]::after { background: var(--dsgn-accent-solid); }
+.dsgn-tab[aria-selected="true"]::after { background: var(--dsgn-control-solid); }
 .dsgn-tab[aria-selected="true"] .dsgn-icon { --_fill: 1; }
 .dsgn-tab:focus-visible {
   outline: var(--dsgn-focus-width) solid var(--dsgn-focus);

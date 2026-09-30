@@ -90,7 +90,7 @@ textarea.dsgn-input {
 
 /* ── states ──────────────────────────────────────────────────────────────── */
 @media (hover: hover) {
-  .dsgn-input:hover { --_border: var(--dsgn-border-strong); }
+  .dsgn-input:hover { --_border: var(--dsgn-text-muted); }
 }
 .dsgn-input:is(:focus, :focus-within) {
   outline: var(--dsgn-focus-width) solid var(--_focus);

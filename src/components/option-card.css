@@ -49,11 +49,11 @@
 .dsgn-option-card-meta { color: var(--dsgn-text); font-weight: var(--dsgn-font-weight-medium); font-variant-numeric: tabular-nums; white-space: nowrap; }
 
 @media (hover: hover) {
-  .dsgn-option-card:not(:has(> :disabled)):hover { box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border-strong), var(--dsgn-shadow-raised); }
+  .dsgn-option-card:not(:has(> :disabled)):hover { box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-text-muted), var(--dsgn-shadow-raised); }
 }
 .dsgn-option-card:has(> :checked) {
-  background: var(--dsgn-accent-subtle);
-  box-shadow: inset 0 0 0 var(--dsgn-space-2) var(--dsgn-accent-solid), var(--dsgn-shadow-raised);
+  background: var(--dsgn-control-subtle);
+  box-shadow: inset 0 0 0 var(--dsgn-space-2) var(--dsgn-control-solid), var(--dsgn-shadow-raised);
 }
 .dsgn-option-card:has(> :focus-visible) { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: var(--dsgn-focus-offset); }
 .dsgn-option-card:has(> :disabled) { background: var(--dsgn-neutral-subtle); color: var(--dsgn-text-disabled); cursor: not-allowed; }

@@ -14,7 +14,7 @@
   --_pct: 50%;
   --_track: var(--dsgn-space-4);
   --_thumb: var(--dsgn-control-indicator);
-  --_fill: var(--dsgn-accent-solid);
+  --_fill: var(--dsgn-control-solid);
   --_rest: var(--dsgn-border-strong);
   -webkit-appearance: none;
   appearance: none;
@@ -55,9 +55,9 @@
   box-shadow: 0 0 0 var(--dsgn-space-2) var(--dsgn-surface-raised);
 }
 @media (hover: hover) {
-  .dsgn-slider:not(:disabled):hover { --_fill: var(--dsgn-accent-solid-hover); }
+  .dsgn-slider:not(:disabled):hover { --_fill: var(--dsgn-control-solid-hover); }
 }
-.dsgn-slider:active:not(:disabled) { --_fill: var(--dsgn-accent-solid-pressed); }
+.dsgn-slider:active:not(:disabled) { --_fill: var(--dsgn-control-solid-pressed); }
 .dsgn-slider:focus-visible { outline: none; }
 .dsgn-slider:focus-visible::-webkit-slider-thumb { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: var(--dsgn-focus-offset); }
 .dsgn-slider:focus-visible::-moz-range-thumb { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: var(--dsgn-focus-offset); }
