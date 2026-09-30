@@ -1,0 +1,40 @@
+/* dsgn · Base + text styles
+ *
+ * Opt-in page base (low specificity, easy to override):
+ *   <body class="dsgn-page">
+ * Text styles as classes, same names as the Figma text styles:
+ *   .dsgn-display .dsgn-heading .dsgn-heading-s .dsgn-title .dsgn-body .dsgn-body-s .dsgn-caption
+ *   .dsgn-lead (body, muted, for intros) · .dsgn-muted · .dsgn-eyebrow (caption, accent, spaced caps)
+ */
+:where(.dsgn-page) {
+  margin: 0;
+  background: var(--dsgn-surface-base);
+  color: var(--dsgn-text);
+  font-family: var(--dsgn-font-sans);
+  font-size: var(--dsgn-font-size-body);
+  line-height: var(--dsgn-line-height-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+:where(.dsgn-page) *, :where(.dsgn-page) *::before, :where(.dsgn-page) *::after { box-sizing: border-box; }
+:where(.dsgn-page) :is(h1, h2, h3, h4, p, ul, ol, figure) { margin: 0; }
+:where(.dsgn-page) :is(h1, h2, h3, h4) { text-wrap: balance; }
+:where(.dsgn-page) img { max-inline-size: 100%; display: block; }
+
+.dsgn-display   { font-size: var(--dsgn-font-size-display);   line-height: var(--dsgn-line-height-display);   font-weight: var(--dsgn-font-weight-semibold); letter-spacing: -0.02em; }
+.dsgn-heading   { font-size: var(--dsgn-font-size-heading);   line-height: var(--dsgn-line-height-heading);   font-weight: var(--dsgn-font-weight-semibold); letter-spacing: -0.01em; }
+.dsgn-heading-s { font-size: var(--dsgn-font-size-heading-s); line-height: var(--dsgn-line-height-heading-s); font-weight: var(--dsgn-font-weight-semibold); }
+.dsgn-title     { font-size: var(--dsgn-font-size-title);     line-height: var(--dsgn-line-height-title);     font-weight: var(--dsgn-font-weight-semibold); }
+.dsgn-body      { font-size: var(--dsgn-font-size-body);      line-height: var(--dsgn-line-height-body); }
+.dsgn-body-s    { font-size: var(--dsgn-font-size-body-s);    line-height: var(--dsgn-line-height-body-s); }
+.dsgn-caption   { font-size: var(--dsgn-font-size-caption);   line-height: var(--dsgn-line-height-caption); }
+.dsgn-lead      { font-size: var(--dsgn-font-size-body);      line-height: var(--dsgn-line-height-body); color: var(--dsgn-text-muted); max-inline-size: 60ch; }
+.dsgn-muted     { color: var(--dsgn-text-muted); }
+.dsgn-eyebrow {
+  font-size: var(--dsgn-font-size-caption);
+  line-height: var(--dsgn-line-height-caption);
+  font-weight: var(--dsgn-font-weight-semibold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--dsgn-accent-text);
+}

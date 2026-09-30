@@ -1,0 +1,48 @@
+/* dsgn · Stat tile (a key number with its label and change)
+ *
+ * <div class="dsgn-stat">
+ *   <p class="dsgn-stat-label">Outstanding</p>
+ *   <p class="dsgn-stat-value">CZK 48 200</p>
+ *   <p class="dsgn-stat-meta"><span class="dsgn-stat-delta" data-intent="danger">
+ *     <span class="dsgn-icon" aria-hidden="true">trending_up</span>+12 %</span> vs last month</p>
+ * </div>
+ *
+ * Direction (the icon) and meaning (data-intent) are separate: more overdue money goes up
+ * but is bad. The delta always has text, so colour is never the only signal.
+ * Value = heading type with tabular numbers. Surface, border and padding match Card.
+ * Put tiles in a Grid: <div class="dsgn-grid" data-cols="2" data-cols-desktop="4">.
+ */
+.dsgn-stat {
+  box-sizing: border-box;
+  display: grid;
+  align-content: start;
+  gap: var(--dsgn-space-4);
+  padding: var(--dsgn-inset);
+  border-radius: var(--dsgn-radius-l);
+  background: var(--dsgn-surface-raised);
+  box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border);
+  color: var(--dsgn-text);
+  font-family: var(--dsgn-font-sans);
+  font-size: var(--dsgn-font-size-body-s);
+  line-height: var(--dsgn-line-height-body-s);
+  min-inline-size: 0;
+}
+.dsgn-stat > * { margin: 0; }
+.dsgn-stat-label { color: var(--dsgn-text-muted); font-weight: var(--dsgn-font-weight-medium); }
+.dsgn-stat-value {
+  font-size: var(--dsgn-font-size-heading);
+  line-height: var(--dsgn-line-height-heading);
+  font-weight: var(--dsgn-font-weight-semibold);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+  overflow-wrap: anywhere;
+}
+.dsgn-stat-meta { display: flex; flex-wrap: wrap; align-items: center; gap: var(--dsgn-space-4); color: var(--dsgn-text-muted); }
+.dsgn-stat-delta { display: inline-flex; align-items: center; gap: var(--dsgn-space-2); color: var(--dsgn-text); font-weight: var(--dsgn-font-weight-medium); font-variant-numeric: tabular-nums; }
+.dsgn-stat-delta > .dsgn-icon { --_fill: 1; }
+.dsgn-stat-delta[data-intent="success"] { color: var(--dsgn-success-text); }
+.dsgn-stat-delta[data-intent="warning"] { color: var(--dsgn-warning-text); }
+.dsgn-stat-delta[data-intent="danger"]  { color: var(--dsgn-danger-text); }
+@media (forced-colors: active) {
+  .dsgn-stat { outline: 1px solid CanvasText; outline-offset: -1px; }
+}

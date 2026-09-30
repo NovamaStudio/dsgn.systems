@@ -1,0 +1,55 @@
+/* dsgn · Pagination
+ *
+ * <nav class="dsgn-pagination" aria-label="Pagination">
+ *   <a class="dsgn-icon-button" data-variant="ghost" data-intent="neutral" href="?p=2" aria-label="Previous page">
+ *     <span class="dsgn-icon" aria-hidden="true">chevron_left</span></a>
+ *   <a class="dsgn-button" data-variant="ghost" data-intent="neutral" href="?p=1">1</a>
+ *   <span class="dsgn-pagination-gap" aria-hidden="true">…</span>
+ *   <a class="dsgn-button" data-variant="ghost" data-intent="neutral" href="?p=3" aria-current="page">3</a>
+ *   …
+ *   <a class="dsgn-icon-button" data-variant="ghost" data-intent="neutral" href="?p=4" aria-label="Next page">…chevron_right…</a>
+ * </nav>
+ *
+ * Built from ghost neutral Buttons: page numbers are square (min width = control height) and
+ * the current page is accent-subtle with accent text. Compact form: replace the numbers with
+ * <span class="dsgn-pagination-status">Page 3 of 12</span>.
+ * Disabled prev/next: drop the href and add role="link" aria-disabled="true" (an <a> without href has no
+ * role, so its aria-label would be ignored): <a class="dsgn-icon-button" … role="link" aria-disabled="true" aria-label="Previous page">.
+ */
+.dsgn-pagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--dsgn-space-4);
+  font-family: var(--dsgn-font-sans);
+  font-size: var(--dsgn-control-font-size);
+  line-height: var(--dsgn-control-line-height);
+}
+.dsgn-pagination > .dsgn-button {
+  min-inline-size: var(--dsgn-control-height);
+  padding-inline: var(--dsgn-control-pad-y);
+  font-variant-numeric: tabular-nums;
+}
+.dsgn-pagination > .dsgn-button[aria-current="page"] {
+  --_bg: var(--dsgn-accent-subtle);
+  --_bg-hover: var(--dsgn-accent-subtle-hover);
+  --_bg-pressed: var(--dsgn-accent-subtle-pressed);
+  --_fg: var(--dsgn-accent-text);
+  font-weight: var(--dsgn-font-weight-semibold);
+}
+.dsgn-pagination-gap {
+  display: inline-grid;
+  place-items: center;
+  min-inline-size: var(--dsgn-control-height);
+  color: var(--dsgn-text-muted);
+}
+.dsgn-pagination-status {
+  padding-inline: var(--dsgn-control-pad-x);
+  color: var(--dsgn-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+.dsgn-pagination > [aria-disabled="true"] { pointer-events: none; }
+@media (forced-colors: active) {
+  .dsgn-pagination > [aria-current="page"] { background: Highlight; color: HighlightText; forced-color-adjust: none; }
+  .dsgn-pagination > [aria-disabled="true"] { color: GrayText; outline-color: GrayText; }
+}

@@ -1,0 +1,49 @@
+/* dsgn · Empty state
+ *
+ * <div class="dsgn-empty">
+ *   <span class="dsgn-icon" aria-hidden="true">receipt_long</span>
+ *   <h3 class="dsgn-empty-title">No invoices yet</h3>
+ *   <p class="dsgn-empty-text">Invoices you create or import will appear here.</p>
+ *   <div class="dsgn-empty-actions">
+ *     <button class="dsgn-button">New invoice</button>
+ *     <button class="dsgn-button" data-variant="ghost" data-intent="neutral">Import</button>
+ *   </div>
+ * </div>
+ *
+ * Fills an empty list, table or page and says what to do next. Centred, max 48ch of text.
+ * Icon = display line-height, text-muted, filled; padding = 2 × inset (Density).
+ * One primary action at most. For "no results" after a search, offer to clear the filter.
+ */
+.dsgn-empty {
+  box-sizing: border-box;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: var(--dsgn-space-8);
+  padding: calc(2 * var(--dsgn-inset)) var(--dsgn-inset);
+  text-align: center;
+  color: var(--dsgn-text);
+  font-family: var(--dsgn-font-sans);
+  font-size: var(--dsgn-font-size-body-s);
+  line-height: var(--dsgn-line-height-body-s);
+}
+.dsgn-empty > * { margin: 0; }
+.dsgn-empty > .dsgn-icon {
+  --_fill: 1;
+  font-size: var(--dsgn-line-height-display);
+  color: var(--dsgn-text-muted);
+  margin-block-end: var(--dsgn-space-4);
+}
+.dsgn-empty-title {
+  font-size: var(--dsgn-font-size-title);
+  line-height: var(--dsgn-line-height-title);
+  font-weight: var(--dsgn-font-weight-semibold);
+}
+.dsgn-empty-text { max-inline-size: 48ch; color: var(--dsgn-text-muted); }
+.dsgn-empty-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--dsgn-control-gap);
+  margin-block-start: var(--dsgn-space-8);
+}

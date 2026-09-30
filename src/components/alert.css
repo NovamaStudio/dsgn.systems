@@ -1,0 +1,54 @@
+/* dsgn · Alert
+ *
+ * <div class="dsgn-alert" data-intent="danger" role="alert">
+ *   <span class="dsgn-icon" aria-hidden="true">error</span>
+ *   <div class="dsgn-alert-body">
+ *     <p class="dsgn-alert-title">Card declined</p>
+ *     <p>Ask the client for another card.</p>
+ *   </div>
+ *   <button class="dsgn-icon-button" data-variant="ghost" data-intent="neutral" aria-label="Dismiss">
+ *     <span class="dsgn-icon" aria-hidden="true">close</span>
+ *   </button>
+ * </div>
+ *
+ * data-intent  accent (default, information) | success | warning | danger | neutral
+ * role="alert" only for urgent messages that appear after an action; otherwise role="status" or none.
+ * Padding = inset (Density). The optional dismiss button is pulled up by pad-y so it sits on the title line.
+ */
+.dsgn-alert {
+  --_subtle: var(--dsgn-accent-subtle);
+  --_text: var(--dsgn-accent-text);
+  --_border: var(--dsgn-accent-border);
+
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: start;
+  column-gap: var(--dsgn-control-gap);
+  padding: var(--dsgn-inset);
+  border-radius: var(--dsgn-radius-l);
+  background: var(--_subtle);
+  box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--_border);
+  color: var(--dsgn-text);
+  font-family: var(--dsgn-font-sans);
+  font-size: var(--dsgn-font-size-body-s);
+  line-height: var(--dsgn-line-height-body-s);
+}
+.dsgn-alert[data-intent="success"] { --_subtle: var(--dsgn-success-subtle); --_text: var(--dsgn-success-text); --_border: var(--dsgn-success-border); }
+.dsgn-alert[data-intent="warning"] { --_subtle: var(--dsgn-warning-subtle); --_text: var(--dsgn-warning-text); --_border: var(--dsgn-warning-border); }
+.dsgn-alert[data-intent="danger"]  { --_subtle: var(--dsgn-danger-subtle);  --_text: var(--dsgn-danger-text);  --_border: var(--dsgn-danger-border); }
+.dsgn-alert[data-intent="neutral"] { --_subtle: var(--dsgn-neutral-subtle); --_text: var(--dsgn-neutral-text); --_border: var(--dsgn-neutral-border); }
+
+.dsgn-alert > .dsgn-icon { --_fill: 1; color: var(--_text); }
+.dsgn-alert-body { display: grid; gap: var(--dsgn-space-4); min-inline-size: 0; }
+.dsgn-alert-body > * { margin: 0; }
+.dsgn-alert-title { font-weight: var(--dsgn-font-weight-semibold); }
+.dsgn-alert-actions { display: flex; flex-wrap: wrap; gap: var(--dsgn-control-gap); margin-block-start: var(--dsgn-space-4); }
+.dsgn-alert > :is(.dsgn-icon-button, .dsgn-button):last-child {
+  margin-block: calc(-1 * var(--dsgn-control-pad-y));
+  margin-inline-end: calc(-1 * var(--dsgn-control-pad-y));
+}
+
+@media (forced-colors: active) {
+  .dsgn-alert { outline: 1px solid CanvasText; outline-offset: -1px; }
+}

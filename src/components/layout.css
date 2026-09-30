@@ -1,0 +1,105 @@
+/* dsgn · Layout primitives
+ *
+ * They only place things; they draw nothing. Everything spacing-related comes from tokens,
+ * the page-level ones change at the breakpoints (tablet ≥ 40rem, desktop ≥ 64rem).
+ *
+ * Container  max width + page margin      <div class="dsgn-container" data-width="narrow|full">
+ * Section    vertical page rhythm         <section class="dsgn-section" data-tone="raised|sunken|accent">
+ * Stack      vertical, gap                <div class="dsgn-stack" data-gap="xs|s|m|l|xl">
+ * Cluster    wrapping row                 <div class="dsgn-cluster" data-justify="between|end|center">
+ * Grid       columns per breakpoint       <div class="dsgn-grid" data-cols="1" data-cols-tablet="2" data-cols-desktop="4">
+ *            or as many as fit            <div class="dsgn-grid" data-cols="auto" style="--min: 16rem">
+ *            child spans: data-span="full" (all columns), "2" (tablet+), "3" (desktop+); data-span-desktop="1" resets
+ * Split      main + side panel            <div class="dsgn-split" data-side="start|end" style="--side: 20rem">
+ * Visibility                              data-hide-below="tablet|desktop" · data-hide-above="mobile|tablet"
+ *
+ * A dark band is just a theme switch on the section: <section class="dsgn-section" data-theme="dark" data-tone="base">.
+ */
+
+/* ── Container ───────────────────────────────────────────────────────────── */
+.dsgn-container {
+  box-sizing: content-box;
+  max-inline-size: var(--dsgn-container-max);
+  margin-inline: auto;
+  padding-inline: var(--dsgn-page-margin);
+}
+.dsgn-container[data-width="narrow"] { max-inline-size: var(--dsgn-container-narrow); }
+.dsgn-container[data-width="full"] { max-inline-size: none; }
+
+/* ── Section ─────────────────────────────────────────────────────────────── */
+.dsgn-section {
+  padding-block: var(--dsgn-section-pad-y);
+  color: var(--dsgn-text);
+}
+.dsgn-section[data-tone="base"]   { background: var(--dsgn-surface-base); }
+.dsgn-section[data-tone="raised"] { background: var(--dsgn-surface-raised); }
+.dsgn-section[data-tone="sunken"] { background: var(--dsgn-surface-sunken); }
+.dsgn-section[data-tone="accent"] { background: var(--dsgn-accent-subtle); }
+.dsgn-section[data-divider] { box-shadow: inset 0 var(--dsgn-border-width) 0 var(--dsgn-border); }
+
+/* ── Stack ───────────────────────────────────────────────────────────────── */
+.dsgn-stack { display: flex; flex-direction: column; gap: var(--_gap, var(--dsgn-stack)); min-inline-size: 0; }
+.dsgn-stack > * { margin-block: 0; }
+.dsgn-stack[data-align="center"] { align-items: center; text-align: center; }
+.dsgn-stack[data-align="start"] { align-items: flex-start; }
+
+/* ── Cluster ─────────────────────────────────────────────────────────────── */
+.dsgn-cluster { display: flex; flex-wrap: wrap; align-items: center; gap: var(--_gap, var(--dsgn-control-gap)); min-inline-size: 0; }
+.dsgn-cluster[data-justify="between"] { justify-content: space-between; }
+.dsgn-cluster[data-justify="end"] { justify-content: flex-end; }
+.dsgn-cluster[data-justify="center"] { justify-content: center; }
+.dsgn-cluster[data-align="start"] { align-items: flex-start; }
+.dsgn-cluster[data-nowrap] { flex-wrap: nowrap; flex-shrink: 0; } /* a non-wrapping row never squeezes below its content */
+
+/* shared gap scale for Stack, Cluster and Grid */
+:is(.dsgn-stack, .dsgn-cluster, .dsgn-grid)[data-gap="xs"] { --_gap: var(--dsgn-space-4); }
+:is(.dsgn-stack, .dsgn-cluster, .dsgn-grid)[data-gap="s"]  { --_gap: var(--dsgn-space-8); }
+:is(.dsgn-stack, .dsgn-cluster, .dsgn-grid)[data-gap="m"]  { --_gap: var(--dsgn-stack); }
+:is(.dsgn-stack, .dsgn-cluster, .dsgn-grid)[data-gap="l"]  { --_gap: var(--dsgn-space-24); }
+:is(.dsgn-stack, .dsgn-cluster, .dsgn-grid)[data-gap="xl"] { --_gap: var(--dsgn-space-48); }
+
+/* ── Grid ────────────────────────────────────────────────────────────────── */
+.dsgn-grid {
+  --_cols: 1;
+  display: grid;
+  grid-template-columns: repeat(var(--_cols), minmax(0, 1fr));
+  gap: var(--_gap, var(--dsgn-grid-gap));
+  min-inline-size: 0;
+}
+.dsgn-grid[data-cols="2"] { --_cols: 2; } .dsgn-grid[data-cols="3"] { --_cols: 3; }
+.dsgn-grid[data-cols="4"] { --_cols: 4; } .dsgn-grid[data-cols="5"] { --_cols: 5; } .dsgn-grid[data-cols="6"] { --_cols: 6; }
+.dsgn-grid[data-cols="auto"] {
+  grid-template-columns: repeat(auto-fill, minmax(min(var(--min, calc(4 * var(--dsgn-space-64))), 100%), 1fr));
+}
+.dsgn-grid > [data-span="full"] { grid-column: 1 / -1; }
+
+@media (min-width: 40rem) {
+  .dsgn-grid[data-cols-tablet="1"] { --_cols: 1; } .dsgn-grid[data-cols-tablet="2"] { --_cols: 2; } .dsgn-grid[data-cols-tablet="3"] { --_cols: 3; }
+  .dsgn-grid[data-cols-tablet="4"] { --_cols: 4; } .dsgn-grid[data-cols-tablet="5"] { --_cols: 5; } .dsgn-grid[data-cols-tablet="6"] { --_cols: 6; }
+  .dsgn-grid > [data-span="2"] { grid-column: span 2; }
+}
+@media (min-width: 64rem) {
+  .dsgn-grid[data-cols-desktop="1"] { --_cols: 1; } .dsgn-grid[data-cols-desktop="2"] { --_cols: 2; } .dsgn-grid[data-cols-desktop="3"] { --_cols: 3; }
+  .dsgn-grid[data-cols-desktop="4"] { --_cols: 4; } .dsgn-grid[data-cols-desktop="5"] { --_cols: 5; } .dsgn-grid[data-cols-desktop="6"] { --_cols: 6; }
+  .dsgn-grid > [data-span="3"] { grid-column: span 3; }
+  .dsgn-grid > [data-span-desktop="1"] { grid-column: auto; }
+}
+
+/* ── Split ───────────────────────────────────────────────────────────────── */
+.dsgn-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--_gap, var(--dsgn-grid-gap));
+  align-items: start;
+}
+@media (min-width: 64rem) {
+  .dsgn-split { grid-template-columns: var(--side, calc(4 * var(--dsgn-space-64))) minmax(0, 1fr); }
+  .dsgn-split[data-side="end"] { grid-template-columns: minmax(0, 1fr) var(--side, calc(4 * var(--dsgn-space-64))); }
+  .dsgn-split[data-side="half"] { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: center; }
+}
+
+/* ── Visibility by breakpoint ────────────────────────────────────────────── */
+@media (width < 40rem) { [data-hide-below="tablet"] { display: none !important; } }
+@media (width < 64rem) { [data-hide-below="desktop"] { display: none !important; } }
+@media (width >= 40rem) { [data-hide-above="mobile"] { display: none !important; } }
+@media (width >= 64rem) { [data-hide-above="tablet"] { display: none !important; } }

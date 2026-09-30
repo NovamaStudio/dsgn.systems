@@ -1,0 +1,80 @@
+{
+  "name": "dsgn.systems",
+  "version": "0.9.0",
+  "description": "dsgn — token-driven CSS design system: OKLCH colours with guaranteed contrast, density S/M/L, four corner styles, light and dark. Mirrored 1:1 in Figma.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Novama <martin@novama.cz>",
+  "homepage": "https://novamastudio.github.io/dsgn.systems/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NovamaStudio/dsgn.systems.git"
+  },
+  "bugs": {
+    "url": "https://github.com/NovamaStudio/dsgn.systems/issues"
+  },
+  "keywords": [
+    "design-system",
+    "css",
+    "design-tokens",
+    "oklch",
+    "figma",
+    "accessibility",
+    "dark-mode"
+  ],
+  "style": "dist/dsgn.css",
+  "exports": {
+    "./css": "./dist/dsgn.css",
+    "./tokens.css": "./dist/dsgn.tokens.css",
+    "./components.css": "./dist/dsgn.components.css",
+    "./components/*": "./dist/components/*",
+    "./js": "./dist/dsgn.js",
+    "./tokens.json": "./dist/dsgn.tokens.json",
+    "./figma-variables.json": "./dist/figma-variables.json",
+    "./lint": "./src/lint.mjs",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "dsgn": "bin/dsgn.mjs"
+  },
+  "files": [
+    "dist/dsgn.css",
+    "dist/dsgn.tokens.css",
+    "dist/dsgn.components.css",
+    "dist/components/",
+    "dist/dsgn.js",
+    "dist/dsgn.tokens.json",
+    "dist/figma-variables.json",
+    "dist/contrast-report.md",
+    "bin/",
+    "src/lint.mjs",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "sideEffects": [
+    "*.css",
+    "./dist/dsgn.js"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "node build/build.mjs && node build/demo.mjs && node build/preview.mjs && node build/parity.mjs && node build/parity.mjs --report figma/parity-report.json && node build/docs.mjs",
+    "test": "npm run build && node test/grid.test.mjs && node test/a11y.test.mjs",
+    "test:grid": "node test/grid.test.mjs",
+    "test:a11y": "node test/a11y.test.mjs",
+    "parity:report": "node build/parity.mjs --report figma/parity-report.json",
+    "prepublishOnly": "npm test"
+  },
+  "devDependencies": {
+    "@fontsource-variable/inter": "^5.3.0",
+    "axe-core": "^4.13.0",
+    "material-symbols": "^0.47.5",
+    "playwright": "^1.48.0"
+  }
+}

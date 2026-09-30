@@ -1,0 +1,56 @@
+/* dsgn · Skeleton
+ *
+ * <div aria-busy="true" aria-live="polite">
+ *   <span class="dsgn-visually-hidden">Loading invoices…</span>
+ *   <div class="dsgn-skeleton" data-kind="avatar"></div>
+ *   <div class="dsgn-skeleton" data-kind="text" style="inline-size: 60%"></div>
+ *   <div class="dsgn-skeleton" data-kind="control" style="inline-size: 8em"></div>
+ * </div>
+ *
+ * Placeholder with the exact size of what will load, so nothing jumps when it arrives.
+ * data-kind  text    one line of the surrounding text (bar = 0.75 em, centred in 1 line-height)
+ *            control a Button / Input: control height, radius-m
+ *            avatar  a square of control height, radius-m (like Avatar)
+ *            block   any size you give it (image, chart), radius-l
+ * Always aria-hidden by nature (no content); announce loading on the container.
+ * Pulses gently; still under prefers-reduced-motion.
+ */
+.dsgn-skeleton {
+  --_fill: var(--dsgn-neutral-subtle);
+  display: block;
+  box-sizing: border-box;
+  border-radius: var(--dsgn-radius-l);
+  background: var(--_fill);
+}
+.dsgn-skeleton[data-kind="text"] {
+  block-size: 1lh;
+  border-radius: var(--dsgn-radius-s);
+  background: linear-gradient(var(--_fill), var(--_fill)) center / 100% 0.75em no-repeat;
+}
+.dsgn-skeleton[data-kind="control"] {
+  block-size: var(--dsgn-control-height);
+  border-radius: var(--dsgn-radius-m);
+}
+.dsgn-skeleton[data-kind="avatar"] {
+  inline-size: var(--dsgn-control-height);
+  block-size: var(--dsgn-control-height);
+  border-radius: var(--dsgn-radius-m);
+}
+.dsgn-skeleton:is([data-kind="control"], [data-kind="avatar"], [data-kind="text"]) { flex: none; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .dsgn-skeleton { animation: dsgn-skeleton-pulse 1.6s var(--dsgn-ease) infinite alternate; }
+}
+@keyframes dsgn-skeleton-pulse { to { opacity: 0.5; } }
+
+.dsgn-visually-hidden {
+  position: absolute !important;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+@media (forced-colors: active) {
+  .dsgn-skeleton { outline: 1px dashed GrayText; outline-offset: -1px; }
+}

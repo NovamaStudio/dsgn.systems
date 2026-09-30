@@ -1,0 +1,37 @@
+/* dsgn · Description list (label → value pairs: invoice details, settings summary)
+ *
+ * <dl class="dsgn-dl">
+ *   <div><dt>Client</dt><dd>Novama s.r.o.</dd></div>
+ *   <div><dt>Due</dt><dd>12 October 2026</dd></div>
+ *   <div><dt>Status</dt><dd><span class="dsgn-badge" data-intent="success">Paid</span></dd></div>
+ * </dl>
+ *
+ * Two columns (label 1 : value 2) with a hairline between rows; row padding = row-pad-y,
+ * the same rhythm as Table and List. Below 28rem of its own width it stacks label over value
+ * (container query, so it works in a narrow sidebar on a wide screen too).
+ * data-layout="stacked" forces the stacked form.
+ */
+.dsgn-dl {
+  container-type: inline-size;
+  display: grid;
+  margin: 0;
+  color: var(--dsgn-text);
+  font-family: var(--dsgn-font-sans);
+  font-size: var(--dsgn-font-size-body-s);
+  line-height: var(--dsgn-line-height-body-s);
+}
+.dsgn-dl > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: var(--dsgn-space-2) var(--dsgn-space-16);
+  padding-block: var(--dsgn-row-pad-y);
+  box-shadow: inset 0 calc(-1 * var(--dsgn-border-width)) 0 var(--dsgn-border);
+}
+.dsgn-dl > div:last-child { box-shadow: none; }
+.dsgn-dl dt { color: var(--dsgn-text-muted); }
+.dsgn-dl dd { margin: 0; min-inline-size: 0; overflow-wrap: anywhere; }
+.dsgn-dl dd > .dsgn-badge { vertical-align: top; margin-block: calc((var(--dsgn-line-height-body-s) - var(--dsgn-line-height-caption)) / 2 - var(--dsgn-space-2)); }
+.dsgn-dl[data-layout="stacked"] > div { grid-template-columns: minmax(0, 1fr); }
+@container (width < 28rem) {
+  .dsgn-dl > div { grid-template-columns: minmax(0, 1fr); }
+}

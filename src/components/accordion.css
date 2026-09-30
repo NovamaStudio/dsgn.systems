@@ -1,0 +1,50 @@
+/* dsgn · Accordion (native <details>, no JS)
+ *
+ * <div class="dsgn-accordion">
+ *   <details name="faq" open>
+ *     <summary>Can I change the invoice after sending it?<span class="dsgn-icon" aria-hidden="true">expand_more</span></summary>
+ *     <div class="dsgn-accordion-content"><p>…</p></div>
+ *   </details>
+ *   <details name="faq">…</details>
+ * </div>
+ *
+ * The same name on several <details> makes them exclusive (one open at a time) natively.
+ * Rows use row-pad-y, like table rows. Summary = body-s medium, content = body-s muted.
+ * Chevron turns when open; the in-page find (Ctrl+F) opens a closed item automatically.
+ */
+.dsgn-accordion {
+  display: grid;
+  color: var(--dsgn-text);
+  font-family: var(--dsgn-font-sans);
+  font-size: var(--dsgn-font-size-body-s);
+  line-height: var(--dsgn-line-height-body-s);
+}
+.dsgn-accordion > details { box-shadow: inset 0 calc(-1 * var(--dsgn-border-width)) 0 var(--dsgn-border); }
+.dsgn-accordion > details:first-child { box-shadow: inset 0 var(--dsgn-border-width) 0 var(--dsgn-border), inset 0 calc(-1 * var(--dsgn-border-width)) 0 var(--dsgn-border); }
+.dsgn-accordion summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--dsgn-control-gap);
+  padding-block: var(--dsgn-row-pad-y);
+  border-radius: var(--dsgn-radius-s);
+  font-weight: var(--dsgn-font-weight-medium);
+  list-style: none;
+  cursor: pointer;
+}
+.dsgn-accordion summary::-webkit-details-marker { display: none; }
+.dsgn-accordion summary > .dsgn-icon { color: var(--dsgn-text-muted); }
+.dsgn-accordion details[open] > summary > .dsgn-icon { rotate: 180deg; }
+@media (hover: hover) { .dsgn-accordion summary:hover > .dsgn-icon { color: var(--dsgn-text); } }
+.dsgn-accordion summary:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: var(--dsgn-focus-offset); }
+.dsgn-accordion-content {
+  display: grid;
+  gap: var(--dsgn-space-8);
+  padding-block-end: var(--dsgn-row-pad-y);
+  color: var(--dsgn-text-muted);
+  max-inline-size: 72ch;
+}
+.dsgn-accordion-content > * { margin: 0; }
+@media (prefers-reduced-motion: no-preference) {
+  .dsgn-accordion summary > .dsgn-icon { transition: rotate var(--dsgn-duration-fast) var(--dsgn-ease); }
+}

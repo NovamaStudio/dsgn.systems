@@ -1,0 +1,61 @@
+/* dsgn · Banner (page- or app-wide message at the top edge)
+ *
+ * <div class="dsgn-banner" data-intent="warning" role="status">
+ *   <div class="dsgn-container dsgn-banner-inner">
+ *     <span class="dsgn-icon" aria-hidden="true">warning</span>
+ *     <p class="dsgn-banner-text">Your card expires on 31 October. <a href="/billing">Update payment</a></p>
+ *     <button class="dsgn-icon-button" data-variant="ghost" data-intent="neutral" aria-label="Dismiss"><span class="dsgn-icon" aria-hidden="true">close</span></button>
+ *   </div>
+ * </div>
+ *
+ * Unlike Alert (a box inside the content), a Banner runs edge to edge above the header or
+ * the app content, with its content in the page container. One at a time.
+ * data-intent  accent (default) | neutral | success | warning | danger
+ * data-variant subtle (default) | solid — solid for announcements (accent / neutral).
+ * Height = body-s line + 2 × space-8; buttons inside borrow that padding, like in Dialog.
+ */
+.dsgn-banner {
+  --_subtle: var(--dsgn-accent-subtle);
+  --_text: var(--dsgn-accent-text);
+  --_border: var(--dsgn-accent-border);
+  --_solid: var(--dsgn-accent-solid);
+  --_on-solid: var(--dsgn-accent-solid-text);
+  box-sizing: border-box;
+  background: var(--_subtle);
+  box-shadow: inset 0 calc(-1 * var(--dsgn-border-width)) 0 var(--_border);
+  color: var(--dsgn-text);
+  font-family: var(--dsgn-font-sans);
+  font-size: var(--dsgn-font-size-body-s);
+  line-height: var(--dsgn-line-height-body-s);
+}
+.dsgn-banner[data-intent="neutral"] { --_subtle: var(--dsgn-neutral-subtle); --_text: var(--dsgn-neutral-text); --_border: var(--dsgn-neutral-border); --_solid: var(--dsgn-neutral-solid); --_on-solid: var(--dsgn-neutral-solid-text); }
+.dsgn-banner[data-intent="success"] { --_subtle: var(--dsgn-success-subtle); --_text: var(--dsgn-success-text); --_border: var(--dsgn-success-border); --_solid: var(--dsgn-success-solid); --_on-solid: var(--dsgn-success-solid-text); }
+.dsgn-banner[data-intent="warning"] { --_subtle: var(--dsgn-warning-subtle); --_text: var(--dsgn-warning-text); --_border: var(--dsgn-warning-border); --_solid: var(--dsgn-warning-solid); --_on-solid: var(--dsgn-warning-solid-text); }
+.dsgn-banner[data-intent="danger"]  { --_subtle: var(--dsgn-danger-subtle);  --_text: var(--dsgn-danger-text);  --_border: var(--dsgn-danger-border);  --_solid: var(--dsgn-danger-solid);  --_on-solid: var(--dsgn-danger-solid-text); }
+.dsgn-banner[data-variant="solid"] { background: var(--_solid); box-shadow: none; color: var(--_on-solid); }
+
+.dsgn-banner-inner {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--dsgn-control-gap);
+  padding-block: var(--dsgn-space-8);
+}
+.dsgn-banner-inner > .dsgn-icon { --_fill: 1; color: var(--_text); }
+.dsgn-banner[data-variant="solid"] .dsgn-banner-inner > .dsgn-icon { color: inherit; }
+.dsgn-banner-text { flex: 1; min-inline-size: 0; margin: 0; }
+.dsgn-banner-text a { color: inherit; text-decoration-line: underline; text-underline-offset: 0.2em; border-radius: var(--dsgn-radius-s); font-weight: var(--dsgn-font-weight-medium); }
+.dsgn-banner-text a:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: var(--dsgn-focus-offset); }
+/* buttons sit on the text line without making the banner taller */
+.dsgn-banner-inner > :is(.dsgn-button, .dsgn-icon-button) {
+  margin-block: calc((var(--dsgn-line-height-body-s) - var(--dsgn-control-height)) / 2);
+}
+.dsgn-banner-inner > .dsgn-icon-button:last-child { margin-inline-end: calc(-1 * var(--dsgn-control-pad-y)); }
+/* on a solid banner, ghost buttons take the banner's text colour */
+.dsgn-banner[data-variant="solid"] :is(.dsgn-button, .dsgn-icon-button)[data-variant="ghost"] {
+  --_fg: currentColor;
+  --_bg-hover: color-mix(in oklch, currentColor 14%, transparent);
+  --_bg-pressed: color-mix(in oklch, currentColor 22%, transparent);
+}
+@media (forced-colors: active) {
+  .dsgn-banner { border-block-end: 1px solid CanvasText; }
+}

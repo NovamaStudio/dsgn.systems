@@ -1,0 +1,60 @@
+/* dsgn · Nav (header and sidebar navigation)
+ *
+ * <nav class="dsgn-nav" aria-label="Main">
+ *   <a class="dsgn-nav-link" href="/invoices" aria-current="page"><span class="dsgn-icon" aria-hidden="true">receipt_long</span>Invoices</a>
+ *   <a class="dsgn-nav-link" href="/clients">Clients</a>
+ * </nav>
+ * <nav class="dsgn-nav" data-orientation="vertical" aria-label="App">…</nav>
+ *
+ * Links look like ghost neutral buttons: same height (Density), same radius, muted until
+ * hovered; the current page is base/text on neutral-subtle with a filled icon.
+ * Vertical: full width, text starts at the left edge, optional group labels (.dsgn-nav-label).
+ */
+.dsgn-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--dsgn-space-4);
+  font-family: var(--dsgn-font-sans);
+}
+.dsgn-nav[data-orientation="vertical"] { flex-direction: column; flex-wrap: nowrap; align-items: stretch; gap: var(--dsgn-space-2); }
+
+.dsgn-nav-link {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dsgn-control-gap);
+  padding: var(--dsgn-control-pad-y) var(--dsgn-control-pad-x);
+  border-radius: var(--dsgn-radius-m);
+  color: var(--dsgn-text-muted);
+  font-size: var(--dsgn-control-font-size);
+  line-height: var(--dsgn-control-line-height);
+  font-weight: var(--dsgn-font-weight-medium);
+  text-decoration: none;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+}
+.dsgn-nav[data-orientation="vertical"] .dsgn-nav-link { padding-inline: var(--dsgn-control-pad-y); }
+.dsgn-nav-link > .dsgn-nav-meta { margin-inline-start: auto; color: var(--dsgn-text-muted); font-weight: var(--dsgn-font-weight-regular); }
+@media (hover: hover) {
+  .dsgn-nav-link:hover { background: var(--dsgn-neutral-subtle); color: var(--dsgn-text); }
+  .dsgn-nav-link:hover > .dsgn-icon { --_fill: 1; }
+}
+.dsgn-nav-link:active { background: var(--dsgn-neutral-subtle-hover); }
+.dsgn-nav-link[aria-current="page"] { background: var(--dsgn-neutral-subtle); color: var(--dsgn-text); }
+.dsgn-nav-link[aria-current="page"] > .dsgn-icon { --_fill: 1; }
+.dsgn-nav-link:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: calc(-1 * var(--dsgn-focus-width)); }
+
+.dsgn-nav-label {
+  padding: var(--dsgn-space-12) var(--dsgn-control-pad-y) var(--dsgn-space-4);
+  color: var(--dsgn-text-muted);
+  font-size: var(--dsgn-font-size-caption);
+  line-height: var(--dsgn-line-height-caption);
+  font-weight: var(--dsgn-font-weight-medium);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .dsgn-nav-link { transition: background-color var(--dsgn-duration-fast) var(--dsgn-ease), color var(--dsgn-duration-fast) var(--dsgn-ease); }
+}
+@media (forced-colors: active) {
+  .dsgn-nav-link[aria-current="page"] { outline: 2px solid LinkText; outline-offset: -2px; }
+}

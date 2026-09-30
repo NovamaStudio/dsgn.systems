@@ -1,0 +1,25 @@
+/* dsgn · Link
+ *
+ * <a class="dsgn-link" href="…">View invoice</a>
+ * <a class="dsgn-link" data-intent="neutral" href="…">Terms</a>
+ *
+ * Always underlined, so it never relies on colour alone (WCAG 1.4.1).
+ * Inherits size and line-height from the surrounding text.
+ */
+.dsgn-link {
+  color: var(--dsgn-accent-text);
+  text-decoration-line: underline;
+  text-decoration-thickness: 0.06em;
+  text-underline-offset: 0.2em;
+  border-radius: var(--dsgn-radius-s);
+  cursor: pointer;
+}
+.dsgn-link[data-intent="neutral"] { color: var(--dsgn-text); }
+@media (hover: hover) {
+  .dsgn-link:hover { text-decoration-thickness: 0.12em; }
+}
+.dsgn-link:focus-visible {
+  outline: var(--dsgn-focus-width) solid var(--dsgn-focus);
+  outline-offset: var(--dsgn-focus-offset);
+}
+.dsgn-link .dsgn-icon { vertical-align: bottom; }

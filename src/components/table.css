@@ -1,0 +1,110 @@
+/* dsgn · Table
+ *
+ * <div class="dsgn-table-wrap" tabindex="0" role="region" aria-label="Invoices">
+ *   <table class="dsgn-table">
+ *     <thead><tr>
+ *       <th scope="col" class="dsgn-table-select"><input type="checkbox" class="dsgn-checkbox" aria-label="Select all"></th>
+ *       <th scope="col" aria-sort="ascending"><button class="dsgn-table-sort">Number<span class="dsgn-icon" aria-hidden="true">arrow_upward</span></button></th>
+ *       <th scope="col" data-numeric>Amount</th>
+ *     </tr></thead>
+ *     <tbody><tr aria-selected="true">
+ *       <td class="dsgn-table-select"><input type="checkbox" class="dsgn-checkbox" aria-label="Select 2026-114" checked></td>
+ *       <td>2026-114</td><td data-numeric>24 200</td>
+ *     </tr></tbody>
+ *   </table>
+ * </div>
+ *
+ * Row height = control line-height + 2 × row-pad-y (S 36 · M 44 · L 52): one control height
+ * plus space-4 above and below, so buttons and inputs in a row never touch its edges.
+ * A row with a checkbox, badge, link or ghost button keeps exactly that height. Header sticks to the top of the wrapper when it scrolls.
+ * Sorting is visual only: the app sorts the data and sets aria-sort on the <th>.
+ * Icons: unfold_more (sortable), arrow_upward (ascending), arrow_downward (descending).
+ */
+.dsgn-table-wrap {
+  position: relative; /* keeps absolutely positioned helpers (visually-hidden labels) inside the scroller */
+  max-inline-size: 100%;
+  overflow: auto;
+  border-radius: var(--dsgn-radius-l);
+  background: var(--dsgn-surface-raised);
+  box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border);
+}
+.dsgn-table-wrap:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: var(--dsgn-focus-offset); }
+
+.dsgn-table {
+  inline-size: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  color: var(--dsgn-text);
+  font-family: var(--dsgn-font-sans);
+  font-size: var(--dsgn-control-font-size);
+  line-height: var(--dsgn-control-line-height);
+  font-variant-numeric: tabular-nums;
+}
+.dsgn-table :is(th, td) {
+  box-sizing: border-box;
+  padding: var(--dsgn-row-pad-y) var(--dsgn-control-pad-x);
+  text-align: start;
+  vertical-align: middle;
+  white-space: nowrap;
+  box-shadow: inset 0 calc(-1 * var(--dsgn-border-width)) 0 var(--dsgn-border);
+}
+.dsgn-table tbody tr:last-child > * { box-shadow: none; }
+.dsgn-table th {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 1;
+  background: var(--dsgn-surface-base);
+  color: var(--dsgn-text-muted);
+  font-weight: var(--dsgn-font-weight-medium);
+}
+.dsgn-table :is(th, td)[data-numeric] { text-align: end; }
+.dsgn-table :is(th, td)[data-numeric] .dsgn-table-sort { flex-direction: row-reverse; }
+
+/* first / last column align with the wrapper's inset */
+.dsgn-table :is(th, td):first-child { padding-inline-start: var(--dsgn-inset); }
+.dsgn-table :is(th, td):last-child { padding-inline-end: var(--dsgn-inset); }
+
+/* checkbox column: as narrow as the box */
+.dsgn-table .dsgn-table-select { inline-size: 1%; padding-inline-end: 0; }
+/* inline controls sit on the top of the line box, so baseline maths can never add a pixel */
+.dsgn-table :is(th, td) > :is(.dsgn-checkbox, .dsgn-badge, .dsgn-table-sort, .dsgn-icon-button, .dsgn-button) { vertical-align: top; }
+
+/* controls inside cells must not make the row taller */
+.dsgn-table td > .dsgn-badge {
+  margin-block: calc((var(--dsgn-control-line-height) - var(--dsgn-line-height-caption)) / 2 - var(--dsgn-space-2));
+}
+.dsgn-table td > :is(.dsgn-icon-button, .dsgn-button) { margin-block: calc(-1 * var(--dsgn-control-pad-y)); }
+.dsgn-table td:has(> .dsgn-icon-button:last-child) { padding-inline-end: calc(var(--dsgn-inset) - var(--dsgn-control-pad-y)); text-align: end; }
+
+/* sortable header */
+.dsgn-table-sort {
+  all: unset;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dsgn-space-4);
+  border-radius: var(--dsgn-radius-s);
+  color: inherit;
+  cursor: pointer;
+}
+.dsgn-table-sort > .dsgn-icon { color: var(--dsgn-text-muted); }
+@media (hover: hover) { .dsgn-table-sort:hover { color: var(--dsgn-text); } }
+.dsgn-table-sort:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: var(--dsgn-focus-offset); }
+.dsgn-table th[aria-sort] { color: var(--dsgn-text); }
+.dsgn-table th[aria-sort] .dsgn-table-sort > .dsgn-icon { color: var(--dsgn-accent-text); }
+
+/* rows */
+@media (hover: hover) {
+  .dsgn-table tbody tr:hover > td { background: var(--dsgn-neutral-subtle); }
+}
+.dsgn-table tbody tr[aria-selected="true"] > td { background: var(--dsgn-accent-subtle); }
+@media (hover: hover) {
+  .dsgn-table tbody tr[aria-selected="true"]:hover > td { background: var(--dsgn-accent-subtle-hover); }
+}
+.dsgn-table td[data-muted], .dsgn-table .dsgn-table-muted { color: var(--dsgn-text-muted); }
+
+@media (forced-colors: active) {
+  .dsgn-table :is(th, td) { border-block-end: 1px solid CanvasText; }
+  .dsgn-table-wrap { outline: 1px solid CanvasText; outline-offset: -1px; }
+  /* selected row: a Highlight frame, cell contents keep their own system colours (links stay readable) */
+  .dsgn-table tbody tr[aria-selected="true"] { outline: 2px solid Highlight; outline-offset: -2px; }
+}

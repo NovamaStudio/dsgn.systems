@@ -1,0 +1,81 @@
+/* dsgn · Slider (native range; dsgn.js paints the filled part in Chromium/WebKit and updates <output>)
+ *
+ * <div class="dsgn-field">
+ *   <div class="dsgn-slider-label"><label class="dsgn-label" for="rem">First reminder</label>
+ *     <output class="dsgn-slider-value" for="rem" data-suffix=" days">7 days</output></div>
+ *   <input type="range" class="dsgn-slider" id="rem" min="1" max="30" value="7">
+ * </div>
+ *
+ * The input is one control height tall, so a slider lines up with inputs and buttons in a row.
+ * Track = space-4 in border-strong (3:1 on any surface), filled part and thumb = accent-solid,
+ * thumb = control-indicator with a surface ring. Arrow keys, Page Up/Down, Home/End are native.
+ */
+.dsgn-slider {
+  --_pct: 50%;
+  --_track: var(--dsgn-space-4);
+  --_thumb: var(--dsgn-control-indicator);
+  --_fill: var(--dsgn-accent-solid);
+  --_rest: var(--dsgn-border-strong);
+  -webkit-appearance: none;
+  appearance: none;
+  box-sizing: border-box;
+  display: block;
+  inline-size: 100%;
+  block-size: var(--dsgn-control-height);
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+}
+.dsgn-slider::-webkit-slider-runnable-track {
+  block-size: var(--_track);
+  border-radius: var(--dsgn-radius-full);
+  background: linear-gradient(to right, var(--_fill) var(--_pct), var(--_rest) var(--_pct));
+}
+.dsgn-slider:dir(rtl)::-webkit-slider-runnable-track { background: linear-gradient(to left, var(--_fill) var(--_pct), var(--_rest) var(--_pct)); }
+.dsgn-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  box-sizing: border-box;
+  inline-size: var(--_thumb);
+  block-size: var(--_thumb);
+  margin-block-start: calc((var(--_track) - var(--_thumb)) / 2);
+  border: 0;
+  border-radius: var(--dsgn-radius-full);
+  background: var(--_fill);
+  box-shadow: 0 0 0 var(--dsgn-space-2) var(--dsgn-surface-raised);
+}
+.dsgn-slider::-moz-range-track { block-size: var(--_track); border-radius: var(--dsgn-radius-full); background: var(--_rest); }
+.dsgn-slider::-moz-range-progress { block-size: var(--_track); border-radius: var(--dsgn-radius-full); background: var(--_fill); }
+.dsgn-slider::-moz-range-thumb {
+  box-sizing: border-box;
+  inline-size: var(--_thumb);
+  block-size: var(--_thumb);
+  border: 0;
+  border-radius: var(--dsgn-radius-full);
+  background: var(--_fill);
+  box-shadow: 0 0 0 var(--dsgn-space-2) var(--dsgn-surface-raised);
+}
+@media (hover: hover) {
+  .dsgn-slider:not(:disabled):hover { --_fill: var(--dsgn-accent-solid-hover); }
+}
+.dsgn-slider:active:not(:disabled) { --_fill: var(--dsgn-accent-solid-pressed); }
+.dsgn-slider:focus-visible { outline: none; }
+.dsgn-slider:focus-visible::-webkit-slider-thumb { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: var(--dsgn-focus-offset); }
+.dsgn-slider:focus-visible::-moz-range-thumb { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: var(--dsgn-focus-offset); }
+.dsgn-slider:disabled { --_fill: var(--dsgn-text-disabled); --_rest: var(--dsgn-border); cursor: not-allowed; }
+
+.dsgn-slider-label { display: flex; align-items: baseline; justify-content: space-between; gap: var(--dsgn-space-8); }
+.dsgn-slider-value {
+  color: var(--dsgn-text-muted);
+  font-family: var(--dsgn-font-sans);
+  font-size: var(--dsgn-font-size-body-s);
+  line-height: var(--dsgn-line-height-body-s);
+  font-variant-numeric: tabular-nums;
+}
+@media (forced-colors: active) {
+  /* system colours: the filled part and thumb in Highlight, the rest of the track in CanvasText */
+  .dsgn-slider { forced-color-adjust: none; --_fill: Highlight; --_rest: CanvasText; }
+  .dsgn-slider:disabled { --_fill: GrayText; --_rest: GrayText; }
+  .dsgn-slider::-webkit-slider-thumb { box-shadow: 0 0 0 var(--dsgn-space-2) Canvas; }
+  .dsgn-slider::-moz-range-thumb { box-shadow: 0 0 0 var(--dsgn-space-2) Canvas; }
+  .dsgn-slider:focus-visible::-webkit-slider-thumb { outline-color: CanvasText; }
+}

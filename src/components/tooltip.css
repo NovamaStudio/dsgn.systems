@@ -1,0 +1,38 @@
+/* dsgn · Tooltip (needs dsgn.js)
+ *
+ * <button class="dsgn-icon-button" data-variant="ghost" aria-label="Duplicate" aria-describedby="tip-dup">…</button>
+ * <div class="dsgn-tooltip" id="tip-dup" role="tooltip" popover="manual">Copies the invoice as a draft</div>
+ *
+ * Short supplementary text only; never the only place for essential information and never
+ * interactive content. Shows on hover (after a short delay) and on keyboard focus, hides on
+ * Escape, blur and pointer leave, and stays open while the pointer is over it (WCAG 1.4.13).
+ * An icon-only button keeps its aria-label: the tooltip adds a description, not the name.
+ */
+.dsgn-tooltip {
+  box-sizing: border-box;
+  position: fixed;
+  inset: auto;
+  margin: 0;
+  max-inline-size: 32ch;
+  padding: var(--dsgn-space-4) var(--dsgn-space-8);
+  border: 0;
+  border-radius: var(--dsgn-radius-s);
+  background: var(--dsgn-neutral-solid);
+  color: var(--dsgn-neutral-solid-text);
+  font-family: var(--dsgn-font-sans);
+  font-size: var(--dsgn-font-size-caption);
+  line-height: var(--dsgn-line-height-caption);
+  font-weight: var(--dsgn-font-weight-regular);
+  overflow: visible;
+}
+.dsgn-tooltip:not(:popover-open):not([data-open]) { display: none; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .dsgn-tooltip:is(:popover-open, [data-open]) {
+    animation: dsgn-tooltip-in var(--dsgn-duration-fast) var(--dsgn-ease);
+  }
+}
+@keyframes dsgn-tooltip-in { from { opacity: 0; } }
+@media (forced-colors: active) {
+  .dsgn-tooltip { outline: 1px solid CanvasText; }
+}

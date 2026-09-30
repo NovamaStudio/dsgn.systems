@@ -1,0 +1,158 @@
+/* dsgn · Button + Icon button
+ *
+ * <button class="dsgn-button">Save</button>                                  solid · accent (defaults)
+ * <button class="dsgn-button" data-variant="subtle" data-intent="neutral">Cancel</button>
+ * <button class="dsgn-button" data-variant="ghost" data-intent="danger">
+ *   <span class="dsgn-icon" aria-hidden="true">delete</span>Delete
+ * </button>
+ * <button class="dsgn-icon-button" data-variant="ghost" aria-label="Settings">
+ *   <span class="dsgn-icon" aria-hidden="true">settings</span>
+ * </button>
+ *
+ * data-variant  solid (default) | subtle | ghost
+ * data-intent   accent (default) | neutral | danger
+ * aria-pressed  true|false  → toggle, subtle and ghost only; selected = tinted background
+ *                             + filled icon. Solid buttons are never toggles.
+ * disabled / aria-disabled="true"
+ * Also works on <a href>.
+ *
+ * Height is never set: line-height + 2 × pad-y. An icon button uses pad-y on all
+ * sides and its icon is 1 line-height wide, so it is always a square of the same height.
+ * Uses tokens only — never --dsgn-unit directly (enforced by the build).
+ */
+
+.dsgn-button,
+.dsgn-icon-button {
+  /* intent → private colour set (accent by default) */
+  --_solid: var(--dsgn-accent-solid);
+  --_solid-hover: var(--dsgn-accent-solid-hover);
+  --_solid-pressed: var(--dsgn-accent-solid-pressed);
+  --_on-solid: var(--dsgn-accent-solid-text);
+  --_subtle: var(--dsgn-accent-subtle);
+  --_subtle-hover: var(--dsgn-accent-subtle-hover);
+  --_subtle-pressed: var(--dsgn-accent-subtle-pressed);
+  --_text: var(--dsgn-accent-text);
+
+  /* variant → which part of the set is used (solid by default) */
+  --_bg: var(--_solid);
+  --_bg-hover: var(--_solid-hover);
+  --_bg-pressed: var(--_solid-pressed);
+  --_fg: var(--_on-solid);
+
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--dsgn-control-gap);
+  max-inline-size: 100%;
+  margin: 0;
+  padding: var(--dsgn-control-pad-y) var(--dsgn-control-pad-x);
+  border: 0;
+  border-radius: var(--dsgn-radius-m);
+  background: var(--_bg);
+  color: var(--_fg);
+  font-family: var(--dsgn-font-sans);
+  font-size: var(--dsgn-control-font-size);
+  line-height: var(--dsgn-control-line-height);
+  font-weight: var(--dsgn-font-weight-medium);
+  text-decoration: none;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  user-select: none;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.dsgn-icon-button { padding: var(--dsgn-control-pad-y); }
+
+/* ── intents ─────────────────────────────────────────────────────────────── */
+:is(.dsgn-button, .dsgn-icon-button)[data-intent="neutral"] {
+  --_solid: var(--dsgn-neutral-solid);
+  --_solid-hover: var(--dsgn-neutral-solid-hover);
+  --_solid-pressed: var(--dsgn-neutral-solid-pressed);
+  --_on-solid: var(--dsgn-neutral-solid-text);
+  --_subtle: var(--dsgn-neutral-subtle);
+  --_subtle-hover: var(--dsgn-neutral-subtle-hover);
+  --_subtle-pressed: var(--dsgn-neutral-subtle-pressed);
+  --_text: var(--dsgn-neutral-text);
+}
+:is(.dsgn-button, .dsgn-icon-button)[data-intent="danger"] {
+  --_solid: var(--dsgn-danger-solid);
+  --_solid-hover: var(--dsgn-danger-solid-hover);
+  --_solid-pressed: var(--dsgn-danger-solid-pressed);
+  --_on-solid: var(--dsgn-danger-solid-text);
+  --_subtle: var(--dsgn-danger-subtle);
+  --_subtle-hover: var(--dsgn-danger-subtle-hover);
+  --_subtle-pressed: var(--dsgn-danger-subtle-pressed);
+  --_text: var(--dsgn-danger-text);
+}
+
+/* ── variants ────────────────────────────────────────────────────────────── */
+:is(.dsgn-button, .dsgn-icon-button)[data-variant="subtle"] {
+  --_bg: var(--_subtle);
+  --_bg-hover: var(--_subtle-hover);
+  --_bg-pressed: var(--_subtle-pressed);
+  --_fg: var(--_text);
+}
+:is(.dsgn-button, .dsgn-icon-button)[data-variant="ghost"] {
+  --_bg: transparent;
+  --_bg-hover: var(--_subtle);
+  --_bg-pressed: var(--_subtle-hover);
+  --_fg: var(--_text);
+}
+
+/* ── states ──────────────────────────────────────────────────────────────── */
+@media (hover: hover) {
+  :is(.dsgn-button, .dsgn-icon-button):hover { background: var(--_bg-hover); }
+}
+:is(.dsgn-button, .dsgn-icon-button):active { background: var(--_bg-pressed); }
+
+/* icons fill on interaction (hover + pressed), never when disabled */
+@media (hover: hover) {
+  :is(.dsgn-button, .dsgn-icon-button):not(:disabled, [aria-disabled="true"]):hover .dsgn-icon { --_fill: 1; }
+}
+:is(.dsgn-button, .dsgn-icon-button):not(:disabled, [aria-disabled="true"]):active .dsgn-icon { --_fill: 1; }
+
+:is(.dsgn-button, .dsgn-icon-button):focus-visible {
+  outline: var(--dsgn-focus-width) solid var(--dsgn-focus);
+  outline-offset: var(--dsgn-focus-offset);
+}
+
+/* toggle (subtle + ghost only): selected uses the tinted background of its intent and fills the icon */
+:is(.dsgn-button, .dsgn-icon-button):is([data-variant="subtle"], [data-variant="ghost"])[aria-pressed="true"] {
+  --_bg: var(--_subtle-hover);
+  --_bg-hover: var(--_subtle-pressed);
+  --_bg-pressed: var(--_subtle-pressed);
+  --_fg: var(--_text);
+}
+:is(.dsgn-button, .dsgn-icon-button):is([data-variant="subtle"], [data-variant="ghost"])[aria-pressed="true"] .dsgn-icon { --_fill: 1; }
+
+/* disabled: neutral tint (ghost stays transparent), disabled text, no interaction */
+:is(.dsgn-button, .dsgn-icon-button):is(:disabled, [aria-disabled="true"]) {
+  --_bg: var(--dsgn-neutral-subtle);
+  --_fg: var(--dsgn-text-disabled);
+  background: var(--_bg);
+  cursor: not-allowed;
+}
+:is(.dsgn-button, .dsgn-icon-button)[data-variant="ghost"]:is(:disabled, [aria-disabled="true"]) { --_bg: transparent; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .dsgn-button,
+  .dsgn-icon-button {
+    transition: background-color var(--dsgn-duration-fast) var(--dsgn-ease);
+  }
+}
+
+/* Windows High Contrast: backgrounds disappear, so draw the boundary with an inset
+   outline (never a border — that would change the height) */
+@media (forced-colors: active) {
+  .dsgn-button,
+  .dsgn-icon-button {
+    outline: 1px solid ButtonText;
+    outline-offset: -1px;
+  }
+  :is(.dsgn-button, .dsgn-icon-button):focus-visible { outline: 2px solid Highlight; outline-offset: 2px; }
+  :is(.dsgn-button, .dsgn-icon-button):is([data-variant="subtle"], [data-variant="ghost"])[aria-pressed="true"] { background: Highlight; color: HighlightText; forced-color-adjust: none; }
+  :is(.dsgn-button, .dsgn-icon-button):is(:disabled, [aria-disabled="true"]) { color: GrayText; outline-color: GrayText; }
+}

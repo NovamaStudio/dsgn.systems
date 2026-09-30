@@ -1,0 +1,53 @@
+/* dsgn · Breadcrumbs
+ *
+ * <nav class="dsgn-breadcrumbs" aria-label="Breadcrumb">
+ *   <ol>
+ *     <li><a href="/">Invoices</a></li>
+ *     <li><a href="/2026">2026</a></li>
+ *     <li><a aria-current="page">2026-114</a></li>
+ *   </ol>
+ * </nav>
+ *
+ * body-s, text-muted links that underline on hover (a navigation block, so colour plus
+ * position is enough; links inside running text use .dsgn-link). The current page is
+ * base/text and not a link target. Separators are chevron_right glyphs drawn by CSS, so
+ * screen readers read a clean list. Long trails wrap.
+ */
+.dsgn-breadcrumbs > ol {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--dsgn-space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--dsgn-font-sans);
+  font-size: var(--dsgn-font-size-body-s);
+  line-height: var(--dsgn-line-height-body-s);
+}
+.dsgn-breadcrumbs li { display: inline-flex; align-items: center; gap: var(--dsgn-space-4); min-inline-size: 0; }
+.dsgn-breadcrumbs li + li::before {
+  content: 'chevron_right';
+  font-family: var(--dsgn-font-icon);
+  font-size: var(--dsgn-line-height-body-s);
+  line-height: 1;
+  font-feature-settings: 'liga';
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' var(--dsgn-icon-grade, 0), 'opsz' 20;
+  color: var(--dsgn-text-muted);
+  -webkit-font-smoothing: antialiased;
+}
+.dsgn-breadcrumbs li:dir(rtl) + li::before { content: 'chevron_left'; }
+.dsgn-breadcrumbs a {
+  color: var(--dsgn-text-muted);
+  text-decoration: none;
+  text-underline-offset: 0.2em;
+  border-radius: var(--dsgn-radius-s);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+@media (hover: hover) {
+  .dsgn-breadcrumbs a[href]:hover { color: var(--dsgn-text); text-decoration-line: underline; }
+}
+.dsgn-breadcrumbs a:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: var(--dsgn-focus-offset); }
+.dsgn-breadcrumbs [aria-current="page"] { color: var(--dsgn-text); font-weight: var(--dsgn-font-weight-medium); }

@@ -1,0 +1,41 @@
+/* dsgn · Icon — Material Symbols Rounded
+ *
+ * <span class="dsgn-icon" aria-hidden="true">settings</span>
+ * <span class="dsgn-icon" data-fill aria-hidden="true">favorite</span>
+ *
+ * Size = the line-height of the surrounding text (1lh in font-size resolves against
+ * the parent), so an icon always sits exactly in a line of text or a control.
+ * Decorative by default: always aria-hidden. A meaningful icon needs a text label
+ * on its control (aria-label), never on the glyph.
+ */
+.dsgn-icon {
+  --_fill: 0;
+  --_wght: 400;
+  font-family: var(--dsgn-font-icon);
+  font-size: var(--dsgn-icon-size, 1lh);
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  white-space: nowrap;
+  direction: ltr;
+  display: inline-block;
+  flex: none;
+  inline-size: 1em;
+  block-size: 1em;
+  overflow: hidden;
+  user-select: none;
+  font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+  font-variation-settings:
+    'FILL' var(--_fill),
+    'wght' var(--_wght),
+    'GRAD' var(--dsgn-icon-grade, 0),
+    'opsz' var(--dsgn-icon-optical-size, 20);
+}
+.dsgn-icon[data-fill] { --_fill: 1; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .dsgn-icon { transition: font-variation-settings var(--dsgn-duration-fast) var(--dsgn-ease); }
+}

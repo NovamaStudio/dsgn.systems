@@ -1,0 +1,154 @@
+/* dsgn · Input, Textarea, Select
+ *
+ * <input class="dsgn-input" type="text" placeholder="Name">
+ * <textarea class="dsgn-input" rows="3"></textarea>
+ *
+ * With icons, the class goes on a wrapper and the control sits inside:
+ * <div class="dsgn-input">
+ *   <span class="dsgn-icon" aria-hidden="true">search</span>
+ *   <input type="search" aria-label="Search">
+ * </div>
+ *
+ * Select is the same wrapper with a chevron:
+ * <div class="dsgn-input">
+ *   <select aria-label="Country">…</select>
+ *   <span class="dsgn-icon" aria-hidden="true">expand_more</span>
+ * </div>
+ *
+ * States: :hover, focus (ring), aria-invalid="true", :disabled, [readonly].
+ * Height = line-height + 2 × pad-y, identical to Button, so they line up in a row.
+ * The border is an inset box-shadow: it never adds to the height (Figma: stroke inside).
+ */
+
+.dsgn-input {
+  --_border: var(--dsgn-border-strong);
+
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--dsgn-control-gap);
+  inline-size: 100%;
+  min-inline-size: 0;
+  margin: 0;
+  padding: var(--dsgn-control-pad-y) var(--dsgn-control-pad-x);
+  border: 0;
+  border-radius: var(--dsgn-radius-m);
+  background: var(--dsgn-surface-raised);
+  box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--_border);
+  color: var(--dsgn-text);
+  font-family: var(--dsgn-font-sans);
+  font-size: var(--dsgn-control-font-size);
+  line-height: var(--dsgn-control-line-height);
+  font-weight: var(--dsgn-font-weight-regular);
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* the real control inside a wrapper takes the wrapper's type and fills it */
+.dsgn-input > :is(input, select, textarea) {
+  all: unset;
+  flex: 1;
+  min-inline-size: 0;
+  font: inherit;
+  color: inherit;
+}
+.dsgn-input > .dsgn-icon { color: var(--dsgn-text-muted); }
+
+.dsgn-input::placeholder,
+.dsgn-input > :is(input, textarea)::placeholder {
+  color: var(--dsgn-text-muted);
+  opacity: 1;
+}
+
+/* textarea: multi-line, same padding, grows vertically */
+textarea.dsgn-input {
+  display: block;
+  resize: vertical;
+  border-radius: min(var(--dsgn-radius-m), var(--dsgn-radius-l));
+}
+
+/* select: the native select covers the whole box so the chevron area is clickable too;
+   the chevron in normal flow gives the box its height */
+.dsgn-input:has(> select) { position: relative; cursor: pointer; }
+.dsgn-input > select {
+  position: absolute;
+  inset: 0;
+  box-sizing: border-box;
+  padding-block: var(--dsgn-control-pad-y);
+  padding-inline: var(--dsgn-control-pad-x) calc(var(--dsgn-control-pad-x) + var(--dsgn-control-line-height) + var(--dsgn-control-gap));
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.dsgn-input > select ~ .dsgn-icon {
+  margin-inline-start: auto;
+  pointer-events: none;
+  color: var(--dsgn-text);
+}
+
+/* ── states ──────────────────────────────────────────────────────────────── */
+@media (hover: hover) {
+  .dsgn-input:hover { --_border: var(--dsgn-text-muted); }
+}
+.dsgn-input:is(:focus, :focus-within) {
+  outline: var(--dsgn-focus-width) solid var(--dsgn-focus);
+  outline-offset: var(--dsgn-focus-offset);
+}
+.dsgn-input:is([aria-invalid="true"], :has(> [aria-invalid="true"])) {
+  --_border: var(--dsgn-danger-solid);
+}
+.dsgn-input:is([readonly], :has(> [readonly])) {
+  --_border: var(--dsgn-border);
+  background: var(--dsgn-surface-base);
+}
+.dsgn-input:is(:disabled, :has(> :disabled)) {
+  --_border: var(--dsgn-border);
+  background: var(--dsgn-neutral-subtle);
+  color: var(--dsgn-text-disabled);
+  cursor: not-allowed;
+}
+.dsgn-input:is(:disabled, :has(> :disabled)) > * { cursor: not-allowed; }
+.dsgn-input:is(:disabled, :has(> :disabled)) > .dsgn-icon { color: var(--dsgn-text-disabled); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .dsgn-input { transition: box-shadow var(--dsgn-duration-fast) var(--dsgn-ease); }
+}
+@media (forced-colors: active) {
+  .dsgn-input { outline: 1px solid FieldText; outline-offset: -1px; }
+  .dsgn-input:is(:focus, :focus-within) { outline: 2px solid Highlight; outline-offset: 2px; }
+}
+
+/* ── field: label + control + hint ──────────────────────────────────────────
+ * <div class="dsgn-field">
+ *   <label class="dsgn-label" for="email">E-mail</label>
+ *   <input class="dsgn-input" id="email" aria-describedby="email-hint">
+ *   <p class="dsgn-hint" id="email-hint">We only use it for invoices.</p>
+ * </div>
+ * Error: <p class="dsgn-hint" data-intent="danger"><span class="dsgn-icon" aria-hidden="true">error</span>…</p>
+ * and aria-invalid="true" on the control. */
+.dsgn-field {
+  display: grid;
+  align-content: start; /* never stretch the control when a neighbouring field is taller */
+  gap: var(--dsgn-space-4);
+  min-inline-size: 0;
+}
+.dsgn-label {
+  color: var(--dsgn-text);
+  font-family: var(--dsgn-font-sans);
+  font-size: var(--dsgn-font-size-body-s);
+  line-height: var(--dsgn-line-height-body-s);
+  font-weight: var(--dsgn-font-weight-medium);
+}
+.dsgn-hint {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--dsgn-space-4);
+  margin: 0;
+  color: var(--dsgn-text-muted);
+  font-family: var(--dsgn-font-sans);
+  font-size: var(--dsgn-font-size-caption);
+  line-height: var(--dsgn-line-height-caption);
+}
+.dsgn-hint[data-intent="danger"] { color: var(--dsgn-danger-text); }
+.dsgn-hint .dsgn-icon { --_fill: 1; }

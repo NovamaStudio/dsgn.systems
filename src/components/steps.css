@@ -1,0 +1,89 @@
+/* dsgn · Stepper (progress through a multi-step task)
+ *
+ * <ol class="dsgn-steps" aria-label="New invoice">
+ *   <li data-state="done"><span class="dsgn-steps-label">Client</span></li>
+ *   <li aria-current="step"><span class="dsgn-steps-label">Items</span></li>
+ *   <li><span class="dsgn-steps-label">Review</span></li>
+ * </ol>
+ *
+ * An ordered list, so "3 items" and the position are announced; aria-current="step" marks
+ * where the user is. For a finished step add a hidden word if the check alone is not enough:
+ * <span class="dsgn-visually-hidden">completed</span>.
+ * Marker = one control line-height circle: number (upcoming), accent ring (current),
+ * filled accent with a check (done). Connectors fill the space between.
+ * When the list is narrower than 32rem only the current label stays visible (others are
+ * visually hidden, still read by screen readers).
+ */
+.dsgn-steps {
+  container-type: inline-size;
+  display: flex;
+  align-items: center;
+  gap: var(--dsgn-space-8);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: dsgn-step;
+  color: var(--dsgn-text-muted);
+  font-family: var(--dsgn-font-sans);
+  font-size: var(--dsgn-control-font-size);
+  line-height: var(--dsgn-control-line-height);
+}
+.dsgn-steps > li {
+  counter-increment: dsgn-step;
+  display: flex;
+  align-items: center;
+  gap: var(--dsgn-space-8);
+  flex: 1;
+  min-inline-size: 0;
+}
+.dsgn-steps > li:last-child { flex: none; }
+.dsgn-steps > li::before {
+  content: counter(dsgn-step);
+  box-sizing: border-box;
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  inline-size: var(--dsgn-control-line-height);
+  block-size: var(--dsgn-control-line-height);
+  border-radius: var(--dsgn-radius-full);
+  box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border-strong);
+  font-size: var(--dsgn-font-size-caption);
+  font-weight: var(--dsgn-font-weight-semibold);
+  font-variant-numeric: tabular-nums;
+}
+.dsgn-steps > li:not(:last-child)::after {
+  content: '';
+  flex: 1;
+  min-inline-size: var(--dsgn-space-16);
+  block-size: var(--dsgn-border-width);
+  background: var(--dsgn-border);
+}
+.dsgn-steps-label { min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.dsgn-steps > li[data-state="done"] { color: var(--dsgn-text); }
+.dsgn-steps > li[data-state="done"]::before {
+  content: 'check';
+  background: var(--dsgn-accent-solid);
+  box-shadow: none;
+  color: var(--dsgn-accent-solid-text);
+  font-family: var(--dsgn-font-icon);
+  font-size: var(--dsgn-font-size-body-s);
+  font-feature-settings: 'liga';
+  font-variation-settings: 'FILL' 1, 'wght' 600, 'GRAD' var(--dsgn-icon-grade, 0), 'opsz' 20;
+}
+.dsgn-steps > li[data-state="done"]::after { background: var(--dsgn-accent-solid); }
+.dsgn-steps > li[aria-current="step"] { color: var(--dsgn-text); font-weight: var(--dsgn-font-weight-medium); }
+.dsgn-steps > li[aria-current="step"]::before { box-shadow: inset 0 0 0 var(--dsgn-space-2) var(--dsgn-accent-solid); color: var(--dsgn-accent-text); }
+
+@container (width < 32rem) {
+  .dsgn-steps > li:not([aria-current="step"]) > .dsgn-steps-label {
+    position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap;
+  }
+  .dsgn-steps > li:not([aria-current="step"]) { flex: 0 1 auto; }
+  .dsgn-steps > li:not(:last-child):not([aria-current="step"]) { flex: 1; }
+}
+@media (forced-colors: active) {
+  .dsgn-steps > li::before { outline: 1px solid CanvasText; outline-offset: -1px; }
+  .dsgn-steps > li[data-state="done"]::before { background: Highlight; color: HighlightText; forced-color-adjust: none; }
+  .dsgn-steps > li::after { background: CanvasText; }
+}

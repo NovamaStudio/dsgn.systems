@@ -1,0 +1,80 @@
+/* dsgn · List (rows of people, files, settings, notifications)
+ *
+ * <ul class="dsgn-list" aria-label="Clients">
+ *   <li><a class="dsgn-list-item" href="/clients/7">
+ *     <span class="dsgn-avatar" data-intent="accent" aria-hidden="true">ND</span>
+ *     <span class="dsgn-list-item-content">
+ *       <span class="dsgn-list-item-title">Nona Design</span>
+ *       <span class="dsgn-list-item-text">3 open invoices</span>
+ *     </span>
+ *     <span class="dsgn-list-item-meta">CZK 12 400</span>
+ *     <span class="dsgn-icon" aria-hidden="true">chevron_right</span>
+ *   </a></li>
+ *   <li><div class="dsgn-list-item">…static row with a switch or buttons…</div></li>
+ * </ul>
+ *
+ * Row padding = row-pad-y × inset, so a one-line row is exactly a table row
+ * (line-height + 2 × row-pad-y) even with an avatar or a button in it.
+ * A whole-row link or button gets hover, pressed and an inset focus ring; never nest
+ * another interactive element inside a whole-row link — use a static row instead.
+ * data-variant="plain" drops the surface and outer border (inside a Card or Drawer).
+ */
+.dsgn-list {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow: hidden;
+  border-radius: var(--dsgn-radius-l);
+  background: var(--dsgn-surface-raised);
+  box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border);
+  font-family: var(--dsgn-font-sans);
+}
+.dsgn-list[data-variant="plain"] { overflow: visible; border-radius: 0; background: none; box-shadow: none; }
+.dsgn-list > li { box-shadow: inset 0 calc(-1 * var(--dsgn-border-width)) 0 var(--dsgn-border); }
+.dsgn-list > li:last-child { box-shadow: none; }
+
+.dsgn-list-item {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--dsgn-space-12);
+  inline-size: 100%;
+  margin: 0;
+  padding: var(--dsgn-row-pad-y) var(--dsgn-inset);
+  border: 0;
+  background: transparent;
+  color: var(--dsgn-text);
+  font: inherit;
+  font-size: var(--dsgn-control-font-size);
+  line-height: var(--dsgn-control-line-height);
+  text-align: start;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.dsgn-list[data-variant="plain"] .dsgn-list-item { padding-inline: 0; }
+/* controls taller than a line borrow the row padding, like in Table */
+.dsgn-list-item > :is(.dsgn-avatar:not([data-size]), .dsgn-button, .dsgn-icon-button) { margin-block: calc(-1 * var(--dsgn-control-pad-y)); }
+.dsgn-list-item > .dsgn-icon { color: var(--dsgn-text-muted); }
+.dsgn-list-item-content { display: grid; flex: 1; min-inline-size: 0; }
+.dsgn-list-item-title { font-weight: var(--dsgn-font-weight-medium); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dsgn-list-item-text { color: var(--dsgn-text-muted); font-size: var(--dsgn-font-size-body-s); line-height: var(--dsgn-line-height-body-s); }
+.dsgn-list-item-meta { margin-inline-start: auto; color: var(--dsgn-text-muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+:is(a, button).dsgn-list-item { cursor: pointer; }
+@media (hover: hover) {
+  :is(a, button).dsgn-list-item:hover { background: var(--dsgn-neutral-subtle); }
+  :is(a, button).dsgn-list-item:hover > .dsgn-icon { --_fill: 1; }
+}
+:is(a, button).dsgn-list-item:active { background: var(--dsgn-neutral-subtle-hover); }
+:is(a, button).dsgn-list-item:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: calc(-1 * var(--dsgn-focus-width)); }
+.dsgn-list-item[aria-current]:not([aria-current="false"]) { background: var(--dsgn-accent-subtle); }
+.dsgn-list-item[aria-current]:not([aria-current="false"]) > .dsgn-icon { --_fill: 1; color: var(--dsgn-accent-text); }
+
+@media (prefers-reduced-motion: no-preference) {
+  :is(a, button).dsgn-list-item { transition: background-color var(--dsgn-duration-fast) var(--dsgn-ease); }
+}
+@media (forced-colors: active) {
+  .dsgn-list { outline: 1px solid CanvasText; }
+  .dsgn-list > li { border-block-end: 1px solid CanvasText; }
+}

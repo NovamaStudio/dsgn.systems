@@ -1,0 +1,73 @@
+/* dsgn · Tabs (needs dsgn.js for keyboard support)
+ *
+ * <div class="dsgn-tabs">
+ *   <div role="tablist" aria-label="Invoice">
+ *     <button role="tab" class="dsgn-tab" aria-selected="true" aria-controls="p1" id="t1">Overview</button>
+ *     <button role="tab" class="dsgn-tab" aria-selected="false" aria-controls="p2" id="t2" tabindex="-1">History</button>
+ *   </div>
+ *   <div role="tabpanel" id="p1" aria-labelledby="t1" class="dsgn-tabpanel">…</div>
+ *   <div role="tabpanel" id="p2" aria-labelledby="t2" class="dsgn-tabpanel" hidden>…</div>
+ * </div>
+ *
+ * Tab height = control height. The selected tab has a 2 px accent indicator and a filled icon.
+ * Arrow keys move between tabs, Home/End jump to the ends (automatic activation).
+ */
+.dsgn-tabs { display: grid; gap: var(--dsgn-stack); min-inline-size: 0; }
+.dsgn-tabs > [role="tablist"] {
+  display: flex;
+  gap: var(--dsgn-space-4);
+  overflow-x: auto;
+  scrollbar-width: none;
+  box-shadow: inset 0 calc(-1 * var(--dsgn-border-width)) 0 var(--dsgn-border);
+}
+.dsgn-tab {
+  box-sizing: border-box;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dsgn-control-gap);
+  flex: none;
+  margin: 0;
+  padding: var(--dsgn-control-pad-y) var(--dsgn-control-pad-x);
+  border: 0;
+  border-radius: var(--dsgn-radius-m) var(--dsgn-radius-m) 0 0;
+  background: transparent;
+  color: var(--dsgn-text-muted);
+  font-family: var(--dsgn-font-sans);
+  font-size: var(--dsgn-control-font-size);
+  line-height: var(--dsgn-control-line-height);
+  font-weight: var(--dsgn-font-weight-medium);
+  white-space: nowrap;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.dsgn-tab::after {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: 0;
+  block-size: var(--dsgn-space-2);
+  border-radius: var(--dsgn-radius-full);
+  background: transparent;
+}
+@media (hover: hover) {
+  .dsgn-tab:hover { color: var(--dsgn-text); }
+  .dsgn-tab:hover::after { background: var(--dsgn-border); }
+}
+.dsgn-tab[aria-selected="true"] { color: var(--dsgn-text); }
+.dsgn-tab[aria-selected="true"]::after { background: var(--dsgn-accent-solid); }
+.dsgn-tab[aria-selected="true"] .dsgn-icon { --_fill: 1; }
+.dsgn-tab:focus-visible {
+  outline: var(--dsgn-focus-width) solid var(--dsgn-focus);
+  outline-offset: calc(-1 * var(--dsgn-focus-width));
+}
+.dsgn-tab:disabled { color: var(--dsgn-text-disabled); cursor: not-allowed; }
+
+.dsgn-tabpanel { min-inline-size: 0; border-radius: var(--dsgn-radius-s); }
+.dsgn-tabpanel:focus-visible {
+  outline: var(--dsgn-focus-width) solid var(--dsgn-focus);
+  outline-offset: var(--dsgn-focus-offset);
+}
+@media (forced-colors: active) {
+  .dsgn-tab[aria-selected="true"]::after { background: Highlight; }
+}

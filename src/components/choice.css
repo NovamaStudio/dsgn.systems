@@ -1,0 +1,145 @@
+/* dsgn · Checkbox, Radio, Switch
+ *
+ * <label class="dsgn-choice"><input type="checkbox" class="dsgn-checkbox"> Send me invoices</label>
+ * <label class="dsgn-choice"><input type="radio" class="dsgn-radio" name="plan"> Monthly</label>
+ * <label class="dsgn-choice"><input type="checkbox" role="switch" class="dsgn-switch"> Dark mode</label>
+ *
+ * Native inputs, restyled. The whole label is the click target and is exactly one control
+ * height tall (line-height + 2 × pad-y), so a checkbox row lines up with a button or input.
+ * Checkbox/radio box = control-indicator; switch track = line-height tall, line-height + indicator wide.
+ * States: :hover, :focus-visible, :checked, :indeterminate (checkbox), aria-invalid, :disabled.
+ */
+
+.dsgn-choice {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: var(--dsgn-control-gap);
+  padding-block: var(--dsgn-control-pad-y);
+  color: var(--dsgn-text);
+  font-family: var(--dsgn-font-sans);
+  font-size: var(--dsgn-control-font-size);
+  line-height: var(--dsgn-control-line-height);
+  font-weight: var(--dsgn-font-weight-regular);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.dsgn-choice:has(:disabled) { color: var(--dsgn-text-disabled); cursor: not-allowed; }
+
+/* ── checkbox + radio ────────────────────────────────────────────────────── */
+.dsgn-checkbox,
+.dsgn-radio {
+  --_size: var(--dsgn-control-indicator);
+  --_border: var(--dsgn-border-strong);
+  -webkit-appearance: none;
+  appearance: none;
+  box-sizing: border-box;
+  flex: none;
+  display: inline-grid;
+  place-content: center;
+  inline-size: var(--_size);
+  block-size: var(--_size);
+  margin: calc((var(--dsgn-control-line-height) - var(--_size)) / 2) 0; /* centred on the first text line */
+  border: 0;
+  border-radius: var(--dsgn-radius-s);
+  background: var(--dsgn-surface-raised);
+  box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--_border);
+  color: var(--dsgn-accent-solid-text);
+  cursor: pointer;
+}
+.dsgn-radio { border-radius: var(--dsgn-radius-full); }
+
+/* check / dash drawn with the icon font, same as Figma */
+.dsgn-checkbox::after {
+  content: '';
+  font-family: var(--dsgn-font-icon);
+  font-size: var(--_size);
+  line-height: 1;
+  font-feature-settings: 'liga';
+  font-variation-settings: 'FILL' 1, 'wght' 600, 'GRAD' var(--dsgn-icon-grade, 0), 'opsz' 20;
+  -webkit-font-smoothing: antialiased;
+}
+.dsgn-checkbox:checked::after { content: 'check'; }
+.dsgn-checkbox:indeterminate::after { content: 'remove'; }
+
+.dsgn-checkbox:is(:checked, :indeterminate) {
+  background: var(--dsgn-accent-solid);
+  box-shadow: none;
+}
+.dsgn-radio:checked {
+  background: var(--dsgn-accent-solid-text);
+  box-shadow: inset 0 0 0 var(--dsgn-space-4) var(--dsgn-accent-solid);
+}
+
+@media (hover: hover) {
+  .dsgn-choice:hover > :is(.dsgn-checkbox, .dsgn-radio):not(:disabled),
+  :is(.dsgn-checkbox, .dsgn-radio):not(:disabled):hover { --_border: var(--dsgn-text-muted); }
+  .dsgn-choice:hover > .dsgn-checkbox:is(:checked, :indeterminate):not(:disabled),
+  .dsgn-checkbox:is(:checked, :indeterminate):not(:disabled):hover { background: var(--dsgn-accent-solid-hover); }
+  .dsgn-choice:hover > .dsgn-radio:checked:not(:disabled),
+  .dsgn-radio:checked:not(:disabled):hover { box-shadow: inset 0 0 0 var(--dsgn-space-4) var(--dsgn-accent-solid-hover); }
+}
+:is(.dsgn-checkbox, .dsgn-radio)[aria-invalid="true"] { --_border: var(--dsgn-danger-solid); }
+
+:is(.dsgn-checkbox, .dsgn-radio):disabled {
+  --_border: var(--dsgn-border);
+  background: var(--dsgn-neutral-subtle);
+  cursor: not-allowed;
+}
+.dsgn-checkbox:disabled:is(:checked, :indeterminate) { background: var(--dsgn-neutral-subtle-pressed); color: var(--dsgn-text-disabled); }
+.dsgn-radio:disabled:checked { background: var(--dsgn-text-disabled); box-shadow: inset 0 0 0 var(--dsgn-space-4) var(--dsgn-neutral-subtle-pressed); }
+
+/* ── switch ──────────────────────────────────────────────────────────────── */
+.dsgn-switch {
+  --_h: var(--dsgn-control-line-height);
+  --_thumb: var(--dsgn-control-indicator);
+  -webkit-appearance: none;
+  appearance: none;
+  box-sizing: border-box;
+  position: relative;
+  flex: none;
+  inline-size: calc(var(--_h) + var(--_thumb));
+  block-size: var(--_h);
+  margin: 0;
+  border: 0;
+  border-radius: var(--dsgn-radius-full);
+  background: var(--dsgn-neutral-subtle);
+  box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border-strong);
+  cursor: pointer;
+}
+.dsgn-switch::before {
+  content: '';
+  position: absolute;
+  inset-block-start: calc((var(--_h) - var(--_thumb)) / 2);
+  inset-inline-start: calc((var(--_h) - var(--_thumb)) / 2);
+  inline-size: var(--_thumb);
+  block-size: var(--_thumb);
+  border-radius: var(--dsgn-radius-full);
+  background: var(--dsgn-neutral-text);
+}
+.dsgn-switch:checked { background: var(--dsgn-accent-solid); box-shadow: none; }
+.dsgn-switch:checked::before { background: var(--dsgn-accent-solid-text); translate: var(--_thumb) 0; }
+.dsgn-switch:checked:dir(rtl)::before { translate: calc(-1 * var(--_thumb)) 0; }
+@media (hover: hover) {
+  .dsgn-choice:hover > .dsgn-switch:checked:not(:disabled),
+  .dsgn-switch:checked:not(:disabled):hover { background: var(--dsgn-accent-solid-hover); }
+}
+.dsgn-switch:disabled { background: var(--dsgn-neutral-subtle); box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border); cursor: not-allowed; }
+.dsgn-switch:disabled::before { background: var(--dsgn-text-disabled); }
+.dsgn-switch:disabled:checked { background: var(--dsgn-neutral-subtle-pressed); box-shadow: none; }
+.dsgn-switch:disabled:checked::before { background: var(--dsgn-surface-raised); }
+
+/* ── shared ──────────────────────────────────────────────────────────────── */
+:is(.dsgn-checkbox, .dsgn-radio, .dsgn-switch):focus-visible {
+  outline: var(--dsgn-focus-width) solid var(--dsgn-focus);
+  outline-offset: var(--dsgn-focus-offset);
+}
+@media (prefers-reduced-motion: no-preference) {
+  :is(.dsgn-checkbox, .dsgn-radio, .dsgn-switch) { transition: background-color var(--dsgn-duration-fast) var(--dsgn-ease), box-shadow var(--dsgn-duration-fast) var(--dsgn-ease); }
+  .dsgn-switch::before { transition: translate var(--dsgn-duration) var(--dsgn-ease), background-color var(--dsgn-duration-fast) var(--dsgn-ease); }
+}
+@media (forced-colors: active) {
+  :is(.dsgn-checkbox, .dsgn-radio, .dsgn-switch) { outline: 1px solid FieldText; outline-offset: -1px; }
+  :is(.dsgn-checkbox, .dsgn-radio, .dsgn-switch):checked { background: Highlight; forced-color-adjust: none; }
+  .dsgn-switch::before { background: FieldText; forced-color-adjust: none; }
+  .dsgn-switch:checked::before { background: HighlightText; }
+}

@@ -1,0 +1,46 @@
+/* dsgn · Badge
+ *
+ * <span class="dsgn-badge">Draft</span>                                   subtle · neutral (defaults)
+ * <span class="dsgn-badge" data-intent="success">Paid</span>
+ * <span class="dsgn-badge" data-intent="danger" data-variant="solid">Overdue</span>
+ * <span class="dsgn-badge" data-intent="warning"><span class="dsgn-icon" aria-hidden="true">schedule</span>Due soon</span>
+ *
+ * data-intent   neutral (default) | accent | success | warning | danger
+ * data-variant  subtle (default) | solid
+ * Status label, not interactive. Caption type, fixed size (does not follow Density): 16 + 2 × 2 = 20 px.
+ */
+.dsgn-badge {
+  --_subtle: var(--dsgn-neutral-subtle);
+  --_text: var(--dsgn-neutral-text);
+  --_solid: var(--dsgn-neutral-solid);
+  --_on-solid: var(--dsgn-neutral-solid-text);
+  --_bg: var(--_subtle);
+  --_fg: var(--_text);
+
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dsgn-space-4);
+  padding: var(--dsgn-space-2) var(--dsgn-space-8);
+  border-radius: var(--dsgn-radius-m);
+  background: var(--_bg);
+  color: var(--_fg);
+  font-family: var(--dsgn-font-sans);
+  font-size: var(--dsgn-font-size-caption);
+  line-height: var(--dsgn-line-height-caption);
+  font-weight: var(--dsgn-font-weight-medium);
+  white-space: nowrap;
+  vertical-align: middle;
+}
+.dsgn-badge:has(> .dsgn-icon:first-child) { padding-inline-start: var(--dsgn-space-4); }
+.dsgn-badge > .dsgn-icon { --_fill: 1; }
+
+.dsgn-badge[data-intent="accent"]  { --_subtle: var(--dsgn-accent-subtle);  --_text: var(--dsgn-accent-text);  --_solid: var(--dsgn-accent-solid);  --_on-solid: var(--dsgn-accent-solid-text); }
+.dsgn-badge[data-intent="success"] { --_subtle: var(--dsgn-success-subtle); --_text: var(--dsgn-success-text); --_solid: var(--dsgn-success-solid); --_on-solid: var(--dsgn-success-solid-text); }
+.dsgn-badge[data-intent="warning"] { --_subtle: var(--dsgn-warning-subtle); --_text: var(--dsgn-warning-text); --_solid: var(--dsgn-warning-solid); --_on-solid: var(--dsgn-warning-solid-text); }
+.dsgn-badge[data-intent="danger"]  { --_subtle: var(--dsgn-danger-subtle);  --_text: var(--dsgn-danger-text);  --_solid: var(--dsgn-danger-solid);  --_on-solid: var(--dsgn-danger-solid-text); }
+.dsgn-badge[data-variant="solid"]  { --_bg: var(--_solid); --_fg: var(--_on-solid); }
+
+@media (forced-colors: active) {
+  .dsgn-badge { outline: 1px solid CanvasText; outline-offset: -1px; }
+}

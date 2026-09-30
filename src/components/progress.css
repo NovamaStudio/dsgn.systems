@@ -1,0 +1,90 @@
+/* dsgn · Progress + Spinner
+ *
+ * <progress class="dsgn-progress" value="64" max="100" aria-labelledby="up-label">64 %</progress>
+ * <progress class="dsgn-progress" aria-label="Loading invoices"></progress>          indeterminate
+ * <progress class="dsgn-progress" data-intent="danger" value="92" max="100">…</progress>
+ *
+ * In a Field: <div class="dsgn-field"><label class="dsgn-label" id="up-label">Uploading</label>
+ *   <progress …></progress><p class="dsgn-hint">3.2 of 5 MB</p></div>
+ *
+ * Native <progress>, so screen readers get the value for free. Bar = space-4 tall, corners
+ * follow radius-s. data-intent: accent (default) | success | warning | danger.
+ * The indicator is ≥ 3:1 against the track and the surface in every theme.
+ *
+ * Spinner: <span class="dsgn-spinner" role="status" aria-label="Loading"></span>
+ * Size = 1 line-height of its context, stroke = space-2, colour = currentColor.
+ * Busy button: <button class="dsgn-button" aria-busy="true">
+ *   <span class="dsgn-spinner" aria-hidden="true"></span>Saving…</button>
+ * It keeps its colours (it is working, not unavailable) and ignores pointer input;
+ * the app should also ignore repeat submits while busy.
+ */
+.dsgn-progress {
+  --_bar: var(--dsgn-accent-solid);
+  -webkit-appearance: none;
+  appearance: none;
+  box-sizing: border-box;
+  display: block;
+  inline-size: 100%;
+  block-size: var(--dsgn-space-4);
+  margin: 0;
+  border: 0;
+  border-radius: var(--dsgn-radius-s);
+  background: var(--dsgn-neutral-subtle);
+  color: var(--_bar);
+  overflow: hidden;
+}
+.dsgn-progress[data-intent="success"] { --_bar: var(--dsgn-success-solid); }
+.dsgn-progress[data-intent="warning"] { --_bar: var(--dsgn-warning-solid); }
+.dsgn-progress[data-intent="danger"]  { --_bar: var(--dsgn-danger-solid); }
+
+.dsgn-progress::-webkit-progress-bar { background: transparent; }
+.dsgn-progress::-webkit-progress-value { background: var(--_bar); border-radius: inherit; }
+.dsgn-progress::-moz-progress-bar { background: var(--_bar); border-radius: var(--dsgn-radius-s); }
+
+/* indeterminate: a third of the track slides across */
+.dsgn-progress:indeterminate {
+  background:
+    linear-gradient(var(--_bar), var(--_bar)) 0 0 / 34% 100% no-repeat,
+    var(--dsgn-neutral-subtle);
+}
+.dsgn-progress:indeterminate::-webkit-progress-bar { background: transparent; }
+.dsgn-progress:indeterminate::-moz-progress-bar { background: transparent; }
+@media (prefers-reduced-motion: no-preference) {
+  .dsgn-progress::-webkit-progress-value { transition: inline-size var(--dsgn-duration) var(--dsgn-ease); }
+  .dsgn-progress:indeterminate { animation: dsgn-progress-slide 1.4s var(--dsgn-ease) infinite; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dsgn-progress:indeterminate { animation: dsgn-progress-slide 3s linear infinite; }
+}
+@keyframes dsgn-progress-slide {
+  from { background-position: -50% 0, 0 0; }
+  to { background-position: 150% 0, 0 0; }
+}
+
+/* ── Spinner ─────────────────────────────────────────────────────────────── */
+.dsgn-spinner {
+  box-sizing: border-box;
+  display: inline-block;
+  flex: none;
+  inline-size: 1lh;
+  block-size: 1lh;
+  border: var(--dsgn-space-2) solid currentColor;
+  border-inline-end-color: transparent;
+  border-radius: var(--dsgn-radius-full);
+  vertical-align: middle;
+  animation: dsgn-spin 0.8s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .dsgn-spinner { animation-duration: 2s; }
+}
+@keyframes dsgn-spin { to { rotate: 1turn; } }
+
+/* busy button: keeps its look, stops reacting to the pointer; an icon button swaps its icon for the spinner */
+:is(.dsgn-button, .dsgn-icon-button)[aria-busy="true"] { cursor: progress; pointer-events: none; }
+.dsgn-icon-button[aria-busy="true"] > .dsgn-icon { display: none; }
+
+@media (forced-colors: active) {
+  .dsgn-progress { outline: 1px solid CanvasText; }
+  .dsgn-progress::-webkit-progress-value { background: Highlight; }
+  .dsgn-progress::-moz-progress-bar { background: Highlight; }
+}

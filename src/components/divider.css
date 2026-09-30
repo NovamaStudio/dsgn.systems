@@ -1,0 +1,41 @@
+/* dsgn · Divider
+ *
+ * <hr class="dsgn-divider">                                          horizontal, margin = stack
+ * <hr class="dsgn-divider" data-orientation="vertical">              inside a Cluster / toolbar
+ * <div class="dsgn-divider" role="separator"><span>or</span></div>   with a label
+ *
+ * A hairline in the border colour. Decorative lines inside components use box-shadow;
+ * use this only between independent blocks. Vertical dividers stretch to the row height.
+ */
+.dsgn-divider {
+  box-sizing: border-box;
+  flex: none;
+  block-size: var(--dsgn-border-width);
+  margin: var(--dsgn-stack) 0;
+  border: 0;
+  background: var(--dsgn-border);
+}
+.dsgn-divider[data-orientation="vertical"] {
+  align-self: stretch;
+  inline-size: var(--dsgn-border-width);
+  block-size: auto;
+  min-block-size: var(--dsgn-control-line-height);
+  margin: 0;
+}
+.dsgn-divider:not(:empty) {
+  display: flex;
+  align-items: center;
+  gap: var(--dsgn-space-12);
+  block-size: auto;
+  background: none;
+  color: var(--dsgn-text-muted);
+  font-family: var(--dsgn-font-sans);
+  font-size: var(--dsgn-font-size-caption);
+  line-height: var(--dsgn-line-height-caption);
+}
+.dsgn-divider:not(:empty)::before,
+.dsgn-divider:not(:empty)::after { content: ''; flex: 1; block-size: var(--dsgn-border-width); background: var(--dsgn-border); }
+@media (forced-colors: active) {
+  .dsgn-divider:empty { background: CanvasText; }
+  .dsgn-divider:not(:empty)::before, .dsgn-divider:not(:empty)::after { background: CanvasText; }
+}

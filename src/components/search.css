@@ -1,0 +1,82 @@
+/* dsgn · Search field, Number input, Kbd — additions to the Input wrapper
+ *
+ * Search (clear button needs dsgn.js; "/" focuses the field that has data-dsgn-shortcut="/"):
+ * <form class="dsgn-input dsgn-search" role="search" aria-label="Invoices" action="/invoices">
+ *   <span class="dsgn-icon" aria-hidden="true">search</span>
+ *   <input type="search" name="q" aria-label="Search invoices" placeholder="Search invoices" data-dsgn-shortcut="/">
+ *   <button type="button" class="dsgn-field-button dsgn-search-clear" aria-label="Clear search"><span class="dsgn-icon" aria-hidden="true">close</span></button>
+ *   <kbd class="dsgn-kbd" aria-hidden="true">/</kbd>
+ * </form>
+ * The clear button shows only when there is text (needs a placeholder, :placeholder-shown).
+ * role="search" is a landmark: give each one a distinct aria-label when a page has more than one.
+ * The shortcut hint hides while the field is focused or filled.
+ *
+ * Number input (steps need dsgn.js; they disable themselves at min / max):
+ * <div class="dsgn-input dsgn-number">
+ *   <button type="button" class="dsgn-field-button" data-step="down" aria-label="Fewer days"><span class="dsgn-icon" aria-hidden="true">remove</span></button>
+ *   <input type="number" id="days" value="14" min="1" max="90" inputmode="numeric">
+ *   <button type="button" class="dsgn-field-button" data-step="up" aria-label="More days"><span class="dsgn-icon" aria-hidden="true">add</span></button>
+ * </div>
+ *
+ * Field buttons are 1 line-height square (so the field keeps the control height) with a
+ * hit area grown by pad-y on every side: a full control height, well above 24 × 24 (WCAG 2.5.8).
+ */
+.dsgn-search > input::-webkit-search-cancel-button,
+.dsgn-search > input::-webkit-search-decoration { -webkit-appearance: none; appearance: none; }
+.dsgn-search:has(> input:placeholder-shown) > .dsgn-search-clear { display: none; }
+.dsgn-search:is(:focus-within, :has(> input:not(:placeholder-shown))) > .dsgn-kbd { display: none; }
+
+.dsgn-field-button {
+  all: unset;
+  position: relative;
+  box-sizing: border-box;
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  inline-size: var(--dsgn-control-line-height);
+  block-size: var(--dsgn-control-line-height);
+  border-radius: var(--dsgn-radius-s);
+  color: var(--dsgn-text-muted);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.dsgn-field-button::before { content: ''; position: absolute; inset: calc(-1 * var(--dsgn-control-pad-y)); }
+@media (hover: hover) {
+  .dsgn-field-button:not(:disabled):hover { color: var(--dsgn-text); }
+  .dsgn-field-button:not(:disabled):hover > .dsgn-icon { --_fill: 1; }
+}
+.dsgn-field-button:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: var(--dsgn-space-2); }
+.dsgn-field-button:disabled { color: var(--dsgn-text-disabled); cursor: not-allowed; }
+.dsgn-input > .dsgn-field-button > .dsgn-icon { color: inherit; }
+
+/* number: step buttons sit at pad-y from the edge, like an icon button would */
+.dsgn-number { display: inline-flex; justify-self: start; inline-size: auto; padding-inline: var(--dsgn-control-pad-y); }
+.dsgn-number > input {
+  flex: 1 1 auto;
+  inline-size: 4ch;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  -moz-appearance: textfield;
+}
+.dsgn-number > input::-webkit-inner-spin-button,
+.dsgn-number > input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+
+/* keyboard key */
+.dsgn-kbd {
+  box-sizing: border-box;
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  min-inline-size: var(--dsgn-line-height-caption);
+  padding-inline: var(--dsgn-space-4);
+  border-radius: var(--dsgn-radius-s);
+  box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border-strong);
+  color: var(--dsgn-text-muted);
+  font-family: var(--dsgn-font-sans);
+  font-size: var(--dsgn-font-size-caption);
+  line-height: var(--dsgn-line-height-caption);
+  font-weight: var(--dsgn-font-weight-medium);
+}
+@media (forced-colors: active) {
+  .dsgn-kbd { outline: 1px solid CanvasText; outline-offset: -1px; }
+}
