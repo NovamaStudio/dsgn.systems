@@ -2,6 +2,18 @@
 
 One version for the npm package and the Figma library. [Semantic versioning](https://semver.org): patch = fix, minor = addition, major = rename or removal (with migration notes).
 
+## 0.10.0 — 2026-09-30
+
+### Added
+- Project themes: `dsgn theme --init` and `dsgn theme` turn a small `dsgn.theme.mjs` (brand hex or hue + chroma per palette, font, default corners and density) into `dsgn.theme.css`, with the contrast check. Also writes a Figma script that adds the theme as a mode in Primitives.
+- Theme customizer page in the documentation: the same engine in the browser, with a live light / dark preview and the files to copy.
+- `dsgn.systems/theme` export (`resolveTheme`, `themeCss`, `checkContrast`, `hexToOklch`, …) for build tools.
+- `--dsgn-brand`: the exact brand colour for logos and illustrations (outside the contrast contract).
+- Cascade layer `dsgn.theme` between `dsgn.tokens` and `dsgn.components`.
+
+### Changed
+- Hint text flows inline (code, links); the icon layout applies only when the hint starts with an icon.
+
 ## 0.9.0 — 2026-09-29
 
 First packaged release, ahead of 1.0.

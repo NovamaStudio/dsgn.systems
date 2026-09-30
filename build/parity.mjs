@@ -5,7 +5,8 @@
 // run `node build/parity.mjs --report figma/parity-report.json` to turn it into Markdown.
 //
 // What is compared
-//   collections  name, mode names and ORDER (the first mode is the default)
+//   collections  name, mode names and ORDER (the first mode is the default); extra modes after
+//                them in Primitives / Typography are project themes and are only listed
 //   variables    existence both ways, type, scopes, WEB code syntax, value per mode
 //                (colours within 1/255 per channel, numbers exactly, aliases by target name)
 //   text styles  existence, font family + weight, variable bindings of size and line-height
@@ -16,7 +17,7 @@ const arg = (k) => { const i = process.argv.indexOf(k); return i > 0 ? process.a
 if (arg('--report')) {
   const r = JSON.parse(readFileSync(arg('--report'), 'utf8'));
   const lines = [`# Figma ↔ code parity`, '', `Checked ${new Date(r.checkedAt).toISOString().slice(0, 16).replace('T', ' ')} UTC · ${r.ok ? '**in sync**' : `**${r.mismatches.length} differences**`}`, '',
-    '| What | Checked |', '|---|---|', ...Object.entries(r.summary).map(([k, n]) => `| ${k} | ${n} |`), ''];
+    '| What | Checked |', '|---|---|', ...Object.entries(r.summary).map(([k, n]) => `| ${k} | ${Array.isArray(n) ? n.join(', ') : n} |`), ''];
   if (r.mismatches.length) {
     lines.push('| Where | Problem | Code | Figma |', '|---|---|---|---|');
     for (const m of r.mismatches) lines.push(`| ${m.where} | ${m.problem} | ${m.code ?? ''} | ${m.figma ?? ''} |`);
@@ -57,7 +58,11 @@ for (const ec of EXPECTED.collections) {
   const fc = cols.find((c) => c.name === ec.name);
   if (!fc) { miss(ec.name, 'collection missing in Figma', ec.modes.join(', '), '—'); continue; }
   const fm = fc.modes.map((m) => m.name);
-  if (fm.join('|') !== ec.modes.join('|')) miss(ec.name, 'modes or their order differ (first = default)', ec.modes.join(', '), fm.join(', '));
+  // project themes (dsgn theme) add modes after the package's own ones in Primitives and Typography
+  const themeable = ec.name === 'Primitives' || ec.name === 'Typography';
+  const extra = fm.slice(ec.modes.length);
+  if (fm.slice(0, ec.modes.length).join('|') !== ec.modes.join('|') || (extra.length && !themeable)) miss(ec.name, 'modes or their order differ (first = default)', ec.modes.join(', '), fm.join(', '));
+  else if (extra.length) summary['theme modes'] = [...new Set([...(summary['theme modes'] || []), ...extra])];
   const fvars = vars.filter((v) => v.variableCollectionId === fc.id);
   for (const ev of ec.variables) {
     summary.variables++;

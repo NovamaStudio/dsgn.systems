@@ -271,7 +271,7 @@ for (const f of comps) {
 if (lint.length) { for (const l of lint) console.error(`✗ lint ${l.file}:${l.line} [${l.rule}] ${l.message}`); process.exit(1); }
 // Cascade layers: everything dsgn ships sits in @layer dsgn.*, so any unlayered project CSS wins
 // without specificity games. Order: tokens < components < (project).
-const LAYERS = '@layer dsgn.tokens, dsgn.components;\n';
+const LAYERS = '@layer dsgn.tokens, dsgn.theme, dsgn.components;\n';   // dsgn.theme: reserved for a project theme (dsgn theme)
 const tokensLayered = `${LAYERS}@layer dsgn.tokens {\n${tokensCss}\n}\n`;
 const compsLayered = `@layer dsgn.components {\n${bundle.join('\n')}\n}\n`;
 out('dsgn.tokens.css', tokensLayered);

@@ -1,26 +1,9 @@
 import { resolve, contrast } from '../src/color.mjs';
 import { ladder, palettes, semanticColor, contrastPairs, guarantee } from '../src/tokens.config.mjs';
 
-export function buildPalette({ h, c }) {
-  const out = {};
-  for (const s of ladder) out[s.step] = resolve(s.L, c * s.chroma, h);
-  return out;
-}
-
-export function buildPrimitives(pals = palettes) {
-  const out = {};
-  for (const [name, p] of Object.entries(pals)) out[name] = buildPalette(p);
-  return out;
-}
-
-export function resolveSemantic(prims, theme) {
-  const out = {};
-  for (const [name, def] of Object.entries(semanticColor)) {
-    const [pal, step] = def[theme];
-    out[name] = { ref: [pal, step], color: prims[pal][step] };
-  }
-  return out;
-}
+// buildPalette / buildPrimitives / resolveSemantic live in src/theme.mjs (shipped, shared with the CLI and the customizer)
+export { buildPalette, buildPrimitives, resolveSemantic } from '../src/theme.mjs';
+import { buildPrimitives, resolveSemantic } from '../src/theme.mjs';
 
 const Ycache = new Map();
 function Yof(L, C, h) {

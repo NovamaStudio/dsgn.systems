@@ -32,7 +32,7 @@ Načíst `dsgn.css` (a `dsgn.js`, pokud stránka má taby, menu, tooltipy, toast
    - odstín a sytost pro akcent, neutrál a stavové barvy (chyba, úspěch, varování),
    - písmo, výchozí zaoblení, výchozí denzita.
 
-   `npx dsgn build` vygeneruje CSS projektu a proměnné pro Figmu a **spustí kontrolu kontrastu**. Když barva klienta kontrast nezvládne, build selže a řekne, který pár a o kolik.
+   `npx dsgn theme` (poprvé `npx dsgn theme --init`) vygeneruje `dsgn.theme.css` a skript pro Figmu a **spustí kontrolu kontrastu**. Barva se zadává jako hex značky nebo odstín + sytost; světlost stupňů je pevná, takže kontrast drží pro každý odstín. Sytost nad rámec záruky se sníží a příkaz to vypíše. Totéž v prohlížeči s živým náhledem: stránka **Theme customizer** v dokumentaci.
 2. **Atributy za běhu**: `data-theme`, `data-density`, `data-radius` na celé stránce i na jedné sekci. Příklad: aplikace v S, marketingový web v L, tmavý pás uprostřed světlé stránky.
 3. **Přepsání sémantického tokenu** (např. `--dsgn-surface-raised`) v CSS projektu. Jen výjimečně, obchází kontrolu kontrastu.
 4. **Zdokumentované háčky komponent**:

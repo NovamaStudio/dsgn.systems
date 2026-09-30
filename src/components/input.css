@@ -141,9 +141,7 @@ textarea.dsgn-input {
   font-weight: var(--dsgn-font-weight-medium);
 }
 .dsgn-hint {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--dsgn-space-4);
+  display: block;               /* plain text with inline code or links flows normally */
   margin: 0;
   color: var(--dsgn-text-muted);
   font-family: var(--dsgn-font-sans);
@@ -151,4 +149,9 @@ textarea.dsgn-input {
   line-height: var(--dsgn-line-height-caption);
 }
 .dsgn-hint[data-intent="danger"] { color: var(--dsgn-danger-text); }
+.dsgn-hint:has(> .dsgn-icon) {    /* icon + text: icon stays top-left, text wraps beside it */
+  display: flex;
+  align-items: flex-start;
+  gap: var(--dsgn-space-4);
+}
 .dsgn-hint .dsgn-icon { --_fill: 1; }

@@ -8,6 +8,7 @@ import { readFileSync, readdirSync, writeFileSync, existsSync } from 'node:fs';
 import * as T from '../src/tokens.config.mjs';
 import { components, groups, leads } from '../src/docs/examples.mjs';
 import { buildPrimitives, resolveSemantic } from './palette.mjs';
+import { customizerPage } from './customizer.mjs';
 
 const read = (p) => readFileSync(new URL(p, import.meta.url), 'utf8');
 const pkg = JSON.parse(read('../package.json'));
@@ -204,6 +205,10 @@ pages.unshift(...guides.map((p) => {
   return { ...p, section: 'Guides', html: `<div class="dsgn-page-header"><h1 class="dsgn-page-header-title" tabindex="-1">${p.title}</h1>${lead}</div>${rest}` };
 }));
 
+// theme customizer (after Customising)
+const themeTool = customizerPage({ ic, esc });
+pages.splice(pages.findIndex((p) => p.id === 'customise') + 1, 0, { id: 'theme', title: 'Theme customizer', section: 'Guides', html: themeTool.html });
+
 // components index
 pages.push({ id: 'components', section: 'Hidden', title: 'Components', html: `<div class="dsgn-page-header"><h1 class="dsgn-page-header-title" tabindex="-1">Components</h1><p class="dsgn-lead">Every component is one CSS file; ${compFiles.length} in total.</p></div>
   ${groups.map((g) => `<section class="docs-block" aria-label="${g}"><h2 class="dsgn-title">${g}</h2><ul class="dsgn-list" aria-label="${g}">${compFiles.filter((f) => components[f].group === g).map((f) => `<li><a class="dsgn-list-item" href="#${f}"><span class="dsgn-list-item-content"><span class="dsgn-list-item-title">${esc(components[f].name)}</span><span class="dsgn-list-item-text">${esc(parseHeader(read(`../src/components/${f}.css`)).prose[0] || '').slice(0, 110)}</span></span>${ic('chevron_right')}</a></li>`).join('')}</ul></section>`).join('')}` });
@@ -263,7 +268,7 @@ const html = `<title>dsgn documentation</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=${[...icons].sort().join(',')}&display=block">
 <style>
-@layer docs, dsgn.tokens, dsgn.components;
+@layer docs, dsgn.tokens, dsgn.theme, dsgn.components;
 ${css}
 /* Docs chrome: built from dsgn tokens; sits in the lowest layer so components always win. */
 @layer docs {
@@ -307,7 +312,7 @@ ${css}
   .docs-space > div { display: grid; grid-template-columns: calc(3 * var(--dsgn-space-48)) auto 1fr; gap: var(--dsgn-space-12); align-items: center; }
   .docs-space i { display: block; block-size: var(--dsgn-space-12); background: var(--dsgn-accent-solid); border-radius: var(--dsgn-radius-s); }
   @media (width < 40rem) { .docs-space > div { grid-template-columns: 1fr auto; } .docs-space code { grid-column: 1 / -1; } }
-  @media (width >= 64rem) { .docs-sidebar .dsgn-nav { overflow-y: auto; } }
+  @media (width >= 64rem) { .docs-sidebar .dsgn-nav { overflow-y: auto; } }${themeTool.styles}
 }
 /* unlayered: beats the host page's body reset, and the few places where docs chrome adjusts a component */
 [hidden] { display: none !important; }
@@ -382,6 +387,7 @@ ${js}
     }
   });
 })();
+${themeTool.script}
 </script>
 </body>`;
 writeFileSync(new URL('../dist/docs.html', import.meta.url), html);
