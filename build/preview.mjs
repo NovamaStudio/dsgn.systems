@@ -2,6 +2,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import * as T from '../src/tokens.config.mjs';
 import { validate } from './palette.mjs';
+import { roleRefs, ROLES } from '../src/theme.mjs';
 
 const css = readFileSync(new URL('../dist/dsgn.css', import.meta.url), 'utf8');
 const dsgnjs = readFileSync(new URL('../src/js/dsgn.js', import.meta.url), 'utf8');
@@ -32,7 +33,9 @@ const ICONS = ['add', 'arrow_downward', 'arrow_forward', 'arrow_upward', 'check'
 const data = {
   ladder: T.ladder, palettes: T.palettes, guarantee: T.guarantee,
   semantic: T.semanticColor, pairs: T.contrastPairs(), worst,
-  density: T.density, radius: T.radius,
+  density: T.density, radius: T.radius, elevation: T.elevation,
+  roleNames: ROLES,
+  roles: { default: roleRefs({ accentFill: 'default' }), strong: roleRefs({ accentFill: 'strong' }), stronger: roleRefs({ accentFill: 'stronger' }), mono: roleRefs({ controls: 'neutral' }) },
 };
 
 const html = `<title>dsgn tokens</title>
@@ -120,6 +123,7 @@ section { display: grid; gap: 16px; }
 .seg button { font: inherit; font-weight: 500; border: 0; background: transparent; color: var(--dsgn-text); padding: 4px 12px; cursor: pointer; }
 .seg button[aria-pressed=true] { background: var(--dsgn-neutral-solid); color: var(--dsgn-neutral-solid-text); }
 .seg button:focus-visible { outline: 2px solid var(--dsgn-focus); outline-offset: -2px; }
+.seg button:disabled { color: var(--dsgn-text-disabled); cursor: not-allowed; }
 .toolbar { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
 .toolbar > div { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 .seg { flex-wrap: wrap; max-width: 100%; }
@@ -168,7 +172,11 @@ body {
     <div class="toolbar">
       <div><span class="eyebrow">Density</span><div class="seg" id="seg-density"></div></div>
       <div><span class="eyebrow">Radius</span><div class="seg" id="seg-radius"></div></div>
+      <div><span class="eyebrow">Shadows</span><div class="seg" id="seg-elevation"></div></div>
+      <div><span class="eyebrow">Button fill</span><div class="seg" id="seg-fill"></div></div>
+      <div><span class="eyebrow">Colour</span><div class="seg" id="seg-colour"></div></div>
     </div>
+    <p class="muted" style="margin-top:-8px">The switches change both panels below. Button fill and Colour are theme options (<span class="mono">accentFill</span>, <span class="mono">monochrome</span>) that a project sets once in its theme; the contrast table at the bottom checks every variant.</p>
     <div><h2 id="h-sem">Semantic layer in both themes</h2><p class="muted">The same markup, once with <span class="mono">data-theme="light"</span> and once with <span class="mono">"dark"</span>. Buttons here are the real component.</p></div>
     <div class="panels" id="panels"></div>
   </section>
@@ -568,6 +576,32 @@ function seg(id, attr, modes, def) {
 }
 seg('seg-density', 'data-density', D.density.modes, D.density.default);
 seg('seg-radius', 'data-radius', D.radius.modes, D.radius.default);
+seg('seg-elevation', 'data-elevation', D.elevation.modes, D.elevation.default);
+// theme options: re-point the role slots (and, for monochrome, the accent palette) on the panels
+let fillOpt = 'default', mono = false;
+function applyTheme() {
+  const panels = document.getElementById('panels'), set = D.roles[mono ? 'mono' : fillOpt];
+  for (const t of ['light', 'dark']) for (const r of D.roleNames) {
+    const [p, st] = set[t][r];
+    panels.style.setProperty('--' + P + '-' + r + '-' + t, 'var(--' + P + '-' + p + '-' + st + ')');
+  }
+  for (const s of D.ladder) {
+    const n = '--' + P + '-accent-' + s.step;
+    if (mono) panels.style.setProperty(n, 'var(--' + P + '-neutral-' + s.step + ')'); else panels.style.removeProperty(n);
+  }
+  document.querySelectorAll('#seg-fill button').forEach(b => b.disabled = mono);
+}
+function optSeg(id, opts, def, on) {
+  const el = document.getElementById(id);
+  el.innerHTML = opts.map(([v, l]) => '<button type="button" data-v="' + v + '" aria-pressed="' + (v === def) + '">' + l + '</button>').join('');
+  el.addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b || b.disabled) return;
+    el.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b));
+    on(b.dataset.v); applyTheme();
+  });
+}
+optSeg('seg-fill', [['default', 'Default'], ['strong', 'Strong'], ['stronger', 'Stronger']], 'default', v => { fillOpt = v; });
+optSeg('seg-colour', [['accent', 'Accent'], ['mono', 'Monochrome']], 'accent', v => { mono = v === 'mono'; });
 seg('seg-root', 'font-size', ['16', '18', '20', '24'], '16');
 document.querySelectorAll('#seg-root button').forEach(b => b.textContent = b.dataset.v + ' px');
 {
