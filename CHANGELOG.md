@@ -12,7 +12,17 @@ One version for the npm package and the Figma library. [Semantic versioning](htt
 - `--dsgn-brand`: the exact brand colour for logos and illustrations (outside the contrast contract).
 - Cascade layer `dsgn.theme` between `dsgn.tokens` and `dsgn.components`.
 
+- Elevation mode `data-elevation="flat|soft"` (Figma: collection Elevation, effect styles `shadow/control` and `shadow/raised`): small shadows on buttons, fields, chips, selected segment, switch thumb, and on cards, stat tiles, option cards, lists and tables. Flat (no shadow) is the default.
+- Theme options: `accentFill` (default / strong / stronger / auto = closest to the brand colour) and `monochrome` (no accent colour: greys everywhere, near-black / near-white fills).
+- Tokens: `border-control`, `focus-neutral`, `focus-danger`, `control-*` (controls and selection), `control-track`, `control-track-border`, `control-selected`, shadow tokens; role slots in Primitives (`accent/fill-*`, `control/*`) that a theme re-points.
+
 ### Changed
+- Fields and selectable containers (input, select, textarea, search, number, chip, option card) share one outline, `border-control`: lighter than before in light mode, 3 : 1 on base and raised surfaces in both modes.
+- Buttons with an icon: 6 px less padding on the icon side and a 2 px tighter gap (the glyph has its own white space).
+- Segmented control: selected segment without an outline; in dark mode an outlined track and a lighter selected segment.
+- Focus ring follows the element: accent, neutral (neutral buttons, menu items, nav, list items, chips, segments) or danger (danger buttons, invalid fields).
+- Checkbox, radio, switch, slider, progress, tabs, steps and selected chip / option card / page / row use the `control-*` tokens (accent by default).
+- Table: ghost buttons, chips and badges inside a hovered or selected row are shifted one step, so they never melt into the row colour; in a selected row they take the selection tint.
 - Hint text flows inline (code, links); the icon layout applies only when the hint starts with an icon.
 
 ## 0.9.0 — 2026-09-29

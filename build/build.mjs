@@ -178,11 +178,11 @@ figma.collections.push(primitives);
 const colorScope = (n) =>
   n.startsWith('surface') || /(solid|subtle)(-hover|-pressed)?$/.test(n) ? ['FRAME_FILL', 'SHAPE_FILL']
   : n.includes('text') ? ['TEXT_FILL', 'SHAPE_FILL']
-  : n.includes('border') || n === 'focus' ? ['STROKE_COLOR', 'EFFECT_COLOR']
+  : n.includes('border') || n.startsWith('focus') ? ['STROKE_COLOR', 'EFFECT_COLOR']
   : ['ALL_FILLS', 'STROKE_COLOR'];
 const color = { name: 'Color', modes: ['Light', 'Dark'], variables: [] };
 for (const n of Object.keys(T.semanticColor)) {
-  const group = n.startsWith('surface') ? 'surface' : /^(neutral|accent|danger|success|warning)-/.test(n) ? n.split('-')[0] : 'base';
+  const group = n.startsWith('surface') ? 'surface' : /^(neutral|accent|danger|success|warning|control)-/.test(n) ? n.split('-')[0] : 'base';
   const leaf = group === 'surface' ? n.replace('surface-', '') : group === 'base' ? n : n.slice(group.length + 1);
   color.variables.push({ name: `${group}/${leaf}`, type: 'COLOR', scopes: colorScope(n), codeSyntax: code(n),
     values: Object.fromEntries(['light', 'dark'].map((th) => [cap(th), { alias: `Primitives::${sem[th][n].role ? roleFigma(sem[th][n].role, th) : `color/${sem[th][n].ref.join('/')}`}` }])) });
@@ -215,6 +215,8 @@ dens.variables.push({ name: 'control/pad-x-icon', type: 'FLOAT', scopes: ['GAP']
   description: '= control/pad-x − 6: the side of a button that starts or ends with an icon (the glyph has its own white space). Figma only.', values: Object.fromEntries(T.density.modes.map((m, i) => [m.toUpperCase(), dI('control-pad-x')[i] - 6])) });
 dens.variables.push({ name: 'control/gap-icon', type: 'FLOAT', scopes: ['GAP'], codeSyntax: { WEB: `calc(var(${v('control-gap')}) - var(${v('space-2')}))` },
   description: '= control/gap − 2: gap between icon and text in a button. Figma only.', values: Object.fromEntries(T.density.modes.map((m, i) => [m.toUpperCase(), dI('control-gap')[i] - 2])) });
+dens.variables.push({ name: 'control/icon-slot', type: 'FLOAT', scopes: ['WIDTH_HEIGHT'], codeSyntax: { WEB: `calc(var(${v('control-line-height')}) - var(${v('space-8')}))` },
+  description: '= control/line-height − 8: layout width of a button icon; the glyph overflows it by 6 on the outer side and 2 on the text side, which gives CSS pad-x − 6 and gap − 2. Figma only.', values: Object.fromEntries(T.density.modes.map((m, i) => [m.toUpperCase(), T.density.tokens['control-line-height'][i] - 8])) });
 figma.collections.push(dens);
 
 const rad = { name: 'Radius', modes: defaultFirst(T.radius).map(([m]) => cap(m)), variables: [] };

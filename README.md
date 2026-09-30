@@ -5,7 +5,7 @@
 Token-driven CSS design system. Plain HTML classes and `data-*` attributes, no framework, no build step in your project. The same tokens and components exist 1:1 in the Figma library.
 
 - **Colour**: OKLCH palettes where only hue and chroma change; lightness is fixed per step, so contrast is guaranteed for every hue (156 token pairs checked on every build).
-- **Density** S / M / L, **corners** sharp / default / rounded / pill, **light and dark**: switch with one attribute, on the page or on any section.
+- **Density** S / M / L, **corners** sharp / default / rounded / pill, **elevation** flat / soft, **light and dark**: switch with one attribute, on the page or on any section.
 - **Sizes come from type**: control height = line-height + 2 × padding, every dimension snapped to a 2 px grid at any browser font size.
 - **Accessible by default**: WCAG 2.2 AA checked with axe, keyboard and forced-colours tests on every build.
 
@@ -51,7 +51,7 @@ Every component documents its markup at the top of its file in `dist/components/
 
 ## Customise
 
-1. **Attributes**: `data-theme`, `data-density`, `data-radius` on `<html>` or any element.
+1. **Attributes**: `data-theme`, `data-density`, `data-radius`, `data-elevation` (`flat` / `soft` shadows) on `<html>` or any element.
 2. **Your CSS always wins**: everything dsgn ships is in `@layer dsgn.tokens` and `@layer dsgn.components`, so a plain unlayered rule overrides it without `!important` or specificity tricks.
 3. **Hooks**: `--side` (Split / App shell side panel), `--min` (auto grid column), `--dsgn-icon-size`. Properties named `--_*` are internal.
 4. **Project theme**: brand colour, greys, status colours, font, default corners and density.
@@ -66,7 +66,7 @@ npx dsgn theme            # checks contrast, writes dsgn.theme.css (+ Figma file
 <link rel="stylesheet" href="dsgn.theme.css">
 ```
 
-Colours are given as a brand hex or hue + chroma; lightness per step stays fixed, so contrast holds for any hue. Chroma is capped to what the guarantee covers (0.30, greys 0.04). The theme lives in `@layer dsgn.theme`, between tokens and components. The [theme customizer](https://novamastudio.github.io/dsgn.systems/#theme) does the same in the browser with a live preview, and the [dsgn theme Figma plugin](figma-plugin/) adds the theme to the Figma library as a mode. `import { resolveTheme, themeCss } from 'dsgn.systems/theme'` for build tools.
+Colours are given as a brand hex or hue + chroma, with an optional button fill strength (`accentFill`) or `monochrome: true` (no accent at all); lightness per step stays fixed, so contrast holds for any hue. Chroma is capped to what the guarantee covers (0.30, greys 0.04). The theme lives in `@layer dsgn.theme`, between tokens and components. The [theme customizer](https://novamastudio.github.io/dsgn.systems/#theme) does the same in the browser with a live preview, and the [dsgn theme Figma plugin](figma-plugin/) adds the theme to the Figma library as a mode. `import { resolveTheme, themeCss } from 'dsgn.systems/theme'` for build tools.
 
 **Resets and base styles**: because unlayered CSS wins, an element reset such as `button { background: none; border: 0 }` (normalize, Tailwind preflight, a theme's base) would also beat dsgn components. Put resets in a layer *below* dsgn:
 
