@@ -1,12 +1,12 @@
 # Build and test on every push and pull request.
-# A version tag (v1.2.3, must match package.json) publishes the package to npm and the docs to GitHub Pages.
+# Every push to main deploys the docs to GitHub Pages; a version tag (v1.2.3, must match package.json) publishes to npm.
 # npm publishing uses trusted publishing (OIDC): no token or secret. One-time setup on npmjs.com →
 # package dsgn.systems → Settings → Trusted Publisher: GitHub Actions, NovamaStudio / dsgn.systems / ci.yml.
 # GitHub: Settings → Pages → Source: GitHub Actions.
 name: ci
 on:
   push:
-    branches: [main]
+    branches: [main, 'ci/**']
     tags: ['v*']
   pull_request:
 
@@ -14,13 +14,13 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with: { node-version: 22, cache: npm }
       - run: npm ci
       - run: npx playwright install --with-deps chromium
       - run: npm test                      # build + contrast + lint + 2 px grid + accessibility
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         if: always()
         with:
           name: reports
@@ -36,8 +36,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions: { contents: read, id-token: write }   # id-token: trusted publishing and provenance
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with: { node-version: 24, registry-url: 'https://registry.npmjs.org' }   # trusted publishing needs npm 11.5+
       - run: npm ci
       - run: npm run build
@@ -50,15 +50,15 @@ jobs:
             npm publish --ignore-scripts   # tests already ran in the test job
           fi
 
-  pages:
+  pages:            # the docs follow main, so they are always current
     needs: test
-    if: startsWith(github.ref, 'refs/tags/v')
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions: { pages: write, id-token: write }
     environment: { name: github-pages, url: '${{ steps.deploy.outputs.page_url }}' }
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with: { node-version: 22, cache: npm }
       - run: npm ci
       - run: npx playwright install --with-deps chromium

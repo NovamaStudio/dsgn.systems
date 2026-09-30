@@ -117,5 +117,5 @@ for (let root = 16; root <= 24; root++) {
   }
 }
 await browser.close();
-if (errors.length) { for (const e of errors) console.error('✗', e); console.error(`${errors.length} grid errors`); process.exit(1); }
+if (errors.length) { for (const e of errors) { console.error('✗', e); if (process.env.GITHUB_ACTIONS) console.log(`::error title=grid::${String(e).replace(/\n/g, ' ')}`); } console.error(`${errors.length} grid errors`); process.exit(1); }
 console.log(`grid: ${9 * T.density.modes.length * 2} configurations, all dimensions on the ${step}px grid ✓`);

@@ -182,4 +182,13 @@ writeFileSync(new URL('../dist/a11y-report.md', import.meta.url), md.join('\n'))
 writeFileSync(new URL('../dist/a11y/report.json', import.meta.url), JSON.stringify({ ...report, axe: axeU }, null, 1));
 const total = axeU.length + kb.length + report.reflow.length + report.spacing.length + report.motion.length;
 console.log(total ? `a11y: ${total} issues → dist/a11y-report.md` : 'a11y: no issues ✓ (forced-colours screenshots in dist/a11y/)');
+// on GitHub Actions: every issue becomes an annotation on the run, the report goes to the job summary
+if (process.env.GITHUB_ACTIONS) {
+  const esc = (t) => String(t).replace(/%/g, '%25').replace(/\r/g, '%0D').replace(/\n/g, '%0A');
+  const issues = [...axeU.map((v) => `axe ${v.rule} (${v.impact}) · ${v.where} · ${v.target} · ${v.count}×`),
+    ...kb.map((x) => `keyboard · ${x.width} · ${x.element} · ${x.problem}`),
+    ...[...report.reflow, ...report.spacing, ...report.motion].map((x) => `${x.file || ''} ${x.problem} ${x.element || x.culprits || ''}`)];
+  for (const i of issues.slice(0, 40)) console.log(`::error title=a11y::${esc(i)}`);
+  if (process.env.GITHUB_STEP_SUMMARY) writeFileSync(process.env.GITHUB_STEP_SUMMARY, md.join('\n') + '\n', { flag: 'a' });
+}
 process.exit(total ? 1 : 0);
