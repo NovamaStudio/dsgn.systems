@@ -43,7 +43,7 @@ Načíst `dsgn.css` (a `dsgn.js`, pokud stránka má taby, menu, tooltipy, toast
    Proměnné `--_*` jsou interní a mohou se změnit bez ohlášení.
 5. **Vlastní komponenty projektu**: v projektu, ale jen z tokenů. Lint design systému jde spustit i na CSS projektu a pohlídá, že v nich nejsou pevné hodnoty v px a neznámé tokeny. Když se komponenta hodí jinde, jde jako návrh do design systému.
 
-Nikdy se needituje `node_modules` a systém se neforkuje. Balíček bude v CSS vrstvě `@layer dsgn`, takže CSS projektu vyhraje vždy, i s jednoduchým selektorem.
+Nikdy se needituje `node_modules` a systém se neforkuje. Balíček je v CSS vrstvách `@layer dsgn.tokens` a `dsgn.components`, takže CSS projektu vyhraje vždy, i s jednoduchým selektorem.
 
 ## Figma v projektu
 
@@ -58,7 +58,7 @@ Nikdy se needituje `node_modules` a systém se neforkuje. Balíček bude v CSS v
 ## Předání z Figmy do kódu
 
 - Vývojář otevře obrazovku ve Figmě v režimu **Dev Mode**.
-- **Code Connect** u každé instance ukáže HTML design systému s atributy podle vlastností instance. Například `Button, Variant=Subtle, Intent=Neutral` → `<button class="dsgn-button" data-variant="subtle" data-intent="neutral">`.
+- U každé komponenty ukáže **popis a odkaz na dokumentaci**: značkování design systému (třída a atributy `data-*`) a stránku s ukázkami a kódem. Vlastnosti instance odpovídají atributům 1:1, například `Button, Variant=Subtle, Intent=Neutral` → `<button class="dsgn-button" data-variant="subtle" data-intent="neutral">`. (Code Connect, který by kód doplnil automaticky podle instance, je jen na plánech Organization a Enterprise.)
 - Proměnné se jmenují stejně jako CSS tokeny, textové styly stejně jako třídy. Nic se nepřeměřuje.
 - Vývojář řeší rozvržení stránky z primitiv (Section, Grid, Stack, Cluster, Split), obsah a logiku, ne vzhled komponent.
 
