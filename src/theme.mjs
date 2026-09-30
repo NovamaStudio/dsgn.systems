@@ -48,8 +48,9 @@ export function roleRefs({ accentFill = 'default', controls = 'accent' } = {}) {
   for (const theme of ['light', 'dark']) {
     const fill = (roleChoices.accentFill[accentFill] || roleChoices.accentFill.default)[theme];
     const r = out[theme];
-    // buttons: accent, strength from accentFill
-    r['accent-fill'] = ['accent', fill[0]]; r['accent-fill-hover'] = ['accent', fill[1]]; r['accent-fill-pressed'] = ['accent', fill[2]];
+    // buttons: accent, strength from accentFill; monochrome: near-black / near-white like every other control
+    if (controls === 'neutral') [r['accent-fill'], r['accent-fill-hover'], r['accent-fill-pressed']] = N.fill[theme].map((st) => ['neutral', st]);
+    else { r['accent-fill'] = ['accent', fill[0]]; r['accent-fill-hover'] = ['accent', fill[1]]; r['accent-fill-pressed'] = ['accent', fill[2]]; }
     if (controls === 'neutral') {
       [r['control-fill'], r['control-fill-hover'], r['control-fill-pressed']] = N.fill[theme].map((st) => ['neutral', st]);
       [r['control-tint'], r['control-tint-hover'], r['control-tint-pressed']] = N.tint[theme].map((st) => ['neutral', st]);
@@ -132,7 +133,9 @@ export function resolveTheme(config = {}) {
   if (!density.modes.includes(cfg.density)) { errors.push(`density: use one of ${density.modes.join(', ')}`); cfg.density = density.default; }
   if (!radius.modes.includes(cfg.radius)) { errors.push(`radius: use one of ${radius.modes.join(', ')}`); cfg.radius = radius.default; }
   if (!elevation.modes.includes(cfg.elevation)) { errors.push(`elevation: use one of ${elevation.modes.join(', ')}`); cfg.elevation = elevation.default; }
-  if (!['accent', 'neutral'].includes(cfg.controls)) { errors.push('controls: use accent or neutral'); cfg.controls = 'accent'; }
+  // monochrome: no accent colour at all. The accent palette becomes the greys, fills near-black / near-white.
+  cfg.controls = cfg.monochrome === true || cfg.controls === 'neutral' ? 'neutral' : 'accent';
+  if (cfg.controls === 'neutral') { pals.accent = { ...pals.neutral }; notes.push('monochrome: the accent colour is replaced by the greys everywhere (buttons, links, focus, selection, info)'); }
   let accentFill = cfg.accentFill;
   if (accentFill === 'auto') {                     // the fill strength whose light step is closest to the brand colour
     const ref = brand ? hexToOklch(brand).L : null;
@@ -207,7 +210,7 @@ export function themeCss(theme, { tokensCss = '', source = 'dsgn.theme.mjs', sel
     const [pal, step] = t.roles[theme][role], [dp, ds] = defRoles[theme][role];
     if (pal !== dp || step !== ds) roleLines.push(`${v(roleVar(role, theme))}: var(${v(`${pal}-${step}`)});`);
   }
-  if (roleLines.length) lines.push(`/* ${t.controls === 'neutral' ? 'neutral controls' : `accent fill: ${t.accentFill}`} */`, ...roleLines);
+  if (roleLines.length) lines.push(`/* ${t.controls === 'neutral' ? 'monochrome' : `accent fill: ${t.accentFill}`} */`, ...roleLines);
   if (t.brand) lines.push('/* exact brand colour: logos and illustrations, not for text or controls (no contrast guarantee) */', `${v('brand')}: ${t.brand};`);
   if (t.font && t.font.sans) lines.push(`${v('font-sans')}: ${t.font.sans};`);
 
@@ -324,7 +327,8 @@ export function themeCode(cfg) {
   if (cfg.brand) L.push(`  brand: ${q(cfg.brand)},`);
   if (cfg.font && cfg.font.sans) L.push(`  font: { sans: ${q(cfg.font.sans)}${cfg.font.import ? `, import: ${q(cfg.font.import)}` : ''} },`);
   if (cfg.accentFill && cfg.accentFill !== 'default') L.push(`  accentFill: ${q(cfg.accentFill)},          // default | strong | stronger | auto (closest to the brand colour)`);
-  if (cfg.controls && cfg.controls !== 'accent') L.push(`  controls: ${q(cfg.controls)},             // accent | neutral (grey checkboxes, switches, selection, focus; buttons stay accent)`);
+  if (cfg.monochrome) L.push(`  monochrome: true,                    // no accent colour: greys everywhere, near-black / near-white fills`);
+  if (false) L.push(`  controls: ${q(cfg.controls)},             // accent | neutral (grey checkboxes, switches, selection, focus; buttons stay accent)`);
   L.push(`  radius: ${q(cfg.radius || radius.default)},`, `  density: ${q(cfg.density || density.default)},`);
   if (cfg.elevation && cfg.elevation !== elevation.default) L.push(`  elevation: ${q(cfg.elevation)},            // flat | soft (small shadows on controls and cards)`);
   L.push('};');
@@ -373,7 +377,7 @@ export function stateFromConfig(cfg = {}) {
     name: t.name, brand: cfg.brand || accentHex || '',
     follow: !!(colors.neutral && colors.neutral.h === 'accent'),
     font: (t.font && t.font.sans) || '', radius: t.radius, density: t.density, elevation: t.elevation,
-    accentFill: cfg.accentFill === 'auto' ? 'auto' : t.accentFill, controls: t.controls,
+    accentFill: cfg.accentFill === 'auto' ? 'auto' : t.accentFill, controls: t.controls, monochrome: t.controls === 'neutral',
     pal: JSON.parse(JSON.stringify(t.palettes)),
   };
 }
@@ -392,7 +396,7 @@ export function configFromState(state) {
   if (state.brand && !accentFromBrand && brandHc) cfg.brand = state.brand;
   if (state.font) cfg.font = { sans: state.font };
   if (state.accentFill && state.accentFill !== 'default') cfg.accentFill = state.accentFill;
-  if (state.controls === 'neutral') cfg.controls = 'neutral';
+  if (state.monochrome || state.controls === 'neutral') cfg.monochrome = true;
   cfg.radius = state.radius; cfg.density = state.density;
   if (state.elevation && state.elevation !== elevation.default) cfg.elevation = state.elevation;
   return cfg;

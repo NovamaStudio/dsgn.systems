@@ -66,8 +66,8 @@ export function customizerPage({ ic, esc }) {
         ${hueChroma('accent', guarantee.intentMaxChroma)}
         ${segL('fill', 'Button fill', [['default', 'Default'], ['strong', 'Strong'], ['stronger', 'Stronger'], ['auto', 'Match brand']], 'default', 'How dark solid buttons are (lighter in dark mode). Every option keeps the contrast.')}
       </fieldset>
-      <fieldset class="docs-theme-group"><legend class="dsgn-title">Controls</legend>
-        ${segL('controls', 'Colour of controls', [['accent', 'Accent'], ['neutral', 'Neutral']], 'accent', 'Neutral: checkboxes, switches, sliders, selection and focus in near-black (light) or near-white (dark). Buttons and links keep the accent; use the neutral button intent for monochrome buttons.')}
+      <fieldset class="docs-theme-group"><legend class="dsgn-title">Accent or monochrome</legend>
+        ${segL('controls', 'Colour', [['accent', 'Accent'], ['neutral', 'Monochrome']], 'accent', 'Monochrome leaves out the accent colour completely: greys everywhere, buttons and checkboxes near-black (light) or near-white (dark). Status colours stay.')}
       </fieldset>
       <fieldset class="docs-theme-group"><legend class="dsgn-title">Greys</legend>
         <label class="dsgn-choice"><input type="checkbox" role="switch" class="dsgn-switch" id="th-neutral-follow"> Tint towards the accent</label>
@@ -175,7 +175,7 @@ ${bundle()}
     else if (e.target.name === 'th-radius') state.radius = e.target.value;
     else if (e.target.name === 'th-density') state.density = e.target.value;
     else if (e.target.name === 'th-fill') state.accentFill = e.target.value;
-    else if (e.target.name === 'th-controls') state.controls = e.target.value;
+    else if (e.target.name === 'th-controls') { state.controls = e.target.value; state.monochrome = e.target.value === 'neutral'; }
     else if (e.target.name === 'th-elevation') state.elevation = e.target.value;
     render();
   });

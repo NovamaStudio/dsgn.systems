@@ -112,9 +112,9 @@ ${dsgnCss}
       ${hc('accent', guarantee.intentMaxChroma)}
       ${radios('fill', 'Button fill', [['default', 'Default'], ['strong', 'Strong'], ['stronger', 'Stronger'], ['auto', 'Brand']])}
     </fieldset>
-    <fieldset><legend>Controls</legend>
-      ${radios('controls', 'Colour of controls', [['accent', 'Accent'], ['neutral', 'Neutral']])}
-      <p class="dsgn-hint">Neutral: checkboxes, switches, selection and focus in near-black / near-white. Buttons keep the accent.</p>
+    <fieldset><legend>Accent or monochrome</legend>
+      ${radios('controls', 'Colour', [['accent', 'Accent'], ['neutral', 'Monochrome']])}
+      <p class="dsgn-hint">Monochrome leaves out the accent colour: greys everywhere, near-black / near-white fills.</p>
     </fieldset>
     <fieldset><legend>Greys</legend>
       <label class="dsgn-choice"><input type="checkbox" role="switch" class="dsgn-switch" id="follow"> Tint towards the accent</label>
@@ -196,7 +196,7 @@ ${bundle()}
     }
     else if (id === 'follow') { state.follow = e.target.checked; $('p-neutral-h').disabled = state.follow; }
     else if (e.target.name === 'fill') state.accentFill = e.target.value;
-    else if (e.target.name === 'controls') state.controls = e.target.value;
+    else if (e.target.name === 'controls') { state.controls = e.target.value; state.monochrome = e.target.value === 'neutral'; }
     else return;
     render();
   });

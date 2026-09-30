@@ -34,7 +34,7 @@ for (const hex of ['#e8590c', '#ffd400', '#00a86b', '#7b2ff7', '#ff1493', '#1018
   const t = resolveTheme({ colors: { accent: hex, neutral: { h: 'accent', c: 0.04 }, danger: { h: 0, c: 0.3 }, success: { h: 140, c: 0.3 }, warning: { h: 90, c: 0.3 } } });
   expect(!t.errors.length, `${hex}: ${t.errors}`);
   for (const accentFill of ['default', 'strong', 'stronger']) for (const controls of ['accent', 'neutral']) {
-    const tt = resolveTheme({ colors: { accent: hex, neutral: { h: 'accent', c: 0.04 }, danger: { h: 0, c: 0.3 } }, accentFill, controls });
+    const tt = resolveTheme({ colors: { accent: hex, neutral: { h: 'accent', c: 0.04 }, danger: { h: 0, c: 0.3 } }, accentFill, monochrome: controls === 'neutral' });
     expect(checkContrast(tt.palettes, tt.roles).every((r) => r.pass), `${hex} ${accentFill} ${controls}: contrast fails`); checked++;
   }
   expect(t.brand === hex, `${hex}: brand not kept`);
