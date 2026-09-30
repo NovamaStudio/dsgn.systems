@@ -58,14 +58,14 @@
 .dsgn-tab[aria-selected="true"]::after { background: var(--dsgn-control-solid); }
 .dsgn-tab[aria-selected="true"] .dsgn-icon { --_fill: 1; }
 .dsgn-tab:focus-visible {
-  outline: var(--dsgn-focus-width) solid var(--dsgn-focus);
+  outline: var(--dsgn-focus-width) solid var(--dsgn-focus-neutral);
   outline-offset: calc(-1 * var(--dsgn-focus-width));
 }
 .dsgn-tab:disabled { color: var(--dsgn-text-disabled); cursor: not-allowed; }
 
 .dsgn-tabpanel { min-inline-size: 0; border-radius: var(--dsgn-radius-s); }
 .dsgn-tabpanel:focus-visible {
-  outline: var(--dsgn-focus-width) solid var(--dsgn-focus);
+  outline: var(--dsgn-focus-width) solid var(--dsgn-focus-neutral);
   outline-offset: var(--dsgn-focus-offset);
 }
 @media (forced-colors: active) {

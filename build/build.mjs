@@ -175,6 +175,26 @@ for (const [k, n] of Object.entries(T.misc))
   primitives.variables.push({ name: `stroke/${k}`, type: 'FLOAT', scopes: ['STROKE_FLOAT'], codeSyntax: code(k), values: { Value: n } });
 figma.collections.push(primitives);
 
+// Accent: a mode switch on frames for the button-fill strength and monochrome (in code these are theme
+// options; in Figma a designer flips them per frame). Default follows the file's theme (the role slots and
+// accent palette in Primitives); Strong / Stronger / Monochrome re-point them. Semantic accent colours and
+// role-based tokens go through this collection.
+const accentModes = [['Default', null], ['Strong', { accentFill: 'strong' }], ['Stronger', { accentFill: 'stronger' }], ['Monochrome', { controls: 'neutral' }]];
+const accentRoles = Object.fromEntries(accentModes.filter(([, o]) => o).map(([m, o]) => [m, roleRefs(o)]));
+const accentName = (role, theme) => roleFigma(role, theme).replace(/^color\//, '');
+const accent = { name: 'Accent', modes: accentModes.map(([m]) => m), variables: [] };
+for (const theme of ['light', 'dark']) for (const role of ROLES)
+  accent.variables.push({ name: accentName(role, theme), type: 'COLOR', scopes: [], codeSyntax: code(roleVar(role, theme)),
+    description: `Role slot (${theme}) as the Accent mode sets it: Default follows the theme, Strong / Stronger darken (light) or lighten (dark) the fill, Monochrome uses neutral.`,
+    values: Object.fromEntries(accentModes.map(([m]) => [m, { alias: `Primitives::${m === 'Default' ? roleFigma(role, theme) : `color/${accentRoles[m][theme][role].join('/')}`}` }])) });
+for (const s of T.ladder)
+  accent.variables.push({ name: `palette/${s.step}`, type: 'COLOR', scopes: [], codeSyntax: code(`accent-${s.step}`),
+    description: 'Accent palette step as the Accent mode sets it: the accent palette, or neutral in Monochrome.',
+    values: Object.fromEntries(accentModes.map(([m]) => [m, { alias: `Primitives::color/${m === 'Monochrome' ? 'neutral' : 'accent'}/${s.step}` }])) });
+figma.collections.push(accent);
+const colorRef = (th, n) => sem[th][n].role ? `Accent::${accentName(sem[th][n].role, th)}`
+  : sem[th][n].ref[0] === 'accent' ? `Accent::palette/${sem[th][n].ref[1]}` : `Primitives::color/${sem[th][n].ref.join('/')}`;
+
 const colorScope = (n) =>
   n.startsWith('surface') || /(solid|subtle)(-hover|-pressed)?$/.test(n) ? ['FRAME_FILL', 'SHAPE_FILL']
   : n.includes('text') ? ['TEXT_FILL', 'SHAPE_FILL']
@@ -185,7 +205,7 @@ for (const n of Object.keys(T.semanticColor)) {
   const group = n.startsWith('surface') ? 'surface' : /^(neutral|accent|danger|success|warning|control)-/.test(n) ? n.split('-')[0] : 'base';
   const leaf = group === 'surface' ? n.replace('surface-', '') : group === 'base' ? n : n.slice(group.length + 1);
   color.variables.push({ name: `${group}/${leaf}`, type: 'COLOR', scopes: colorScope(n), codeSyntax: code(n),
-    values: Object.fromEntries(['light', 'dark'].map((th) => [cap(th), { alias: `Primitives::${sem[th][n].role ? roleFigma(sem[th][n].role, th) : `color/${sem[th][n].ref.join('/')}`}` }])) });
+    values: Object.fromEntries(['light', 'dark'].map((th) => [cap(th), { alias: colorRef(th, n) }])) });
 }
 // scrim: oklch with alpha → 8-digit hex per theme
 const scrimHex = (str) => { const m = str.match(/oklch\(([\d.]+)% ([\d.]+) ([\d.]+) \/ ([\d.]+)\)/); const r = resolve(+m[1] / 100, +m[2], +m[3]);

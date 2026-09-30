@@ -79,7 +79,7 @@
 /* no page scroll behind a modal */
 html:has(.dsgn-dialog:modal) { overflow: hidden; }
 
-.dsgn-dialog:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: var(--dsgn-focus-offset); }
+.dsgn-dialog:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus-neutral); outline-offset: var(--dsgn-focus-offset); }
 
 @media (prefers-reduced-motion: no-preference) {
   .dsgn-dialog,

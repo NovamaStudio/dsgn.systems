@@ -14,13 +14,14 @@ One version for the npm package and the Figma library. [Semantic versioning](htt
 
 - Elevation mode `data-elevation="flat|soft"` (Figma: collection Elevation, effect styles `shadow/control` and `shadow/raised`): small shadows on buttons, fields, chips, selected segment, switch thumb, and on cards, stat tiles, option cards, lists and tables. Flat (no shadow) is the default.
 - Theme options: `accentFill` (default / strong / stronger / auto = closest to the brand colour) and `monochrome` (no accent colour: greys everywhere, near-black / near-white fills).
+- Figma: collection **Accent** with modes Default / Strong / Stronger / Monochrome, switched on any frame like Density or Radius. Default follows the file's theme; the others show the button fill strengths and the monochrome look. Semantic accent colours and the role-based tokens go through it.
 - Tokens: `border-control`, `focus-neutral`, `focus-danger`, `control-*` (controls and selection), `control-track`, `control-track-border`, `control-selected`, shadow tokens; role slots in Primitives (`accent/fill-*`, `control/*`) that a theme re-points.
 
 ### Changed
 - Fields and selectable containers (input, select, textarea, search, number, chip, option card) share one outline, `border-control`: lighter than before in light mode, 3 : 1 on base and raised surfaces in both modes.
 - Buttons with an icon: 6 px less padding on the icon side and a 2 px tighter gap (the glyph has its own white space).
 - Segmented control: selected segment without an outline; in dark mode an outlined track and a lighter selected segment.
-- Focus ring follows the element: accent, neutral (neutral buttons, menu items, nav, list items, chips, segments) or danger (danger buttons, invalid fields).
+- Focus ring follows the element: accent (accent buttons, fields, checkbox, radio, switch, slider, option card, accent links), neutral (neutral buttons, menu items, nav, list items, chips, segments, tabs, breadcrumbs, pagination, brand and footer links, whole-card links, dialog, table, neutral links, field buttons) or danger (danger buttons and menu items, invalid fields). Links in a solid banner use the banner's text colour.
 - Checkbox, radio, switch, slider, progress, tabs, steps and selected chip / option card / page / row use the `control-*` tokens (accent by default).
 - Table: ghost buttons, chips and badges inside a hovered or selected row are shifted one step, so they never melt into the row colour; in a selected row they take the selection tint.
 - Hint text flows inline (code, links); the icon layout applies only when the hint starts with an icon.

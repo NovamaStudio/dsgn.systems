@@ -44,7 +44,8 @@
 .dsgn-banner[data-variant="solid"] .dsgn-banner-inner > .dsgn-icon { color: inherit; }
 .dsgn-banner-text { flex: 1; min-inline-size: 0; margin: 0; }
 .dsgn-banner-text a { color: inherit; text-decoration-line: underline; text-underline-offset: 0.2em; border-radius: var(--dsgn-radius-s); font-weight: var(--dsgn-font-weight-medium); }
-.dsgn-banner-text a:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: var(--dsgn-focus-offset); }
+.dsgn-banner-text a:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus-neutral); outline-offset: var(--dsgn-focus-offset); }
+.dsgn-banner[data-variant="solid"] .dsgn-banner-text a:focus-visible { outline-color: currentColor; }
 /* buttons sit on the text line without making the banner taller */
 .dsgn-banner-inner > :is(.dsgn-button, .dsgn-icon-button) {
   margin-block: calc((var(--dsgn-line-height-body-s) - var(--dsgn-control-height)) / 2);
