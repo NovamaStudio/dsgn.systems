@@ -91,6 +91,15 @@
   --dsgn-warning-94: oklch(94% 0.0416 70);
   --dsgn-warning-97: oklch(97% 0.0217 70);
   --dsgn-warning-99: oklch(99% 0.0071 70);
+  /* role slots — re-pointed by a project theme (dsgn theme) */
+  --dsgn-accent-fill-light: var(--dsgn-accent-54);
+  --dsgn-accent-fill-hover-light: var(--dsgn-accent-46);
+  --dsgn-accent-fill-pressed-light: var(--dsgn-accent-38);
+  --dsgn-accent-focus-light: var(--dsgn-accent-54);
+  --dsgn-accent-fill-dark: var(--dsgn-accent-64);
+  --dsgn-accent-fill-hover-dark: var(--dsgn-accent-70);
+  --dsgn-accent-fill-pressed-dark: var(--dsgn-accent-76);
+  --dsgn-accent-focus-dark: var(--dsgn-accent-70);
   /* type (sizes live in the dimension blocks below) */
   --dsgn-font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
   --dsgn-font-icon: 'Material Symbols Rounded';
@@ -122,6 +131,10 @@
   --dsgn-icon-grade: 0;
   --dsgn-shadow-overlay: 0 1px 2px oklch(0% 0 0 / 0.06), 0 8px 24px oklch(0% 0 0 / 0.12);
   --dsgn-scrim: oklch(14% 0.004 260 / 0.45);
+  --dsgn-shadow-color: oklch(22% 0.01 260 / 0.10);
+  --dsgn-shadow-color-soft: oklch(22% 0.01 260 / 0.06);
+  --dsgn-shadow-control: 0 var(--dsgn-elevation-control-y) var(--dsgn-elevation-control-blur) var(--dsgn-shadow-color);
+  --dsgn-shadow-raised: 0 var(--dsgn-elevation-raised-y) var(--dsgn-elevation-raised-blur) var(--dsgn-shadow-color), 0 var(--dsgn-elevation-raised-y2) var(--dsgn-elevation-raised-blur2) var(--dsgn-shadow-color-soft);
   --dsgn-surface-sunken: var(--dsgn-neutral-94);
   --dsgn-surface-base: var(--dsgn-neutral-97);
   --dsgn-surface-raised: var(--dsgn-neutral-99);
@@ -130,7 +143,13 @@
   --dsgn-text-disabled: var(--dsgn-neutral-70);
   --dsgn-border: var(--dsgn-neutral-85);
   --dsgn-border-strong: var(--dsgn-neutral-54);
-  --dsgn-focus: var(--dsgn-accent-54);
+  --dsgn-border-control: var(--dsgn-neutral-64);
+  --dsgn-focus: var(--dsgn-accent-focus-light);
+  --dsgn-focus-neutral: var(--dsgn-neutral-38);
+  --dsgn-focus-danger: var(--dsgn-danger-54);
+  --dsgn-control-track: var(--dsgn-neutral-94);
+  --dsgn-control-track-border: var(--dsgn-neutral-94);
+  --dsgn-control-selected: var(--dsgn-neutral-99);
   --dsgn-neutral-solid: var(--dsgn-neutral-22);
   --dsgn-neutral-solid-hover: var(--dsgn-neutral-30);
   --dsgn-neutral-solid-pressed: var(--dsgn-neutral-38);
@@ -140,9 +159,9 @@
   --dsgn-neutral-text: var(--dsgn-neutral-38);
   --dsgn-neutral-border: var(--dsgn-neutral-76);
   --dsgn-neutral-solid-text: var(--dsgn-neutral-99);
-  --dsgn-accent-solid: var(--dsgn-accent-54);
-  --dsgn-accent-solid-hover: var(--dsgn-accent-46);
-  --dsgn-accent-solid-pressed: var(--dsgn-accent-38);
+  --dsgn-accent-solid: var(--dsgn-accent-fill-light);
+  --dsgn-accent-solid-hover: var(--dsgn-accent-fill-hover-light);
+  --dsgn-accent-solid-pressed: var(--dsgn-accent-fill-pressed-light);
   --dsgn-accent-subtle: var(--dsgn-accent-94);
   --dsgn-accent-subtle-hover: var(--dsgn-accent-90);
   --dsgn-accent-subtle-pressed: var(--dsgn-accent-85);
@@ -175,6 +194,10 @@
   --dsgn-icon-grade: -25;
   --dsgn-shadow-overlay: 0 1px 2px oklch(0% 0 0 / 0.4), 0 8px 24px oklch(0% 0 0 / 0.5);
   --dsgn-scrim: oklch(8% 0.004 260 / 0.7);
+  --dsgn-shadow-color: oklch(0% 0 0 / 0.45);
+  --dsgn-shadow-color-soft: oklch(0% 0 0 / 0.30);
+  --dsgn-shadow-control: 0 var(--dsgn-elevation-control-y) var(--dsgn-elevation-control-blur) var(--dsgn-shadow-color);
+  --dsgn-shadow-raised: 0 var(--dsgn-elevation-raised-y) var(--dsgn-elevation-raised-blur) var(--dsgn-shadow-color), 0 var(--dsgn-elevation-raised-y2) var(--dsgn-elevation-raised-blur2) var(--dsgn-shadow-color-soft);
   --dsgn-surface-sunken: var(--dsgn-neutral-14);
   --dsgn-surface-base: var(--dsgn-neutral-18);
   --dsgn-surface-raised: var(--dsgn-neutral-22);
@@ -183,7 +206,13 @@
   --dsgn-text-disabled: var(--dsgn-neutral-46);
   --dsgn-border: var(--dsgn-neutral-30);
   --dsgn-border-strong: var(--dsgn-neutral-54);
-  --dsgn-focus: var(--dsgn-accent-70);
+  --dsgn-border-control: var(--dsgn-neutral-46);
+  --dsgn-focus: var(--dsgn-accent-focus-dark);
+  --dsgn-focus-neutral: var(--dsgn-neutral-85);
+  --dsgn-focus-danger: var(--dsgn-danger-70);
+  --dsgn-control-track: var(--dsgn-neutral-14);
+  --dsgn-control-track-border: var(--dsgn-neutral-46);
+  --dsgn-control-selected: var(--dsgn-neutral-38);
   --dsgn-neutral-solid: var(--dsgn-neutral-90);
   --dsgn-neutral-solid-hover: var(--dsgn-neutral-85);
   --dsgn-neutral-solid-pressed: var(--dsgn-neutral-76);
@@ -193,9 +222,9 @@
   --dsgn-neutral-text: var(--dsgn-neutral-85);
   --dsgn-neutral-border: var(--dsgn-neutral-38);
   --dsgn-neutral-solid-text: var(--dsgn-neutral-14);
-  --dsgn-accent-solid: var(--dsgn-accent-64);
-  --dsgn-accent-solid-hover: var(--dsgn-accent-70);
-  --dsgn-accent-solid-pressed: var(--dsgn-accent-76);
+  --dsgn-accent-solid: var(--dsgn-accent-fill-dark);
+  --dsgn-accent-solid-hover: var(--dsgn-accent-fill-hover-dark);
+  --dsgn-accent-solid-pressed: var(--dsgn-accent-fill-pressed-dark);
   --dsgn-accent-subtle: var(--dsgn-accent-26);
   --dsgn-accent-subtle-hover: var(--dsgn-accent-30);
   --dsgn-accent-subtle-pressed: var(--dsgn-accent-38);
@@ -229,6 +258,10 @@
     --dsgn-icon-grade: -25;
     --dsgn-shadow-overlay: 0 1px 2px oklch(0% 0 0 / 0.4), 0 8px 24px oklch(0% 0 0 / 0.5);
     --dsgn-scrim: oklch(8% 0.004 260 / 0.7);
+    --dsgn-shadow-color: oklch(0% 0 0 / 0.45);
+    --dsgn-shadow-color-soft: oklch(0% 0 0 / 0.30);
+    --dsgn-shadow-control: 0 var(--dsgn-elevation-control-y) var(--dsgn-elevation-control-blur) var(--dsgn-shadow-color);
+    --dsgn-shadow-raised: 0 var(--dsgn-elevation-raised-y) var(--dsgn-elevation-raised-blur) var(--dsgn-shadow-color), 0 var(--dsgn-elevation-raised-y2) var(--dsgn-elevation-raised-blur2) var(--dsgn-shadow-color-soft);
     --dsgn-surface-sunken: var(--dsgn-neutral-14);
     --dsgn-surface-base: var(--dsgn-neutral-18);
     --dsgn-surface-raised: var(--dsgn-neutral-22);
@@ -237,7 +270,13 @@
     --dsgn-text-disabled: var(--dsgn-neutral-46);
     --dsgn-border: var(--dsgn-neutral-30);
     --dsgn-border-strong: var(--dsgn-neutral-54);
-    --dsgn-focus: var(--dsgn-accent-70);
+    --dsgn-border-control: var(--dsgn-neutral-46);
+    --dsgn-focus: var(--dsgn-accent-focus-dark);
+    --dsgn-focus-neutral: var(--dsgn-neutral-85);
+    --dsgn-focus-danger: var(--dsgn-danger-70);
+    --dsgn-control-track: var(--dsgn-neutral-14);
+    --dsgn-control-track-border: var(--dsgn-neutral-46);
+    --dsgn-control-selected: var(--dsgn-neutral-38);
     --dsgn-neutral-solid: var(--dsgn-neutral-90);
     --dsgn-neutral-solid-hover: var(--dsgn-neutral-85);
     --dsgn-neutral-solid-pressed: var(--dsgn-neutral-76);
@@ -247,9 +286,9 @@
     --dsgn-neutral-text: var(--dsgn-neutral-85);
     --dsgn-neutral-border: var(--dsgn-neutral-38);
     --dsgn-neutral-solid-text: var(--dsgn-neutral-14);
-    --dsgn-accent-solid: var(--dsgn-accent-64);
-    --dsgn-accent-solid-hover: var(--dsgn-accent-70);
-    --dsgn-accent-solid-pressed: var(--dsgn-accent-76);
+    --dsgn-accent-solid: var(--dsgn-accent-fill-dark);
+    --dsgn-accent-solid-hover: var(--dsgn-accent-fill-hover-dark);
+    --dsgn-accent-solid-pressed: var(--dsgn-accent-fill-pressed-dark);
     --dsgn-accent-subtle: var(--dsgn-accent-26);
     --dsgn-accent-subtle-hover: var(--dsgn-accent-30);
     --dsgn-accent-subtle-pressed: var(--dsgn-accent-38);
@@ -276,6 +315,29 @@
     --dsgn-warning-border: var(--dsgn-warning-38);
     --dsgn-warning-solid-text: var(--dsgn-neutral-14);
   }
+}
+
+:root,
+[data-elevation="flat"] {
+  --dsgn-elevation-control-y: 0px;
+  --dsgn-elevation-control-blur: 0px;
+  --dsgn-elevation-raised-y: 0px;
+  --dsgn-elevation-raised-blur: 0px;
+  --dsgn-elevation-raised-y2: 0px;
+  --dsgn-elevation-raised-blur2: 0px;
+  --dsgn-shadow-control: 0 var(--dsgn-elevation-control-y) var(--dsgn-elevation-control-blur) var(--dsgn-shadow-color);
+  --dsgn-shadow-raised: 0 var(--dsgn-elevation-raised-y) var(--dsgn-elevation-raised-blur) var(--dsgn-shadow-color), 0 var(--dsgn-elevation-raised-y2) var(--dsgn-elevation-raised-blur2) var(--dsgn-shadow-color-soft);
+}
+
+[data-elevation="soft"] {
+  --dsgn-elevation-control-y: 1px;
+  --dsgn-elevation-control-blur: 2px;
+  --dsgn-elevation-raised-y: 1px;
+  --dsgn-elevation-raised-blur: 3px;
+  --dsgn-elevation-raised-y2: 4px;
+  --dsgn-elevation-raised-blur2: 12px;
+  --dsgn-shadow-control: 0 var(--dsgn-elevation-control-y) var(--dsgn-elevation-control-blur) var(--dsgn-shadow-color);
+  --dsgn-shadow-raised: 0 var(--dsgn-elevation-raised-y) var(--dsgn-elevation-raised-blur) var(--dsgn-shadow-color), 0 var(--dsgn-elevation-raised-y2) var(--dsgn-elevation-raised-blur2) var(--dsgn-shadow-color-soft);
 }
 
 /* ── dimensions: space, type, density, radius (multiples of --dsgn-unit) ── */
@@ -583,7 +645,7 @@
 .dsgn-accordion summary > .dsgn-icon { color: var(--dsgn-text-muted); }
 .dsgn-accordion details[open] > summary > .dsgn-icon { rotate: 180deg; }
 @media (hover: hover) { .dsgn-accordion summary:hover > .dsgn-icon { color: var(--dsgn-text); } }
-.dsgn-accordion summary:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: var(--dsgn-focus-offset); }
+.dsgn-accordion summary:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus-neutral); outline-offset: var(--dsgn-focus-offset); }
 .dsgn-accordion-content {
   display: grid;
   gap: var(--dsgn-space-8);
@@ -966,12 +1028,14 @@
   --_subtle-hover: var(--dsgn-accent-subtle-hover);
   --_subtle-pressed: var(--dsgn-accent-subtle-pressed);
   --_text: var(--dsgn-accent-text);
+  --_focus: var(--dsgn-focus);
 
   /* variant → which part of the set is used (solid by default) */
   --_bg: var(--_solid);
   --_bg-hover: var(--_solid-hover);
   --_bg-pressed: var(--_solid-pressed);
   --_fg: var(--_on-solid);
+  --_shadow: var(--dsgn-shadow-control);   /* solid only; Elevation = Soft makes it visible */
 
   box-sizing: border-box;
   display: inline-flex;
@@ -984,6 +1048,7 @@
   border: 0;
   border-radius: var(--dsgn-radius-m);
   background: var(--_bg);
+  box-shadow: var(--_shadow);
   color: var(--_fg);
   font-family: var(--dsgn-font-sans);
   font-size: var(--dsgn-control-font-size);
@@ -1000,6 +1065,11 @@
 
 .dsgn-icon-button { padding: var(--dsgn-control-pad-y); }
 
+/* icon + text: the glyph carries its own white space, so the icon side gets space-4 less padding
+   and the button looks balanced (Figma: Density control/pad-x-icon) */
+.dsgn-button:has(> .dsgn-icon:first-child) { padding-inline-start: calc(var(--dsgn-control-pad-x) - var(--dsgn-space-4)); }
+.dsgn-button:has(> .dsgn-icon:last-child) { padding-inline-end: calc(var(--dsgn-control-pad-x) - var(--dsgn-space-4)); }
+
 /* ── intents ─────────────────────────────────────────────────────────────── */
 :is(.dsgn-button, .dsgn-icon-button)[data-intent="neutral"] {
   --_solid: var(--dsgn-neutral-solid);
@@ -1010,6 +1080,7 @@
   --_subtle-hover: var(--dsgn-neutral-subtle-hover);
   --_subtle-pressed: var(--dsgn-neutral-subtle-pressed);
   --_text: var(--dsgn-neutral-text);
+  --_focus: var(--dsgn-focus-neutral);
 }
 :is(.dsgn-button, .dsgn-icon-button)[data-intent="danger"] {
   --_solid: var(--dsgn-danger-solid);
@@ -1020,6 +1091,7 @@
   --_subtle-hover: var(--dsgn-danger-subtle-hover);
   --_subtle-pressed: var(--dsgn-danger-subtle-pressed);
   --_text: var(--dsgn-danger-text);
+  --_focus: var(--dsgn-focus-danger);
 }
 
 /* ── variants ────────────────────────────────────────────────────────────── */
@@ -1028,12 +1100,14 @@
   --_bg-hover: var(--_subtle-hover);
   --_bg-pressed: var(--_subtle-pressed);
   --_fg: var(--_text);
+  --_shadow: none;
 }
 :is(.dsgn-button, .dsgn-icon-button)[data-variant="ghost"] {
   --_bg: transparent;
   --_bg-hover: var(--_subtle);
   --_bg-pressed: var(--_subtle-hover);
   --_fg: var(--_text);
+  --_shadow: none;
 }
 
 /* ── states ──────────────────────────────────────────────────────────────── */
@@ -1049,7 +1123,7 @@
 :is(.dsgn-button, .dsgn-icon-button):not(:disabled, [aria-disabled="true"]):active .dsgn-icon { --_fill: 1; }
 
 :is(.dsgn-button, .dsgn-icon-button):focus-visible {
-  outline: var(--dsgn-focus-width) solid var(--dsgn-focus);
+  outline: var(--dsgn-focus-width) solid var(--_focus);
   outline-offset: var(--dsgn-focus-offset);
 }
 
@@ -1064,6 +1138,7 @@
 
 /* disabled: neutral tint (ghost stays transparent), disabled text, no interaction */
 :is(.dsgn-button, .dsgn-icon-button):is(:disabled, [aria-disabled="true"]) {
+  --_shadow: none;
   --_bg: var(--dsgn-neutral-subtle);
   --_fg: var(--dsgn-text-disabled);
   background: var(--_bg);
@@ -1112,7 +1187,7 @@
   padding: var(--dsgn-inset);
   border-radius: var(--dsgn-radius-l);
   background: var(--dsgn-surface-raised);
-  box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border);
+  box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border), var(--dsgn-shadow-raised);
   color: var(--dsgn-text);
   font-family: var(--dsgn-font-sans);
   font-size: var(--dsgn-font-size-body-s);
@@ -1130,7 +1205,7 @@
 
 a.dsgn-card { cursor: pointer; }
 @media (hover: hover) {
-  a.dsgn-card:hover { box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border-strong); }
+  a.dsgn-card:hover { box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border-strong), var(--dsgn-shadow-raised); }
 }
 a.dsgn-card:focus-visible {
   outline: var(--dsgn-focus-width) solid var(--dsgn-focus);
@@ -1168,7 +1243,7 @@ a.dsgn-card:focus-visible {
   border: 0;
   border-radius: var(--dsgn-radius-m);
   background: var(--dsgn-surface-raised);
-  box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border-strong);
+  box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border-control), var(--dsgn-shadow-control);
   color: var(--dsgn-text);
   font-family: var(--dsgn-font-sans);
   font-size: var(--dsgn-control-font-size);
@@ -1207,7 +1282,7 @@ button.dsgn-chip:not(:disabled):active { background: var(--dsgn-neutral-subtle-h
 @media (hover: hover) {
   button.dsgn-chip[aria-pressed="true"]:not(:disabled):hover { background: var(--dsgn-accent-subtle-hover); }
 }
-.dsgn-chip:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: var(--dsgn-focus-offset); }
+.dsgn-chip:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus-neutral); outline-offset: var(--dsgn-focus-offset); }
 .dsgn-chip:disabled { background: var(--dsgn-neutral-subtle); box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border); color: var(--dsgn-text-disabled); cursor: not-allowed; }
 .dsgn-chip:disabled > .dsgn-icon { color: inherit; }
 
@@ -1264,7 +1339,7 @@ button.dsgn-chip:not(:disabled):active { background: var(--dsgn-neutral-subtle-h
   border: 0;
   border-radius: var(--dsgn-radius-s);
   background: var(--dsgn-surface-raised);
-  box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--_border);
+  box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--_border), var(--dsgn-shadow-control);
   color: var(--dsgn-accent-solid-text);
   cursor: pointer;
 }
@@ -1337,6 +1412,7 @@ button.dsgn-chip:not(:disabled):active { background: var(--dsgn-neutral-subtle-h
   block-size: var(--_thumb);
   border-radius: var(--dsgn-radius-full);
   background: var(--dsgn-neutral-text);
+  box-shadow: var(--dsgn-shadow-control);
 }
 .dsgn-switch:checked { background: var(--dsgn-accent-solid); box-shadow: none; }
 .dsgn-switch:checked::before { background: var(--dsgn-accent-solid-text); translate: var(--_thumb) 0; }
@@ -1658,7 +1734,8 @@ html:has(.dsgn-dialog:modal) { overflow: hidden; }
  */
 
 .dsgn-input {
-  --_border: var(--dsgn-border-strong);
+  --_border: var(--dsgn-border-control);
+  --_focus: var(--dsgn-focus);
 
   box-sizing: border-box;
   display: flex;
@@ -1671,7 +1748,7 @@ html:has(.dsgn-dialog:modal) { overflow: hidden; }
   border: 0;
   border-radius: var(--dsgn-radius-m);
   background: var(--dsgn-surface-raised);
-  box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--_border);
+  box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--_border), var(--dsgn-shadow-control);
   color: var(--dsgn-text);
   font-family: var(--dsgn-font-sans);
   font-size: var(--dsgn-control-font-size);
@@ -1726,14 +1803,15 @@ textarea.dsgn-input {
 
 /* ── states ──────────────────────────────────────────────────────────────── */
 @media (hover: hover) {
-  .dsgn-input:hover { --_border: var(--dsgn-text-muted); }
+  .dsgn-input:hover { --_border: var(--dsgn-border-strong); }
 }
 .dsgn-input:is(:focus, :focus-within) {
-  outline: var(--dsgn-focus-width) solid var(--dsgn-focus);
+  outline: var(--dsgn-focus-width) solid var(--_focus);
   outline-offset: var(--dsgn-focus-offset);
 }
 .dsgn-input:is([aria-invalid="true"], :has(> [aria-invalid="true"])) {
   --_border: var(--dsgn-danger-solid);
+  --_focus: var(--dsgn-focus-danger);
 }
 .dsgn-input:is([readonly], :has(> [readonly])) {
   --_border: var(--dsgn-border);
@@ -1957,7 +2035,7 @@ textarea.dsgn-input {
   overflow: hidden;
   border-radius: var(--dsgn-radius-l);
   background: var(--dsgn-surface-raised);
-  box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border);
+  box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border), var(--dsgn-shadow-raised);
   font-family: var(--dsgn-font-sans);
 }
 .dsgn-list[data-variant="plain"] { overflow: visible; border-radius: 0; background: none; box-shadow: none; }
@@ -1997,7 +2075,7 @@ textarea.dsgn-input {
   :is(a, button).dsgn-list-item:hover > .dsgn-icon { --_fill: 1; }
 }
 :is(a, button).dsgn-list-item:active { background: var(--dsgn-neutral-subtle-hover); }
-:is(a, button).dsgn-list-item:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: calc(-1 * var(--dsgn-focus-width)); }
+:is(a, button).dsgn-list-item:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus-neutral); outline-offset: calc(-1 * var(--dsgn-focus-width)); }
 .dsgn-list-item[aria-current]:not([aria-current="false"]) { background: var(--dsgn-accent-subtle); }
 .dsgn-list-item[aria-current]:not([aria-current="false"]) > .dsgn-icon { --_fill: 1; color: var(--dsgn-accent-text); }
 
@@ -2053,6 +2131,7 @@ textarea.dsgn-input {
 .dsgn-menu-item {
   --_hover: var(--dsgn-neutral-subtle);
   --_pressed: var(--dsgn-neutral-subtle-hover);
+  --_focus: var(--dsgn-focus-neutral);
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -2091,7 +2170,7 @@ textarea.dsgn-input {
 }
 .dsgn-menu-item[aria-checked="true"]::after { visibility: visible; }
 
-.dsgn-menu-item[data-intent="danger"] { --_hover: var(--dsgn-danger-subtle); --_pressed: var(--dsgn-danger-subtle-hover); color: var(--dsgn-danger-text); }
+.dsgn-menu-item[data-intent="danger"] { --_hover: var(--dsgn-danger-subtle); --_pressed: var(--dsgn-danger-subtle-hover); --_focus: var(--dsgn-focus-danger); color: var(--dsgn-danger-text); }
 .dsgn-menu-item[data-intent="danger"] > .dsgn-icon { color: currentColor; }
 
 @media (hover: hover) {
@@ -2100,7 +2179,7 @@ textarea.dsgn-input {
 }
 .dsgn-menu-item:not(:disabled, [aria-disabled="true"]):focus-visible {
   background: var(--_hover);
-  outline: var(--dsgn-focus-width) solid var(--dsgn-focus);
+  outline: var(--dsgn-focus-width) solid var(--_focus);
   outline-offset: calc(-1 * var(--dsgn-focus-width));
 }
 .dsgn-menu-item:not(:disabled, [aria-disabled="true"]):active { background: var(--_pressed); }
@@ -2162,7 +2241,7 @@ textarea.dsgn-input {
   }
   .dsgn-input > select option:hover,
   .dsgn-input > select option:focus-visible { background: var(--dsgn-neutral-subtle); outline: none; }
-  .dsgn-input > select option:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: calc(-1 * var(--dsgn-focus-width)); }
+  .dsgn-input > select option:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus-neutral); outline-offset: calc(-1 * var(--dsgn-focus-width)); }
   .dsgn-input > select option:active { background: var(--dsgn-neutral-subtle-hover); }
   .dsgn-input > select option:disabled { color: var(--dsgn-text-disabled); cursor: not-allowed; }
   .dsgn-input:has(> select:open) > select ~ .dsgn-icon { rotate: 180deg; }
@@ -2223,7 +2302,7 @@ textarea.dsgn-input {
 .dsgn-nav-link:active { background: var(--dsgn-neutral-subtle-hover); }
 .dsgn-nav-link[aria-current="page"] { background: var(--dsgn-neutral-subtle); color: var(--dsgn-text); }
 .dsgn-nav-link[aria-current="page"] > .dsgn-icon { --_fill: 1; }
-.dsgn-nav-link:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: calc(-1 * var(--dsgn-focus-width)); }
+.dsgn-nav-link:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus-neutral); outline-offset: calc(-1 * var(--dsgn-focus-width)); }
 
 .dsgn-nav-label {
   padding: var(--dsgn-space-12) var(--dsgn-control-pad-y) var(--dsgn-space-4);
@@ -2272,7 +2351,7 @@ textarea.dsgn-input {
   padding: var(--dsgn-inset);
   border-radius: var(--dsgn-radius-l);
   background: var(--dsgn-surface-raised);
-  box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border);
+  box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border-control), var(--dsgn-shadow-raised);
   color: var(--dsgn-text);
   font-family: var(--dsgn-font-sans);
   font-size: var(--dsgn-font-size-body-s);
@@ -2291,11 +2370,11 @@ textarea.dsgn-input {
 .dsgn-option-card-meta { color: var(--dsgn-text); font-weight: var(--dsgn-font-weight-medium); font-variant-numeric: tabular-nums; white-space: nowrap; }
 
 @media (hover: hover) {
-  .dsgn-option-card:not(:has(> :disabled)):hover { box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border-strong); }
+  .dsgn-option-card:not(:has(> :disabled)):hover { box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border-strong), var(--dsgn-shadow-raised); }
 }
 .dsgn-option-card:has(> :checked) {
   background: var(--dsgn-accent-subtle);
-  box-shadow: inset 0 0 0 var(--dsgn-space-2) var(--dsgn-accent-solid);
+  box-shadow: inset 0 0 0 var(--dsgn-space-2) var(--dsgn-accent-solid), var(--dsgn-shadow-raised);
 }
 .dsgn-option-card:has(> :focus-visible) { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: var(--dsgn-focus-offset); }
 .dsgn-option-card:has(> :disabled) { background: var(--dsgn-neutral-subtle); color: var(--dsgn-text-disabled); cursor: not-allowed; }
@@ -2667,7 +2746,8 @@ textarea.dsgn-input {
  * One choice out of 2–5 short options that switch a view or mode right away.
  * Radios give arrow-key navigation and form submission for free.
  * Total height = control height: the track adds space-2 around, each segment has pad-y − space-2.
- * Selected = raised surface + border-strong outline (3:1 on the track) + text colour + filled icon.
+ * Track = control-track (+ control-track-border, visible in dark). Selected = control-selected fill
+ * (+ soft shadow with Elevation = Soft), text colour instead of muted and a filled icon; no outline.
  * data-width="full" stretches the segments to fill the row. When the options do not fit, the
  * track scrolls sideways (like Tabs); prefer icon-only segments or a Select on narrow screens.
  */
@@ -2680,7 +2760,8 @@ textarea.dsgn-input {
   scrollbar-width: none;
   padding: var(--dsgn-space-2);
   border-radius: var(--dsgn-radius-m);
-  background: var(--dsgn-neutral-subtle);
+  background: var(--dsgn-control-track);
+  box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-control-track-border);
   font-family: var(--dsgn-font-sans);
   font-size: var(--dsgn-control-font-size);
   line-height: var(--dsgn-control-line-height);
@@ -2721,14 +2802,14 @@ textarea.dsgn-input {
   .dsgn-segment:not(:has(> input:disabled)):hover > .dsgn-icon { --_fill: 1; }
 }
 .dsgn-segment:has(> input:checked) {
-  background: var(--dsgn-surface-raised);
-  box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border-strong);
+  background: var(--dsgn-control-selected);
+  box-shadow: var(--dsgn-shadow-control);
   color: var(--dsgn-text);
 }
 .dsgn-segment:has(> input:checked) > .dsgn-icon { --_fill: 1; }
-.dsgn-segment:has(> input:focus-visible) { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: calc(-1 * var(--dsgn-focus-width)); } /* inset: never clipped by the scrolling track */
+.dsgn-segment:has(> input:focus-visible) { outline: var(--dsgn-focus-width) solid var(--dsgn-focus-neutral); outline-offset: calc(-1 * var(--dsgn-focus-width)); } /* inset: never clipped by the scrolling track */
 .dsgn-segment:has(> input:disabled) { color: var(--dsgn-text-disabled); cursor: not-allowed; }
-.dsgn-segment:has(> input:disabled:checked) { box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border); }
+.dsgn-segment:has(> input:disabled:checked) { background: var(--dsgn-neutral-subtle); box-shadow: none; }
 
 @media (prefers-reduced-motion: no-preference) {
   .dsgn-segment { transition: background-color var(--dsgn-duration-fast) var(--dsgn-ease), color var(--dsgn-duration-fast) var(--dsgn-ease); }
@@ -2902,7 +2983,7 @@ textarea.dsgn-input {
   padding: var(--dsgn-inset);
   border-radius: var(--dsgn-radius-l);
   background: var(--dsgn-surface-raised);
-  box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border);
+  box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border), var(--dsgn-shadow-raised);
   color: var(--dsgn-text);
   font-family: var(--dsgn-font-sans);
   font-size: var(--dsgn-font-size-body-s);
@@ -3049,7 +3130,7 @@ textarea.dsgn-input {
   overflow: auto;
   border-radius: var(--dsgn-radius-l);
   background: var(--dsgn-surface-raised);
-  box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border);
+  box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border), var(--dsgn-shadow-raised);
 }
 .dsgn-table-wrap:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: var(--dsgn-focus-offset); }
 
@@ -3111,17 +3192,33 @@ textarea.dsgn-input {
 }
 .dsgn-table-sort > .dsgn-icon { color: var(--dsgn-text-muted); }
 @media (hover: hover) { .dsgn-table-sort:hover { color: var(--dsgn-text); } }
-.dsgn-table-sort:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: var(--dsgn-focus-offset); }
+.dsgn-table-sort:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus-neutral); outline-offset: var(--dsgn-focus-offset); }
 .dsgn-table th[aria-sort] { color: var(--dsgn-text); }
 .dsgn-table th[aria-sort] .dsgn-table-sort > .dsgn-icon { color: var(--dsgn-accent-text); }
 
-/* rows */
+/* rows. Things inside a row that have their own hover (ghost / subtle buttons, chips, badges) are
+   shifted one step, so they never melt into the row's own hover or selection colour: the cell keeps
+   the next steps in private properties and its children read the tinted tokens from them. */
 @media (hover: hover) {
-  .dsgn-table tbody tr:hover > td { background: var(--dsgn-neutral-subtle); }
+  .dsgn-table tbody tr:hover > td {
+    background: var(--dsgn-neutral-subtle);
+    --_n1: var(--dsgn-neutral-subtle-hover); --_n2: var(--dsgn-neutral-subtle-pressed);
+  }
+  .dsgn-table tbody tr:hover > td > * {
+    --dsgn-neutral-subtle: var(--_n1); --dsgn-neutral-subtle-hover: var(--_n2); --dsgn-neutral-subtle-pressed: var(--_n2);
+  }
 }
-.dsgn-table tbody tr[aria-selected="true"] > td { background: var(--dsgn-accent-subtle); }
+/* selected row: accent tint; neutral things inside take the accent tint one step up, so grey never sits on blue */
+.dsgn-table tbody tr[aria-selected="true"] > td {
+  background: var(--dsgn-accent-subtle);
+  --_a1: var(--dsgn-accent-subtle-hover); --_a2: var(--dsgn-accent-subtle-pressed);
+}
 @media (hover: hover) {
-  .dsgn-table tbody tr[aria-selected="true"]:hover > td { background: var(--dsgn-accent-subtle-hover); }
+  .dsgn-table tbody tr[aria-selected="true"]:hover > td { background: var(--dsgn-accent-subtle-hover); --_a1: var(--dsgn-accent-subtle-pressed); }
+}
+.dsgn-table tbody tr[aria-selected="true"] > td > * {
+  --dsgn-neutral-subtle: var(--_a1); --dsgn-neutral-subtle-hover: var(--_a2); --dsgn-neutral-subtle-pressed: var(--_a2);
+  --dsgn-accent-subtle: var(--_a1); --dsgn-accent-subtle-hover: var(--_a2); --dsgn-accent-subtle-pressed: var(--_a2);
 }
 .dsgn-table td[data-muted], .dsgn-table .dsgn-table-muted { color: var(--dsgn-text-muted); }
 
@@ -3364,6 +3461,11 @@ textarea.dsgn-input {
   <input type="range" class="dsgn-slider" id="p-accent-h" min="0" max="359" step="1" value="260"></div><div class="dsgn-field">
   <div class="dsgn-slider-label"><label class="dsgn-label" for="p-accent-c">Chroma</label><output class="dsgn-slider-value" id="p-accent-c-out">0.17</output></div>
   <input type="range" class="dsgn-slider" id="p-accent-c" min="0" max="0.3" step="0.002" value="0.17"></div>
+      <div class="dsgn-field"><span class="dsgn-label" id="r-fill">Button fill</span><div class="dsgn-segmented" data-width="full" role="radiogroup" aria-labelledby="r-fill"><label class="dsgn-segment"><input type="radio" name="fill" value="default" checked>Default</label><label class="dsgn-segment"><input type="radio" name="fill" value="strong">Strong</label><label class="dsgn-segment"><input type="radio" name="fill" value="stronger">Stronger</label><label class="dsgn-segment"><input type="radio" name="fill" value="auto">Brand</label></div></div>
+    </fieldset>
+    <fieldset><legend>Controls</legend>
+      <div class="dsgn-field"><span class="dsgn-label" id="r-controls">Colour of controls</span><div class="dsgn-segmented" data-width="full" role="radiogroup" aria-labelledby="r-controls"><label class="dsgn-segment"><input type="radio" name="controls" value="accent" checked>Accent</label><label class="dsgn-segment"><input type="radio" name="controls" value="neutral">Neutral</label></div></div>
+      <p class="dsgn-hint">Neutral: buttons, checkboxes and focus in near-black / near-white.</p>
     </fieldset>
     <fieldset><legend>Greys</legend>
       <label class="dsgn-choice"><input type="checkbox" role="switch" class="dsgn-switch" id="follow"> Tint towards the accent</label>
@@ -3530,11 +3632,11 @@ const interactive = {
 };
 const status = ['solid', 'subtle', 'text', 'border'];
 
-function intentTokens(name, keys, overrides = {}) {
+function intentTokens(name, keys, overrides = {}, roles = {}) {
   const out = {};
   for (const k of keys) {
     const [l, d] = overrides[k] || interactive[k];
-    out[`${name}-${k}`] = { light: [name, l], dark: [name, d] };
+    out[`${name}-${k}`] = { light: [name, l], dark: [name, d], ...(roles[k] ? { role: roles[k] } : {}) };
   }
   // text on solid is always neutral: near-white in light, near-black in dark
   out[`${name}-solid-text`] = { light: ['neutral', 99], dark: ['neutral', 14] };
@@ -3552,7 +3654,16 @@ const semanticColor = {
   'text-disabled':  { light: ['neutral', 70], dark: ['neutral', 46] },
   'border':         { light: ['neutral', 85], dark: ['neutral', 30] },
   'border-strong':  { light: ['neutral', 54], dark: ['neutral', 54] },
-  'focus':          { light: ['accent', 54],  dark: ['accent', 70] },
+  // outline of fields and selectable containers (input, select, chip, option card, segmented track in dark)
+  'border-control': { light: ['neutral', 64], dark: ['neutral', 46] },
+  // focus ring follows the element: accent (default), neutral elements, danger elements
+  'focus':          { light: ['accent', 54],  dark: ['accent', 70], role: 'accent-focus' },
+  'focus-neutral':  { light: ['neutral', 38], dark: ['neutral', 85] },
+  'focus-danger':   { light: ['danger', 54],  dark: ['danger', 70] },
+  // track of a segmented control: tinted in light; in dark an outlined, near-surface track with a lighter selected segment
+  'control-track':        { light: ['neutral', 94], dark: ['neutral', 14] },
+  'control-track-border': { light: ['neutral', 94], dark: ['neutral', 46] },
+  'control-selected':     { light: ['neutral', 99], dark: ['neutral', 38] },
   // neutral solid sits near the text colour: near-black in light, near-white in dark,
   // and moves towards the surface on hover/press
   ...intentTokens('neutral', interactiveKeys, {
@@ -3560,10 +3671,25 @@ const semanticColor = {
     'solid-hover':   [30, 85],
     'solid-pressed': [38, 76],
   }),
-  ...intentTokens('accent', interactiveKeys),
+  // accent fills go through role slots (see below) so a project theme can make them stronger or neutral
+  ...intentTokens('accent', interactiveKeys, {}, { 'solid': 'accent-fill', 'solid-hover': 'accent-fill-hover', 'solid-pressed': 'accent-fill-pressed' }),
   ...intentTokens('danger', interactiveKeys),
   ...intentTokens('success', status),
   ...intentTokens('warning', status),
+};
+
+// Role slots: a few per-theme primitives the semantic tokens above point to (CSS --dsgn-accent-fill-light,
+// Figma Primitives color/accent/fill-light …). A project theme re-points them (stronger accent, neutral
+// controls) without touching the Color collection. Defaults = the steps written above.
+const roleChoices = {
+  // accent fill strength: steps for solid / hover / pressed, light and dark (darker in light, lighter in dark)
+  accentFill: {
+    default:  { light: [54, 46, 38], dark: [64, 70, 76] },
+    strong:   { light: [46, 38, 30], dark: [70, 76, 85] },
+    stronger: { light: [38, 30, 26], dark: [76, 85, 90] },
+  },
+  // controls: 'neutral' makes solid buttons, checkboxes, switches, sliders and the focus ring near-black / near-white
+  neutralControls: { fill: { light: [22, 30, 38], dark: [90, 85, 76] }, focus: { light: 38, dark: 85 } },
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -3578,6 +3704,8 @@ function contrastPairs() {
   const add = (fg, bg, min, note) => pairs.push({ fg, bg, min, note });
 
   for (const s of surfaces) {
+    add('focus-neutral', s, UI, 'focus ring, neutral elements (2.4.13)');
+    add('focus-danger', s, UI, 'focus ring, danger elements (2.4.13)');
     add('text', s, TEXT, 'body text');
     add('text-muted', s, TEXT, 'secondary text');
     add('border-strong', s, UI, 'input border (1.4.11)');
@@ -3685,6 +3813,17 @@ const shadowOverlay = {
   light: '0 1px 2px oklch(0% 0 0 / 0.06), 0 8px 24px oklch(0% 0 0 / 0.12)',
   dark: '0 1px 2px oklch(0% 0 0 / 0.4), 0 8px 24px oklch(0% 0 0 / 0.5)',
 };
+// Elevation: optional soft shadows that layer controls and containers. 'flat' = no shadow (default).
+// Colours per theme; geometry per mode. Figma: collection "Elevation" (Flat / Soft) + effect styles.
+const elevation = {
+  modes: ['flat', 'soft'],
+  default: 'flat',
+  //                    flat          soft
+  control: { y: [0, 1], blur: [0, 2] },            // buttons, fields, chips, selected segment, switch thumb
+  raised:  { y: [0, 1], blur: [0, 3], y2: [0, 4], blur2: [0, 12] },   // cards, stat tiles, option cards, table
+  color: { light: 'oklch(22% 0.01 260 / 0.10)', dark: 'oklch(0% 0 0 / 0.45)' },
+  colorSoft: { light: 'oklch(22% 0.01 260 / 0.06)', dark: 'oklch(0% 0 0 / 0.30)' },
+};
 const motion = { 'duration-fast': '100ms', duration: '200ms', ease: 'cubic-bezier(0.2, 0, 0, 1)' };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -3705,7 +3844,7 @@ const layout = {
   container: { 'container-max': 1200, 'container-narrow': 720 },
 };
 
-return { prefix, unit, snap, ladder, palettes, guarantee, semanticColor, contrastPairs, fontFamily, fontWeight, typeScale, space, density, radius, misc, iconGrade, scrim, shadowOverlay, motion, layout };
+return { prefix, unit, snap, ladder, palettes, guarantee, semanticColor, roleChoices, contrastPairs, fontFamily, fontWeight, typeScale, space, density, radius, misc, iconGrade, scrim, shadowOverlay, elevation, motion, layout };
 })();
 const __theme = (() => {
 // dsgn theme engine — a project theme is a handful of parameters on top of the package:
@@ -3715,7 +3854,7 @@ const __theme = (() => {
 // redefines primitive custom properties inside @layer dsgn.theme (above dsgn.tokens), plus the
 // matching Figma values. Dependency-free: runs in Node (CLI) and in the browser (customizer).
 const { resolve, contrast, fmtOklch } = __color;
-const { prefix, ladder, palettes: basePalettes, guarantee, semanticColor, contrastPairs, density, radius } = __tokens;
+const { prefix, ladder, palettes: basePalettes, guarantee, semanticColor, contrastPairs, density, radius, elevation, roleChoices } = __tokens;
 
 const PALETTES = Object.keys(basePalettes);          // neutral, accent, danger, success, warning
 const v = (n) => `--${prefix}-${n}`;
@@ -3750,20 +3889,38 @@ function buildPrimitives(pals = basePalettes) {
   for (const [name, p] of Object.entries(pals)) out[name] = buildPalette(p);
   return out;
 }
-function resolveSemantic(prims, theme) {
-  const out = {};
-  for (const [name, def] of Object.entries(semanticColor)) {
-    const [pal, step] = def[theme];
-    out[name] = { ref: [pal, step], color: prims[pal][step] };
+/** Role slots (accent-fill, accent-fill-hover, accent-fill-pressed, accent-focus) → [palette, step] per theme. */
+const ROLES = ['accent-fill', 'accent-fill-hover', 'accent-fill-pressed', 'accent-focus'];
+function roleRefs({ accentFill = 'default', controls = 'accent' } = {}) {
+  const out = { light: {}, dark: {} };
+  for (const theme of ['light', 'dark']) {
+    const neutral = controls === 'neutral';
+    const steps = neutral ? roleChoices.neutralControls.fill[theme] : (roleChoices.accentFill[accentFill] || roleChoices.accentFill.default)[theme];
+    const pal = neutral ? 'neutral' : 'accent';
+    out[theme]['accent-fill'] = [pal, steps[0]];
+    out[theme]['accent-fill-hover'] = [pal, steps[1]];
+    out[theme]['accent-fill-pressed'] = [pal, steps[2]];
+    out[theme]['accent-focus'] = neutral ? ['neutral', roleChoices.neutralControls.focus[theme]] : semanticColor.focus[theme];
   }
   return out;
 }
-/** Every contract pair with the given palettes, both themes (no envelope sweep: fast enough for a live UI). */
-function checkContrast(pals) {
+const roleVar = (role, theme) => `${role}-${theme}`;                       // CSS: --dsgn-accent-fill-light
+const roleFigma = (role, theme) => { const [pal, ...rest] = role.split('-'); return `color/${pal}/${rest.join('-')}-${theme}`; };   // color/accent/fill-light
+
+function resolveSemantic(prims, theme, roles = null) {
+  const out = {};
+  for (const [name, def] of Object.entries(semanticColor)) {
+    const [pal, step] = def.role && roles ? roles[theme][def.role] : def[theme];
+    out[name] = { ref: [pal, step], color: prims[pal][step], role: def.role || null };
+  }
+  return out;
+}
+/** Every contract pair with the given palettes (and role choices), both themes (no envelope sweep: fast enough for a live UI). */
+function checkContrast(pals, roles = null) {
   const prims = buildPrimitives(pals);
   const out = [];
   for (const theme of ['light', 'dark']) {
-    const sem = resolveSemantic(prims, theme);
+    const sem = resolveSemantic(prims, theme, roles);
     for (const p of contrastPairs()) {
       const actual = contrast(sem[p.fg].color.Y, sem[p.bg].color.Y);
       out.push({ theme, ...p, actual, pass: actual >= p.min });
@@ -3773,7 +3930,7 @@ function checkContrast(pals) {
 }
 
 // ── config → resolved theme ──────────────────────────────────────────────────
-const DEFAULTS = { name: 'Project', colors: {}, brand: null, font: null, radius: radius.default, density: density.default };
+const DEFAULTS = { name: 'Project', colors: {}, brand: null, font: null, radius: radius.default, density: density.default, elevation: elevation.default, accentFill: 'default', controls: 'accent' };
 
 /**
  * Normalises a theme config. Colour values:
@@ -3814,13 +3971,24 @@ function resolveTheme(config = {}) {
   if (brand) { try { hexToOklch(brand); } catch (e) { errors.push(`brand: ${e.message}`); brand = null; } }
   if (!density.modes.includes(cfg.density)) { errors.push(`density: use one of ${density.modes.join(', ')}`); cfg.density = density.default; }
   if (!radius.modes.includes(cfg.radius)) { errors.push(`radius: use one of ${radius.modes.join(', ')}`); cfg.radius = radius.default; }
+  if (!elevation.modes.includes(cfg.elevation)) { errors.push(`elevation: use one of ${elevation.modes.join(', ')}`); cfg.elevation = elevation.default; }
+  if (!['accent', 'neutral'].includes(cfg.controls)) { errors.push('controls: use accent or neutral'); cfg.controls = 'accent'; }
+  let accentFill = cfg.accentFill;
+  if (accentFill === 'auto') {                     // the fill strength whose light step is closest to the brand colour
+    const ref = brand ? hexToOklch(brand).L : null;
+    const opts = Object.entries(roleChoices.accentFill);
+    accentFill = ref === null ? 'default' : opts.reduce((a, o) => (Math.abs(o[1].light[0] / 100 - ref) < Math.abs(a[1].light[0] / 100 - ref) ? o : a))[0];
+    notes.push(`accent fill: ${accentFill} (closest to the brand colour)`);
+  }
+  if (!roleChoices.accentFill[accentFill]) { errors.push(`accentFill: use auto or one of ${Object.keys(roleChoices.accentFill).join(', ')}`); accentFill = 'default'; }
   let font = null;
   if (cfg.font) {
     font = typeof cfg.font === 'string' ? { sans: cfg.font } : { ...cfg.font };
     if (font.import && !/^https:\/\//.test(font.import)) { errors.push('font.import: must be an https:// stylesheet URL'); delete font.import; }
     if (font.sans && /[;{}<>]/.test(font.sans)) { errors.push('font.sans: not a valid font-family list'); font.sans = null; }
   }
-  return { name: String(cfg.name || 'Project'), palettes: pals, brand, font, radius: cfg.radius, density: cfg.density, notes, errors };
+  const roles = roleRefs({ accentFill, controls: cfg.controls });
+  return { name: String(cfg.name || 'Project'), palettes: pals, brand, font, radius: cfg.radius, density: cfg.density, elevation: cfg.elevation, accentFill, controls: cfg.controls, roles, notes, errors };
 }
 
 // ── CSS ──────────────────────────────────────────────────────────────────────
@@ -3873,6 +4041,13 @@ function themeCss(theme, { tokensCss = '', source = 'dsgn.theme.mjs', selector =
     lines.push(`/* ${name}: hue ${p.h}, chroma ${p.c} */`);
     for (const s of ladder) lines.push(`${v(`${name}-${s.step}`)}: ${fmtOklch(pal[s.step])};`);
   }
+  const defRoles = roleRefs();
+  const roleLines = [];
+  for (const theme of ['light', 'dark']) for (const role of ROLES) {
+    const [pal, step] = t.roles[theme][role], [dp, ds] = defRoles[theme][role];
+    if (pal !== dp || step !== ds) roleLines.push(`${v(roleVar(role, theme))}: var(${v(`${pal}-${step}`)});`);
+  }
+  if (roleLines.length) lines.push(`/* ${t.controls === 'neutral' ? 'neutral controls' : `accent fill: ${t.accentFill}`} */`, ...roleLines);
   if (t.brand) lines.push('/* exact brand colour: logos and illustrations, not for text or controls (no contrast guarantee) */', `${v('brand')}: ${t.brand};`);
   if (t.font && t.font.sans) lines.push(`${v('font-sans')}: ${t.font.sans};`);
 
@@ -3880,7 +4055,7 @@ function themeCss(theme, { tokensCss = '', source = 'dsgn.theme.mjs', selector =
   if (t.font && t.font.import) css.push(`@import url("${t.font.import}");`);
   css.push('@layer dsgn.tokens, dsgn.theme, dsgn.components;', '@layer dsgn.theme {');
   if (lines.length) css.push(`  ${selector} {`, indent(lines.join('\n'), '    '), '  }');
-  for (const [axis, mode, def] of [['density', t.density, density.default], ['radius', t.radius, radius.default]]) {
+  for (const [axis, mode, def] of [['density', t.density, density.default], ['radius', t.radius, radius.default], ['elevation', t.elevation, elevation.default]]) {
     if (mode === def) continue;
     if (!tokensCss) throw new Error(`themeCss: default ${axis} "${mode}" needs the package tokens CSS`);
     const sel = `:root:not([data-${axis}])`;
@@ -3901,6 +4076,7 @@ function themeFigma(theme) {
   const prims = buildPrimitives(t.palettes);
   const primitives = {};
   for (const name of PALETTES) for (const s of ladder) primitives[`color/${name}/${s.step}`] = prims[name][s.step].hex;
+  for (const theme of ['light', 'dark']) for (const role of ROLES) { const [pal, step] = t.roles[theme][role]; primitives[roleFigma(role, theme)] = prims[pal][step].hex; }
   const family = t.font && t.font.sans ? t.font.sans.split(',')[0].trim().replace(/^['"]|['"]$/g, '') : null;
   return { mode: t.name, primitives, typography: family ? { 'family/sans': family } : {} };
 }
@@ -3987,7 +4163,11 @@ function themeCode(cfg) {
   L.push('  },');
   if (cfg.brand) L.push(`  brand: ${q(cfg.brand)},`);
   if (cfg.font && cfg.font.sans) L.push(`  font: { sans: ${q(cfg.font.sans)}${cfg.font.import ? `, import: ${q(cfg.font.import)}` : ''} },`);
-  L.push(`  radius: ${q(cfg.radius || radius.default)},`, `  density: ${q(cfg.density || density.default)},`, '};');
+  if (cfg.accentFill && cfg.accentFill !== 'default') L.push(`  accentFill: ${q(cfg.accentFill)},          // default | strong | stronger | auto (closest to the brand colour)`);
+  if (cfg.controls && cfg.controls !== 'accent') L.push(`  controls: ${q(cfg.controls)},             // accent | neutral (near-black / near-white buttons, checkboxes, focus)`);
+  L.push(`  radius: ${q(cfg.radius || radius.default)},`, `  density: ${q(cfg.density || density.default)},`);
+  if (cfg.elevation && cfg.elevation !== elevation.default) L.push(`  elevation: ${q(cfg.elevation)},            // flat | soft (small shadows on controls and cards)`);
+  L.push('};');
   return L.join('\n') + '\n';
 }
 
@@ -4032,7 +4212,8 @@ function stateFromConfig(cfg = {}) {
   return {
     name: t.name, brand: cfg.brand || accentHex || '',
     follow: !!(colors.neutral && colors.neutral.h === 'accent'),
-    font: (t.font && t.font.sans) || '', radius: t.radius, density: t.density,
+    font: (t.font && t.font.sans) || '', radius: t.radius, density: t.density, elevation: t.elevation,
+    accentFill: cfg.accentFill === 'auto' ? 'auto' : t.accentFill, controls: t.controls,
     pal: JSON.parse(JSON.stringify(t.palettes)),
   };
 }
@@ -4050,11 +4231,14 @@ function configFromState(state) {
   const cfg = { name: state.name || 'Project', colors };
   if (state.brand && !accentFromBrand && brandHc) cfg.brand = state.brand;
   if (state.font) cfg.font = { sans: state.font };
+  if (state.accentFill && state.accentFill !== 'default') cfg.accentFill = state.accentFill;
+  if (state.controls === 'neutral') cfg.controls = 'neutral';
   cfg.radius = state.radius; cfg.density = state.density;
+  if (state.elevation && state.elevation !== elevation.default) cfg.elevation = state.elevation;
   return cfg;
 }
 
-return { PALETTES, hexToOklch, buildPalette, buildPrimitives, resolveSemantic, checkContrast, DEFAULTS, resolveTheme, themeCss, themeFigma, figmaApplySource, themeFigmaScript, starterConfig, themeCode, parseThemeCode, stateFromConfig, configFromState };
+return { PALETTES, hexToOklch, buildPalette, buildPrimitives, ROLES, roleRefs, roleVar, roleFigma, resolveSemantic, checkContrast, DEFAULTS, resolveTheme, themeCss, themeFigma, figmaApplySource, themeFigmaScript, starterConfig, themeCode, parseThemeCode, stateFromConfig, configFromState };
 })();
 (function () {
   var E = __theme, T = __tokens;
@@ -4069,12 +4253,13 @@ return { PALETTES, hexToOklch, buildPalette, buildPrimitives, resolveSemantic, c
     $('follow').checked = state.follow; $('font').value = state.font ? state.font.split(',')[0].trim().replace(/^['"]|['"]$/g, '') : '';
     names.forEach(function (n) { setSlider('p-' + n + '-h', state.pal[n].h, '°'); setSlider('p-' + n + '-c', state.pal[n].c); });
     $('p-neutral-h').disabled = state.follow;
+    [['fill', 'accentFill', 'default'], ['controls', 'controls', 'accent']].forEach(function (x) { document.querySelectorAll('input[name="' + x[0] + '"]').forEach(function (r) { r.checked = r.value === (state[x[1]] || x[2]); }); });
   }
   function render() {
     if (state.follow) { state.pal.neutral.h = state.pal.accent.h; setSlider('p-neutral-h', state.pal.neutral.h, '°'); }
     var t = E.resolveTheme(E.configFromState(state));
     $('theme-style').textContent = E.themeCss(Object.assign({}, t, { radius: T.radius.default, density: T.density.default, font: null }), { selector: '#ladder' }).replace(/^@layer dsgn\.tokens, dsgn\.theme, dsgn\.components;$/m, '');
-    var res = E.checkContrast(t.palettes), failed = res.filter(function (r) { return !r.pass; });
+    var res = E.checkContrast(t.palettes, t.roles), failed = res.filter(function (r) { return !r.pass; });
     $('contrast').innerHTML = '';
     var b = document.createElement('span'); b.className = 'dsgn-badge'; b.setAttribute('data-intent', failed.length ? 'danger' : 'success');
     b.textContent = failed.length ? failed.length + ' contrast pairs fail' : 'Contrast: all ' + res.length + ' pairs pass';
@@ -4115,6 +4300,8 @@ return { PALETTES, hexToOklch, buildPalette, buildPrimitives, resolveSemantic, c
       else if (hex) return;
     }
     else if (id === 'follow') { state.follow = e.target.checked; $('p-neutral-h').disabled = state.follow; }
+    else if (e.target.name === 'fill') state.accentFill = e.target.value;
+    else if (e.target.name === 'controls') state.controls = e.target.value;
     else return;
     render();
   });

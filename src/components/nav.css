@@ -43,7 +43,7 @@
 .dsgn-nav-link:active { background: var(--dsgn-neutral-subtle-hover); }
 .dsgn-nav-link[aria-current="page"] { background: var(--dsgn-neutral-subtle); color: var(--dsgn-text); }
 .dsgn-nav-link[aria-current="page"] > .dsgn-icon { --_fill: 1; }
-.dsgn-nav-link:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: calc(-1 * var(--dsgn-focus-width)); }
+.dsgn-nav-link:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus-neutral); outline-offset: calc(-1 * var(--dsgn-focus-width)); }
 
 .dsgn-nav-label {
   padding: var(--dsgn-space-12) var(--dsgn-control-pad-y) var(--dsgn-space-4);

@@ -5,7 +5,7 @@
 // redefines primitive custom properties inside @layer dsgn.theme (above dsgn.tokens), plus the
 // matching Figma values. Dependency-free: runs in Node (CLI) and in the browser (customizer).
 import { resolve, contrast, fmtOklch } from './color.mjs';
-import { prefix, ladder, palettes as basePalettes, guarantee, semanticColor, contrastPairs, density, radius } from './tokens.config.mjs';
+import { prefix, ladder, palettes as basePalettes, guarantee, semanticColor, contrastPairs, density, radius, elevation, roleChoices } from './tokens.config.mjs';
 
 export const PALETTES = Object.keys(basePalettes);          // neutral, accent, danger, success, warning
 const v = (n) => `--${prefix}-${n}`;
@@ -40,20 +40,38 @@ export function buildPrimitives(pals = basePalettes) {
   for (const [name, p] of Object.entries(pals)) out[name] = buildPalette(p);
   return out;
 }
-export function resolveSemantic(prims, theme) {
-  const out = {};
-  for (const [name, def] of Object.entries(semanticColor)) {
-    const [pal, step] = def[theme];
-    out[name] = { ref: [pal, step], color: prims[pal][step] };
+/** Role slots (accent-fill, accent-fill-hover, accent-fill-pressed, accent-focus) → [palette, step] per theme. */
+export const ROLES = ['accent-fill', 'accent-fill-hover', 'accent-fill-pressed', 'accent-focus'];
+export function roleRefs({ accentFill = 'default', controls = 'accent' } = {}) {
+  const out = { light: {}, dark: {} };
+  for (const theme of ['light', 'dark']) {
+    const neutral = controls === 'neutral';
+    const steps = neutral ? roleChoices.neutralControls.fill[theme] : (roleChoices.accentFill[accentFill] || roleChoices.accentFill.default)[theme];
+    const pal = neutral ? 'neutral' : 'accent';
+    out[theme]['accent-fill'] = [pal, steps[0]];
+    out[theme]['accent-fill-hover'] = [pal, steps[1]];
+    out[theme]['accent-fill-pressed'] = [pal, steps[2]];
+    out[theme]['accent-focus'] = neutral ? ['neutral', roleChoices.neutralControls.focus[theme]] : semanticColor.focus[theme];
   }
   return out;
 }
-/** Every contract pair with the given palettes, both themes (no envelope sweep: fast enough for a live UI). */
-export function checkContrast(pals) {
+export const roleVar = (role, theme) => `${role}-${theme}`;                       // CSS: --dsgn-accent-fill-light
+export const roleFigma = (role, theme) => { const [pal, ...rest] = role.split('-'); return `color/${pal}/${rest.join('-')}-${theme}`; };   // color/accent/fill-light
+
+export function resolveSemantic(prims, theme, roles = null) {
+  const out = {};
+  for (const [name, def] of Object.entries(semanticColor)) {
+    const [pal, step] = def.role && roles ? roles[theme][def.role] : def[theme];
+    out[name] = { ref: [pal, step], color: prims[pal][step], role: def.role || null };
+  }
+  return out;
+}
+/** Every contract pair with the given palettes (and role choices), both themes (no envelope sweep: fast enough for a live UI). */
+export function checkContrast(pals, roles = null) {
   const prims = buildPrimitives(pals);
   const out = [];
   for (const theme of ['light', 'dark']) {
-    const sem = resolveSemantic(prims, theme);
+    const sem = resolveSemantic(prims, theme, roles);
     for (const p of contrastPairs()) {
       const actual = contrast(sem[p.fg].color.Y, sem[p.bg].color.Y);
       out.push({ theme, ...p, actual, pass: actual >= p.min });
@@ -63,7 +81,7 @@ export function checkContrast(pals) {
 }
 
 // ── config → resolved theme ──────────────────────────────────────────────────
-export const DEFAULTS = { name: 'Project', colors: {}, brand: null, font: null, radius: radius.default, density: density.default };
+export const DEFAULTS = { name: 'Project', colors: {}, brand: null, font: null, radius: radius.default, density: density.default, elevation: elevation.default, accentFill: 'default', controls: 'accent' };
 
 /**
  * Normalises a theme config. Colour values:
@@ -104,13 +122,24 @@ export function resolveTheme(config = {}) {
   if (brand) { try { hexToOklch(brand); } catch (e) { errors.push(`brand: ${e.message}`); brand = null; } }
   if (!density.modes.includes(cfg.density)) { errors.push(`density: use one of ${density.modes.join(', ')}`); cfg.density = density.default; }
   if (!radius.modes.includes(cfg.radius)) { errors.push(`radius: use one of ${radius.modes.join(', ')}`); cfg.radius = radius.default; }
+  if (!elevation.modes.includes(cfg.elevation)) { errors.push(`elevation: use one of ${elevation.modes.join(', ')}`); cfg.elevation = elevation.default; }
+  if (!['accent', 'neutral'].includes(cfg.controls)) { errors.push('controls: use accent or neutral'); cfg.controls = 'accent'; }
+  let accentFill = cfg.accentFill;
+  if (accentFill === 'auto') {                     // the fill strength whose light step is closest to the brand colour
+    const ref = brand ? hexToOklch(brand).L : null;
+    const opts = Object.entries(roleChoices.accentFill);
+    accentFill = ref === null ? 'default' : opts.reduce((a, o) => (Math.abs(o[1].light[0] / 100 - ref) < Math.abs(a[1].light[0] / 100 - ref) ? o : a))[0];
+    notes.push(`accent fill: ${accentFill} (closest to the brand colour)`);
+  }
+  if (!roleChoices.accentFill[accentFill]) { errors.push(`accentFill: use auto or one of ${Object.keys(roleChoices.accentFill).join(', ')}`); accentFill = 'default'; }
   let font = null;
   if (cfg.font) {
     font = typeof cfg.font === 'string' ? { sans: cfg.font } : { ...cfg.font };
     if (font.import && !/^https:\/\//.test(font.import)) { errors.push('font.import: must be an https:// stylesheet URL'); delete font.import; }
     if (font.sans && /[;{}<>]/.test(font.sans)) { errors.push('font.sans: not a valid font-family list'); font.sans = null; }
   }
-  return { name: String(cfg.name || 'Project'), palettes: pals, brand, font, radius: cfg.radius, density: cfg.density, notes, errors };
+  const roles = roleRefs({ accentFill, controls: cfg.controls });
+  return { name: String(cfg.name || 'Project'), palettes: pals, brand, font, radius: cfg.radius, density: cfg.density, elevation: cfg.elevation, accentFill, controls: cfg.controls, roles, notes, errors };
 }
 
 // ── CSS ──────────────────────────────────────────────────────────────────────
@@ -163,6 +192,13 @@ export function themeCss(theme, { tokensCss = '', source = 'dsgn.theme.mjs', sel
     lines.push(`/* ${name}: hue ${p.h}, chroma ${p.c} */`);
     for (const s of ladder) lines.push(`${v(`${name}-${s.step}`)}: ${fmtOklch(pal[s.step])};`);
   }
+  const defRoles = roleRefs();
+  const roleLines = [];
+  for (const theme of ['light', 'dark']) for (const role of ROLES) {
+    const [pal, step] = t.roles[theme][role], [dp, ds] = defRoles[theme][role];
+    if (pal !== dp || step !== ds) roleLines.push(`${v(roleVar(role, theme))}: var(${v(`${pal}-${step}`)});`);
+  }
+  if (roleLines.length) lines.push(`/* ${t.controls === 'neutral' ? 'neutral controls' : `accent fill: ${t.accentFill}`} */`, ...roleLines);
   if (t.brand) lines.push('/* exact brand colour: logos and illustrations, not for text or controls (no contrast guarantee) */', `${v('brand')}: ${t.brand};`);
   if (t.font && t.font.sans) lines.push(`${v('font-sans')}: ${t.font.sans};`);
 
@@ -170,7 +206,7 @@ export function themeCss(theme, { tokensCss = '', source = 'dsgn.theme.mjs', sel
   if (t.font && t.font.import) css.push(`@import url("${t.font.import}");`);
   css.push('@layer dsgn.tokens, dsgn.theme, dsgn.components;', '@layer dsgn.theme {');
   if (lines.length) css.push(`  ${selector} {`, indent(lines.join('\n'), '    '), '  }');
-  for (const [axis, mode, def] of [['density', t.density, density.default], ['radius', t.radius, radius.default]]) {
+  for (const [axis, mode, def] of [['density', t.density, density.default], ['radius', t.radius, radius.default], ['elevation', t.elevation, elevation.default]]) {
     if (mode === def) continue;
     if (!tokensCss) throw new Error(`themeCss: default ${axis} "${mode}" needs the package tokens CSS`);
     const sel = `:root:not([data-${axis}])`;
@@ -191,6 +227,7 @@ export function themeFigma(theme) {
   const prims = buildPrimitives(t.palettes);
   const primitives = {};
   for (const name of PALETTES) for (const s of ladder) primitives[`color/${name}/${s.step}`] = prims[name][s.step].hex;
+  for (const theme of ['light', 'dark']) for (const role of ROLES) { const [pal, step] = t.roles[theme][role]; primitives[roleFigma(role, theme)] = prims[pal][step].hex; }
   const family = t.font && t.font.sans ? t.font.sans.split(',')[0].trim().replace(/^['"]|['"]$/g, '') : null;
   return { mode: t.name, primitives, typography: family ? { 'family/sans': family } : {} };
 }
@@ -277,7 +314,11 @@ export function themeCode(cfg) {
   L.push('  },');
   if (cfg.brand) L.push(`  brand: ${q(cfg.brand)},`);
   if (cfg.font && cfg.font.sans) L.push(`  font: { sans: ${q(cfg.font.sans)}${cfg.font.import ? `, import: ${q(cfg.font.import)}` : ''} },`);
-  L.push(`  radius: ${q(cfg.radius || radius.default)},`, `  density: ${q(cfg.density || density.default)},`, '};');
+  if (cfg.accentFill && cfg.accentFill !== 'default') L.push(`  accentFill: ${q(cfg.accentFill)},          // default | strong | stronger | auto (closest to the brand colour)`);
+  if (cfg.controls && cfg.controls !== 'accent') L.push(`  controls: ${q(cfg.controls)},             // accent | neutral (near-black / near-white buttons, checkboxes, focus)`);
+  L.push(`  radius: ${q(cfg.radius || radius.default)},`, `  density: ${q(cfg.density || density.default)},`);
+  if (cfg.elevation && cfg.elevation !== elevation.default) L.push(`  elevation: ${q(cfg.elevation)},            // flat | soft (small shadows on controls and cards)`);
+  L.push('};');
   return L.join('\n') + '\n';
 }
 
@@ -322,7 +363,8 @@ export function stateFromConfig(cfg = {}) {
   return {
     name: t.name, brand: cfg.brand || accentHex || '',
     follow: !!(colors.neutral && colors.neutral.h === 'accent'),
-    font: (t.font && t.font.sans) || '', radius: t.radius, density: t.density,
+    font: (t.font && t.font.sans) || '', radius: t.radius, density: t.density, elevation: t.elevation,
+    accentFill: cfg.accentFill === 'auto' ? 'auto' : t.accentFill, controls: t.controls,
     pal: JSON.parse(JSON.stringify(t.palettes)),
   };
 }
@@ -340,6 +382,9 @@ export function configFromState(state) {
   const cfg = { name: state.name || 'Project', colors };
   if (state.brand && !accentFromBrand && brandHc) cfg.brand = state.brand;
   if (state.font) cfg.font = { sans: state.font };
+  if (state.accentFill && state.accentFill !== 'default') cfg.accentFill = state.accentFill;
+  if (state.controls === 'neutral') cfg.controls = 'neutral';
   cfg.radius = state.radius; cfg.density = state.density;
+  if (state.elevation && state.elevation !== elevation.default) cfg.elevation = state.elevation;
   return cfg;
 }

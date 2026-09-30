@@ -26,6 +26,8 @@ export function customizerPage({ ic, esc }) {
       <input type="range" class="dsgn-slider" id="${id}" min="${min}" max="${max}" step="${step}" value="${value}"></div>`;
   const hueChroma = (name, max) => `${slider(`th-${name}-h`, 'Hue', 0, 359, 1, palettes[name].h, '°')}${slider(`th-${name}-c`, 'Chroma', 0, max, 0.002, palettes[name].c)}`;
   const status = ['danger', 'success', 'warning'].map((n) => `<details name="th-status"><summary>${cap(n)}${ic('expand_more')}</summary><div class="dsgn-accordion-content"><div class="docs-theme-group">${hueChroma(n, guarantee.intentMaxChroma)}</div></div></details>`).join('');
+  const segL = (name, label, opts, def, hint) => `<div class="dsgn-field"><span class="dsgn-label" id="th-${name}-l">${label}</span>
+      <div class="dsgn-segmented" role="radiogroup" aria-labelledby="th-${name}-l"${hint ? ` aria-describedby="th-${name}-h"` : ''}>${opts.map(([v, l]) => `<label class="dsgn-segment"><input type="radio" name="th-${name}" value="${v}"${v === def ? ' checked' : ''}>${l}</label>`).join('')}</div>${hint ? `<p class="dsgn-hint" id="th-${name}-h">${hint}</p>` : ''}</div>`;
   const seg = (name, label, modes, def) => `<div class="dsgn-field"><span class="dsgn-label" id="th-${name}-l">${label}</span>
       <div class="dsgn-segmented" role="radiogroup" aria-labelledby="th-${name}-l">${modes.map((m) => `<label class="dsgn-segment"><input type="radio" name="th-${name}" value="${m}"${m === def ? ' checked' : ''}>${name === 'density' ? m.toUpperCase() : cap(m)}</label>`).join('')}</div></div>`;
 
@@ -62,6 +64,10 @@ export function customizerPage({ ic, esc }) {
           <div class="docs-theme-brand"><input type="color" id="th-brand-pick" value="#2f6fed" aria-label="Pick brand colour"><input class="dsgn-input" id="th-brand" value="" placeholder="#2f6fed" aria-describedby="th-brand-h" autocomplete="off" spellcheck="false"></div>
           <p class="dsgn-hint" id="th-brand-h">Sets the accent hue and chroma. Kept exactly as <code>--dsgn-brand</code> for logos.</p></div>
         ${hueChroma('accent', guarantee.intentMaxChroma)}
+        ${segL('fill', 'Button fill', [['default', 'Default'], ['strong', 'Strong'], ['stronger', 'Stronger'], ['auto', 'Match brand']], 'default', 'How dark solid buttons are (lighter in dark mode). Every option keeps the contrast.')}
+      </fieldset>
+      <fieldset class="docs-theme-group"><legend class="dsgn-title">Controls</legend>
+        ${segL('controls', 'Colour of controls', [['accent', 'Accent'], ['neutral', 'Neutral']], 'accent', 'Neutral: buttons, checkboxes, switches and focus in near-black (light) or near-white (dark); the accent stays for links and highlights.')}
       </fieldset>
       <fieldset class="docs-theme-group"><legend class="dsgn-title">Greys</legend>
         <label class="dsgn-choice"><input type="checkbox" role="switch" class="dsgn-switch" id="th-neutral-follow"> Tint towards the accent</label>
@@ -72,6 +78,7 @@ export function customizerPage({ ic, esc }) {
         <div class="dsgn-field"><label class="dsgn-label" for="th-font">Font family</label><input class="dsgn-input" id="th-font" placeholder="'Inter', ui-sans-serif, system-ui, sans-serif" aria-describedby="th-font-h" autocomplete="off" spellcheck="false"><p class="dsgn-hint" id="th-font-h">A CSS font-family list. The preview shows it only if the font is installed.</p></div>
         ${seg('radius', 'Corners', radius.modes, radius.default)}
         ${seg('density', 'Density', density.modes, density.default)}
+        ${segL('elevation', 'Shadows', [['flat', 'Flat'], ['soft', 'Soft']], 'flat', 'Soft adds small shadows to controls and cards.')}
       </fieldset>
       <button type="button" class="dsgn-button" data-variant="subtle" data-intent="neutral" id="th-reset">${ic('restart_alt')}Reset to dsgn defaults</button>
     </form>
@@ -120,6 +127,7 @@ ${bundle()}
     $('th-neutral-h').disabled = state.follow;
     document.querySelectorAll('input[name="th-radius"]').forEach(function (r) { r.checked = r.value === state.radius; });
     document.querySelectorAll('input[name="th-density"]').forEach(function (r) { r.checked = r.value === state.density; });
+    [['fill', 'accentFill', 'default'], ['controls', 'controls', 'accent'], ['elevation', 'elevation', 'flat']].forEach(function (x) { document.querySelectorAll('input[name="th-' + x[0] + '"]').forEach(function (r) { r.checked = r.value === (state[x[1]] || x[2]); }); });
   }
   function config() { return E.configFromState(state); }
   function configText(cfg) { return E.themeCode(cfg); }
@@ -129,11 +137,11 @@ ${bundle()}
     var cfg = config();
     var t = E.resolveTheme(cfg);
     // preview: palettes scoped to the preview, modes as attributes on the panes
-    style.textContent = E.themeCss(Object.assign({}, t, { radius: T.radius.default, density: T.density.default, font: null }), { selector: '.docs-theme-preview' })
+    style.textContent = E.themeCss(Object.assign({}, t, { radius: T.radius.default, density: T.density.default, elevation: T.elevation.default, font: null }), { selector: '.docs-theme-preview' })
       .replace(/^@layer dsgn\\.tokens, dsgn\\.theme, dsgn\\.components;$/m, '') +
       (t.font && t.font.sans ? '.docs-theme-panes { --dsgn-font-sans: ' + t.font.sans + '; }' : '');
-    document.querySelectorAll('.docs-theme-pane').forEach(function (p) { p.setAttribute('data-radius', t.radius); p.setAttribute('data-density', t.density); });
-    var res = E.checkContrast(t.palettes);
+    document.querySelectorAll('.docs-theme-pane').forEach(function (p) { p.setAttribute('data-radius', t.radius); p.setAttribute('data-density', t.density); p.setAttribute('data-elevation', t.elevation); });
+    var res = E.checkContrast(t.palettes, t.roles);
     var failed = res.filter(function (r) { return !r.pass; });
     var worst = res.reduce(function (a, r) { return r.actual / r.min < a.actual / a.min ? r : a; });
     var st = $('th-status');
@@ -166,6 +174,9 @@ ${bundle()}
     else if (id === 'th-neutral-follow') { state.follow = e.target.checked; $('th-neutral-h').disabled = state.follow; }
     else if (e.target.name === 'th-radius') state.radius = e.target.value;
     else if (e.target.name === 'th-density') state.density = e.target.value;
+    else if (e.target.name === 'th-fill') state.accentFill = e.target.value;
+    else if (e.target.name === 'th-controls') state.controls = e.target.value;
+    else if (e.target.name === 'th-elevation') state.elevation = e.target.value;
     render();
   });
   $('th-reset').addEventListener('click', function () { state = JSON.parse(JSON.stringify(DEF)); toForm(); render(); });

@@ -36,7 +36,7 @@
 .dsgn-accordion summary > .dsgn-icon { color: var(--dsgn-text-muted); }
 .dsgn-accordion details[open] > summary > .dsgn-icon { rotate: 180deg; }
 @media (hover: hover) { .dsgn-accordion summary:hover > .dsgn-icon { color: var(--dsgn-text); } }
-.dsgn-accordion summary:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: var(--dsgn-focus-offset); }
+.dsgn-accordion summary:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus-neutral); outline-offset: var(--dsgn-focus-offset); }
 .dsgn-accordion-content {
   display: grid;
   gap: var(--dsgn-space-8);

@@ -24,7 +24,7 @@ for (let h = 0; h < 360; h += 10) for (const name of PALETTES) {
   const max = name === 'neutral' ? guarantee.neutralMaxChroma : guarantee.intentMaxChroma;
   for (const c of [0, max]) {
     const t = resolveTheme({ colors: { [name]: { h, c } } });
-    const failed = checkContrast(t.palettes).filter((r) => !r.pass);
+    const failed = checkContrast(t.palettes, t.roles).filter((r) => !r.pass);
     checked++;
     if (failed.length) expect(false, `${name} h${h} c${c}: ${failed[0].fg} on ${failed[0].bg} ${failed[0].actual.toFixed(2)}`);
   }
@@ -33,7 +33,10 @@ for (let h = 0; h < 360; h += 10) for (const name of PALETTES) {
 for (const hex of ['#e8590c', '#ffd400', '#00a86b', '#7b2ff7', '#ff1493', '#101820', '#c0c0c0']) {
   const t = resolveTheme({ colors: { accent: hex, neutral: { h: 'accent', c: 0.04 }, danger: { h: 0, c: 0.3 }, success: { h: 140, c: 0.3 }, warning: { h: 90, c: 0.3 } } });
   expect(!t.errors.length, `${hex}: ${t.errors}`);
-  expect(checkContrast(t.palettes).every((r) => r.pass), `${hex}: contrast fails`);
+  for (const accentFill of ['default', 'strong', 'stronger']) for (const controls of ['accent', 'neutral']) {
+    const tt = resolveTheme({ colors: { accent: hex, neutral: { h: 'accent', c: 0.04 }, danger: { h: 0, c: 0.3 } }, accentFill, controls });
+    expect(checkContrast(tt.palettes, tt.roles).every((r) => r.pass), `${hex} ${accentFill} ${controls}: contrast fails`); checked++;
+  }
   expect(t.brand === hex, `${hex}: brand not kept`);
   checked++;
 }
@@ -63,7 +66,7 @@ expect(!plain.includes(':root {') && !plain.includes(':not('), 'default config w
 
 // 5. Figma payload
 const f = themeFigma(t);
-expect(f.mode === 'Acme' && Object.keys(f.primitives).length === PALETTES.length * ladder.length, 'Figma: every primitive for the mode');
+expect(f.mode === 'Acme' && Object.keys(f.primitives).length === PALETTES.length * ladder.length + 8, 'Figma: every primitive for the mode');
 expect(Object.values(f.primitives).every((h) => /^#[0-9a-f]{6}$/.test(h)) && f.typography['family/sans'] === 'Söhne', 'Figma: hex values and font family');
 
 if (errors.length) { for (const e of errors) console.error('✗', e); console.error(`theme: ${errors.length} errors`); process.exit(1); }

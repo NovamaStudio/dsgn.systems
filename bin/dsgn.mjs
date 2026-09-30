@@ -58,7 +58,7 @@ if (cmd === 'lint') {
   const t = resolveTheme(config);
   for (const n of t.notes) console.log('  · ' + n);
   if (t.errors.length) { for (const e of t.errors) console.error('✗ ' + e); process.exit(1); }
-  const results = checkContrast(t.palettes);
+  const results = checkContrast(t.palettes, t.roles);
   const failed = results.filter((r) => !r.pass);
   const worst = results.reduce((a, r) => (r.actual / r.min < a.actual / a.min ? r : a));
   if (failed.length) {

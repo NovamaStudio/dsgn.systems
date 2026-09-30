@@ -32,12 +32,14 @@
   --_subtle-hover: var(--dsgn-accent-subtle-hover);
   --_subtle-pressed: var(--dsgn-accent-subtle-pressed);
   --_text: var(--dsgn-accent-text);
+  --_focus: var(--dsgn-focus);
 
   /* variant → which part of the set is used (solid by default) */
   --_bg: var(--_solid);
   --_bg-hover: var(--_solid-hover);
   --_bg-pressed: var(--_solid-pressed);
   --_fg: var(--_on-solid);
+  --_shadow: var(--dsgn-shadow-control);   /* solid only; Elevation = Soft makes it visible */
 
   box-sizing: border-box;
   display: inline-flex;
@@ -50,6 +52,7 @@
   border: 0;
   border-radius: var(--dsgn-radius-m);
   background: var(--_bg);
+  box-shadow: var(--_shadow);
   color: var(--_fg);
   font-family: var(--dsgn-font-sans);
   font-size: var(--dsgn-control-font-size);
@@ -66,6 +69,11 @@
 
 .dsgn-icon-button { padding: var(--dsgn-control-pad-y); }
 
+/* icon + text: the glyph carries its own white space, so the icon side gets space-4 less padding
+   and the button looks balanced (Figma: Density control/pad-x-icon) */
+.dsgn-button:has(> .dsgn-icon:first-child) { padding-inline-start: calc(var(--dsgn-control-pad-x) - var(--dsgn-space-4)); }
+.dsgn-button:has(> .dsgn-icon:last-child) { padding-inline-end: calc(var(--dsgn-control-pad-x) - var(--dsgn-space-4)); }
+
 /* ── intents ─────────────────────────────────────────────────────────────── */
 :is(.dsgn-button, .dsgn-icon-button)[data-intent="neutral"] {
   --_solid: var(--dsgn-neutral-solid);
@@ -76,6 +84,7 @@
   --_subtle-hover: var(--dsgn-neutral-subtle-hover);
   --_subtle-pressed: var(--dsgn-neutral-subtle-pressed);
   --_text: var(--dsgn-neutral-text);
+  --_focus: var(--dsgn-focus-neutral);
 }
 :is(.dsgn-button, .dsgn-icon-button)[data-intent="danger"] {
   --_solid: var(--dsgn-danger-solid);
@@ -86,6 +95,7 @@
   --_subtle-hover: var(--dsgn-danger-subtle-hover);
   --_subtle-pressed: var(--dsgn-danger-subtle-pressed);
   --_text: var(--dsgn-danger-text);
+  --_focus: var(--dsgn-focus-danger);
 }
 
 /* ── variants ────────────────────────────────────────────────────────────── */
@@ -94,12 +104,14 @@
   --_bg-hover: var(--_subtle-hover);
   --_bg-pressed: var(--_subtle-pressed);
   --_fg: var(--_text);
+  --_shadow: none;
 }
 :is(.dsgn-button, .dsgn-icon-button)[data-variant="ghost"] {
   --_bg: transparent;
   --_bg-hover: var(--_subtle);
   --_bg-pressed: var(--_subtle-hover);
   --_fg: var(--_text);
+  --_shadow: none;
 }
 
 /* ── states ──────────────────────────────────────────────────────────────── */
@@ -115,7 +127,7 @@
 :is(.dsgn-button, .dsgn-icon-button):not(:disabled, [aria-disabled="true"]):active .dsgn-icon { --_fill: 1; }
 
 :is(.dsgn-button, .dsgn-icon-button):focus-visible {
-  outline: var(--dsgn-focus-width) solid var(--dsgn-focus);
+  outline: var(--dsgn-focus-width) solid var(--_focus);
   outline-offset: var(--dsgn-focus-offset);
 }
 
@@ -130,6 +142,7 @@
 
 /* disabled: neutral tint (ghost stays transparent), disabled text, no interaction */
 :is(.dsgn-button, .dsgn-icon-button):is(:disabled, [aria-disabled="true"]) {
+  --_shadow: none;
   --_bg: var(--dsgn-neutral-subtle);
   --_fg: var(--dsgn-text-disabled);
   background: var(--_bg);

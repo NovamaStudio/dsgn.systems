@@ -63,6 +63,7 @@ const cap = (s) => s[0].toUpperCase() + s.slice(1);
 const slider = (id, label, min, max, step, value, suffix = '') => `<div class="dsgn-field">
   <div class="dsgn-slider-label"><label class="dsgn-label" for="${id}">${label}</label><output class="dsgn-slider-value" id="${id}-out">${value}${suffix}</output></div>
   <input type="range" class="dsgn-slider" id="${id}" min="${min}" max="${max}" step="${step}" value="${value}"></div>`;
+const radios = (name, label, opts) => `<div class="dsgn-field"><span class="dsgn-label" id="r-${name}">${label}</span><div class="dsgn-segmented" data-width="full" role="radiogroup" aria-labelledby="r-${name}">${opts.map(([v, l], i) => `<label class="dsgn-segment"><input type="radio" name="${name}" value="${v}"${i === 0 ? ' checked' : ''}>${l}</label>`).join('')}</div></div>`;
 const hc = (n, max) => slider(`p-${n}-h`, 'Hue', 0, 359, 1, palettes[n].h, '°') + slider(`p-${n}-c`, 'Chroma', 0, max, 0.002, palettes[n].c);
 
 const ui = `<!doctype html>
@@ -109,6 +110,11 @@ ${dsgnCss}
       <div class="dsgn-field"><label class="dsgn-label" for="brand">Brand colour</label>
         <div class="brand"><input type="color" id="brand-pick" value="#2f6fed" aria-label="Pick brand colour"><input class="dsgn-input" id="brand" placeholder="#2f6fed" autocomplete="off" spellcheck="false"></div></div>
       ${hc('accent', guarantee.intentMaxChroma)}
+      ${radios('fill', 'Button fill', [['default', 'Default'], ['strong', 'Strong'], ['stronger', 'Stronger'], ['auto', 'Brand']])}
+    </fieldset>
+    <fieldset><legend>Controls</legend>
+      ${radios('controls', 'Colour of controls', [['accent', 'Accent'], ['neutral', 'Neutral']])}
+      <p class="dsgn-hint">Neutral: buttons, checkboxes and focus in near-black / near-white.</p>
     </fieldset>
     <fieldset><legend>Greys</legend>
       <label class="dsgn-choice"><input type="checkbox" role="switch" class="dsgn-switch" id="follow"> Tint towards the accent</label>
@@ -142,12 +148,13 @@ ${bundle()}
     $('follow').checked = state.follow; $('font').value = state.font ? state.font.split(',')[0].trim().replace(/^[\'"]|[\'"]$/g, '') : '';
     names.forEach(function (n) { setSlider('p-' + n + '-h', state.pal[n].h, '°'); setSlider('p-' + n + '-c', state.pal[n].c); });
     $('p-neutral-h').disabled = state.follow;
+    [['fill', 'accentFill', 'default'], ['controls', 'controls', 'accent']].forEach(function (x) { document.querySelectorAll('input[name="' + x[0] + '"]').forEach(function (r) { r.checked = r.value === (state[x[1]] || x[2]); }); });
   }
   function render() {
     if (state.follow) { state.pal.neutral.h = state.pal.accent.h; setSlider('p-neutral-h', state.pal.neutral.h, '°'); }
     var t = E.resolveTheme(E.configFromState(state));
     $('theme-style').textContent = E.themeCss(Object.assign({}, t, { radius: T.radius.default, density: T.density.default, font: null }), { selector: '#ladder' }).replace(/^@layer dsgn\\.tokens, dsgn\\.theme, dsgn\\.components;$/m, '');
-    var res = E.checkContrast(t.palettes), failed = res.filter(function (r) { return !r.pass; });
+    var res = E.checkContrast(t.palettes, t.roles), failed = res.filter(function (r) { return !r.pass; });
     $('contrast').innerHTML = '';
     var b = document.createElement('span'); b.className = 'dsgn-badge'; b.setAttribute('data-intent', failed.length ? 'danger' : 'success');
     b.textContent = failed.length ? failed.length + ' contrast pairs fail' : 'Contrast: all ' + res.length + ' pairs pass';
@@ -188,6 +195,8 @@ ${bundle()}
       else if (hex) return;
     }
     else if (id === 'follow') { state.follow = e.target.checked; $('p-neutral-h').disabled = state.follow; }
+    else if (e.target.name === 'fill') state.accentFill = e.target.value;
+    else if (e.target.name === 'controls') state.controls = e.target.value;
     else return;
     render();
   });

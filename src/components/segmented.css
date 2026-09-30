@@ -9,7 +9,8 @@
  * One choice out of 2–5 short options that switch a view or mode right away.
  * Radios give arrow-key navigation and form submission for free.
  * Total height = control height: the track adds space-2 around, each segment has pad-y − space-2.
- * Selected = raised surface + border-strong outline (3:1 on the track) + text colour + filled icon.
+ * Track = control-track (+ control-track-border, visible in dark). Selected = control-selected fill
+ * (+ soft shadow with Elevation = Soft), text colour instead of muted and a filled icon; no outline.
  * data-width="full" stretches the segments to fill the row. When the options do not fit, the
  * track scrolls sideways (like Tabs); prefer icon-only segments or a Select on narrow screens.
  */
@@ -22,7 +23,8 @@
   scrollbar-width: none;
   padding: var(--dsgn-space-2);
   border-radius: var(--dsgn-radius-m);
-  background: var(--dsgn-neutral-subtle);
+  background: var(--dsgn-control-track);
+  box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-control-track-border);
   font-family: var(--dsgn-font-sans);
   font-size: var(--dsgn-control-font-size);
   line-height: var(--dsgn-control-line-height);
@@ -63,14 +65,14 @@
   .dsgn-segment:not(:has(> input:disabled)):hover > .dsgn-icon { --_fill: 1; }
 }
 .dsgn-segment:has(> input:checked) {
-  background: var(--dsgn-surface-raised);
-  box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border-strong);
+  background: var(--dsgn-control-selected);
+  box-shadow: var(--dsgn-shadow-control);
   color: var(--dsgn-text);
 }
 .dsgn-segment:has(> input:checked) > .dsgn-icon { --_fill: 1; }
-.dsgn-segment:has(> input:focus-visible) { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: calc(-1 * var(--dsgn-focus-width)); } /* inset: never clipped by the scrolling track */
+.dsgn-segment:has(> input:focus-visible) { outline: var(--dsgn-focus-width) solid var(--dsgn-focus-neutral); outline-offset: calc(-1 * var(--dsgn-focus-width)); } /* inset: never clipped by the scrolling track */
 .dsgn-segment:has(> input:disabled) { color: var(--dsgn-text-disabled); cursor: not-allowed; }
-.dsgn-segment:has(> input:disabled:checked) { box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border); }
+.dsgn-segment:has(> input:disabled:checked) { background: var(--dsgn-neutral-subtle); box-shadow: none; }
 
 @media (prefers-reduced-motion: no-preference) {
   .dsgn-segment { transition: background-color var(--dsgn-duration-fast) var(--dsgn-ease), color var(--dsgn-duration-fast) var(--dsgn-ease); }

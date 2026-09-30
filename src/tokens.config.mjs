@@ -69,11 +69,11 @@ const interactive = {
 };
 const status = ['solid', 'subtle', 'text', 'border'];
 
-function intentTokens(name, keys, overrides = {}) {
+function intentTokens(name, keys, overrides = {}, roles = {}) {
   const out = {};
   for (const k of keys) {
     const [l, d] = overrides[k] || interactive[k];
-    out[`${name}-${k}`] = { light: [name, l], dark: [name, d] };
+    out[`${name}-${k}`] = { light: [name, l], dark: [name, d], ...(roles[k] ? { role: roles[k] } : {}) };
   }
   // text on solid is always neutral: near-white in light, near-black in dark
   out[`${name}-solid-text`] = { light: ['neutral', 99], dark: ['neutral', 14] };
@@ -91,7 +91,16 @@ export const semanticColor = {
   'text-disabled':  { light: ['neutral', 70], dark: ['neutral', 46] },
   'border':         { light: ['neutral', 85], dark: ['neutral', 30] },
   'border-strong':  { light: ['neutral', 54], dark: ['neutral', 54] },
-  'focus':          { light: ['accent', 54],  dark: ['accent', 70] },
+  // outline of fields and selectable containers (input, select, chip, option card, segmented track in dark)
+  'border-control': { light: ['neutral', 64], dark: ['neutral', 46] },
+  // focus ring follows the element: accent (default), neutral elements, danger elements
+  'focus':          { light: ['accent', 54],  dark: ['accent', 70], role: 'accent-focus' },
+  'focus-neutral':  { light: ['neutral', 38], dark: ['neutral', 85] },
+  'focus-danger':   { light: ['danger', 54],  dark: ['danger', 70] },
+  // track of a segmented control: tinted in light; in dark an outlined, near-surface track with a lighter selected segment
+  'control-track':        { light: ['neutral', 94], dark: ['neutral', 14] },
+  'control-track-border': { light: ['neutral', 94], dark: ['neutral', 46] },
+  'control-selected':     { light: ['neutral', 99], dark: ['neutral', 38] },
   // neutral solid sits near the text colour: near-black in light, near-white in dark,
   // and moves towards the surface on hover/press
   ...intentTokens('neutral', interactiveKeys, {
@@ -99,10 +108,25 @@ export const semanticColor = {
     'solid-hover':   [30, 85],
     'solid-pressed': [38, 76],
   }),
-  ...intentTokens('accent', interactiveKeys),
+  // accent fills go through role slots (see below) so a project theme can make them stronger or neutral
+  ...intentTokens('accent', interactiveKeys, {}, { 'solid': 'accent-fill', 'solid-hover': 'accent-fill-hover', 'solid-pressed': 'accent-fill-pressed' }),
   ...intentTokens('danger', interactiveKeys),
   ...intentTokens('success', status),
   ...intentTokens('warning', status),
+};
+
+// Role slots: a few per-theme primitives the semantic tokens above point to (CSS --dsgn-accent-fill-light,
+// Figma Primitives color/accent/fill-light …). A project theme re-points them (stronger accent, neutral
+// controls) without touching the Color collection. Defaults = the steps written above.
+export const roleChoices = {
+  // accent fill strength: steps for solid / hover / pressed, light and dark (darker in light, lighter in dark)
+  accentFill: {
+    default:  { light: [54, 46, 38], dark: [64, 70, 76] },
+    strong:   { light: [46, 38, 30], dark: [70, 76, 85] },
+    stronger: { light: [38, 30, 26], dark: [76, 85, 90] },
+  },
+  // controls: 'neutral' makes solid buttons, checkboxes, switches, sliders and the focus ring near-black / near-white
+  neutralControls: { fill: { light: [22, 30, 38], dark: [90, 85, 76] }, focus: { light: 38, dark: 85 } },
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -117,6 +141,8 @@ export function contrastPairs() {
   const add = (fg, bg, min, note) => pairs.push({ fg, bg, min, note });
 
   for (const s of surfaces) {
+    add('focus-neutral', s, UI, 'focus ring, neutral elements (2.4.13)');
+    add('focus-danger', s, UI, 'focus ring, danger elements (2.4.13)');
     add('text', s, TEXT, 'body text');
     add('text-muted', s, TEXT, 'secondary text');
     add('border-strong', s, UI, 'input border (1.4.11)');
@@ -223,6 +249,17 @@ export const scrim = { light: 'oklch(14% 0.004 260 / 0.45)', dark: 'oklch(8% 0.0
 export const shadowOverlay = {
   light: '0 1px 2px oklch(0% 0 0 / 0.06), 0 8px 24px oklch(0% 0 0 / 0.12)',
   dark: '0 1px 2px oklch(0% 0 0 / 0.4), 0 8px 24px oklch(0% 0 0 / 0.5)',
+};
+// Elevation: optional soft shadows that layer controls and containers. 'flat' = no shadow (default).
+// Colours per theme; geometry per mode. Figma: collection "Elevation" (Flat / Soft) + effect styles.
+export const elevation = {
+  modes: ['flat', 'soft'],
+  default: 'flat',
+  //                    flat          soft
+  control: { y: [0, 1], blur: [0, 2] },            // buttons, fields, chips, selected segment, switch thumb
+  raised:  { y: [0, 1], blur: [0, 3], y2: [0, 4], blur2: [0, 12] },   // cards, stat tiles, option cards, table
+  color: { light: 'oklch(22% 0.01 260 / 0.10)', dark: 'oklch(0% 0 0 / 0.45)' },
+  colorSoft: { light: 'oklch(22% 0.01 260 / 0.06)', dark: 'oklch(0% 0 0 / 0.30)' },
 };
 export const motion = { 'duration-fast': '100ms', duration: '200ms', ease: 'cubic-bezier(0.2, 0, 0, 1)' };
 

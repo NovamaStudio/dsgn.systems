@@ -3,6 +3,7 @@ import { writeFileSync, mkdirSync } from 'node:fs';
 import { fmtOklch, resolve } from '../src/color.mjs';
 import * as T from '../src/tokens.config.mjs';
 import { buildPrimitives, resolveSemantic, validate } from './palette.mjs';
+import { ROLES, roleRefs, roleVar, roleFigma } from '../src/theme.mjs';
 
 const P = T.prefix;
 const v = (n) => `--${P}-${n}`;
@@ -33,6 +34,10 @@ const block = (sel, lines) => css.push(`${sel} {\n${lines.map((l) => `  ${l}`).j
 const primLines = [];
 for (const [pal, steps] of Object.entries(prims))
   for (const [step, c] of Object.entries(steps)) primLines.push(`${v(`${pal}-${step}`)}: ${fmtOklch(c)};`);
+// role slots: per-theme pointers a project theme can re-point (stronger accent, neutral controls)
+const roles = roleRefs();
+primLines.push('/* role slots — re-pointed by a project theme (dsgn theme) */');
+for (const theme of ['light', 'dark']) for (const role of ROLES) primLines.push(`${v(roleVar(role, theme))}: var(${v(roles[theme][role].join('-'))});`);
 const typeLines = [
   `${v('font-sans')}: ${T.fontFamily.sans};`,
   `${v('font-icon')}: ${T.fontFamily.icon};`,
@@ -60,12 +65,20 @@ block(':root', [
   ...Object.entries(T.motion).map(([k, n]) => `${v(k)}: ${n};`),
 ]);
 
+// shadows = geometry (Elevation mode) + colour (theme); recomposed wherever either changes
+const shadowLines = [
+  `${v('shadow-control')}: 0 var(${v('elevation-control-y')}) var(${v('elevation-control-blur')}) var(${v('shadow-color')});`,
+  `${v('shadow-raised')}: 0 var(${v('elevation-raised-y')}) var(${v('elevation-raised-blur')}) var(${v('shadow-color')}), 0 var(${v('elevation-raised-y2')}) var(${v('elevation-raised-blur2')}) var(${v('shadow-color-soft')});`,
+];
 const themeLines = (theme) => [
   `color-scheme: ${theme};`,
   `${v('icon-grade')}: ${T.iconGrade[theme]};`,
   `${v('shadow-overlay')}: ${T.shadowOverlay[theme]};`,
   `${v('scrim')}: ${T.scrim[theme]};`,
-  ...Object.entries(sem[theme]).map(([n, s]) => `${v(n)}: var(${v(`${s.ref[0]}-${s.ref[1]}`)});`),
+  `${v('shadow-color')}: ${T.elevation.color[theme]};`,
+  `${v('shadow-color-soft')}: ${T.elevation.colorSoft[theme]};`,
+  ...shadowLines,
+  ...Object.entries(sem[theme]).map(([n, s]) => `${v(n)}: var(${v(s.role ? roleVar(s.role, theme) : `${s.ref[0]}-${s.ref[1]}`)});`),
 ];
 css.push('/* ── theme ─────────────────────────────────────────── */\n');
 block(':root,\n[data-theme="light"]', themeLines('light'));
@@ -84,6 +97,16 @@ defaultFirst(T.radius).forEach(([m, i]) => {
   dimBlocks.push({ sel, dims: Object.entries(T.radius.tokens).map(([k, vals]) => [k, vals[i]]) });
 });
 
+defaultFirst(T.elevation).forEach(([m, i]) => {
+  const sel = m === T.elevation.default ? `:root,\n[data-elevation="${m}"]` : `[data-elevation="${m}"]`;
+  const e = T.elevation;
+  block(sel, [
+    `${v('elevation-control-y')}: ${e.control.y[i]}px;`, `${v('elevation-control-blur')}: ${e.control.blur[i]}px;`,
+    `${v('elevation-raised-y')}: ${e.raised.y[i]}px;`, `${v('elevation-raised-blur')}: ${e.raised.blur[i]}px;`,
+    `${v('elevation-raised-y2')}: ${e.raised.y2[i]}px;`, `${v('elevation-raised-blur2')}: ${e.raised.blur2[i]}px;`,
+    ...shadowLines,
+  ]);
+});
 const dimLine = (snap) => ([k, n]) => `${v(k)}: ${n >= 9999 ? px(n) : snap ? r(k, n) : u(n)};`;
 css.push('/* ── dimensions: space, type, density, radius (multiples of --dsgn-unit) ── */\n');
 for (const b of dimBlocks) block(b.sel, [...b.dims.map(dimLine(false)), ...(b.extra || [])]);
@@ -140,6 +163,11 @@ for (const [pal, steps] of Object.entries(prims))
   for (const [step, c] of Object.entries(steps))
     primitives.variables.push({ name: `color/${pal}/${step}`, type: 'COLOR', scopes: [], codeSyntax: code(`${pal}-${step}`),
       values: { Value: c.hex }, description: fmtOklch(c) });
+for (const theme of ['light', 'dark']) for (const role of ROLES) {
+  const [pal, step] = roles[theme][role];
+  primitives.variables.push({ name: roleFigma(role, theme), type: 'COLOR', scopes: [], codeSyntax: code(roleVar(role, theme)),
+    values: { Value: prims[pal][step].hex }, description: `Role slot (${theme}): ${pal} ${step} by default; a project theme may re-point it.` });
+}
 for (const s of T.space)
   primitives.variables.push({ name: `space/${s}`, type: 'FLOAT', scopes: ['GAP', 'WIDTH_HEIGHT'], codeSyntax: code(`space-${s}`), values: { Value: s } });
 primitives.variables.push({ name: 'radius/full', type: 'FLOAT', scopes: ['CORNER_RADIUS'], codeSyntax: code('radius-full'), values: { Value: 9999 } });
@@ -157,13 +185,17 @@ for (const n of Object.keys(T.semanticColor)) {
   const group = n.startsWith('surface') ? 'surface' : /^(neutral|accent|danger|success|warning)-/.test(n) ? n.split('-')[0] : 'base';
   const leaf = group === 'surface' ? n.replace('surface-', '') : group === 'base' ? n : n.slice(group.length + 1);
   color.variables.push({ name: `${group}/${leaf}`, type: 'COLOR', scopes: colorScope(n), codeSyntax: code(n),
-    values: { Light: { alias: `Primitives::color/${sem.light[n].ref.join('/')}` }, Dark: { alias: `Primitives::color/${sem.dark[n].ref.join('/')}` } } });
+    values: Object.fromEntries(['light', 'dark'].map((th) => [cap(th), { alias: `Primitives::${sem[th][n].role ? roleFigma(sem[th][n].role, th) : `color/${sem[th][n].ref.join('/')}`}` }])) });
 }
 // scrim: oklch with alpha → 8-digit hex per theme
 const scrimHex = (str) => { const m = str.match(/oklch\(([\d.]+)% ([\d.]+) ([\d.]+) \/ ([\d.]+)\)/); const r = resolve(+m[1] / 100, +m[2], +m[3]);
   return r.hex + Math.round(+m[4] * 255).toString(16).padStart(2, '0'); };
 color.variables.push({ name: 'base/scrim', type: 'COLOR', scopes: ['FRAME_FILL', 'SHAPE_FILL'], codeSyntax: code('scrim'),
   values: { Light: scrimHex(T.scrim.light), Dark: scrimHex(T.scrim.dark) } });
+const alphaHex = (str) => { const m = str.match(/oklch\(([\d.]+)% ([\d.]+) ([\d.]+) \/ ([\d.]+)\)/); const r = resolve(+m[1] / 100, +m[2], +m[3]);
+  return r.hex + Math.round(+m[4] * 255).toString(16).padStart(2, '0'); };
+color.variables.push({ name: 'base/shadow', type: 'COLOR', scopes: ['EFFECT_COLOR'], codeSyntax: code('shadow-color'), values: { Light: alphaHex(T.elevation.color.light), Dark: alphaHex(T.elevation.color.dark) } });
+color.variables.push({ name: 'base/shadow-soft', type: 'COLOR', scopes: ['EFFECT_COLOR'], codeSyntax: code('shadow-color-soft'), values: { Light: alphaHex(T.elevation.colorSoft.light), Dark: alphaHex(T.elevation.colorSoft.dark) } });
 figma.collections.push(color);
 
 const scopeFor = (k) => (k.includes('font-size') ? ['FONT_SIZE'] : k.includes('line-height') ? ['LINE_HEIGHT']
@@ -179,6 +211,8 @@ dens.variables.push({ name: 'segment/pad-y', type: 'FLOAT', scopes: ['GAP'], cod
   description: '= control/pad-y − space-2 (CSS calc). Figma only.', values: Object.fromEntries(T.density.modes.map((m, i) => [m.toUpperCase(), dI('control-pad-y')[i] - 2])) });
 dens.variables.push({ name: 'segment/pad-x', type: 'FLOAT', scopes: ['GAP'], codeSyntax: { WEB: `calc(var(${v('control-pad-x')}) - var(${v('space-2')}))` },
   description: '= control/pad-x − space-2 (CSS calc). Figma only.', values: Object.fromEntries(T.density.modes.map((m, i) => [m.toUpperCase(), dI('control-pad-x')[i] - 2])) });
+dens.variables.push({ name: 'control/pad-x-icon', type: 'FLOAT', scopes: ['GAP'], codeSyntax: { WEB: `calc(var(${v('control-pad-x')}) - var(${v('space-4')}))` },
+  description: '= control/pad-x − space-4: the side of a button that starts or ends with an icon (the glyph has its own white space). Figma only.', values: Object.fromEntries(T.density.modes.map((m, i) => [m.toUpperCase(), dI('control-pad-x')[i] - 4])) });
 figma.collections.push(dens);
 
 const rad = { name: 'Radius', modes: defaultFirst(T.radius).map(([m]) => cap(m)), variables: [] };
@@ -190,6 +224,14 @@ rad.variables.push({ name: 'radius/m-inner', type: 'FLOAT', scopes: ['CORNER_RAD
   values: Object.fromEntries(T.radius.modes.map((m, i) => { const r = T.radius.tokens['radius-m'][i]; return [cap(m), r >= 9999 ? 9999 : Math.max(0, r - 2)]; })) });
 figma.collections.push(rad);
 
+const elev = { name: 'Elevation', modes: defaultFirst(T.elevation).map(([m]) => cap(m)), variables: [] };
+for (const [k, vals] of [['control-y', T.elevation.control.y], ['control-blur', T.elevation.control.blur], ['raised-y', T.elevation.raised.y], ['raised-blur', T.elevation.raised.blur], ['raised-y2', T.elevation.raised.y2], ['raised-blur2', T.elevation.raised.blur2]])
+  elev.variables.push({ name: `shadow/${k}`, type: 'FLOAT', scopes: ['EFFECT_FLOAT'], codeSyntax: code(`elevation-${k}`), values: Object.fromEntries(T.elevation.modes.map((m, i) => [cap(m), vals[i]])) });
+figma.collections.push(elev);
+figma.effectStyles = [
+  { name: 'shadow/control', effects: [{ y: 'Elevation::shadow/control-y', blur: 'Elevation::shadow/control-blur', color: 'Color::base/shadow' }] },
+  { name: 'shadow/raised', effects: [{ y: 'Elevation::shadow/raised-y', blur: 'Elevation::shadow/raised-blur', color: 'Color::base/shadow' }, { y: 'Elevation::shadow/raised-y2', blur: 'Elevation::shadow/raised-blur2', color: 'Color::base/shadow-soft' }] },
+];
 const lay = { name: 'Layout', modes: T.layout.modes.map(cap), variables: [] };
 lay.variables.push({ name: 'viewport', type: 'FLOAT', scopes: ['WIDTH_HEIGHT'], codeSyntax: { WEB: '100vw' }, values: Object.fromEntries(T.layout.modes.map((m, i) => [cap(m), T.layout.viewport[i]])) });
 for (const [k, vals] of Object.entries(T.layout.tokens))
