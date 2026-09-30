@@ -195,38 +195,55 @@ export function themeFigma(theme) {
   return { mode: t.name, primitives, typography: family ? { 'family/sans': family } : {} };
 }
 
+/** Plugin API source shared by the one-off script and the Figma plugin: apply and remove a theme mode. */
+export const figmaApplySource = `
+async function dsgnApplyTheme(P) {
+  const hex = (h) => ({ r: parseInt(h.slice(1, 3), 16) / 255, g: parseInt(h.slice(3, 5), 16) / 255, b: parseInt(h.slice(5, 7), 16) / 255 });
+  const cols = await figma.variables.getLocalVariableCollectionsAsync();
+  const vars = await figma.variables.getLocalVariablesAsync();
+  const done = [];
+  for (const [colName, values, conv] of [['Primitives', P.primitives, hex], ['Typography', P.typography, (x) => x]]) {
+    if (!Object.keys(values).length) continue;
+    const col = cols.find((c) => c.name === colName);
+    if (!col) throw new Error('This file has no "' + colName + '" variables. Run it in the dsgn library file.');
+    if (colName === 'Typography') {   // a font family can only be set when the font is available in Figma
+      try { await figma.loadFontAsync({ family: values['family/sans'], style: 'Regular' }); }
+      catch (e) { done.push('Font "' + values['family/sans'] + '" is not available in Figma, so the font was not changed.'); continue; }
+    }
+    const mode = col.modes.find((m) => m.name === P.mode);
+    const modeId = mode ? mode.modeId : col.addMode(P.mode);   // Figma limits modes per collection by plan (Professional 10)
+    let n = 0;
+    for (const [name, val] of Object.entries(values)) {
+      const v = vars.find((x) => x.variableCollectionId === col.id && x.name === name);
+      if (!v) throw new Error('Variable not found: ' + colName + ' / ' + name);
+      v.setValueForMode(modeId, conv(val)); n++;
+    }
+    done.push(colName + ': ' + (mode ? 'updated' : 'added') + ' mode "' + P.mode + '" (' + n + ' values)');
+  }
+  return done;
+}
+async function dsgnRemoveTheme(name) {
+  const cols = await figma.variables.getLocalVariableCollectionsAsync();
+  const done = [];
+  for (const colName of ['Primitives', 'Typography']) {
+    const col = cols.find((c) => c.name === colName); if (!col) continue;
+    const i = col.modes.findIndex((m) => m.name === name);
+    if (i > 0) { col.removeMode(col.modes[i].modeId); done.push(colName + ': removed mode "' + name + '"'); }   // never the first (package) mode
+  }
+  return done;
+}`;
+
 /**
  * A self-contained Figma Plugin API script (run via the Figma MCP or a scratch plugin in the
  * library file): adds or updates the mode named after the theme in Primitives (and Typography when
- * a font is set). It never touches other modes or variables.
+ * a font is set). It never touches other modes or variables. Designers use the Figma plugin instead.
  */
 export function themeFigmaScript(theme) {
-  const payload = JSON.stringify(themeFigma(theme));
-  return `// dsgn theme → Figma: adds or updates mode ${JSON.stringify(theme.name || 'Project')} in Primitives${theme.font ? ' and Typography' : ''}.
-const P = ${payload};
-const hex = (h) => ({ r: parseInt(h.slice(1, 3), 16) / 255, g: parseInt(h.slice(3, 5), 16) / 255, b: parseInt(h.slice(5, 7), 16) / 255 });
-const cols = await figma.variables.getLocalVariableCollectionsAsync();
-const vars = await figma.variables.getLocalVariablesAsync();
-const done = [];
-for (const [colName, values, conv] of [['Primitives', P.primitives, hex], ['Typography', P.typography, (x) => x]]) {
-  if (!Object.keys(values).length) continue;
-  const col = cols.find((c) => c.name === colName);
-  if (!col) throw new Error('collection not found: ' + colName);
-  if (colName === 'Typography') {   // a font family can only be set when the font is available in Figma
-    try { await figma.loadFontAsync({ family: values['family/sans'], style: 'Regular' }); }
-    catch (e) { done.push('Typography: skipped, font "' + values['family/sans'] + '" is not available in Figma'); continue; }
-  }
-  let mode = col.modes.find((m) => m.name === P.mode);
-  const modeId = mode ? mode.modeId : col.addMode(P.mode);   // Figma limits modes per collection by plan (Professional 10)
-  let n = 0;
-  for (const [name, val] of Object.entries(values)) {
-    const v = vars.find((x) => x.variableCollectionId === col.id && x.name === name);
-    if (!v) throw new Error('variable not found: ' + colName + ' / ' + name);
-    v.setValueForMode(modeId, conv(val)); n++;
-  }
-  done.push(colName + ': ' + (mode ? 'updated' : 'added') + ' mode "' + P.mode + '", ' + n + ' values');
-}
-return done;
+  const t = theme.palettes ? theme : resolveTheme(theme);
+  return `// dsgn theme → Figma: adds or updates mode ${JSON.stringify(t.name)} in Primitives${t.font ? ' and Typography' : ''}.
+const P = ${JSON.stringify(themeFigma(t))};
+${figmaApplySource}
+return await dsgnApplyTheme(P);
 `;
 }
 
@@ -249,3 +266,80 @@ export default {
   density: 'm',                           // s | m | l
 };
 `;
+
+// ── theme code: the dsgn.theme.mjs text, shared by the CLI, the web customizer and the Figma plugin ──
+/** Config object → dsgn.theme.mjs text. */
+export function themeCode(cfg) {
+  const q = (s) => JSON.stringify(String(s));
+  const val = (x) => (typeof x === 'string' ? q(x) : `{ h: ${typeof x.h === 'string' ? q(x.h) : x.h}, c: ${x.c} }`);
+  const L = ['// dsgn theme — made with the dsgn theme customizer. Paste it back into the customizer or the', '// Figma plugin to edit it, or run `npx dsgn theme` to turn it into dsgn.theme.css.', 'export default {', `  name: ${q(cfg.name || 'Project')},`, '  colors: {'];
+  for (const [k, x] of Object.entries(cfg.colors || {})) L.push(`    ${k}: ${val(x)},`);
+  L.push('  },');
+  if (cfg.brand) L.push(`  brand: ${q(cfg.brand)},`);
+  if (cfg.font && cfg.font.sans) L.push(`  font: { sans: ${q(cfg.font.sans)}${cfg.font.import ? `, import: ${q(cfg.font.import)}` : ''} },`);
+  L.push(`  radius: ${q(cfg.radius || radius.default)},`, `  density: ${q(cfg.density || density.default)},`, '};');
+  return L.join('\n') + '\n';
+}
+
+/**
+ * dsgn.theme.mjs text → config object, without running it: comments are dropped, the object literal
+ * after `export default` is read as JSON with unquoted keys, single quotes and trailing commas allowed.
+ */
+export function parseThemeCode(text) {
+  const src = String(text);
+  const start = src.indexOf('{', Math.max(0, src.indexOf('export default')));
+  if (start < 0) throw new Error('no theme found: expected "export default { … }"');
+  let out = '', i = start, depth = 0;
+  while (i < src.length) {
+    const ch = src[i];
+    if (ch === '/' && src[i + 1] === '/') { while (i < src.length && src[i] !== '\n') i++; continue; }
+    if (ch === '/' && src[i + 1] === '*') { i = src.indexOf('*/', i + 2); if (i < 0) break; i += 2; continue; }
+    if (ch === '"' || ch === "'") {
+      let j = i + 1, s = '';
+      while (j < src.length && src[j] !== ch) { if (src[j] === '\\') { s += src[j + 1] === ch ? ch : src[j] + src[j + 1]; j += 2; } else s += src[j++]; }
+      out += JSON.stringify(s.replace(/\\"/g, '"')); i = j + 1; continue;
+    }
+    if (/[A-Za-z_$]/.test(ch)) {
+      let j = i; while (j < src.length && /[\w$]/.test(src[j])) j++;
+      const word = src.slice(i, j); let k = j; while (/\s/.test(src[k] || '')) k++;
+      out += src[k] === ':' ? JSON.stringify(word) : word; i = j; continue;
+    }
+    if (ch === '{' || ch === '[') depth++;
+    if (ch === '}' || ch === ']') { out = out.replace(/,\s*$/, ''); depth--; out += ch; i++; if (!depth) break; continue; }
+    out += ch; i++;
+  }
+  let cfg;
+  try { cfg = JSON.parse(out); } catch (e) { throw new Error('the theme code could not be read (' + e.message + ')'); }
+  if (!cfg || typeof cfg !== 'object') throw new Error('the theme code is not an object');
+  return cfg;
+}
+
+/** Editor state (what the customizer and the plugin show) ↔ config. */
+export function stateFromConfig(cfg = {}) {
+  const t = resolveTheme(cfg);
+  const colors = cfg.colors || {};
+  const accentHex = typeof colors.accent === 'string' ? colors.accent : null;
+  return {
+    name: t.name, brand: cfg.brand || accentHex || '',
+    follow: !!(colors.neutral && colors.neutral.h === 'accent'),
+    font: (t.font && t.font.sans) || '', radius: t.radius, density: t.density,
+    pal: JSON.parse(JSON.stringify(t.palettes)),
+  };
+}
+export function configFromState(state) {
+  const colors = {};
+  let brandHc = null;
+  if (state.brand) { try { const o = hexToOklch(state.brand); brandHc = { h: +o.h.toFixed(1), c: +Math.min(o.C, guarantee.intentMaxChroma).toFixed(4) }; } catch (e) { /* ignore */ } }
+  const a = state.pal.accent;
+  const accentFromBrand = !!brandHc && Math.abs(brandHc.h - a.h) < 0.6 && Math.abs(brandHc.c - a.c) < 0.0015;
+  const same = (n, p) => +p.h === basePalettes[n].h && +p.c === basePalettes[n].c;
+  if (accentFromBrand) colors.accent = state.brand; else if (!same('accent', a)) colors.accent = { h: +a.h, c: +a.c };
+  const nn = state.pal.neutral;
+  if (state.follow) colors.neutral = { h: 'accent', c: +nn.c }; else if (!same('neutral', nn)) colors.neutral = { h: +nn.h, c: +nn.c };
+  for (const n of ['danger', 'success', 'warning']) { const p = state.pal[n]; if (!same(n, p)) colors[n] = { h: +p.h, c: +p.c }; }
+  const cfg = { name: state.name || 'Project', colors };
+  if (state.brand && !accentFromBrand && brandHc) cfg.brand = state.brand;
+  if (state.font) cfg.font = { sans: state.font };
+  cfg.radius = state.radius; cfg.density = state.density;
+  return cfg;
+}

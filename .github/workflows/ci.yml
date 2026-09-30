@@ -20,6 +20,7 @@ jobs:
       - run: npm ci
       - run: npx playwright install --with-deps chromium
       - run: npm test                      # build + contrast + lint + 2 px grid + accessibility
+      - run: git diff --exit-code -- figma-plugin/   # the committed Figma plugin must match the build
       - uses: actions/upload-artifact@v5
         if: always()
         with:

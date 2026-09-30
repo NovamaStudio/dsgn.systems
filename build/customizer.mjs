@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { ladder, palettes, density, radius, guarantee } from '../src/tokens.config.mjs';
 
 // ── tiny ESM → script bundler for the three engine modules ───────────────────
-function bundle() {
+export function bundle() {
   const mods = [['color', '../src/color.mjs'], ['tokens', '../src/tokens.config.mjs'], ['theme', '../src/theme.mjs']];
   const parts = [];
   for (const [name, path] of mods) {
@@ -12,7 +12,7 @@ function bundle() {
     const exported = [...src.matchAll(/^export (?:async )?(?:function|const|let) (\w+)/gm)].map((m) => m[1]);
     src = src.replace(/^import \{([^}]+)\} from '\.\/([\w.]+)\.mjs';$/gm, (m, names, from) =>
       `const {${names.replace(/(\w+) as (\w+)/g, '$1: $2')}} = __${from === 'tokens.config' ? 'tokens' : from};`);
-    src = src.replace(/^export /gm, '');
+    src = src.replace(/^export (?=(?:async )?(?:function|const|let) )/gm, '');
     parts.push(`const __${name} = (() => {\n${src}\nreturn { ${exported.join(', ')} };\n})();`);
   }
   return parts.join('\n');
@@ -47,9 +47,15 @@ export function customizerPage({ ic, esc }) {
 
   const html = `
   <div class="dsgn-page-header"><h1 class="dsgn-page-header-title" tabindex="-1">Theme customizer</h1>
-    <p class="dsgn-lead">Set the brand colour, font, corners and density for a project. Lightness per step is fixed, so every hue keeps the contrast the package guarantees; the result is a small <code>dsgn.theme.css</code> loaded after <code>dsgn.css</code>.</p></div>
+    <p class="dsgn-lead">Make a theme for a project: brand colour, greys, font, corners and density. Every colour you can pick here keeps the contrast dsgn guarantees. When it looks right, take it to the website and to Figma with the three steps below the preview.</p></div>
   <div class="docs-theme">
     <form class="docs-theme-controls" id="th-form" aria-label="Theme settings">
+      <details class="docs-theme-open"><summary class="dsgn-button" data-variant="subtle" data-intent="neutral">${ic('upload')}Open a saved theme</summary>
+        <div class="docs-theme-group"><div class="dsgn-field"><label class="dsgn-label" for="th-code">Theme code</label>
+          <textarea class="dsgn-input docs-theme-code" id="th-code" spellcheck="false" aria-describedby="th-code-h" placeholder="export default { name: …, colors: { … } }"></textarea>
+          <p class="dsgn-hint" id="th-code-h">Paste the theme code you kept from step 1.</p></div>
+          <button type="button" class="dsgn-button" data-variant="subtle" id="th-code-load">Open</button></div>
+      </details>
       <div class="dsgn-field"><label class="dsgn-label" for="th-name">Theme name</label><input class="dsgn-input" id="th-name" value="Project" aria-describedby="th-name-h" autocomplete="off"><p class="dsgn-hint" id="th-name-h">Also the name of the mode in Figma.</p></div>
       <fieldset class="docs-theme-group"><legend class="dsgn-title">Accent</legend>
         <div class="dsgn-field"><label class="dsgn-label" for="th-brand">Brand colour</label>
@@ -75,10 +81,23 @@ export function customizerPage({ ic, esc }) {
       <div class="docs-theme-panes"><section aria-label="Preview, light theme">${sample('light')}</section><section aria-label="Preview, dark theme">${sample('dark')}</section></div>
     </div>
   </div>
-  <section class="docs-block" aria-label="Use it in a project"><h2 class="dsgn-heading-s">Use it in a project</h2>
-    <ol class="docs-list"><li>Save the config as <code>dsgn.theme.mjs</code> in the project root.</li><li>Run <code>npx dsgn theme</code>. It checks contrast and writes <code>dsgn.theme.css</code> (the same file as below) and <code>dsgn.theme.figma.js</code>.</li><li>Load <code>dsgn.theme.css</code> right after <code>dsgn.css</code>. Commit both files; run the command again after every change or package update.</li><li>Figma: run <code>dsgn.theme.figma.js</code> in the library file (via the Figma MCP or a scratch plugin). It adds a mode with the theme name to Primitives; pick it on your frames.</li></ol>
-    ${out('th-out-config', 'dsgn.theme.mjs')}
-    ${out('th-out-css', 'dsgn.theme.css')}
+  <section class="docs-block" aria-label="Take it into your project"><h2 class="dsgn-heading-s">Take it into your project</h2>
+    <ol class="docs-theme-steps-list">
+      <li class="docs-theme-step"><p class="dsgn-title">Keep the theme code</p>
+        <p class="docs-prose">A few lines that describe this theme. Save it with the project files. To change the theme later, open it here with <strong>Open a saved theme</strong>, or paste it into the Figma plugin.</p>
+        <div class="dsgn-cluster"><button type="button" class="dsgn-button" data-copy="th-out-config">${ic('content_copy')}Copy theme code</button><button type="button" class="dsgn-button" data-variant="subtle" data-download="th-out-config" data-filename="dsgn.theme.mjs">${ic('download')}Download dsgn.theme.mjs</button></div></li>
+      <li class="docs-theme-step"><p class="dsgn-title">Website</p>
+        <p class="docs-prose">Give <code>dsgn.theme.css</code> to whoever builds the site. It is loaded right after <code>dsgn.css</code>; nothing else changes.</p>
+        <div class="dsgn-cluster"><button type="button" class="dsgn-button" data-variant="subtle" data-download="th-out-css" data-filename="dsgn.theme.css">${ic('download')}Download dsgn.theme.css</button><button type="button" class="dsgn-button" data-variant="subtle" data-intent="neutral" data-copy="th-out-css">${ic('content_copy')}Copy CSS</button></div>
+        <p class="dsgn-caption dsgn-muted">For developers: the same file comes out of <code>npx dsgn theme</code> from the theme code saved as <code>dsgn.theme.mjs</code>.</p></li>
+      <li class="docs-theme-step"><p class="dsgn-title">Figma</p>
+        <p class="docs-prose">Open the dsgn library file in the Figma desktop app and run the <strong>dsgn theme</strong> plugin. Choose <strong>Paste a theme code</strong>, paste the code from step 1 and click <strong>Add to Figma</strong>. The theme becomes a mode in the Primitives collection: pick it on your frames, then publish the library.</p>
+        <p class="dsgn-caption dsgn-muted">First time: install the plugin once, see <a class="dsgn-link" href="https://github.com/NovamaStudio/dsgn.systems/tree/main/figma-plugin">figma-plugin on GitHub</a>. The plugin has the same controls as this page, so you can also make the theme directly in Figma.</p></li>
+    </ol>
+    <details class="docs-theme-files"><summary>Show the files</summary>
+      ${out('th-out-config', 'dsgn.theme.mjs')}
+      ${out('th-out-css', 'dsgn.theme.css')}
+    </details>
   </section>`;
 
   const script = `
@@ -88,7 +107,7 @@ ${bundle()}
   var $ = function (id) { return document.getElementById(id); };
   var style = document.createElement('style'); style.id = 'th-style'; document.head.appendChild(style);
   var names = E.PALETTES, statusNames = ['danger', 'success', 'warning'];
-  var DEF = { name: 'Project', brand: '', follow: false, font: '', radius: T.radius.default, density: T.density.default, pal: JSON.parse(JSON.stringify(T.palettes)) };
+  var DEF = E.stateFromConfig({});
   var state;
   function load() { try { var s = JSON.parse(localStorage.getItem('dsgn-docs-theme')); if (s && s.pal) return s; } catch (e) {} return JSON.parse(JSON.stringify(DEF)); }
   function save() { try { localStorage.setItem('dsgn-docs-theme', JSON.stringify(state)); } catch (e) {} }
@@ -102,33 +121,8 @@ ${bundle()}
     document.querySelectorAll('input[name="th-radius"]').forEach(function (r) { r.checked = r.value === state.radius; });
     document.querySelectorAll('input[name="th-density"]').forEach(function (r) { r.checked = r.value === state.density; });
   }
-  function config() {
-    var colors = {};
-    var brandHc = null;
-    if (state.brand) { try { var o = E.hexToOklch(state.brand); brandHc = { h: +o.h.toFixed(1), c: +Math.min(o.C, T.guarantee.intentMaxChroma).toFixed(4) }; } catch (e) {} }
-    var a = state.pal.accent;
-    var accentFromBrand = brandHc && Math.abs(brandHc.h - a.h) < 0.6 && Math.abs(brandHc.c - a.c) < 0.0015;
-    if (accentFromBrand) colors.accent = state.brand; else if (a.h !== T.palettes.accent.h || a.c !== T.palettes.accent.c) colors.accent = { h: +a.h, c: +a.c };
-    var nn = state.pal.neutral;
-    if (state.follow) colors.neutral = { h: 'accent', c: +nn.c }; else if (nn.h !== T.palettes.neutral.h || nn.c !== T.palettes.neutral.c) colors.neutral = { h: +nn.h, c: +nn.c };
-    statusNames.forEach(function (n) { var p = state.pal[n]; if (p.h !== T.palettes[n].h || p.c !== T.palettes[n].c) colors[n] = { h: +p.h, c: +p.c }; });
-    var cfg = { name: state.name || 'Project', colors: colors };
-    if (state.brand && !accentFromBrand && brandHc) cfg.brand = state.brand;
-    if (state.font) cfg.font = { sans: state.font };
-    cfg.radius = state.radius; cfg.density = state.density;
-    return cfg;
-  }
-  function configText(cfg) {
-    var q = function (s) { return JSON.stringify(String(s)); };
-    var val = function (x) { return typeof x === 'string' ? q(x) : '{ h: ' + (typeof x.h === 'string' ? q(x.h) : x.h) + ', c: ' + x.c + ' }'; };
-    var L = ['// dsgn theme — run \`npx dsgn theme\` after every change.', 'export default {', '  name: ' + q(cfg.name) + ',', '  colors: {'];
-    Object.keys(cfg.colors).forEach(function (k) { L.push('    ' + k + ': ' + val(cfg.colors[k]) + ','); });
-    L.push('  },');
-    if (cfg.brand) L.push('  brand: ' + q(cfg.brand) + ',');
-    if (cfg.font) L.push('  font: { sans: ' + q(cfg.font.sans) + ' },');
-    L.push('  radius: ' + q(cfg.radius) + ',', '  density: ' + q(cfg.density) + ',', '};');
-    return L.join('\\n');
-  }
+  function config() { return E.configFromState(state); }
+  function configText(cfg) { return E.themeCode(cfg); }
   var tokensCss = document.querySelector('style').textContent;
   function render() {
     if (state.follow) { state.pal.neutral.h = state.pal.accent.h; setSlider('th-neutral-h', state.pal.neutral.h, '°'); }
@@ -175,6 +169,21 @@ ${bundle()}
     render();
   });
   $('th-reset').addEventListener('click', function () { state = JSON.parse(JSON.stringify(DEF)); toForm(); render(); });
+  $('th-code-load').addEventListener('click', function () {
+    var h = $('th-code-h');
+    try { state = E.stateFromConfig(E.parseThemeCode($('th-code').value)); toForm(); render(); h.removeAttribute('data-intent'); h.textContent = 'Opened “' + state.name + '”.'; }
+    catch (e) { h.setAttribute('data-intent', 'danger'); h.textContent = e.message; }
+  });
+  // downloads work on the documentation website; inside an embedded preview they are blocked, so only copy is offered there
+  var embedded = false; try { embedded = window.self !== window.top; } catch (e) { embedded = true; }
+  document.querySelectorAll('[data-download]').forEach(function (b) {
+    if (embedded) { b.hidden = true; return; }
+    b.addEventListener('click', function () {
+      var blob = new Blob([$(b.dataset.download).textContent], { type: 'text/plain' });
+      var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = b.dataset.filename; document.body.append(a); a.click(); a.remove();
+      setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+    });
+  });
 })();`;
 
   const styles = `
@@ -196,7 +205,17 @@ ${bundle()}
   .docs-theme-panes { display: grid; gap: var(--dsgn-space-16); }
   @media (width >= 40rem) { .docs-theme-panes { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   .docs-theme-pane { display: grid; gap: var(--dsgn-stack); padding: var(--dsgn-inset); border-radius: var(--dsgn-radius-l); background: var(--dsgn-surface-base); color: var(--dsgn-text); font-family: var(--dsgn-font-sans); box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border); min-inline-size: 0; }
-  .docs-theme-pane .dsgn-cluster { min-inline-size: 0; }`;
+  .docs-theme-pane .dsgn-cluster { min-inline-size: 0; }
+  .docs-theme-open > summary { list-style: none; inline-size: fit-content; }
+  .docs-theme-open > summary::-webkit-details-marker { display: none; }
+  .docs-theme-open[open] > summary { margin-block-end: var(--dsgn-space-12); }
+  .docs-theme-code { min-block-size: calc(8 * var(--dsgn-space-16)); font-family: var(--docs-mono); font-size: var(--dsgn-font-size-caption); }
+  .docs-theme-steps-list { display: grid; gap: var(--dsgn-space-16); margin: 0; padding: 0; list-style: none; counter-reset: step; }
+  .docs-theme-step { display: grid; gap: var(--dsgn-space-8); padding: var(--dsgn-inset); padding-inline-start: calc(var(--dsgn-inset) + var(--dsgn-space-40)); border-radius: var(--dsgn-radius-l); box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border); position: relative; counter-increment: step; max-inline-size: calc(12 * var(--dsgn-space-64)); }
+  .docs-theme-step::before { content: counter(step); position: absolute; inset-inline-start: var(--dsgn-inset); inset-block-start: var(--dsgn-inset); inline-size: var(--dsgn-space-24); block-size: var(--dsgn-space-24); border-radius: var(--dsgn-radius-full); background: var(--dsgn-accent-solid); color: var(--dsgn-accent-solid-text); display: grid; place-items: center; font-size: var(--dsgn-font-size-caption); font-weight: var(--dsgn-font-weight-semibold); }
+  .docs-theme-step > * { margin: 0; }
+  .docs-theme-files > summary { cursor: pointer; font-weight: var(--dsgn-font-weight-medium); padding-block: var(--dsgn-space-8); }
+  .docs-theme-files[open] { display: grid; gap: var(--dsgn-space-12); }`;
 
   return { html, script, styles };
 }

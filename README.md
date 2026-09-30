@@ -66,7 +66,7 @@ npx dsgn theme            # checks contrast, writes dsgn.theme.css (+ Figma file
 <link rel="stylesheet" href="dsgn.theme.css">
 ```
 
-Colours are given as a brand hex or hue + chroma; lightness per step stays fixed, so contrast holds for any hue. Chroma is capped to what the guarantee covers (0.30, greys 0.04). The theme lives in `@layer dsgn.theme`, between tokens and components. The [theme customizer](https://novamastudio.github.io/dsgn.systems/#theme) does the same in the browser with a live preview. `import { resolveTheme, themeCss } from 'dsgn.systems/theme'` for build tools.
+Colours are given as a brand hex or hue + chroma; lightness per step stays fixed, so contrast holds for any hue. Chroma is capped to what the guarantee covers (0.30, greys 0.04). The theme lives in `@layer dsgn.theme`, between tokens and components. The [theme customizer](https://novamastudio.github.io/dsgn.systems/#theme) does the same in the browser with a live preview, and the [dsgn theme Figma plugin](figma-plugin/) adds the theme to the Figma library as a mode. `import { resolveTheme, themeCss } from 'dsgn.systems/theme'` for build tools.
 
 **Resets and base styles**: because unlayered CSS wins, an element reset such as `button { background: none; border: 0 }` (normalize, Tailwind preflight, a theme's base) would also beat dsgn components. Put resets in a layer *below* dsgn:
 

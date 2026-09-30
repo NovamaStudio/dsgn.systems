@@ -6,7 +6,8 @@ One version for the npm package and the Figma library. [Semantic versioning](htt
 
 ### Added
 - Project themes: `dsgn theme --init` and `dsgn theme` turn a small `dsgn.theme.mjs` (brand hex or hue + chroma per palette, font, default corners and density) into `dsgn.theme.css`, with the contrast check. Also writes a Figma script that adds the theme as a mode in Primitives.
-- Theme customizer page in the documentation: the same engine in the browser, with a live light / dark preview and the files to copy.
+- Theme customizer page in the documentation: the same engine in the browser, with a live light / dark preview, a theme code to keep and reopen, and downloads for the website file.
+- Figma plugin **dsgn theme** (`figma-plugin/`): the same controls inside Figma; adds, updates or removes the theme as a mode in the library, or takes a theme code pasted from the web customizer.
 - `dsgn.systems/theme` export (`resolveTheme`, `themeCss`, `checkContrast`, `hexToOklch`, …) for build tools.
 - `--dsgn-brand`: the exact brand colour for logos and illustrations (outside the contrast contract).
 - Cascade layer `dsgn.theme` between `dsgn.tokens` and `dsgn.components`.
