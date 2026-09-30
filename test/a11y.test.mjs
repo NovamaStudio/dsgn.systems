@@ -33,6 +33,8 @@ const TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa', 'best-prac
 
 // ── 1. axe ───────────────────────────────────────────────────────────────────
 async function axe(page, label, include) {
+  // a theme or density switch starts colour transitions; measuring mid-transition gives mixed colours
+  await page.evaluate(() => Promise.all(document.getAnimations().filter((a) => a.effect && a.effect.getComputedTiming().endTime !== Infinity).map((a) => a.finished.catch(() => {}))));
   await page.addScriptTag({ content: axeSrc });
   const res = await page.evaluate(async ({ tags, include }) => {
     const r = await window.axe.run(include ? { include: [include] } : document, { runOnly: { type: 'tag', values: tags }, resultTypes: ['violations', 'incomplete'] });
