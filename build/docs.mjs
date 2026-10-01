@@ -101,7 +101,7 @@ for (const f of compFiles) {
   ${c.examples.map((e) => `<section class="docs-block" aria-label="${esc(e.title)}"><h2 class="dsgn-title">${esc(e.title)}</h2>
     ${e.note ? `<p class="docs-prose dsgn-muted">${esc(e.note)}</p>` : ''}
     ${e.html ? `<div class="docs-example${e.wide ? ' docs-example-wide' : ''}">${e.html}</div>` : ''}
-    ${codeBlock(e.code || e.html)}</section>`).join('')}
+    ${codeBlock(e.code || e.html.replace(/data:image\/svg\+xml,[^"]+/g, (m) => (m.length > 1500 ? "photo.jpg" : "portrait.jpg")))}</section>`).join('')}
   ${h.prose.length ? `<section class="docs-block" aria-label="Usage"><h2 class="dsgn-title">Usage</h2>${h.prose.map((p) => `<p class="docs-prose">${esc(p)}</p>`).join('')}</section>` : ''}
   ${h.api.length ? `<section class="docs-block" aria-label="Attributes"><h2 class="dsgn-title">Attributes</h2><dl class="dsgn-dl">${h.api.map(([k, v]) => `<div><dt><code>${esc(k)}</code></dt><dd>${esc(v)}</dd></div>`).join('')}</dl></section>` : ''}
   <section class="docs-block" aria-label="Details"><h2 class="dsgn-title">Details</h2>

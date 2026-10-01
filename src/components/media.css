@@ -1,0 +1,67 @@
+/* dsgn · Media
+ *
+ * <div class="dsgn-media"><img src="…" alt="Lake at dawn"></div>
+ * <div class="dsgn-media" data-ratio="1:1"><img src="…" alt="…"></div>
+ * <figure class="dsgn-figure">
+ *   <div class="dsgn-media" data-ratio="3:2"><img src="…" alt="…"></div>
+ *   <figcaption>Office in Brno, autumn 2026.</figcaption>
+ * </figure>
+ *
+ * A frame for an image or video: fixed aspect ratio, the picture fills it (object-fit: cover),
+ * corners follow radius-l (Sharp 0 · Default 8 · Rounded 16 · Pill 24) like cards and panels.
+ * data-ratio  16:9 (default) | 4:3 | 3:2 | 1:1 | 21:9 | auto (the image keeps its own shape).
+ * Empty frames show a neutral placeholder; a thin inner line keeps light images off the surface.
+ * Decorative images take alt="", meaningful ones a real description.
+ */
+.dsgn-media {
+  --_ratio: 16 / 9;
+  box-sizing: border-box;
+  position: relative;
+  display: block;
+  inline-size: 100%;
+  max-inline-size: 100%;
+  aspect-ratio: var(--_ratio);
+  overflow: hidden;
+  margin: 0;
+  border-radius: var(--dsgn-radius-l);
+  background: var(--dsgn-neutral-subtle);
+}
+.dsgn-media[data-ratio="4:3"]  { --_ratio: 4 / 3; }
+.dsgn-media[data-ratio="3:2"]  { --_ratio: 3 / 2; }
+.dsgn-media[data-ratio="1:1"]  { --_ratio: 1 / 1; }
+.dsgn-media[data-ratio="21:9"] { --_ratio: 21 / 9; }
+.dsgn-media[data-ratio="auto"] { aspect-ratio: auto; }
+.dsgn-media > :is(img, video, picture, iframe, svg) {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  border: 0;
+}
+.dsgn-media[data-ratio="auto"] > :is(img, video, picture, svg) { block-size: auto; }
+.dsgn-media > picture > img { inline-size: 100%; block-size: 100%; object-fit: cover; display: block; }
+.dsgn-media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border);
+  pointer-events: none;
+}
+
+/* figure + caption */
+.dsgn-figure {
+  display: grid;
+  gap: var(--dsgn-space-8);
+  margin: 0;
+}
+.dsgn-figure > figcaption {
+  color: var(--dsgn-text-muted);
+  font-family: var(--dsgn-font-sans);
+  font-size: var(--dsgn-font-size-caption);
+  line-height: var(--dsgn-line-height-caption);
+}
+
+@media (forced-colors: active) {
+  .dsgn-media::after { box-shadow: none; outline: 1px solid CanvasText; outline-offset: -1px; }
+}

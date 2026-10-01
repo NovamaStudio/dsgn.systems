@@ -3,6 +3,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import * as T from '../src/tokens.config.mjs';
 import { validate } from './palette.mjs';
 import { roleRefs, ROLES } from '../src/theme.mjs';
+import { landscape, portrait, portrait2 } from '../src/docs/images.mjs';
 
 const css = readFileSync(new URL('../dist/dsgn.css', import.meta.url), 'utf8');
 const dsgnjs = readFileSync(new URL('../src/js/dsgn.js', import.meta.url), 'utf8');
@@ -89,6 +90,7 @@ section { display: grid; gap: 16px; }
 .panel-head { display: flex; flex-wrap: wrap; gap: 4px 8px; justify-content: space-between; align-items: baseline; }
 .panel { grid-template-columns: minmax(0, 1fr); min-width: 0; }
 .row { display: flex; flex-wrap: wrap; gap: var(--dsgn-control-gap); align-items: center; }
+.media-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(13rem, 100%), 1fr)); gap: 16px; align-items: start; }
 .card { background: var(--dsgn-surface-raised); border: 1px solid var(--dsgn-border); border-radius: var(--dsgn-radius-l); padding: var(--dsgn-inset); display: grid; gap: 8px; }
 .alert { border-radius: var(--dsgn-radius-m); padding: 8px 12px; display: flex; gap: 8px; border: 1px solid; }
 .alert .i { color: var(--_fg); }
@@ -208,6 +210,7 @@ body {
 <script>
 ${engine}
 const D = ${JSON.stringify(data)};
+const { landscape, portrait, portrait2 } = ${JSON.stringify({ landscape, portrait, portrait2 })};
 const root = document.documentElement;
 root.lang = 'en';
 const pal = JSON.parse(JSON.stringify(D.palettes));
@@ -288,6 +291,18 @@ function badgeBlock() {
     '</div><div class="row">' + ints.map((i, n) => '<span class="dsgn-badge" data-intent="' + i + '" data-variant="solid">' + words[n] + '</span>').join('') +
     '<span class="dsgn-badge" data-intent="warning">' + ic('schedule') + '2 days</span></div>';
 }
+function mediaBlock(t) {
+  return '<div class="media-row">' +
+    '<article class="dsgn-card"><div class="dsgn-media dsgn-card-media"><img src="' + landscape + '" alt=""></div>' +
+      '<h3 class="dsgn-card-title"><a class="dsgn-card-link" href="#h-b">Retreat in Lipno</a></h3>' +
+      '<p class="dsgn-card-text">Title link stretches over the card; the button still works.</p>' +
+      '<div class="dsgn-card-actions"><button class="dsgn-button" data-variant="subtle" data-intent="neutral">' + ic('download') + 'Quote</button></div></article>' +
+    '<a class="dsgn-card" href="#h-b"><div class="dsgn-media dsgn-card-media" data-ratio="3:2"><img src="' + landscape + '" alt=""></div>' +
+      '<h3 class="dsgn-card-title">Studio Kolo</h3><p class="dsgn-card-text">The whole card is the link.</p></a>' +
+    '<figure class="dsgn-figure"><div class="dsgn-media" data-ratio="1:1"><img src="' + landscape + '" alt="Lake at dawn below wooded hills"></div><figcaption>Media 1:1 with caption</figcaption></figure>' +
+    '<figure class="dsgn-figure"><div class="dsgn-media" data-ratio="4:3"></div><figcaption>Empty 4:3 placeholder</figcaption></figure>' +
+  '</div>';
+}
 function cardBlock(t) {
   return '<article class="dsgn-card"><h3 class="dsgn-card-title">Invoice 2026-114</h3>' +
     '<p class="dsgn-card-text">Sent to the client on 28 September. Payment due in 14 days. <a class="dsgn-link" href="#h-b">View history</a></p>' +
@@ -358,6 +373,7 @@ function navBlock(t) {
     '<div class="row">' +
       av('MN', ' role="img" aria-label="Martin Novák"') + av('N', ' data-intent="accent" role="img" aria-label="Novama"') + av(ic('person'), ' data-intent="success"') +
       av('AD', ' data-size="s" role="img" aria-label="Awesome Dogs"') +
+      av('<img src="' + portrait + '" alt="Jana Kolářová">') + av('<img src="' + portrait2 + '" alt="Petra Lišková">', ' data-size="s"') +
       '<div class="dsgn-avatar-group">' + av('MN', ' data-intent="accent"') + av('JK', ' data-intent="warning"') + av('PL', ' data-intent="danger"') + av('+3') + '</div>' +
     '</div>' +
     '<nav class="dsgn-pagination" aria-label="Pagination, ' + t + ' theme">' +
@@ -513,7 +529,7 @@ function panel(theme) {
     '<div class="panel-head"><h2>' + (theme === 'light' ? 'Light' : 'Dark') + '</h2><span class="mono muted">data-theme="' + theme + '"</span></div>' +
     '<div class="row">' + btns('solid') + '</div><div class="row">' + btns('subtle') + '</div><div class="row">' + btns('ghost') + '</div>' +
     '<div class="row">' + icons('solid') + icons('subtle') + icons('ghost') + '</div>' +
-    formBlock(theme) + choiceBlock(theme) + badgeBlock() + cardBlock(theme) + alertBlock() + tabsBlock(theme) + tableBlock(theme) + navBlock(theme) + loadingBlock(theme) + dialogBlock(theme) + moreBlock(theme) + layoutBlock(theme) +
+    formBlock(theme) + choiceBlock(theme) + badgeBlock() + cardBlock(theme) + mediaBlock(theme) + alertBlock() + tabsBlock(theme) + tableBlock(theme) + navBlock(theme) + loadingBlock(theme) + dialogBlock(theme) + moreBlock(theme) + layoutBlock(theme) +
     '<details><summary class="muted">All ' + Object.keys(D.semantic).length + ' colour tokens</summary><div class="tokgrid" style="margin-top:8px">' + toks + '</div></details></div>';
 }
 document.getElementById('panels').innerHTML = panel('light') + panel('dark');

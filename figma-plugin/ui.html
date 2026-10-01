@@ -1213,8 +1213,20 @@
  * </article>
  *
  * A container, not a control: raised surface, 1 px border (inset, no size change), radius-l,
- * padding = inset and gap = stack (both follow Density).
- * Whole-card link: <a class="dsgn-card" href="…"> gets hover and focus states.
+ * padding = inset and gap = stack (both follow Density). Any content can go between the text
+ * and the actions (a list, a stat, a form) — the card is a plain grid.
+ *
+ * Image on top — a Media frame as the first child, flush with the card edges:
+ * <article class="dsgn-card">
+ *   <div class="dsgn-media dsgn-card-media"><img src="…" alt=""></div>
+ *   <h3 class="dsgn-card-title">…</h3> …
+ * </article>
+ *
+ * Link card — either the whole card is the link (no buttons inside), or the title link stretches
+ * over the card so buttons inside keep working. Both get hover (stronger border)
+ * and the focus ring on the whole card:
+ * <a class="dsgn-card" href="…">…</a>
+ * <h3 class="dsgn-card-title"><a class="dsgn-card-link" href="…">Invoice 2026-114</a></h3>
  */
 .dsgn-card {
   box-sizing: border-box;
@@ -1240,11 +1252,27 @@
 .dsgn-card-text { color: var(--dsgn-text-muted); }
 .dsgn-card-actions { display: flex; flex-wrap: wrap; gap: var(--dsgn-control-gap); }
 
-a.dsgn-card { cursor: pointer; }
-@media (hover: hover) {
-  a.dsgn-card:hover { box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border-strong), var(--dsgn-shadow-raised); }
+/* media on top: pulled out to the card edges, inside the 1 px border; top corners follow radius-l */
+.dsgn-card > .dsgn-card-media {
+  inline-size: auto;
+  max-inline-size: none;
+  margin: calc(var(--dsgn-border-width) - var(--dsgn-inset));
+  margin-block-end: 0;
+  border-radius: max(0px, calc(var(--dsgn-radius-l) - var(--dsgn-border-width))) max(0px, calc(var(--dsgn-radius-l) - var(--dsgn-border-width))) 0 0;
 }
-a.dsgn-card:focus-visible {
+.dsgn-card > .dsgn-card-media::after { content: none; }
+
+/* stretched title link */
+.dsgn-card:has(.dsgn-card-link) { position: relative; }
+.dsgn-card-link { color: inherit; text-decoration: none; outline: none; }
+.dsgn-card-link::after { content: ''; position: absolute; inset: 0; z-index: 0; border-radius: inherit; }
+.dsgn-card:has(.dsgn-card-link) :is(.dsgn-card-actions, .dsgn-card-text a, button, input, select, textarea) { position: relative; z-index: 1; }
+
+a.dsgn-card, .dsgn-card:has(.dsgn-card-link) { cursor: pointer; }
+@media (hover: hover) {
+  :is(a.dsgn-card, .dsgn-card:has(.dsgn-card-link)):hover { box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border-strong), var(--dsgn-shadow-raised); }
+}
+a.dsgn-card:focus-visible, .dsgn-card:has(.dsgn-card-link:focus-visible) {
   outline: var(--dsgn-focus-width) solid var(--dsgn-focus);
   outline-offset: var(--dsgn-focus-offset);
 }
@@ -2126,6 +2154,75 @@ textarea.dsgn-input:not([rows]) { block-size: calc(3 * var(--dsgn-control-line-h
 @media (forced-colors: active) {
   .dsgn-list { outline: 1px solid CanvasText; }
   .dsgn-list > li { border-block-end: 1px solid CanvasText; }
+}
+
+/* ── media.css ── */
+/* dsgn · Media
+ *
+ * <div class="dsgn-media"><img src="…" alt="Lake at dawn"></div>
+ * <div class="dsgn-media" data-ratio="1:1"><img src="…" alt="…"></div>
+ * <figure class="dsgn-figure">
+ *   <div class="dsgn-media" data-ratio="3:2"><img src="…" alt="…"></div>
+ *   <figcaption>Office in Brno, autumn 2026.</figcaption>
+ * </figure>
+ *
+ * A frame for an image or video: fixed aspect ratio, the picture fills it (object-fit: cover),
+ * corners follow radius-l (Sharp 0 · Default 8 · Rounded 16 · Pill 24) like cards and panels.
+ * data-ratio  16:9 (default) | 4:3 | 3:2 | 1:1 | 21:9 | auto (the image keeps its own shape).
+ * Empty frames show a neutral placeholder; a thin inner line keeps light images off the surface.
+ * Decorative images take alt="", meaningful ones a real description.
+ */
+.dsgn-media {
+  --_ratio: 16 / 9;
+  box-sizing: border-box;
+  position: relative;
+  display: block;
+  inline-size: 100%;
+  max-inline-size: 100%;
+  aspect-ratio: var(--_ratio);
+  overflow: hidden;
+  margin: 0;
+  border-radius: var(--dsgn-radius-l);
+  background: var(--dsgn-neutral-subtle);
+}
+.dsgn-media[data-ratio="4:3"]  { --_ratio: 4 / 3; }
+.dsgn-media[data-ratio="3:2"]  { --_ratio: 3 / 2; }
+.dsgn-media[data-ratio="1:1"]  { --_ratio: 1 / 1; }
+.dsgn-media[data-ratio="21:9"] { --_ratio: 21 / 9; }
+.dsgn-media[data-ratio="auto"] { aspect-ratio: auto; }
+.dsgn-media > :is(img, video, picture, iframe, svg) {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  border: 0;
+}
+.dsgn-media[data-ratio="auto"] > :is(img, video, picture, svg) { block-size: auto; }
+.dsgn-media > picture > img { inline-size: 100%; block-size: 100%; object-fit: cover; display: block; }
+.dsgn-media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border);
+  pointer-events: none;
+}
+
+/* figure + caption */
+.dsgn-figure {
+  display: grid;
+  gap: var(--dsgn-space-8);
+  margin: 0;
+}
+.dsgn-figure > figcaption {
+  color: var(--dsgn-text-muted);
+  font-family: var(--dsgn-font-sans);
+  font-size: var(--dsgn-font-size-caption);
+  line-height: var(--dsgn-line-height-caption);
+}
+
+@media (forced-colors: active) {
+  .dsgn-media::after { box-shadow: none; outline: 1px solid CanvasText; outline-offset: -1px; }
 }
 
 /* ── menu.css ── */

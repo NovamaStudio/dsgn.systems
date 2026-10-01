@@ -3,6 +3,8 @@
 // The build fails if a component file has no entry here (see build/docs.mjs).
 // Keep examples real (invoices, clients) and self-contained; ids must be unique across the page.
 
+import { landscape, portrait, portrait2 } from './images.mjs';
+
 const ic = (n, fill) => `<span class="dsgn-icon"${fill ? ' data-fill' : ''} aria-hidden="true">${n}</span>`;
 const btn = (label, attrs = '') => `<button class="dsgn-button"${attrs}>${label}</button>`;
 
@@ -176,7 +178,28 @@ export const components = {
     name: 'Card', group: 'Content', figma: ['Card'],
     examples: [{ title: 'Card with actions', html: `<article class="dsgn-card" style="max-inline-size: 28rem"><h3 class="dsgn-card-title">Invoice 2026-114</h3>
   <p class="dsgn-card-text">Sent on 28 September. Payment due in 14 days. <a class="dsgn-link" href="#card">View history</a></p>
-  <div class="dsgn-card-actions">${btn(`Send reminder${ic('arrow_forward')}`)}${btn('Cancel', ' data-variant="ghost" data-intent="neutral"')}</div></article>` }],
+  <div class="dsgn-card-actions">${btn(`Send reminder${ic('arrow_forward')}`)}${btn('Cancel', ' data-variant="ghost" data-intent="neutral"')}</div></article>` },
+    { title: 'Image on top, link cards', html: `<div class="dsgn-grid" data-cols="auto">
+  <article class="dsgn-card"><div class="dsgn-media dsgn-card-media"><img src="${landscape}" alt=""></div>
+    <h3 class="dsgn-card-title"><a class="dsgn-card-link" href="#card">Retreat in Lipno, May 2027</a></h3>
+    <p class="dsgn-card-text">Three days, twelve people. The title is the link; the button still works.</p>
+    <div class="dsgn-card-actions">${btn(`${ic('download')}Quote`, ' data-variant="subtle" data-intent="neutral"')}</div></article>
+  <a class="dsgn-card" href="#card"><div class="dsgn-media dsgn-card-media" data-ratio="3:2"><img src="${landscape}" alt=""></div>
+    <h3 class="dsgn-card-title">Studio Kolo</h3><p class="dsgn-card-text">The whole card is the link — no buttons inside.</p></a>
+</div>` }],
+  },
+  media: {
+    name: 'Media', group: 'Content', figma: ['Media'],
+    examples: [{ title: 'Ratios', html: `<div class="dsgn-grid" data-cols="auto" style="--min: 10rem">
+  <div class="dsgn-media"><img src="${landscape}" alt="Lake at dawn below wooded hills"></div>
+  <div class="dsgn-media" data-ratio="4:3"><img src="${landscape}" alt=""></div>
+  <div class="dsgn-media" data-ratio="1:1"><img src="${landscape}" alt=""></div>
+  <div class="dsgn-media" data-ratio="3:2" aria-hidden="true"></div>
+</div>` },
+    { title: 'Figure with caption', html: `<figure class="dsgn-figure" style="max-inline-size: 28rem">
+  <div class="dsgn-media" data-ratio="3:2"><img src="${landscape}" alt="Lake at dawn below wooded hills"></div>
+  <figcaption>Lipno, the morning before the retreat.</figcaption>
+</figure>` }],
   },
   stat: {
     name: 'Stat tile', group: 'Content', figma: ['Stat tile'],
@@ -215,6 +238,11 @@ export const components = {
   <span class="dsgn-avatar" role="img" aria-label="Martin Novák">MN</span><span class="dsgn-avatar" data-intent="accent" role="img" aria-label="Novama">N</span>
   <span class="dsgn-avatar" data-intent="success">${ic('person')}</span><span class="dsgn-avatar" data-size="s" role="img" aria-label="Awesome Dogs">AD</span>
   <div class="dsgn-avatar-group"><span class="dsgn-avatar" data-intent="accent">MN</span><span class="dsgn-avatar" data-intent="warning">JK</span><span class="dsgn-avatar">+3</span></div>
+</div>` },
+    { title: 'Image', html: `<div class="dsgn-cluster">
+  <span class="dsgn-avatar"><img src="${portrait}" alt="Jana Kolářová"></span><span class="dsgn-avatar"><img src="${portrait2}" alt="Petra Lišková"></span>
+  <span class="dsgn-avatar" data-size="s"><img src="${portrait}" alt="Jana Kolářová"></span>
+  <div class="dsgn-avatar-group"><span class="dsgn-avatar"><img src="${portrait}" alt="Jana Kolářová"></span><span class="dsgn-avatar"><img src="${portrait2}" alt="Petra Lišková"></span><span class="dsgn-avatar" data-intent="accent">MN</span></div>
 </div>` }],
   },
   divider: {
@@ -368,7 +396,8 @@ export const leads = {
   progress: 'Show that something is happening: a bar for known progress, a spinner when the length is unknown.',
   skeleton: 'Placeholders in the shape of the content while it loads.',
   empty: 'What to show when a list or view has nothing in it yet, with the next step.',
-  card: 'A surface that groups related content and actions.',
+  card: 'A surface that groups related content and actions, optionally with an image on top or as a link.',
+  media: 'A frame for an image or video with a fixed aspect ratio; corners follow the radius mode.',
   stat: 'A key number with its label and change, for dashboards and summaries.',
   list: 'Rows of items with optional icon, text, meta and action; rows match table row height.',
   dl: 'Label and value pairs, such as the properties of a record.',
