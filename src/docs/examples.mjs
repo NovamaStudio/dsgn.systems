@@ -186,6 +186,15 @@ export const components = {
     <div class="dsgn-card-actions">${btn(`${ic('download')}Quote`, ' data-variant="subtle" data-intent="neutral"')}</div></article>
   <a class="dsgn-card" href="#card"><div class="dsgn-media dsgn-card-media" data-ratio="3:2"><img src="${landscape}" alt=""></div>
     <h3 class="dsgn-card-title">Studio Kolo</h3><p class="dsgn-card-text">The whole card is the link — no buttons inside.</p></a>
+</div>` },
+    { title: 'Icon on top, centred', html: `<div class="dsgn-grid" data-cols="auto">
+  <article class="dsgn-card"><span class="dsgn-card-icon">${ic('receipt_long')}</span>
+    <h3 class="dsgn-card-title">Invoices in a minute</h3><p class="dsgn-card-text">An icon instead of an image, start-aligned.</p></article>
+  <article class="dsgn-card" data-align="center"><span class="dsgn-card-icon" data-intent="success">${ic('savings')}</span>
+    <h3 class="dsgn-card-title">Bank sync</h3><p class="dsgn-card-text">Centred with data-align="center": icon, text and actions.</p>
+    <div class="dsgn-card-actions">${btn('Connect bank', ' data-variant="subtle" data-intent="neutral"')}</div></article>
+  <article class="dsgn-card" data-align="center"><div class="dsgn-media dsgn-card-media"><img src="${landscape}" alt=""></div>
+    <h3 class="dsgn-card-title">Retreat in Lipno</h3><p class="dsgn-card-text">Centred, the image stays full width.</p></article>
 </div>` }],
   },
   media: {

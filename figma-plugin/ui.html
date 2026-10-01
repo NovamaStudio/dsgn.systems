@@ -1222,6 +1222,13 @@
  *   <h3 class="dsgn-card-title">…</h3> …
  * </article>
  *
+ * Icon on top instead of an image (one or the other) — a tinted tile, size = control height (Density),
+ * corners radius-m, data-intent accent (default) | neutral | success | warning | danger:
+ * <span class="dsgn-card-icon" data-intent="success"><span class="dsgn-icon" aria-hidden="true">savings</span></span>
+ *
+ * Alignment — start (default) or centred: icon, title, text and actions centre, an image stays full width.
+ * data-align  center
+ *
  * Link card — either the whole card is the link (no buttons inside), or the title link stretches
  * over the card so buttons inside keep working. Both get hover (stronger border)
  * and the focus ring on the whole card:
@@ -1251,6 +1258,34 @@
 }
 .dsgn-card-text { color: var(--dsgn-text-muted); }
 .dsgn-card-actions { display: flex; flex-wrap: wrap; gap: var(--dsgn-control-gap); }
+
+/* icon on top */
+.dsgn-card-icon {
+  --_subtle: var(--dsgn-accent-subtle);
+  --_text: var(--dsgn-accent-text);
+  box-sizing: border-box;
+  display: inline-grid;
+  place-items: center;
+  justify-self: start;
+  inline-size: var(--dsgn-control-height);
+  block-size: var(--dsgn-control-height);
+  border-radius: var(--dsgn-radius-m);
+  background: var(--_subtle);
+  color: var(--_text);
+  font-size: var(--dsgn-control-font-size);
+  line-height: var(--dsgn-control-line-height);
+}
+.dsgn-card-icon > .dsgn-icon { --_fill: 1; }
+.dsgn-card-icon[data-intent="neutral"] { --_subtle: var(--dsgn-neutral-subtle); --_text: var(--dsgn-neutral-text); }
+.dsgn-card-icon[data-intent="success"] { --_subtle: var(--dsgn-success-subtle); --_text: var(--dsgn-success-text); }
+.dsgn-card-icon[data-intent="warning"] { --_subtle: var(--dsgn-warning-subtle); --_text: var(--dsgn-warning-text); }
+.dsgn-card-icon[data-intent="danger"]  { --_subtle: var(--dsgn-danger-subtle);  --_text: var(--dsgn-danger-text); }
+
+/* centred */
+.dsgn-card[data-align="center"] { justify-items: center; text-align: center; }
+.dsgn-card[data-align="center"] > :not(.dsgn-card-media) { justify-self: center; }
+.dsgn-card[data-align="center"] > .dsgn-card-media { justify-self: stretch; }
+.dsgn-card[data-align="center"] .dsgn-card-actions { justify-content: center; }
 
 /* media on top: pulled out to the card edges, inside the 1 px border; top corners follow radius-l */
 .dsgn-card > .dsgn-card-media {

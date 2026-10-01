@@ -16,7 +16,7 @@ for (const r of results) worst[`${r.theme}|${r.fg}|${r.bg}`] = r.worst;
 // Material Symbols is loaded as a subset (icon_names), so every glyph the page uses must be listed.
 // A missing name renders as plain text. The guard below fails the build if one is missed.
 const ICONS = ['add', 'arrow_downward', 'arrow_forward', 'arrow_upward', 'check', 'check_circle', 'chevron_left', 'chevron_right', 'close', 'content_copy', 'delete', 'description', 'download', 'edit', 'error',
-  'expand_more', 'favorite', 'calendar_month', 'folder', 'group', 'history', 'home', 'info', 'inventory_2', 'list', 'menu', 'notifications', 'more_vert', 'person', 'receipt_long', 'refresh', 'remove', 'schedule', 'search', 'send', 'settings', 'trending_down', 'trending_up', 'tune', 'unfold_more', 'upload', 'view_kanban', 'warning'].sort();
+  'expand_more', 'favorite', 'calendar_month', 'folder', 'group', 'history', 'home', 'info', 'inventory_2', 'list', 'menu', 'notifications', 'more_vert', 'person', 'receipt_long', 'refresh', 'remove', 'savings', 'schedule', 'search', 'send', 'settings', 'trending_down', 'trending_up', 'tune', 'unfold_more', 'upload', 'view_kanban', 'warning'].sort();
 {
   const self = readFileSync(new URL(import.meta.url), 'utf8');
   const compCss = readFileSync(new URL('../dist/dsgn.components.css', import.meta.url), 'utf8');
@@ -299,6 +299,9 @@ function mediaBlock(t) {
       '<div class="dsgn-card-actions"><button class="dsgn-button" data-variant="subtle" data-intent="neutral">' + ic('download') + 'Quote</button></div></article>' +
     '<a class="dsgn-card" href="#h-b"><div class="dsgn-media dsgn-card-media" data-ratio="3:2"><img src="' + landscape + '" alt=""></div>' +
       '<h3 class="dsgn-card-title">Studio Kolo</h3><p class="dsgn-card-text">The whole card is the link.</p></a>' +
+    '<article class="dsgn-card"><span class="dsgn-card-icon">' + ic('receipt_long') + '</span><h3 class="dsgn-card-title">Invoices in a minute</h3><p class="dsgn-card-text">Icon instead of an image.</p></article>' +
+    '<article class="dsgn-card" data-align="center"><span class="dsgn-card-icon" data-intent="success">' + ic('savings') + '</span><h3 class="dsgn-card-title">Bank sync</h3><p class="dsgn-card-text">Centred card.</p>' +
+      '<div class="dsgn-card-actions"><button class="dsgn-button" data-variant="subtle" data-intent="neutral">Connect bank</button></div></article>' +
     '<figure class="dsgn-figure"><div class="dsgn-media" data-ratio="1:1"><img src="' + landscape + '" alt="Lake at dawn below wooded hills"></div><figcaption>Media 1:1 with caption</figcaption></figure>' +
     '<figure class="dsgn-figure"><div class="dsgn-media" data-ratio="4:3"></div><figcaption>Empty 4:3 placeholder</figcaption></figure>' +
   '</div>';
