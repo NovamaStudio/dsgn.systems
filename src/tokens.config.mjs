@@ -95,7 +95,6 @@ export const semanticColor = {
   'border-control': { light: ['neutral', 64], dark: ['neutral', 54] },
   // focus ring follows the element: accent (default), neutral elements, danger elements
   'focus':          { light: ['accent', 54],  dark: ['accent', 70], role: 'control-focus' },
-  'focus-neutral':  { light: ['neutral', 38], dark: ['neutral', 85] },
   'focus-danger':   { light: ['danger', 54],  dark: ['danger', 70] },
   // track of a segmented control: tinted in light; in dark an outlined, near-surface track with a lighter selected segment
   'control-track':        { light: ['neutral', 94], dark: ['neutral', 14] },
@@ -153,7 +152,6 @@ export function contrastPairs() {
   const add = (fg, bg, min, note) => pairs.push({ fg, bg, min, note });
 
   for (const s of surfaces) {
-    add('focus-neutral', s, UI, 'focus ring, neutral elements (2.4.13)');
     add('focus-danger', s, UI, 'focus ring, danger elements (2.4.13)');
     add('text', s, TEXT, 'body text');
     add('text-muted', s, TEXT, 'secondary text');
@@ -171,6 +169,10 @@ export function contrastPairs() {
   for (const i of ['accent', 'danger', 'success', 'warning']) {
     for (const s of surfaces) add(`${i}-solid`, s, UI, 'checkbox fill / invalid border / indicator');
   }
+  // focus ring drawn inside an element (menu item, nav link, list row, segment, tab): it must also hold on that element's own fill
+  for (const b of ['neutral-subtle', 'neutral-subtle-hover', 'control-subtle', 'control-subtle-hover', 'control-track', 'control-selected', 'accent-subtle'])
+    add('focus', b, UI, 'inset focus ring on a tinted element (2.4.13)');
+  for (const b of ['danger-subtle', 'danger-subtle-hover']) add('focus-danger', b, UI, 'inset focus ring on a danger menu item (2.4.13)');
   add('border-strong', 'neutral-subtle', UI, 'switch track (off)');
   add('neutral-text', 'neutral-subtle', UI, 'switch thumb (off)');
   add('text-muted', 'neutral-subtle', TEXT, 'tab / placeholder on tinted row');

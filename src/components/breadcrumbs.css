@@ -49,5 +49,5 @@
 @media (hover: hover) {
   .dsgn-breadcrumbs a[href]:hover { color: var(--dsgn-text); text-decoration-line: underline; }
 }
-.dsgn-breadcrumbs a:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus-neutral); outline-offset: var(--dsgn-focus-offset); }
+.dsgn-breadcrumbs a:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: var(--dsgn-focus-offset); }
 .dsgn-breadcrumbs [aria-current="page"] { color: var(--dsgn-text); font-weight: var(--dsgn-font-weight-medium); }

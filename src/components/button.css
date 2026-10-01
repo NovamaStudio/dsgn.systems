@@ -86,7 +86,6 @@
   --_subtle-hover: var(--dsgn-neutral-subtle-hover);
   --_subtle-pressed: var(--dsgn-neutral-subtle-pressed);
   --_text: var(--dsgn-neutral-text);
-  --_focus: var(--dsgn-focus-neutral);
 }
 :is(.dsgn-button, .dsgn-icon-button)[data-intent="danger"] {
   --_solid: var(--dsgn-danger-solid);

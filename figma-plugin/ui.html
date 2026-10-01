@@ -159,7 +159,6 @@
   --dsgn-border-strong: var(--dsgn-neutral-54);
   --dsgn-border-control: var(--dsgn-neutral-64);
   --dsgn-focus: var(--dsgn-control-focus-light);
-  --dsgn-focus-neutral: var(--dsgn-neutral-38);
   --dsgn-focus-danger: var(--dsgn-danger-54);
   --dsgn-control-track: var(--dsgn-neutral-94);
   --dsgn-control-track-border: var(--dsgn-neutral-94);
@@ -230,7 +229,6 @@
   --dsgn-border-strong: var(--dsgn-neutral-54);
   --dsgn-border-control: var(--dsgn-neutral-54);
   --dsgn-focus: var(--dsgn-control-focus-dark);
-  --dsgn-focus-neutral: var(--dsgn-neutral-85);
   --dsgn-focus-danger: var(--dsgn-danger-70);
   --dsgn-control-track: var(--dsgn-neutral-14);
   --dsgn-control-track-border: var(--dsgn-neutral-46);
@@ -302,7 +300,6 @@
     --dsgn-border-strong: var(--dsgn-neutral-54);
     --dsgn-border-control: var(--dsgn-neutral-54);
     --dsgn-focus: var(--dsgn-control-focus-dark);
-    --dsgn-focus-neutral: var(--dsgn-neutral-85);
     --dsgn-focus-danger: var(--dsgn-danger-70);
     --dsgn-control-track: var(--dsgn-neutral-14);
     --dsgn-control-track-border: var(--dsgn-neutral-46);
@@ -683,7 +680,7 @@
 .dsgn-accordion summary > .dsgn-icon { color: var(--dsgn-text-muted); }
 .dsgn-accordion details[open] > summary > .dsgn-icon { rotate: 180deg; }
 @media (hover: hover) { .dsgn-accordion summary:hover > .dsgn-icon { color: var(--dsgn-text); } }
-.dsgn-accordion summary:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus-neutral); outline-offset: var(--dsgn-focus-offset); }
+.dsgn-accordion summary:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: var(--dsgn-focus-offset); }
 .dsgn-accordion-content {
   display: grid;
   gap: var(--dsgn-space-8);
@@ -918,7 +915,7 @@
 .dsgn-banner[data-variant="solid"] .dsgn-banner-inner > .dsgn-icon { color: inherit; }
 .dsgn-banner-text { flex: 1; min-inline-size: 0; margin: 0; }
 .dsgn-banner-text a { color: inherit; text-decoration-line: underline; text-underline-offset: 0.2em; border-radius: var(--dsgn-radius-s); font-weight: var(--dsgn-font-weight-medium); }
-.dsgn-banner-text a:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus-neutral); outline-offset: var(--dsgn-focus-offset); }
+.dsgn-banner-text a:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: var(--dsgn-focus-offset); }
 .dsgn-banner[data-variant="solid"] .dsgn-banner-text a:focus-visible { outline-color: currentColor; }
 /* buttons sit on the text line without making the banner taller */
 .dsgn-banner-inner > :is(.dsgn-button, .dsgn-icon-button) {
@@ -1029,7 +1026,7 @@
 @media (hover: hover) {
   .dsgn-breadcrumbs a[href]:hover { color: var(--dsgn-text); text-decoration-line: underline; }
 }
-.dsgn-breadcrumbs a:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus-neutral); outline-offset: var(--dsgn-focus-offset); }
+.dsgn-breadcrumbs a:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: var(--dsgn-focus-offset); }
 .dsgn-breadcrumbs [aria-current="page"] { color: var(--dsgn-text); font-weight: var(--dsgn-font-weight-medium); }
 
 /* ── button.css ── */
@@ -1121,7 +1118,6 @@
   --_subtle-hover: var(--dsgn-neutral-subtle-hover);
   --_subtle-pressed: var(--dsgn-neutral-subtle-pressed);
   --_text: var(--dsgn-neutral-text);
-  --_focus: var(--dsgn-focus-neutral);
 }
 :is(.dsgn-button, .dsgn-icon-button)[data-intent="danger"] {
   --_solid: var(--dsgn-danger-solid);
@@ -1249,7 +1245,7 @@ a.dsgn-card { cursor: pointer; }
   a.dsgn-card:hover { box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border-strong), var(--dsgn-shadow-raised); }
 }
 a.dsgn-card:focus-visible {
-  outline: var(--dsgn-focus-width) solid var(--dsgn-focus-neutral);
+  outline: var(--dsgn-focus-width) solid var(--dsgn-focus);
   outline-offset: var(--dsgn-focus-offset);
 }
 @media (forced-colors: active) {
@@ -1323,7 +1319,7 @@ button.dsgn-chip:not(:disabled):active { background: var(--dsgn-neutral-subtle-h
 @media (hover: hover) {
   button.dsgn-chip[aria-pressed="true"]:not(:disabled):hover { background: var(--dsgn-control-subtle-hover); }
 }
-.dsgn-chip:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus-neutral); outline-offset: var(--dsgn-focus-offset); }
+.dsgn-chip:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: var(--dsgn-focus-offset); }
 .dsgn-chip:disabled { background: var(--dsgn-neutral-subtle); box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border); color: var(--dsgn-text-disabled); cursor: not-allowed; }
 .dsgn-chip:disabled > .dsgn-icon { color: inherit; }
 
@@ -1565,7 +1561,7 @@ button.dsgn-chip:not(:disabled):active { background: var(--dsgn-neutral-subtle-h
 /* no page scroll behind a modal */
 html:has(.dsgn-dialog:modal) { overflow: hidden; }
 
-.dsgn-dialog:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus-neutral); outline-offset: var(--dsgn-focus-offset); }
+.dsgn-dialog:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: var(--dsgn-focus-offset); }
 
 @media (prefers-reduced-motion: no-preference) {
   .dsgn-dialog,
@@ -2044,7 +2040,6 @@ textarea.dsgn-input {
   outline: var(--dsgn-focus-width) solid var(--dsgn-focus);
   outline-offset: var(--dsgn-focus-offset);
 }
-.dsgn-link[data-intent="neutral"]:focus-visible { outline-color: var(--dsgn-focus-neutral); }
 .dsgn-link .dsgn-icon { vertical-align: bottom; }
 
 /* ── list.css ── */
@@ -2117,7 +2112,7 @@ textarea.dsgn-input {
   :is(a, button).dsgn-list-item:hover > .dsgn-icon { --_fill: 1; }
 }
 :is(a, button).dsgn-list-item:active { background: var(--dsgn-neutral-subtle-hover); }
-:is(a, button).dsgn-list-item:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus-neutral); outline-offset: calc(-1 * var(--dsgn-focus-width)); }
+:is(a, button).dsgn-list-item:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: calc(-1 * var(--dsgn-focus-width)); }
 .dsgn-list-item[aria-current]:not([aria-current="false"]) { background: var(--dsgn-control-subtle); }
 .dsgn-list-item[aria-current]:not([aria-current="false"]) > .dsgn-icon { --_fill: 1; color: var(--dsgn-control-text); }
 
@@ -2173,7 +2168,6 @@ textarea.dsgn-input {
 .dsgn-menu-item {
   --_hover: var(--dsgn-neutral-subtle);
   --_pressed: var(--dsgn-neutral-subtle-hover);
-  --_focus: var(--dsgn-focus-neutral);
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -2283,7 +2277,7 @@ textarea.dsgn-input {
   }
   .dsgn-input > select option:hover,
   .dsgn-input > select option:focus-visible { background: var(--dsgn-neutral-subtle); outline: none; }
-  .dsgn-input > select option:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus-neutral); outline-offset: calc(-1 * var(--dsgn-focus-width)); }
+  .dsgn-input > select option:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: calc(-1 * var(--dsgn-focus-width)); }
   .dsgn-input > select option:active { background: var(--dsgn-neutral-subtle-hover); }
   .dsgn-input > select option:disabled { color: var(--dsgn-text-disabled); cursor: not-allowed; }
   .dsgn-input:has(> select:open) > select ~ .dsgn-icon { rotate: 180deg; }
@@ -2344,7 +2338,7 @@ textarea.dsgn-input {
 .dsgn-nav-link:active { background: var(--dsgn-neutral-subtle-hover); }
 .dsgn-nav-link[aria-current="page"] { background: var(--dsgn-neutral-subtle); color: var(--dsgn-text); }
 .dsgn-nav-link[aria-current="page"] > .dsgn-icon { --_fill: 1; }
-.dsgn-nav-link:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus-neutral); outline-offset: calc(-1 * var(--dsgn-focus-width)); }
+.dsgn-nav-link:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: calc(-1 * var(--dsgn-focus-width)); }
 
 .dsgn-nav-label {
   padding: var(--dsgn-space-12) var(--dsgn-control-pad-y) var(--dsgn-space-4);
@@ -2525,7 +2519,7 @@ textarea.dsgn-input {
   white-space: nowrap;
   border-radius: var(--dsgn-radius-s);
 }
-.dsgn-brand:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus-neutral); outline-offset: var(--dsgn-focus-offset); }
+.dsgn-brand:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: var(--dsgn-focus-offset); }
 .dsgn-brand-mark {
   display: inline-grid;
   place-items: center;
@@ -2551,7 +2545,7 @@ textarea.dsgn-input {
 .dsgn-footer-links { display: grid; gap: var(--dsgn-space-8); margin: 0; padding: 0; list-style: none; }
 .dsgn-footer a:not([class]) { color: var(--dsgn-text-muted); text-decoration: none; border-radius: var(--dsgn-radius-s); }
 @media (hover: hover) { .dsgn-footer a:not([class]):hover { color: var(--dsgn-text); text-decoration: underline; text-underline-offset: 0.2em; } }
-.dsgn-footer a:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus-neutral); outline-offset: var(--dsgn-focus-offset); }
+.dsgn-footer a:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: var(--dsgn-focus-offset); }
 .dsgn-footer-legal { padding-block-start: var(--dsgn-space-24); box-shadow: inset 0 var(--dsgn-border-width) 0 var(--dsgn-border); }
 
 /* ── Page header (app pages) ─────────────────────────────────────────────── */
@@ -2740,7 +2734,7 @@ textarea.dsgn-input {
   .dsgn-field-button:not(:disabled):hover { color: var(--dsgn-text); }
   .dsgn-field-button:not(:disabled):hover > .dsgn-icon { --_fill: 1; }
 }
-.dsgn-field-button:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus-neutral); outline-offset: var(--dsgn-space-2); }
+.dsgn-field-button:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: var(--dsgn-space-2); }
 .dsgn-field-button:disabled { color: var(--dsgn-text-disabled); cursor: not-allowed; }
 .dsgn-input > .dsgn-field-button > .dsgn-icon { color: inherit; }
 
@@ -2849,7 +2843,7 @@ textarea.dsgn-input {
   color: var(--dsgn-text);
 }
 .dsgn-segment:has(> input:checked) > .dsgn-icon { --_fill: 1; }
-.dsgn-segment:has(> input:focus-visible) { outline: var(--dsgn-focus-width) solid var(--dsgn-focus-neutral); outline-offset: calc(-1 * var(--dsgn-focus-width)); } /* inset: never clipped by the scrolling track */
+.dsgn-segment:has(> input:focus-visible) { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: calc(-1 * var(--dsgn-focus-width)); } /* inset: never clipped by the scrolling track */
 .dsgn-segment:has(> input:disabled) { color: var(--dsgn-text-disabled); cursor: not-allowed; }
 .dsgn-segment:has(> input:disabled:checked) { background: var(--dsgn-neutral-subtle); box-shadow: none; }
 
@@ -3174,7 +3168,7 @@ textarea.dsgn-input {
   background: var(--dsgn-surface-raised);
   box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border), var(--dsgn-shadow-raised);
 }
-.dsgn-table-wrap:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus-neutral); outline-offset: var(--dsgn-focus-offset); }
+.dsgn-table-wrap:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: var(--dsgn-focus-offset); }
 
 .dsgn-table {
   inline-size: 100%;
@@ -3234,7 +3228,7 @@ textarea.dsgn-input {
 }
 .dsgn-table-sort > .dsgn-icon { color: var(--dsgn-text-muted); }
 @media (hover: hover) { .dsgn-table-sort:hover { color: var(--dsgn-text); } }
-.dsgn-table-sort:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus-neutral); outline-offset: var(--dsgn-focus-offset); }
+.dsgn-table-sort:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: var(--dsgn-focus-offset); }
 .dsgn-table th[aria-sort] { color: var(--dsgn-text); }
 .dsgn-table th[aria-sort] .dsgn-table-sort > .dsgn-icon { color: var(--dsgn-control-text); }
 
@@ -3332,14 +3326,14 @@ textarea.dsgn-input {
 .dsgn-tab[aria-selected="true"]::after { background: var(--dsgn-control-solid); }
 .dsgn-tab[aria-selected="true"] .dsgn-icon { --_fill: 1; }
 .dsgn-tab:focus-visible {
-  outline: var(--dsgn-focus-width) solid var(--dsgn-focus-neutral);
+  outline: var(--dsgn-focus-width) solid var(--dsgn-focus);
   outline-offset: calc(-1 * var(--dsgn-focus-width));
 }
 .dsgn-tab:disabled { color: var(--dsgn-text-disabled); cursor: not-allowed; }
 
 .dsgn-tabpanel { min-inline-size: 0; border-radius: var(--dsgn-radius-s); }
 .dsgn-tabpanel:focus-visible {
-  outline: var(--dsgn-focus-width) solid var(--dsgn-focus-neutral);
+  outline: var(--dsgn-focus-width) solid var(--dsgn-focus);
   outline-offset: var(--dsgn-focus-offset);
 }
 @media (forced-colors: active) {
@@ -3700,7 +3694,6 @@ const semanticColor = {
   'border-control': { light: ['neutral', 64], dark: ['neutral', 54] },
   // focus ring follows the element: accent (default), neutral elements, danger elements
   'focus':          { light: ['accent', 54],  dark: ['accent', 70], role: 'control-focus' },
-  'focus-neutral':  { light: ['neutral', 38], dark: ['neutral', 85] },
   'focus-danger':   { light: ['danger', 54],  dark: ['danger', 70] },
   // track of a segmented control: tinted in light; in dark an outlined, near-surface track with a lighter selected segment
   'control-track':        { light: ['neutral', 94], dark: ['neutral', 14] },
@@ -3758,7 +3751,6 @@ function contrastPairs() {
   const add = (fg, bg, min, note) => pairs.push({ fg, bg, min, note });
 
   for (const s of surfaces) {
-    add('focus-neutral', s, UI, 'focus ring, neutral elements (2.4.13)');
     add('focus-danger', s, UI, 'focus ring, danger elements (2.4.13)');
     add('text', s, TEXT, 'body text');
     add('text-muted', s, TEXT, 'secondary text');
@@ -3776,6 +3768,10 @@ function contrastPairs() {
   for (const i of ['accent', 'danger', 'success', 'warning']) {
     for (const s of surfaces) add(`${i}-solid`, s, UI, 'checkbox fill / invalid border / indicator');
   }
+  // focus ring drawn inside an element (menu item, nav link, list row, segment, tab): it must also hold on that element's own fill
+  for (const b of ['neutral-subtle', 'neutral-subtle-hover', 'control-subtle', 'control-subtle-hover', 'control-track', 'control-selected', 'accent-subtle'])
+    add('focus', b, UI, 'inset focus ring on a tinted element (2.4.13)');
+  for (const b of ['danger-subtle', 'danger-subtle-hover']) add('focus-danger', b, UI, 'inset focus ring on a danger menu item (2.4.13)');
   add('border-strong', 'neutral-subtle', UI, 'switch track (off)');
   add('neutral-text', 'neutral-subtle', UI, 'switch thumb (off)');
   add('text-muted', 'neutral-subtle', TEXT, 'tab / placeholder on tinted row');

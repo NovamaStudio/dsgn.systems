@@ -22,5 +22,4 @@
   outline: var(--dsgn-focus-width) solid var(--dsgn-focus);
   outline-offset: var(--dsgn-focus-offset);
 }
-.dsgn-link[data-intent="neutral"]:focus-visible { outline-color: var(--dsgn-focus-neutral); }
 .dsgn-link .dsgn-icon { vertical-align: bottom; }

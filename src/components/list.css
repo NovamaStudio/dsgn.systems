@@ -67,7 +67,7 @@
   :is(a, button).dsgn-list-item:hover > .dsgn-icon { --_fill: 1; }
 }
 :is(a, button).dsgn-list-item:active { background: var(--dsgn-neutral-subtle-hover); }
-:is(a, button).dsgn-list-item:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus-neutral); outline-offset: calc(-1 * var(--dsgn-focus-width)); }
+:is(a, button).dsgn-list-item:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: calc(-1 * var(--dsgn-focus-width)); }
 .dsgn-list-item[aria-current]:not([aria-current="false"]) { background: var(--dsgn-control-subtle); }
 .dsgn-list-item[aria-current]:not([aria-current="false"]) > .dsgn-icon { --_fill: 1; color: var(--dsgn-control-text); }
 

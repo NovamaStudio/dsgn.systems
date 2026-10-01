@@ -35,7 +35,7 @@
   white-space: nowrap;
   border-radius: var(--dsgn-radius-s);
 }
-.dsgn-brand:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus-neutral); outline-offset: var(--dsgn-focus-offset); }
+.dsgn-brand:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: var(--dsgn-focus-offset); }
 .dsgn-brand-mark {
   display: inline-grid;
   place-items: center;
@@ -61,7 +61,7 @@
 .dsgn-footer-links { display: grid; gap: var(--dsgn-space-8); margin: 0; padding: 0; list-style: none; }
 .dsgn-footer a:not([class]) { color: var(--dsgn-text-muted); text-decoration: none; border-radius: var(--dsgn-radius-s); }
 @media (hover: hover) { .dsgn-footer a:not([class]):hover { color: var(--dsgn-text); text-decoration: underline; text-underline-offset: 0.2em; } }
-.dsgn-footer a:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus-neutral); outline-offset: var(--dsgn-focus-offset); }
+.dsgn-footer a:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: var(--dsgn-focus-offset); }
 .dsgn-footer-legal { padding-block-start: var(--dsgn-space-24); box-shadow: inset 0 var(--dsgn-border-width) 0 var(--dsgn-border); }
 
 /* ── Page header (app pages) ─────────────────────────────────────────────── */

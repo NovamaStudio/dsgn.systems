@@ -64,7 +64,7 @@ button.dsgn-chip:not(:disabled):active { background: var(--dsgn-neutral-subtle-h
 @media (hover: hover) {
   button.dsgn-chip[aria-pressed="true"]:not(:disabled):hover { background: var(--dsgn-control-subtle-hover); }
 }
-.dsgn-chip:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus-neutral); outline-offset: var(--dsgn-focus-offset); }
+.dsgn-chip:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: var(--dsgn-focus-offset); }
 .dsgn-chip:disabled { background: var(--dsgn-neutral-subtle); box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border); color: var(--dsgn-text-disabled); cursor: not-allowed; }
 .dsgn-chip:disabled > .dsgn-icon { color: inherit; }
 

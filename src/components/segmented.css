@@ -70,7 +70,7 @@
   color: var(--dsgn-text);
 }
 .dsgn-segment:has(> input:checked) > .dsgn-icon { --_fill: 1; }
-.dsgn-segment:has(> input:focus-visible) { outline: var(--dsgn-focus-width) solid var(--dsgn-focus-neutral); outline-offset: calc(-1 * var(--dsgn-focus-width)); } /* inset: never clipped by the scrolling track */
+.dsgn-segment:has(> input:focus-visible) { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: calc(-1 * var(--dsgn-focus-width)); } /* inset: never clipped by the scrolling track */
 .dsgn-segment:has(> input:disabled) { color: var(--dsgn-text-disabled); cursor: not-allowed; }
 .dsgn-segment:has(> input:disabled:checked) { background: var(--dsgn-neutral-subtle); box-shadow: none; }
 

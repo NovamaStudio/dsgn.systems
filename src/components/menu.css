@@ -41,7 +41,6 @@
 .dsgn-menu-item {
   --_hover: var(--dsgn-neutral-subtle);
   --_pressed: var(--dsgn-neutral-subtle-hover);
-  --_focus: var(--dsgn-focus-neutral);
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -151,7 +150,7 @@
   }
   .dsgn-input > select option:hover,
   .dsgn-input > select option:focus-visible { background: var(--dsgn-neutral-subtle); outline: none; }
-  .dsgn-input > select option:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus-neutral); outline-offset: calc(-1 * var(--dsgn-focus-width)); }
+  .dsgn-input > select option:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: calc(-1 * var(--dsgn-focus-width)); }
   .dsgn-input > select option:active { background: var(--dsgn-neutral-subtle-hover); }
   .dsgn-input > select option:disabled { color: var(--dsgn-text-disabled); cursor: not-allowed; }
   .dsgn-input:has(> select:open) > select ~ .dsgn-icon { rotate: 180deg; }
