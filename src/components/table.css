@@ -64,6 +64,22 @@
   color: var(--dsgn-text-muted);
   font-weight: var(--dsgn-font-weight-medium);
 }
+/* a sticky header is painted above the wrapper's outline, so the header row carries its own piece of
+   the frame: top edge on every cell, outer edges and corners on the first and last cell */
+.dsgn-table thead th {
+  box-shadow: inset 0 var(--dsgn-border-width) 0 var(--dsgn-border), inset 0 calc(-1 * var(--dsgn-border-width)) 0 var(--dsgn-border);
+}
+.dsgn-table thead th:first-child {
+  border-start-start-radius: var(--dsgn-radius-l);
+  box-shadow: inset var(--dsgn-border-width) var(--dsgn-border-width) 0 var(--dsgn-border), inset 0 calc(-1 * var(--dsgn-border-width)) 0 var(--dsgn-border);
+}
+.dsgn-table thead th:last-child {
+  border-start-end-radius: var(--dsgn-radius-l);
+  box-shadow: inset calc(-1 * var(--dsgn-border-width)) var(--dsgn-border-width) 0 var(--dsgn-border), inset 0 calc(-1 * var(--dsgn-border-width)) 0 var(--dsgn-border);
+}
+.dsgn-table thead th:only-child {
+  box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border);
+}
 .dsgn-table :is(th, td)[data-numeric] { text-align: end; }
 .dsgn-table :is(th, td)[data-numeric] .dsgn-table-sort { flex-direction: row-reverse; }
 
