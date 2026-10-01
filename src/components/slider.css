@@ -28,7 +28,7 @@
 }
 .dsgn-slider::-webkit-slider-runnable-track {
   block-size: var(--_track);
-  border-radius: var(--dsgn-radius-full);
+  border-radius: var(--dsgn-radius-m);
   background: linear-gradient(to right, var(--_fill) var(--_pct), var(--_rest) var(--_pct));
 }
 .dsgn-slider:dir(rtl)::-webkit-slider-runnable-track { background: linear-gradient(to left, var(--_fill) var(--_pct), var(--_rest) var(--_pct)); }
@@ -39,18 +39,18 @@
   block-size: var(--_thumb);
   margin-block-start: calc((var(--_track) - var(--_thumb)) / 2);
   border: 0;
-  border-radius: var(--dsgn-radius-full);
+  border-radius: var(--dsgn-radius-m);
   background: var(--_fill);
   box-shadow: 0 0 0 var(--dsgn-space-2) var(--dsgn-surface-raised);
 }
-.dsgn-slider::-moz-range-track { block-size: var(--_track); border-radius: var(--dsgn-radius-full); background: var(--_rest); }
-.dsgn-slider::-moz-range-progress { block-size: var(--_track); border-radius: var(--dsgn-radius-full); background: var(--_fill); }
+.dsgn-slider::-moz-range-track { block-size: var(--_track); border-radius: var(--dsgn-radius-m); background: var(--_rest); }
+.dsgn-slider::-moz-range-progress { block-size: var(--_track); border-radius: var(--dsgn-radius-m); background: var(--_fill); }
 .dsgn-slider::-moz-range-thumb {
   box-sizing: border-box;
   inline-size: var(--_thumb);
   block-size: var(--_thumb);
   border: 0;
-  border-radius: var(--dsgn-radius-full);
+  border-radius: var(--dsgn-radius-m);
   background: var(--_fill);
   box-shadow: 0 0 0 var(--dsgn-space-2) var(--dsgn-surface-raised);
 }

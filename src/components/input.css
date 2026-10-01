@@ -1,7 +1,7 @@
 /* dsgn · Input, Textarea, Select
  *
  * <input class="dsgn-input" type="text" placeholder="Name">
- * <textarea class="dsgn-input" rows="3"></textarea>          at least 3 lines tall
+ * <textarea class="dsgn-input"></textarea>                  3 lines tall unless rows="…" says otherwise
  *
  * With icons, the class goes on a wrapper and the control sits inside:
  * <div class="dsgn-input">
@@ -64,10 +64,11 @@
 /* textarea: multi-line, same padding, grows vertically */
 textarea.dsgn-input {
   display: block;
-  min-block-size: calc(3 * var(--dsgn-control-line-height) + 2 * var(--dsgn-control-pad-y));   /* 3 lines, whatever rows says */
   resize: vertical;
   border-radius: min(var(--dsgn-radius-m), var(--dsgn-radius-l));
 }
+/* without a rows attribute a textarea starts three lines tall (browsers default to two); rows="…" always wins */
+textarea.dsgn-input:not([rows]) { block-size: calc(3 * var(--dsgn-control-line-height) + 2 * var(--dsgn-control-pad-y)); }
 
 /* select: the native select covers the whole box so the chevron area is clickable too;
    the chevron in normal flow gives the box its height */

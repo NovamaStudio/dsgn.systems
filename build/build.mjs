@@ -237,8 +237,10 @@ dens.variables.push({ name: 'control/gap-icon', type: 'FLOAT', scopes: ['GAP'], 
   description: '= control/gap − 2: gap between icon and text in a button. Figma only.', values: Object.fromEntries(T.density.modes.map((m, i) => [m.toUpperCase(), dI('control-gap')[i] - 2])) });
 dens.variables.push({ name: 'control/icon-slot', type: 'FLOAT', scopes: ['WIDTH_HEIGHT'], codeSyntax: { WEB: `calc(var(${v('control-line-height')}) - var(${v('space-8')}))` },
   description: '= control/line-height − 8: layout width of a button icon; the glyph overflows it by 6 on the outer side and 2 on the text side, which gives CSS pad-x − 6 and gap − 2. Figma only.', values: Object.fromEntries(T.density.modes.map((m, i) => [m.toUpperCase(), T.density.tokens['control-line-height'][i] - 8])) });
+dens.variables.push({ name: 'menu/pad', type: 'FLOAT', scopes: ['GAP'], codeSyntax: { WEB: `calc(var(${v('space-4')}) + var(${v('space-2')}))` },
+  description: '= space-4 + space-2: padding of a menu or select panel around its items. Figma only.', values: Object.fromEntries(T.density.modes.map((m) => [m.toUpperCase(), 6])) });
 dens.variables.push({ name: 'textarea/min-height', type: 'FLOAT', scopes: ['WIDTH_HEIGHT'], codeSyntax: { WEB: `calc(3 * var(${v('control-line-height')}) + 2 * var(${v('control-pad-y')}))` },
-  description: '= 3 × control/line-height + 2 × control/pad-y: a textarea is at least three lines tall. Figma only.', values: Object.fromEntries(T.density.modes.map((m, i) => [m.toUpperCase(), 3 * T.density.tokens['control-line-height'][i] + 2 * dI('control-pad-y')[i]])) });
+  description: '= 3 × control/line-height + 2 × control/pad-y: a textarea without rows is three lines tall. Figma only.', values: Object.fromEntries(T.density.modes.map((m, i) => [m.toUpperCase(), 3 * T.density.tokens['control-line-height'][i] + 2 * dI('control-pad-y')[i]])) });
 figma.collections.push(dens);
 
 const rad = { name: 'Radius', modes: defaultFirst(T.radius).map(([m]) => cap(m)), variables: [] };
@@ -251,8 +253,8 @@ rad.variables.push({ name: 'radius/m-inner', type: 'FLOAT', scopes: ['CORNER_RAD
 const rI = (k, i) => T.radius.tokens[k][i];
 const radDerived = (name, web, description, f) => rad.variables.push({ name, type: 'FLOAT', scopes: ['CORNER_RADIUS'], codeSyntax: { WEB: web }, description,
   values: Object.fromEntries(T.radius.modes.map((m, i) => [cap(m), f(rI('radius-m', i), rI('radius-l', i))])) });
-radDerived('radius/panel', `min(calc(var(${v('radius-m')}) + var(${v('space-4')})), var(${v('radius-l')}))`, '= min(radius-m + space-4, radius-l): menu and select panel (its items sit 4 px inside). Figma only.', (m, l) => Math.min(m + 4, l));
-radDerived('radius/item', `min(var(${v('radius-m')}), calc(var(${v('radius-l')}) - var(${v('space-4')})))`, '= min(radius-m, radius-l − space-4): menu and select items, concentric with the panel. Figma only.', (m, l) => Math.max(0, Math.min(m, l - 4)));
+radDerived('radius/panel', `min(calc(var(${v('radius-m')}) + var(${v('space-4')}) + var(${v('space-2')})), var(${v('radius-l')}))`, '= min(radius-m + 6, radius-l): menu and select panel (its items sit 6 px inside). Figma only.', (m, l) => Math.min(m + 6, l));
+radDerived('radius/item', `max(0px, min(var(${v('radius-m')}), calc(var(${v('radius-l')}) - var(${v('space-4')}) - var(${v('space-2')}))))`, '= min(radius-m, radius-l − 6): menu and select items, concentric with the panel. Figma only.', (m, l) => Math.max(0, Math.min(m, l - 6)));
 radDerived('radius/field', `min(var(${v('radius-m')}), var(${v('radius-l')}))`, '= min(radius-m, radius-l): multi-line fields (textarea) never become a pill. Figma only.', (m, l) => Math.min(m, l));
 figma.collections.push(rad);
 

@@ -24,8 +24,9 @@ One version for the npm package and the Figma library. [Semantic versioning](htt
 - Focus ring: one colour everywhere, `focus` (accent; neutral in monochrome), so keyboard focus always looks the same. Danger buttons, danger menu items and invalid fields use `focus-danger`. Links in a solid banner use the banner's text colour. The ring also holds 3 : 1 on the tinted fills it is drawn inside (menu item, nav link, list row, segment, tab).
 - Checkbox, radio, switch, slider, progress, tabs, steps and selected chip / option card / page / row use the `control-*` tokens (accent by default).
 - Table: ghost buttons, chips and badges inside a hovered or selected row are shifted one step, so they never melt into the row colour; in a selected row they take the selection tint.
-- Textarea: at least three lines tall in every density (`rows="2"` no longer gives a cramped box); corners `min(radius-m, radius-l)`, so in Pill it stays a rounded rectangle (Figma had it as a pill).
-- Menu and select picker: item corners are concentric with the panel (panel radius − 4 px padding), so a highlighted item fits the panel in every radius mode (Figma: `radius/panel`, `radius/item`).
+- Textarea: without a `rows` attribute it starts three lines tall in every density (browsers default to two); `rows="…"` always wins. Corners `min(radius-m, radius-l)`, so in Pill it stays a rounded rectangle (Figma had it as a pill).
+- Menu and select picker: 6 px padding around the items (was 4), and item corners concentric with the panel (panel radius − padding), so a highlighted item fits the panel in every radius mode (Figma: `menu/pad`, `radius/panel`, `radius/item`).
+- Slider: track and knob follow the radius mode (square knob in Sharp, round in Rounded and Pill).
 - Switch follows the radius mode: square in Sharp, softly rounded in Default and Rounded, round in Pill; the thumb is concentric with the track.
 - Layout examples (Stack, Cluster, Grid, Split, Section placeholders): fixed 4 px corners, no longer following the radius mode.
 - Hint text flows inline (code, links); the icon layout applies only when the hint starts with an icon.

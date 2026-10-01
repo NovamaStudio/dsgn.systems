@@ -22,11 +22,12 @@
   align-content: start;
   min-inline-size: calc(3 * var(--dsgn-space-64));
   max-block-size: min(60vh, calc(10 * var(--dsgn-space-40)));
+  --_pad: calc(var(--dsgn-space-4) + var(--dsgn-space-2));   /* 6 px around the items */
   margin: 0;
-  padding: var(--dsgn-space-4);
+  padding: var(--_pad);
   overflow: auto;
   border: 0;
-  border-radius: min(calc(var(--dsgn-radius-m) + var(--dsgn-space-4)), var(--dsgn-radius-l));
+  border-radius: min(calc(var(--dsgn-radius-m) + var(--_pad)), var(--dsgn-radius-l));
   background: var(--dsgn-surface-raised);
   box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border), var(--dsgn-shadow-overlay);
   color: var(--dsgn-text);
@@ -49,7 +50,7 @@
   margin: 0;
   padding: var(--dsgn-control-pad-y) var(--dsgn-control-pad-x);
   border: 0;
-  border-radius: min(var(--dsgn-radius-m), calc(var(--dsgn-radius-l) - var(--dsgn-space-4)));   /* = panel radius − panel padding */
+  border-radius: max(0px, min(var(--dsgn-radius-m), calc(var(--dsgn-radius-l) - var(--_pad))));   /* = panel radius − panel padding */
   background: transparent;
   color: var(--dsgn-text);
   font: inherit;
@@ -97,7 +98,7 @@
 
 .dsgn-menu-divider {
   block-size: var(--dsgn-border-width);
-  margin: var(--dsgn-space-4) calc(-1 * var(--dsgn-space-4));
+  margin: var(--dsgn-space-4) calc(-1 * var(--_pad));
   background: var(--dsgn-border);
 }
 .dsgn-menu-label {
@@ -119,10 +120,11 @@
     box-sizing: border-box;
     min-inline-size: anchor-size(self-inline);
     max-block-size: min(60vh, calc(10 * var(--dsgn-space-40)));
+    --_pad: calc(var(--dsgn-space-4) + var(--dsgn-space-2));
     margin-block: var(--dsgn-space-4);
-    padding: var(--dsgn-space-4);
+    padding: var(--_pad);
     border: 0;
-    border-radius: min(calc(var(--dsgn-radius-m) + var(--dsgn-space-4)), var(--dsgn-radius-l));
+    border-radius: min(calc(var(--dsgn-radius-m) + var(--_pad)), var(--dsgn-radius-l));
     background: var(--dsgn-surface-raised);
     box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border), var(--dsgn-shadow-overlay);
     color: var(--dsgn-text);
@@ -132,7 +134,7 @@
     align-items: center;
     gap: var(--dsgn-control-gap);
     padding: var(--dsgn-control-pad-y) var(--dsgn-control-pad-x);
-    border-radius: min(var(--dsgn-radius-m), calc(var(--dsgn-radius-l) - var(--dsgn-space-4)));   /* = panel radius − panel padding */
+    border-radius: max(0px, min(var(--dsgn-radius-m), calc(var(--dsgn-radius-l) - var(--_pad))));   /* = panel radius − panel padding */
     font-family: var(--dsgn-font-sans);
     font-size: var(--dsgn-control-font-size);
     line-height: var(--dsgn-control-line-height);
