@@ -14,7 +14,7 @@ One version for the npm package and the Figma library. [Semantic versioning](htt
 
 - Elevation mode `data-elevation="flat|soft"` (Figma: collection Elevation, effect styles `shadow/control` and `shadow/raised`): small shadows on buttons, fields, chips, selected segment, switch thumb, and on cards, stat tiles, option cards, lists and tables. Flat (no shadow) is the default.
 - Theme options: `accentFill` (default / strong / stronger / auto = closest to the brand colour) and `monochrome` (no accent colour: greys everywhere, near-black / near-white fills).
-- Figma: collection **Accent** with modes Default / Strong / Stronger / Monochrome, switched on any frame like Density or Radius. Default follows the file's theme; the others show the button fill strengths and the monochrome look. Semantic accent colours and the role-based tokens go through it.
+- Figma: collection **Accent** with modes Default / Strong / Stronger / Monochrome, switched on any frame like Density or Radius. Default follows the file's theme; the others show the button fill strengths and the monochrome look. Semantic accent colours and the role-based tokens go through it. The Tab focus ring is neutral, as in code.
 - Tokens: `border-control`, `focus-neutral`, `focus-danger`, `control-*` (controls and selection), `control-track`, `control-track-border`, `control-selected`, shadow tokens; role slots in Primitives (`accent/fill-*`, `control/*`) that a theme re-points.
 
 ### Changed
