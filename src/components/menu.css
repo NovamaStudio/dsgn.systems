@@ -49,7 +49,7 @@
   margin: 0;
   padding: var(--dsgn-control-pad-y) var(--dsgn-control-pad-x);
   border: 0;
-  border-radius: var(--dsgn-radius-m);
+  border-radius: min(var(--dsgn-radius-m), calc(var(--dsgn-radius-l) - var(--dsgn-space-4)));   /* = panel radius − panel padding */
   background: transparent;
   color: var(--dsgn-text);
   font: inherit;
@@ -132,7 +132,7 @@
     align-items: center;
     gap: var(--dsgn-control-gap);
     padding: var(--dsgn-control-pad-y) var(--dsgn-control-pad-x);
-    border-radius: var(--dsgn-radius-m);
+    border-radius: min(var(--dsgn-radius-m), calc(var(--dsgn-radius-l) - var(--dsgn-space-4)));   /* = panel radius − panel padding */
     font-family: var(--dsgn-font-sans);
     font-size: var(--dsgn-control-font-size);
     line-height: var(--dsgn-control-line-height);

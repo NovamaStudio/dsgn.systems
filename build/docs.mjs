@@ -299,7 +299,7 @@ ${css}
   .docs-code pre:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: calc(-1 * var(--dsgn-focus-width)); }
   .docs-code .t { color: var(--dsgn-accent-text); } .docs-code .a { color: var(--dsgn-warning-text); } .docs-code .s { color: var(--dsgn-success-text); } .docs-code .c { color: var(--dsgn-text-muted); } .docs-code .k { color: var(--dsgn-danger-text); }
   .docs-chips { display: flex; flex-wrap: wrap; gap: var(--dsgn-space-4); }
-  .docs-box { display: block; padding: var(--dsgn-space-8) var(--dsgn-space-12); border-radius: var(--dsgn-radius-m); background: var(--dsgn-accent-subtle); color: var(--dsgn-accent-text); font-size: var(--dsgn-font-size-caption); line-height: var(--dsgn-line-height-caption); }
+  .docs-box { display: block; padding: var(--dsgn-space-8) var(--dsgn-space-12); border-radius: var(--dsgn-space-4); background: var(--dsgn-accent-subtle); color: var(--dsgn-accent-text); font-size: var(--dsgn-font-size-caption); line-height: var(--dsgn-line-height-caption); }
   .docs-scroll { overflow-x: auto; border-radius: var(--dsgn-radius-l); }
   .docs-ladder { border-collapse: separate; border-spacing: var(--dsgn-space-2); min-inline-size: calc(12 * var(--dsgn-space-64)); font-size: var(--dsgn-font-size-caption); }
   .docs-ladder th { font-weight: var(--dsgn-font-weight-medium); color: var(--dsgn-text-muted); text-align: start; white-space: nowrap; padding-inline-end: var(--dsgn-space-8); }

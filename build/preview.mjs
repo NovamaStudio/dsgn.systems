@@ -106,7 +106,7 @@ section { display: grid; gap: 16px; }
 .sub > p { margin: 0; }
 .banner-frame { display: grid; gap: 8px; }
 .banner-frame .dsgn-banner-inner { padding-inline: var(--dsgn-inset); }
-.demo-box { padding: 8px 12px; border-radius: var(--dsgn-radius-m); background: var(--dsgn-accent-subtle); color: var(--dsgn-accent-text); font-size: 12px; }
+.demo-box { padding: 8px 12px; border-radius: var(--dsgn-space-4); background: var(--dsgn-accent-subtle); color: var(--dsgn-accent-text); font-size: 12px; }
 .frame-wrap { border: 1px solid var(--dsgn-border); border-radius: var(--dsgn-radius-l); overflow: hidden; background: var(--dsgn-surface-sunken); }
 .frame-wrap iframe { display: block; border: 0; transform-origin: 0 0; background: var(--dsgn-surface-base); }
 
@@ -261,7 +261,7 @@ function formBlock(t) {
     f('cur', 'Currency', '<div class="dsgn-input"><select id="cur' + t + '"><option>CZK – Czech koruna</option><option>EUR – Euro</option><option>USD – US dollar</option><option disabled>GBP – not enabled</option></select>' + ic('expand_more') + '</div>') +
     f('q', 'Search', '<div class="dsgn-input">' + ic('search') + '<input type="search" id="q' + t + '" placeholder="Invoice number"></div>') +
     f('amt', 'Amount', '<input class="dsgn-input" id="amt' + t + '" value="-1 200" aria-invalid="true" aria-describedby="amt-h' + t + '">', '<p class="dsgn-hint" data-intent="danger" id="amt-h' + t + '">' + ic('error') + 'Amount must be positive.</p>') +
-    f('note', 'Note', '<textarea class="dsgn-input" id="note' + t + '" rows="2" placeholder="Visible to the client"></textarea>') +
+    f('note', 'Note', '<textarea class="dsgn-input" id="note' + t + '" rows="3" placeholder="Visible to the client"></textarea>') +
     f('ico', 'VAT ID', '<input class="dsgn-input" id="ico' + t + '" value="CZ12345678" disabled>', '<p class="dsgn-hint">Locked after the first invoice.</p>') +
     '</div>';
 }

@@ -48,7 +48,7 @@ export const components = {
   <div class="dsgn-field"><label class="dsgn-label" for="dx-vat">VAT ID</label>
     <input class="dsgn-input" id="dx-vat" value="CZ12345678" disabled></div>
   <div class="dsgn-field" data-span="full"><label class="dsgn-label" for="dx-note">Note</label>
-    <textarea class="dsgn-input" id="dx-note" rows="2" placeholder="Visible to the client"></textarea></div>
+    <textarea class="dsgn-input" id="dx-note" rows="3" placeholder="Visible to the client"></textarea></div>
 </div>` }],
   },
   search: {

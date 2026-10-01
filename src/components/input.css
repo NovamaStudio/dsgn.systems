@@ -1,7 +1,7 @@
 /* dsgn · Input, Textarea, Select
  *
  * <input class="dsgn-input" type="text" placeholder="Name">
- * <textarea class="dsgn-input" rows="3"></textarea>
+ * <textarea class="dsgn-input" rows="3"></textarea>          at least 3 lines tall
  *
  * With icons, the class goes on a wrapper and the control sits inside:
  * <div class="dsgn-input">
@@ -64,6 +64,7 @@
 /* textarea: multi-line, same padding, grows vertically */
 textarea.dsgn-input {
   display: block;
+  min-block-size: calc(3 * var(--dsgn-control-line-height) + 2 * var(--dsgn-control-pad-y));   /* 3 lines, whatever rows says */
   resize: vertical;
   border-radius: min(var(--dsgn-radius-m), var(--dsgn-radius-l));
 }
