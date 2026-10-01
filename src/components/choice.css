@@ -82,6 +82,7 @@
 
 :is(.dsgn-checkbox, .dsgn-radio):disabled {
   --_border: var(--dsgn-border);
+  box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--_border);
   background: var(--dsgn-neutral-subtle);
   cursor: not-allowed;
 }
@@ -125,7 +126,7 @@
   .dsgn-switch:checked:not(:disabled):hover { background: var(--dsgn-control-solid-hover); }
 }
 .dsgn-switch:disabled { background: var(--dsgn-neutral-subtle); box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border); cursor: not-allowed; }
-.dsgn-switch:disabled::before { background: var(--dsgn-text-disabled); }
+.dsgn-switch:disabled::before { background: var(--dsgn-text-disabled); box-shadow: none; }
 .dsgn-switch:disabled:checked { background: var(--dsgn-neutral-subtle-pressed); box-shadow: none; }
 .dsgn-switch:disabled:checked::before { background: var(--dsgn-surface-raised); }
 

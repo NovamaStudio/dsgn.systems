@@ -29,6 +29,10 @@ One version for the npm package and the Figma library. [Semantic versioning](htt
 - Slider: track and knob follow the radius mode (square knob in Sharp, round in Rounded and Pill).
 - Switch follows the radius mode: square in Sharp, softly rounded in Default and Rounded, round in Pill; the thumb is concentric with the track.
 - Layout examples (Stack, Cluster, Grid, Split, Section placeholders): fixed 4 px corners, no longer following the radius mode.
+- Disabled controls look the same everywhere: grey fill, light outline (`border`), no elevation shadow (fields, checkbox, radio, switch thumb, option card).
+- Menu divider stays inside the panel padding, like the items (Figma already had it so).
+- Number input: 2 px more side padding than an icon button, so the steps clear the curve in Pill (Figma: `number/pad-x`).
+- Figma: Input (text, icon, select) and Textarea gain the variant `State=Invalid focus` (red outline and red focus ring), matching code.
 - Hint text flows inline (code, links); the icon layout applies only when the hint starts with an icon.
 
 ## 0.9.0 — 2026-09-29

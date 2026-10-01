@@ -98,7 +98,7 @@
 
 .dsgn-menu-divider {
   block-size: var(--dsgn-border-width);
-  margin: var(--dsgn-space-4) calc(-1 * var(--_pad));
+  margin-block: var(--dsgn-space-4);   /* inside the panel padding, like the items */
   background: var(--dsgn-border);
 }
 .dsgn-menu-label {

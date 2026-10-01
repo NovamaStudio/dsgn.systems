@@ -50,7 +50,7 @@
 .dsgn-input > .dsgn-field-button > .dsgn-icon { color: inherit; }
 
 /* number: step buttons sit at pad-y from the edge, like an icon button would */
-.dsgn-number { display: inline-flex; justify-self: start; inline-size: auto; padding-inline: var(--dsgn-control-pad-y); }
+.dsgn-number { display: inline-flex; justify-self: start; inline-size: auto; padding-inline: calc(var(--dsgn-control-pad-y) + var(--dsgn-space-2)); }   /* 2 px more than an icon button, so the steps clear a pill's curve */
 .dsgn-number > input {
   flex: 1 1 auto;
   inline-size: 4ch;

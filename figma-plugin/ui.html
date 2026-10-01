@@ -1416,6 +1416,7 @@ button.dsgn-chip:not(:disabled):active { background: var(--dsgn-neutral-subtle-h
 
 :is(.dsgn-checkbox, .dsgn-radio):disabled {
   --_border: var(--dsgn-border);
+  box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--_border);
   background: var(--dsgn-neutral-subtle);
   cursor: not-allowed;
 }
@@ -1459,7 +1460,7 @@ button.dsgn-chip:not(:disabled):active { background: var(--dsgn-neutral-subtle-h
   .dsgn-switch:checked:not(:disabled):hover { background: var(--dsgn-control-solid-hover); }
 }
 .dsgn-switch:disabled { background: var(--dsgn-neutral-subtle); box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border); cursor: not-allowed; }
-.dsgn-switch:disabled::before { background: var(--dsgn-text-disabled); }
+.dsgn-switch:disabled::before { background: var(--dsgn-text-disabled); box-shadow: none; }
 .dsgn-switch:disabled:checked { background: var(--dsgn-neutral-subtle-pressed); box-shadow: none; }
 .dsgn-switch:disabled:checked::before { background: var(--dsgn-surface-raised); }
 
@@ -1861,6 +1862,7 @@ textarea.dsgn-input:not([rows]) { block-size: calc(3 * var(--dsgn-control-line-h
   background: var(--dsgn-neutral-subtle);
   color: var(--dsgn-text-disabled);
   cursor: not-allowed;
+  box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--_border);   /* no elevation when disabled */
 }
 .dsgn-input:is(:disabled, :has(> :disabled)) > * { cursor: not-allowed; }
 .dsgn-input:is(:disabled, :has(> :disabled)) > .dsgn-icon { color: var(--dsgn-text-disabled); }
@@ -2227,7 +2229,7 @@ textarea.dsgn-input:not([rows]) { block-size: calc(3 * var(--dsgn-control-line-h
 
 .dsgn-menu-divider {
   block-size: var(--dsgn-border-width);
-  margin: var(--dsgn-space-4) calc(-1 * var(--_pad));
+  margin-block: var(--dsgn-space-4);   /* inside the panel padding, like the items */
   background: var(--dsgn-border);
 }
 .dsgn-menu-label {
@@ -2417,7 +2419,8 @@ textarea.dsgn-input:not([rows]) { block-size: calc(3 * var(--dsgn-control-line-h
   box-shadow: inset 0 0 0 var(--dsgn-space-2) var(--dsgn-control-solid), var(--dsgn-shadow-raised);
 }
 .dsgn-option-card:has(> :focus-visible) { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: var(--dsgn-focus-offset); }
-.dsgn-option-card:has(> :disabled) { background: var(--dsgn-neutral-subtle); color: var(--dsgn-text-disabled); cursor: not-allowed; }
+/* disabled, like every disabled control: grey fill, light outline, no elevation */
+.dsgn-option-card:has(> :disabled) { background: var(--dsgn-neutral-subtle); box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border); color: var(--dsgn-text-disabled); cursor: not-allowed; }
 .dsgn-option-card:has(> :disabled) :is(.dsgn-option-card-text, .dsgn-option-card-meta) { color: var(--dsgn-text-disabled); }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -2743,7 +2746,7 @@ textarea.dsgn-input:not([rows]) { block-size: calc(3 * var(--dsgn-control-line-h
 .dsgn-input > .dsgn-field-button > .dsgn-icon { color: inherit; }
 
 /* number: step buttons sit at pad-y from the edge, like an icon button would */
-.dsgn-number { display: inline-flex; justify-self: start; inline-size: auto; padding-inline: var(--dsgn-control-pad-y); }
+.dsgn-number { display: inline-flex; justify-self: start; inline-size: auto; padding-inline: calc(var(--dsgn-control-pad-y) + var(--dsgn-space-2)); }   /* 2 px more than an icon button, so the steps clear a pill's curve */
 .dsgn-number > input {
   flex: 1 1 auto;
   inline-size: 4ch;

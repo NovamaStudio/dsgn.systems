@@ -56,7 +56,8 @@
   box-shadow: inset 0 0 0 var(--dsgn-space-2) var(--dsgn-control-solid), var(--dsgn-shadow-raised);
 }
 .dsgn-option-card:has(> :focus-visible) { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: var(--dsgn-focus-offset); }
-.dsgn-option-card:has(> :disabled) { background: var(--dsgn-neutral-subtle); color: var(--dsgn-text-disabled); cursor: not-allowed; }
+/* disabled, like every disabled control: grey fill, light outline, no elevation */
+.dsgn-option-card:has(> :disabled) { background: var(--dsgn-neutral-subtle); box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border); color: var(--dsgn-text-disabled); cursor: not-allowed; }
 .dsgn-option-card:has(> :disabled) :is(.dsgn-option-card-text, .dsgn-option-card-meta) { color: var(--dsgn-text-disabled); }
 
 @media (prefers-reduced-motion: no-preference) {
