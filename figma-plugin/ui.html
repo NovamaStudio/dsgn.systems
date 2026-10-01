@@ -2139,12 +2139,16 @@ textarea.dsgn-input:not([rows]) { block-size: calc(3 * var(--dsgn-control-line-h
   overflow: hidden;
   border-radius: var(--dsgn-radius-l);
   background: var(--dsgn-surface-raised);
-  box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border), var(--dsgn-shadow-raised);
+  box-shadow: var(--dsgn-shadow-raised);
+  /* the frame is an outline: it paints above the rows, so a hovered or current row never covers it */
+  outline: var(--dsgn-border-width) solid var(--dsgn-border);
+  outline-offset: calc(-1 * var(--dsgn-border-width));
   font-family: var(--dsgn-font-sans);
 }
-.dsgn-list[data-variant="plain"] { overflow: visible; border-radius: 0; background: none; box-shadow: none; }
-.dsgn-list > li { box-shadow: inset 0 calc(-1 * var(--dsgn-border-width)) 0 var(--dsgn-border); }
-.dsgn-list > li:last-child { box-shadow: none; }
+.dsgn-list[data-variant="plain"] { overflow: visible; border-radius: 0; background: none; box-shadow: none; outline: 0; }
+/* row separators sit on the row itself, so its hover background does not hide them */
+.dsgn-list > li:not(:last-child) { box-shadow: inset 0 calc(-1 * var(--dsgn-border-width)) 0 var(--dsgn-border); }
+.dsgn-list > li:not(:last-child) > .dsgn-list-item { box-shadow: inset 0 calc(-1 * var(--dsgn-border-width)) 0 var(--dsgn-border); }
 
 .dsgn-list-item {
   box-sizing: border-box;
@@ -2187,7 +2191,7 @@ textarea.dsgn-input:not([rows]) { block-size: calc(3 * var(--dsgn-control-line-h
   :is(a, button).dsgn-list-item { transition: background-color var(--dsgn-duration-fast) var(--dsgn-ease); }
 }
 @media (forced-colors: active) {
-  .dsgn-list { outline: 1px solid CanvasText; }
+  .dsgn-list { outline: 1px solid CanvasText; outline-offset: -1px; }
   .dsgn-list > li { border-block-end: 1px solid CanvasText; }
 }
 
@@ -3305,9 +3309,16 @@ textarea.dsgn-input:not([rows]) { block-size: calc(3 * var(--dsgn-control-line-h
   overflow: auto;
   border-radius: var(--dsgn-radius-l);
   background: var(--dsgn-surface-raised);
-  box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border), var(--dsgn-shadow-raised);
+  box-shadow: var(--dsgn-shadow-raised);
+  /* the frame is an outline: outlines paint above the content, so the header, a hovered or a selected
+     row never cover it (an inset shadow would sit under the cell backgrounds) */
+  outline: var(--dsgn-border-width) solid var(--dsgn-border);
+  outline-offset: calc(-1 * var(--dsgn-border-width));
 }
-.dsgn-table-wrap:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: var(--dsgn-focus-offset); }
+/* focus ring as a shadow, so the frame stays */
+.dsgn-table-wrap:focus-visible {
+  box-shadow: 0 0 0 var(--dsgn-focus-offset) var(--dsgn-surface-base), 0 0 0 calc(var(--dsgn-focus-offset) + var(--dsgn-focus-width)) var(--dsgn-focus), var(--dsgn-shadow-raised);
+}
 
 .dsgn-table {
   inline-size: 100%;
@@ -3400,6 +3411,7 @@ textarea.dsgn-input:not([rows]) { block-size: calc(3 * var(--dsgn-control-line-h
 @media (forced-colors: active) {
   .dsgn-table :is(th, td) { border-block-end: 1px solid CanvasText; }
   .dsgn-table-wrap { outline: 1px solid CanvasText; outline-offset: -1px; }
+  .dsgn-table-wrap:focus-visible { outline: 2px solid Highlight; outline-offset: 2px; }
   /* selected row: a Highlight frame, cell contents keep their own system colours (links stay readable) */
   .dsgn-table tbody tr[aria-selected="true"] { outline: 2px solid Highlight; outline-offset: -2px; }
 }

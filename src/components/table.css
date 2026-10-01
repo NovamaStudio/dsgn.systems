@@ -26,9 +26,16 @@
   overflow: auto;
   border-radius: var(--dsgn-radius-l);
   background: var(--dsgn-surface-raised);
-  box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border), var(--dsgn-shadow-raised);
+  box-shadow: var(--dsgn-shadow-raised);
+  /* the frame is an outline: outlines paint above the content, so the header, a hovered or a selected
+     row never cover it (an inset shadow would sit under the cell backgrounds) */
+  outline: var(--dsgn-border-width) solid var(--dsgn-border);
+  outline-offset: calc(-1 * var(--dsgn-border-width));
 }
-.dsgn-table-wrap:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: var(--dsgn-focus-offset); }
+/* focus ring as a shadow, so the frame stays */
+.dsgn-table-wrap:focus-visible {
+  box-shadow: 0 0 0 var(--dsgn-focus-offset) var(--dsgn-surface-base), 0 0 0 calc(var(--dsgn-focus-offset) + var(--dsgn-focus-width)) var(--dsgn-focus), var(--dsgn-shadow-raised);
+}
 
 .dsgn-table {
   inline-size: 100%;
@@ -121,6 +128,7 @@
 @media (forced-colors: active) {
   .dsgn-table :is(th, td) { border-block-end: 1px solid CanvasText; }
   .dsgn-table-wrap { outline: 1px solid CanvasText; outline-offset: -1px; }
+  .dsgn-table-wrap:focus-visible { outline: 2px solid Highlight; outline-offset: 2px; }
   /* selected row: a Highlight frame, cell contents keep their own system colours (links stay readable) */
   .dsgn-table tbody tr[aria-selected="true"] { outline: 2px solid Highlight; outline-offset: -2px; }
 }

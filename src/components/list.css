@@ -27,12 +27,16 @@
   overflow: hidden;
   border-radius: var(--dsgn-radius-l);
   background: var(--dsgn-surface-raised);
-  box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border), var(--dsgn-shadow-raised);
+  box-shadow: var(--dsgn-shadow-raised);
+  /* the frame is an outline: it paints above the rows, so a hovered or current row never covers it */
+  outline: var(--dsgn-border-width) solid var(--dsgn-border);
+  outline-offset: calc(-1 * var(--dsgn-border-width));
   font-family: var(--dsgn-font-sans);
 }
-.dsgn-list[data-variant="plain"] { overflow: visible; border-radius: 0; background: none; box-shadow: none; }
-.dsgn-list > li { box-shadow: inset 0 calc(-1 * var(--dsgn-border-width)) 0 var(--dsgn-border); }
-.dsgn-list > li:last-child { box-shadow: none; }
+.dsgn-list[data-variant="plain"] { overflow: visible; border-radius: 0; background: none; box-shadow: none; outline: 0; }
+/* row separators sit on the row itself, so its hover background does not hide them */
+.dsgn-list > li:not(:last-child) { box-shadow: inset 0 calc(-1 * var(--dsgn-border-width)) 0 var(--dsgn-border); }
+.dsgn-list > li:not(:last-child) > .dsgn-list-item { box-shadow: inset 0 calc(-1 * var(--dsgn-border-width)) 0 var(--dsgn-border); }
 
 .dsgn-list-item {
   box-sizing: border-box;
@@ -75,6 +79,6 @@
   :is(a, button).dsgn-list-item { transition: background-color var(--dsgn-duration-fast) var(--dsgn-ease); }
 }
 @media (forced-colors: active) {
-  .dsgn-list { outline: 1px solid CanvasText; }
+  .dsgn-list { outline: 1px solid CanvasText; outline-offset: -1px; }
   .dsgn-list > li { border-block-end: 1px solid CanvasText; }
 }
