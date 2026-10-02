@@ -323,6 +323,11 @@ Client-side checks are for the user's convenience only. **Every rule is enforced
 - **CSRF**: a per-session token in a hidden field (or SameSite cookies + a token for the API), checked on the server.
 - **Spam**: honeypot field (visually hidden, `tabindex="-1"`, `autocomplete="off"`) plus server-side rate limiting; a privacy-friendly challenge (Cloudflare Turnstile, Friendly Captcha) only if spam persists. No reCAPTCHA without consent (it sets tracking cookies).
 - **Input**: validate type, length and format server-side against an allow-list (expected type, length, format, enum values); normalise (trim, Unicode NFC); reject unexpected fields (mass assignment).
+- **Uploads**: allow-list of types checked by content (magic bytes), size limit, renamed files stored outside the web root or on object storage, virus scan where relevant, never served from the same origin as executable content.
+- **Auth forms**: generic error messages ("E-mail or password is wrong") to avoid account enumeration; rate limit and lock-out with backoff; 2FA for admin; password reset via single-use expiring tokens.
+- **Double submit**: set `aria-busy="true"` on the submit button and ignore repeat submits while it is busy; make the server endpoint idempotent where possible.
+- **Feedback**: after success, a clear confirmation (Post/Redirect/Get), not just a toast. Keep the user's input after a failed submit.
+- **Secrets** never in client code, HTML or the repository. Environment variables on the server only.
 
 **Injection** (treat every value from the client, URL, headers, cookies, files and third-party APIs as untrusted):
 - **SQL / NoSQL**: parameterised queries or the ORM's query builder only; never build queries by string concatenation; in MongoDB-style stores reject objects where a string is expected (`{"$gt": ""}`).
@@ -335,11 +340,6 @@ Client-side checks are for the user's convenience only. **Every rule is enforced
 - **CSV / formula injection**: when exporting user data to CSV/XLSX, prefix values starting with `=`, `+`, `-`, `@` with `'`.
 - **SSRF**: if the server fetches a URL from the user (webhooks, previews), allow-list hosts and block internal addresses.
 - **Prompt injection** (forms that feed an LLM): treat model output as untrusted; never let it run actions, queries or HTML without the same validation and escaping.
-- **Uploads**: allow-list of types checked by content (magic bytes), size limit, renamed files stored outside the web root or on object storage, virus scan where relevant, never served from the same origin as executable content.
-- **Auth forms**: generic error messages ("E-mail or password is wrong") to avoid account enumeration; rate limit and lock-out with backoff; 2FA for admin; password reset via single-use expiring tokens.
-- **Double submit**: set `aria-busy="true"` on the submit button and ignore repeat submits while it is busy; make the server endpoint idempotent where possible.
-- **Feedback**: after success, a clear confirmation (Post/Redirect/Get), not just a toast. Keep the user's input after a failed submit.
-- **Secrets** never in client code, HTML or the repository. Environment variables on the server only.
 
 **HTTP headers** (set on the server or host):
 - `Content-Security-Policy`: `default-src 'self'`; add the font and CDN hosts you use (`fonts.googleapis.com`, `fonts.gstatic.com`, `cdn.jsdelivr.net`); `script-src` without `'unsafe-inline'` (dsgn.js needs none); `frame-ancestors 'none'`. dsgn layout hooks use inline `style="--min: …"` attributes, which need `style-src 'unsafe-inline'`; to avoid it, set those hooks in your stylesheet instead.
@@ -378,6 +378,7 @@ Before handing anything over, check and say which of these you verified:
 - [ ] Every control labelled; icon-only buttons have `aria-label`; trailing button icons have `data-end`
 - [ ] Keyboard: everything reachable and operable, visible focus, logical order, dialogs trap and return focus
 - [ ] Forms: autocomplete tokens, error summary + inline errors, server-side validation, CSRF, spam protection, no double submit
+- [ ] Injection: parameterised queries, output escaped by context, no `innerHTML` with user data, URLs and redirects validated
 - [ ] axe: 0 violations; zoom 200 % works
 - [ ] SEO: title, description, canonical, OG, JSON-LD where it fits, sitemap/robots, `noindex` where needed
 - [ ] Performance: images sized and lazy, fonts subset, JS deferred, no layout shift
