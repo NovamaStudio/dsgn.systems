@@ -250,6 +250,7 @@ Every component documents its full markup at the top of `dist/components/<name>.
 - **Banner** (page-wide, at the top edge): `.dsgn-banner` > `.dsgn-container.dsgn-banner-inner` > icon + `.dsgn-banner-text`. One at a time.
 - **Toast** (dsgn.js): `dsgn.toast({ text, intent, title, action: { label, onClick } })`. Only for confirmations of something the user just did, never the only path to an action.
 - **Dialog**: native `<dialog class="dsgn-dialog" aria-labelledby="…" closedby="any">` with `.dsgn-dialog-header` / `-title` / `-body` / `-footer`; open with `command="show-modal" commandfor="id"`; `data-size="s|m|l"`. Prefer a page or inline editing over a dialog for long forms.
+- **Drawer / sheet**: the same dialog docked to an edge: `<dialog class="dsgn-dialog" data-placement="start|end|bottom" …>`. `start`/`end` = full-height side panel (mobile menu, filters, detail), `bottom` = sheet on mobile. Header, body and footer work as in Dialog; the body scrolls. Use `.dsgn-list[data-variant="plain"]` or a vertical `.dsgn-nav` inside.
 - **Tooltip** (dsgn.js): `div.dsgn-tooltip[role=tooltip][popover=manual]` referenced by `aria-describedby`. Short supplementary text only, never essential information.
 - **Progress / Spinner**: native `<progress class="dsgn-progress">` (labelled); `<span class="dsgn-spinner" role="status" aria-label="Loading">`.
 - **Skeleton**: `.dsgn-skeleton[data-kind="text|control|avatar|block"]` inside a container with `aria-busy="true"` and a visually hidden "Loading…" text.
@@ -257,7 +258,7 @@ Every component documents its full markup at the top of `dist/components/<name>.
 
 Utility: `.dsgn-visually-hidden` hides text visually but keeps it for screen readers.
 
-Components a project may still need and dsgn does not ship yet: drawer/sheet, date picker, combobox/autocomplete, file upload, rich text. Build them from native elements plus tokens (for example `<input type="date">` styled with `.dsgn-input`, `<input type="file">` in a field), mark them as project components, and tell the user they are not part of dsgn.
+Components a project may still need and dsgn does not ship yet: date picker, combobox/autocomplete, file upload, rich text. Build them from native elements plus tokens (for example `<input type="date">` styled with `.dsgn-input`, `<input type="file">` in a field), mark them as project components, and tell the user they are not part of dsgn.
 
 ## 7. Accessibility (WCAG 2.2 AA is the floor)
 
@@ -321,7 +322,19 @@ Client-side checks are for the user's convenience only. **Every rule is enforced
 **Protection**
 - **CSRF**: a per-session token in a hidden field (or SameSite cookies + a token for the API), checked on the server.
 - **Spam**: honeypot field (visually hidden, `tabindex="-1"`, `autocomplete="off"`) plus server-side rate limiting; a privacy-friendly challenge (Cloudflare Turnstile, Friendly Captcha) only if spam persists. No reCAPTCHA without consent (it sets tracking cookies).
-- **Input**: validate type, length and format server-side; normalise; reject unexpected fields. Escape all output in the right context (HTML, attribute, URL, JS); never inject user content with `innerHTML`; use parameterised database queries.
+- **Input**: validate type, length and format server-side against an allow-list (expected type, length, format, enum values); normalise (trim, Unicode NFC); reject unexpected fields (mass assignment).
+
+**Injection** (treat every value from the client, URL, headers, cookies, files and third-party APIs as untrusted):
+- **SQL / NoSQL**: parameterised queries or the ORM's query builder only; never build queries by string concatenation; in MongoDB-style stores reject objects where a string is expected (`{"$gt": ""}`).
+- **XSS (HTML/JS injection)**: escape output by context (HTML text, attribute, URL, JS, CSS); use the template engine's auto-escaping and never its "raw" output for user data; in the browser use `textContent`, never `innerHTML`/`insertAdjacentHTML` with user data; if rich text is required, sanitise with DOMPurify on the server and client. Validate URLs before putting them in `href`/`src` (allow only `https:`/`mailto:`, never `javascript:`). A strict CSP is the second line of defence.
+- **Command injection**: never pass user input to a shell; use APIs with argument arrays (`execFile`, not `exec`).
+- **Path traversal**: never build file paths from user input; map ids to files on the server, reject `..` and absolute paths.
+- **E-mail header injection**: strip CR/LF from anything that goes into e-mail headers (subject, reply-to, name); send through a library, and never let the form set the recipient.
+- **Template injection (SSTI)**: never render user input as a template; pass it as data.
+- **Open redirect**: redirect targets (`?next=`) only to relative paths or an allow-list of hosts.
+- **CSV / formula injection**: when exporting user data to CSV/XLSX, prefix values starting with `=`, `+`, `-`, `@` with `'`.
+- **SSRF**: if the server fetches a URL from the user (webhooks, previews), allow-list hosts and block internal addresses.
+- **Prompt injection** (forms that feed an LLM): treat model output as untrusted; never let it run actions, queries or HTML without the same validation and escaping.
 - **Uploads**: allow-list of types checked by content (magic bytes), size limit, renamed files stored outside the web root or on object storage, virus scan where relevant, never served from the same origin as executable content.
 - **Auth forms**: generic error messages ("E-mail or password is wrong") to avoid account enumeration; rate limit and lock-out with backoff; 2FA for admin; password reset via single-use expiring tokens.
 - **Double submit**: set `aria-busy="true"` on the submit button and ignore repeat submits while it is busy; make the server endpoint idempotent where possible.
