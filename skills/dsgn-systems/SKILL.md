@@ -19,7 +19,7 @@ This skill tells you how to build with it and what "done" means for a product pa
 4. **Modes are attributes, not new CSS.** Light/dark, density, corners and shadows switch with one attribute on `<html>` or any section.
 5. **Accessibility, SEO and security are part of the build, not a later pass.** Every deliverable ends with the checklist in section 12.
 6. **Real content.** Real labels, real errors, realistic data (invoices, clients, prices in the user's language and currency). No lorem ipsum, no "Click here".
-7. **Answer the user in their language** (Martin writes in Czech); code, class names and comments stay in English.
+7. **Answer the user in their language**; code, class names and comments stay in English.
 
 ## 1. Setup
 
