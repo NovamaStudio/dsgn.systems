@@ -1,0 +1,28 @@
+/* dsgn · Skip link (first focusable element on the page)
+ *
+ * <body class="dsgn-page">
+ *   <a class="dsgn-button dsgn-skip-link" href="#main">Skip to content</a>
+ *   <header>…</header>
+ *   <main id="main">…</main>
+ *
+ * Hidden until it receives keyboard focus (the first Tab on the page), then it appears as a solid
+ * button in the top start corner. Enter jumps past the header and navigation to the main content
+ * (WCAG 2.4.1 Bypass blocks). The target needs only an id; browsers move the focus starting point
+ * there. Put it first in <body>, before the header. Add more links (to the search, to the footer)
+ * for long pages: each one is its own .dsgn-skip-link, they appear one after another.
+ */
+.dsgn-skip-link {
+  position: fixed;
+  z-index: 1000;
+  inset-block-start: var(--dsgn-space-8);
+  inset-inline-start: var(--dsgn-space-8);
+}
+.dsgn-skip-link:not(:focus) {
+  inline-size: 1px;
+  block-size: 1px;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

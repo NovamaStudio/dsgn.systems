@@ -1551,6 +1551,52 @@ button.dsgn-chip:not(:disabled):active { background: var(--dsgn-neutral-subtle-h
   .dsgn-switch:checked::before { background: HighlightText; }
 }
 
+/* ── combobox.css ── */
+/* dsgn · Combobox (text input with a filtered list of suggestions; needs dsgn.js)
+ *
+ * <div class="dsgn-field">
+ *   <label class="dsgn-label" for="client">Client</label>
+ *   <div class="dsgn-input dsgn-combobox">
+ *     <input id="client" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="client-list" autocomplete="off">
+ *     <span class="dsgn-icon" aria-hidden="true">expand_more</span>
+ *     <input type="hidden" name="client_id">
+ *   </div>
+ *   <div class="dsgn-menu" id="client-list" role="listbox" popover="manual" aria-label="Clients">
+ *     <div class="dsgn-menu-item" role="option" id="client-1" data-value="7">Novama s.r.o.</div>
+ *     <div class="dsgn-menu-item" role="option" id="client-2" data-value="9">Nona Design</div>
+ *     <div class="dsgn-menu-label" data-combobox-empty hidden>No client matches</div>
+ *   </div>
+ * </div>
+ *
+ * WAI-ARIA combobox with list autocomplete: typing filters the options (case and diacritics
+ * insensitive, "nov" finds "Nováková"), ArrowDown / ArrowUp move the highlight (aria-activedescendant,
+ * focus stays in the input), Enter or a click picks, Escape closes then clears, Tab leaves.
+ * Picking writes the option text into the input, data-value into the hidden input (if any) and fires
+ * change on the input plus a "dsgn-select" event with { value, label, option }.
+ * A polite status message announces the number of matches.
+ * Remote data: set data-filter="none" on the listbox, listen to input, replace the options yourself.
+ * For a short fixed list use a Select; a combobox is for long lists (clients, cities, products).
+ */
+.dsgn-combobox > .dsgn-icon:last-of-type { transition: rotate var(--dsgn-duration-fast) var(--dsgn-ease); }
+.dsgn-combobox:has(> [aria-expanded="true"]) > .dsgn-icon:last-of-type { rotate: 180deg; }
+.dsgn-combobox > .dsgn-icon { cursor: pointer; }
+
+/* the listbox reuses the Menu panel; the highlighted option looks like a hovered menu item */
+.dsgn-menu[role="listbox"] .dsgn-menu-item[role="option"][aria-selected="true"] {
+  background: var(--_hover);
+  outline: var(--dsgn-focus-width) solid var(--_focus);
+  outline-offset: calc(-1 * var(--dsgn-focus-width));
+}
+.dsgn-menu[role="listbox"] .dsgn-menu-item[role="option"][hidden] { display: none; }
+.dsgn-menu[role="listbox"] mark { background: none; color: inherit; font-weight: var(--dsgn-font-weight-semibold); }
+
+@media (prefers-reduced-motion: reduce) {
+  .dsgn-combobox > .dsgn-icon:last-of-type { transition: none; }
+}
+@media (forced-colors: active) {
+  .dsgn-menu[role="listbox"] .dsgn-menu-item[aria-selected="true"] { outline: 2px solid Highlight; }
+}
+
 /* ── dialog.css ── */
 /* dsgn · Dialog
  *
@@ -1819,6 +1865,79 @@ html:has(.dsgn-dialog:modal) { overflow: hidden; }
   margin-block-start: var(--dsgn-space-8);
 }
 
+/* ── file.css ── */
+/* dsgn · File upload (drop zone around a native file input)
+ *
+ * <div class="dsgn-field">
+ *   <span class="dsgn-label" id="att-label">Attachments</span>
+ *   <label class="dsgn-file">
+ *     <input type="file" name="attachments" multiple accept=".pdf,image/*" aria-labelledby="att-label att-title" aria-describedby="att-hint">
+ *     <span class="dsgn-icon" aria-hidden="true">upload</span>
+ *     <span class="dsgn-file-title" id="att-title">Drop files here or <span class="dsgn-link">browse</span></span>
+ *     <span class="dsgn-file-text" id="att-hint">PDF, JPG or PNG, up to 10 MB each</span>
+ *   </label>
+ * </div>
+ *
+ * The real <input type="file"> stays in the page (keyboard, screen readers, form submit, mobile
+ * camera/gallery pickers); it is only visually hidden. The whole zone is the click target.
+ * dsgn.js adds drag and drop: while files are dragged over it the zone gets data-dragover, and
+ * dropped files go into the input (a change event fires, as if they were picked).
+ * Chosen files: render them under the zone as a List (static rows with a file icon, name, size or a
+ * Progress, and a remove icon button). Validate type and size on the server too.
+ * States: hover, keyboard focus (ring around the zone), drag over (accent), aria-invalid="true" on
+ * the input (danger outline; add a danger hint), disabled input.
+ */
+.dsgn-file {
+  --_border: var(--dsgn-border-control);
+  position: relative;
+  box-sizing: border-box;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: var(--dsgn-space-4);
+  padding: var(--dsgn-inset);
+  border: var(--dsgn-border-width) dashed var(--_border);
+  border-radius: var(--dsgn-radius-l);
+  background: var(--dsgn-surface-raised);
+  color: var(--dsgn-text);
+  font-family: var(--dsgn-font-sans);
+  font-size: var(--dsgn-font-size-body-s);
+  line-height: var(--dsgn-line-height-body-s);
+  text-align: center;
+  cursor: pointer;
+}
+.dsgn-file > input[type="file"] {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  opacity: 0;
+}
+.dsgn-file > .dsgn-icon { --dsgn-icon-size: var(--dsgn-line-height-heading); color: var(--dsgn-text-muted); }
+.dsgn-file-title { font-weight: var(--dsgn-font-weight-medium); }
+.dsgn-file-text { color: var(--dsgn-text-muted); font-size: var(--dsgn-font-size-caption); line-height: var(--dsgn-line-height-caption); }
+
+@media (hover: hover) {
+  .dsgn-file:not(:has(> input:disabled)):hover { --_border: var(--dsgn-text-muted); background: var(--dsgn-neutral-subtle); }
+}
+.dsgn-file:has(> input:focus-visible) {
+  outline: var(--dsgn-focus-width) solid var(--dsgn-focus);
+  outline-offset: var(--dsgn-focus-offset);
+}
+.dsgn-file[data-dragover] { --_border: var(--dsgn-control-solid); background: var(--dsgn-control-subtle); }
+.dsgn-file[data-dragover] > .dsgn-icon { --_fill: 1; color: var(--dsgn-control-text); }
+.dsgn-file:has(> input[aria-invalid="true"]) { --_border: var(--dsgn-danger-solid); }
+.dsgn-file:has(> input[aria-invalid="true"]:focus-visible) { outline-color: var(--dsgn-focus-danger); }
+.dsgn-file:has(> input:disabled) { background: var(--dsgn-neutral-subtle); --_border: var(--dsgn-border); color: var(--dsgn-text-disabled); cursor: not-allowed; }
+.dsgn-file:has(> input:disabled) :is(.dsgn-icon, .dsgn-file-text, .dsgn-link) { color: var(--dsgn-text-disabled); }
+
+@media (forced-colors: active) {
+  .dsgn-file { border-color: CanvasText; }
+  .dsgn-file[data-dragover] { border-color: Highlight; border-style: solid; }
+}
+
 /* ── input.css ── */
 /* dsgn · Input, Textarea, Select
  *
@@ -1836,6 +1955,12 @@ html:has(.dsgn-dialog:modal) { overflow: hidden; }
  *   <select aria-label="Country">…</select>
  *   <span class="dsgn-icon" aria-hidden="true">expand_more</span>
  * </div>
+ *
+ * Date and time: the native control, so the browser's own calendar, keyboard entry and locale format
+ * (12. 10. 2026 in Czech) come for free and work on every phone:
+ * <input class="dsgn-input" type="date" id="due" min="2026-10-01">
+ * Also type="time", "datetime-local" and "month". The picker follows light / dark (color-scheme).
+ * A range is two date inputs in a Cluster, each with its own label (From / To).
  *
  * States: :hover, focus (ring), aria-invalid="true", :disabled, [readonly].
  * Height = line-height + 2 × pad-y, identical to Button, so they line up in a row.
@@ -1912,6 +2037,26 @@ textarea.dsgn-input:not([rows]) { block-size: calc(3 * var(--dsgn-control-line-h
   color: var(--dsgn-text);
 }
 
+/* date and time: native controls; keep the control height and a calm, theme-coloured picker icon */
+input.dsgn-input:is([type="date"], [type="time"], [type="datetime-local"], [type="month"], [type="week"]) {
+  display: flex;
+  min-block-size: var(--dsgn-control-height);
+  font-variant-numeric: tabular-nums;
+}
+input.dsgn-input::-webkit-date-and-time-value { text-align: start; min-block-size: var(--dsgn-control-line-height); }
+input.dsgn-input::-webkit-datetime-edit { padding: 0; }
+input.dsgn-input::-webkit-datetime-edit-fields-wrapper { padding: 0; }
+input.dsgn-input::-webkit-calendar-picker-indicator {
+  margin: 0;
+  margin-inline-start: var(--dsgn-control-gap);
+  padding: 0;
+  inline-size: var(--dsgn-control-line-height);
+  block-size: var(--dsgn-control-line-height);
+  opacity: 0.6;
+  cursor: pointer;
+}
+input.dsgn-input::-webkit-calendar-picker-indicator:hover { opacity: 1; }
+
 /* ── states ──────────────────────────────────────────────────────────────── */
 @media (hover: hover) {
   .dsgn-input:hover { --_border: var(--dsgn-text-muted); }
@@ -1982,6 +2127,22 @@ textarea.dsgn-input:not([rows]) { block-size: calc(3 * var(--dsgn-control-line-h
   gap: var(--dsgn-space-4);
 }
 .dsgn-hint .dsgn-icon { --_fill: 1; }
+
+/* ── honeypot: a spam trap field that people never see or reach ─────────────
+ * <div class="dsgn-honeypot" inert>
+ *   <label for="website">Leave this empty</label>
+ *   <input id="website" name="website" autocomplete="off">
+ * </div>
+ * Bots fill every field; the server rejects a submission where this one is not empty (and should
+ * also rate-limit). inert keeps it out of the tab order and away from screen readers, the class
+ * moves it off screen. Pick a plausible name (website, company_url), never "honeypot". */
+.dsgn-honeypot {
+  position: absolute !important;
+  inset-inline-start: -100vw;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+}
 
 /* ── layout.css ── */
 /* dsgn · Layout primitives
@@ -2315,6 +2476,7 @@ textarea.dsgn-input:not([rows]) { block-size: calc(3 * var(--dsgn-control-line-h
 .dsgn-menu-item {
   --_hover: var(--dsgn-neutral-subtle);
   --_pressed: var(--dsgn-neutral-subtle-hover);
+  --_focus: var(--dsgn-focus);
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -3060,6 +3222,36 @@ textarea.dsgn-input:not([rows]) { block-size: calc(3 * var(--dsgn-control-line-h
 }
 @media (forced-colors: active) {
   .dsgn-skeleton { outline: 1px dashed GrayText; outline-offset: -1px; }
+}
+
+/* ── skip-link.css ── */
+/* dsgn · Skip link (first focusable element on the page)
+ *
+ * <body class="dsgn-page">
+ *   <a class="dsgn-button dsgn-skip-link" href="#main">Skip to content</a>
+ *   <header>…</header>
+ *   <main id="main">…</main>
+ *
+ * Hidden until it receives keyboard focus (the first Tab on the page), then it appears as a solid
+ * button in the top start corner. Enter jumps past the header and navigation to the main content
+ * (WCAG 2.4.1 Bypass blocks). The target needs only an id; browsers move the focus starting point
+ * there. Put it first in <body>, before the header. Add more links (to the search, to the footer)
+ * for long pages: each one is its own .dsgn-skip-link, they appear one after another.
+ */
+.dsgn-skip-link {
+  position: fixed;
+  z-index: 1000;
+  inset-block-start: var(--dsgn-space-8);
+  inset-inline-start: var(--dsgn-space-8);
+}
+.dsgn-skip-link:not(:focus) {
+  inline-size: 1px;
+  block-size: 1px;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 /* ── slider.css ── */

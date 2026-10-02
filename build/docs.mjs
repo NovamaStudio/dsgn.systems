@@ -322,6 +322,7 @@ ${css}
 body { margin: 0; background: var(--dsgn-surface-base); color: var(--dsgn-text); font-family: var(--dsgn-font-sans); font-size: var(--dsgn-font-size-body-s); line-height: var(--dsgn-line-height-body-s); }
 </style>
 <body class="dsgn-page">
+<a class="dsgn-button dsgn-skip-link" href="#docs-main">Skip to content</a>
 ${body}
 <script>
 ${js}

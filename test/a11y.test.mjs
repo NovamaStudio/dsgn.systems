@@ -88,7 +88,7 @@ for (const [file, width] of [['layout-demo.html', 390], ['layout-demo.html', 144
       const owner = el.closest('.dsgn-input, .dsgn-segment, .dsgn-option-card') || el;
       const ring = visible(el) || visible(owner) || el.matches('.dsgn-slider');   // the slider draws its ring on the thumb pseudo-element
       const rect = owner.getBoundingClientRect();
-      const header = [...document.querySelectorAll('.dsgn-header, .dsgn-app-topbar')].find((h) => { const hr = h.getBoundingClientRect(); return getComputedStyle(h).position === 'sticky' && hr.bottom > 0 && hr.top <= 0 && hr.left < rect.right && hr.right > rect.left && !h.contains(el); });
+      const header = [...document.querySelectorAll('.dsgn-header, .dsgn-app-topbar')].find((h) => { const hr = h.getBoundingClientRect(); return getComputedStyle(h).position === 'sticky' && hr.bottom > 0 && hr.top <= 0 && hr.left < rect.right && hr.right > rect.left && !h.contains(el) && getComputedStyle(owner).position !== 'fixed'; });   // fixed elements (skip link) sit above the header
       const hidden = header ? rect.bottom <= header.getBoundingClientRect().bottom : false;
       const inView = rect.bottom > 0 && rect.top < innerHeight;
       return { id, name: el.getAttribute('aria-label') || el.textContent.trim().slice(0, 40) || el.tagName, ring, hidden, inView, dialog: !!el.closest('dialog') };

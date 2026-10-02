@@ -47,7 +47,7 @@ const website = `
   <footer class="dsgn-dialog-footer"><a class="dsgn-button" data-variant="subtle" data-intent="neutral" href="#app">Log in</a><a class="dsgn-button" href="#app">Start free</a></footer>
 </dialog>
 
-<main>
+<main id="web-main">
   <section class="dsgn-section">
     <div class="dsgn-container dsgn-split" data-side="half">
       <div class="dsgn-stack" data-gap="l" data-align="start">
@@ -197,6 +197,7 @@ code { font-family: ui-monospace, Menlo, monospace; font-size: 0.85em; }
 .demo-divider { padding: 12px var(--dsgn-page-margin); background: var(--dsgn-accent-solid); color: var(--dsgn-accent-solid-text); font: 600 12px/16px var(--dsgn-font-sans); letter-spacing: .08em; text-transform: uppercase; }
 </style>
 <body class="dsgn-page">
+<a class="dsgn-button dsgn-skip-link" href="#web-main">Skip to content</a>
 <div id="web">${website}</div>
 <section aria-label="App demo">
 <div class="demo-divider">App layout · sidebar from desktop up, drawer menu below</div>

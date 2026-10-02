@@ -157,6 +157,7 @@ body {
 }
 </style>
 
+<a class="dsgn-button dsgn-skip-link" href="#h-sem">Skip to components</a>
 <div class="wrap">
   <header>
     <div class="eyebrow">dsgn · review · step 8</div>
@@ -290,6 +291,21 @@ function badgeBlock() {
   return '<div class="row">' + ints.map((i, n) => '<span class="dsgn-badge" data-intent="' + i + '">' + words[n] + '</span>').join('') +
     '</div><div class="row">' + ints.map((i, n) => '<span class="dsgn-badge" data-intent="' + i + '" data-variant="solid">' + words[n] + '</span>').join('') +
     '<span class="dsgn-badge" data-intent="warning">' + ic('schedule') + '2 days</span></div>';
+}
+function moreFormsBlock(t) {
+  const opt = (id, v, label) => '<div class="dsgn-menu-item" role="option" id="cb' + t + id + '" data-value="' + v + '">' + label + '</div>';
+  return '<div class="dsgn-grid" data-cols="1" data-cols-tablet="2">' +
+    '<div class="dsgn-field" data-span="full"><label class="dsgn-label" for="cb' + t + '">Client (combobox)</label>' +
+      '<div class="dsgn-input dsgn-combobox"><input id="cb' + t + '" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="cbl' + t + '" autocomplete="off">' + ic('expand_more') + '<input type="hidden" name="client"></div>' +
+      '<div class="dsgn-menu" id="cbl' + t + '" role="listbox" popover="manual" aria-label="Clients">' + opt(1, 7, 'Novama s.r.o.') + opt(2, 9, 'Nona Design') + opt(3, 12, 'Studio Kolo') + opt(4, 21, 'Jana Nováková') +
+      '<div class="dsgn-menu-label" data-combobox-empty hidden>No client matches</div></div></div>' +
+    '<div class="dsgn-field"><label class="dsgn-label" for="due' + t + '">Due date</label><input class="dsgn-input" type="date" id="due' + t + '" value="2026-10-12"></div>' +
+    '<div class="dsgn-field"><label class="dsgn-label" for="tm' + t + '">Reminder at</label><input class="dsgn-input" type="time" id="tm' + t + '" value="09:30"></div>' +
+  '</div>' +
+  '<div class="dsgn-field"><span class="dsgn-label" id="att' + t + '">Attachments</span>' +
+    '<label class="dsgn-file"><input type="file" multiple aria-labelledby="att' + t + ' attt' + t + '" aria-describedby="atth' + t + '">' + ic('upload') +
+    '<span class="dsgn-file-title" id="attt' + t + '">Drop files here or <span class="dsgn-link">browse</span></span><span class="dsgn-file-text" id="atth' + t + '">PDF, JPG or PNG, up to 10 MB each</span></label></div>' +
+  '<div class="dsgn-honeypot" inert><label for="hp' + t + '">Leave this empty</label><input id="hp' + t + '" name="website" autocomplete="off"></div>';
 }
 function mediaBlock(t) {
   return '<div class="media-row">' +
@@ -532,7 +548,7 @@ function panel(theme) {
     '<div class="panel-head"><h2>' + (theme === 'light' ? 'Light' : 'Dark') + '</h2><span class="mono muted">data-theme="' + theme + '"</span></div>' +
     '<div class="row">' + btns('solid') + '</div><div class="row">' + btns('subtle') + '</div><div class="row">' + btns('ghost') + '</div>' +
     '<div class="row">' + icons('solid') + icons('subtle') + icons('ghost') + '</div>' +
-    formBlock(theme) + choiceBlock(theme) + badgeBlock() + cardBlock(theme) + mediaBlock(theme) + alertBlock() + tabsBlock(theme) + tableBlock(theme) + navBlock(theme) + loadingBlock(theme) + dialogBlock(theme) + moreBlock(theme) + layoutBlock(theme) +
+    formBlock(theme) + moreFormsBlock(theme) + choiceBlock(theme) + badgeBlock() + cardBlock(theme) + mediaBlock(theme) + alertBlock() + tabsBlock(theme) + tableBlock(theme) + navBlock(theme) + loadingBlock(theme) + dialogBlock(theme) + moreBlock(theme) + layoutBlock(theme) +
     '<details><summary class="muted">All ' + Object.keys(D.semantic).length + ' colour tokens</summary><div class="tokgrid" style="margin-top:8px">' + toks + '</div></details></div>';
 }
 document.getElementById('panels').innerHTML = panel('light') + panel('dark');

@@ -1,5 +1,5 @@
 /* dsgn.js — the only behaviour CSS cannot provide: tabs, tooltips, menus, dialog fallbacks,
- * toasts, slider fill, number steps, search clear, chip toggles. Dependency-free. Auto-initialises on DOMContentLoaded; call dsgn.init(root)
+ * toasts, slider fill, number steps, search clear, chip toggles, file drop, combobox. Dependency-free. Auto-initialises on DOMContentLoaded; call dsgn.init(root)
  * after inserting new markup. Everything else in dsgn is CSS only. */
 (function () {
   'use strict';
@@ -286,6 +286,119 @@
     return { close: close, element: t };
   }
 
+  /* ── File upload: drag and drop onto .dsgn-file puts the files into its input ── */
+  function fileZone(e) { return e.target.closest && e.target.closest('.dsgn-file'); }
+  ['dragenter', 'dragover'].forEach(function (type) {
+    document.addEventListener(type, function (e) {
+      var z = fileZone(e); if (!z) return;
+      var input = z.querySelector('input[type="file"]');
+      if (!input || input.disabled || !e.dataTransfer || Array.prototype.indexOf.call(e.dataTransfer.types || [], 'Files') < 0) return;
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'copy';
+      z.setAttribute('data-dragover', '');
+    });
+  });
+  document.addEventListener('dragleave', function (e) {
+    var z = fileZone(e); if (z && !z.contains(e.relatedTarget)) z.removeAttribute('data-dragover');
+  });
+  document.addEventListener('drop', function (e) {
+    var z = fileZone(e); if (!z) return;
+    z.removeAttribute('data-dragover');
+    var input = z.querySelector('input[type="file"]');
+    if (!input || input.disabled || !e.dataTransfer || !e.dataTransfer.files.length) return;
+    e.preventDefault();
+    var dt = new DataTransfer(), files = e.dataTransfer.files;
+    for (var i = 0; i < (input.multiple ? files.length : 1); i++) dt.items.add(files[i]);
+    input.files = dt.files;
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    input.dispatchEvent(new Event('change', { bubbles: true }));
+  });
+
+  /* ── Combobox: WAI-ARIA combobox with list autocomplete (manual selection) ── */
+  function fold(t) { return (t || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim(); }
+  function initComboboxes(root) {
+    root.querySelectorAll('.dsgn-combobox > input[role="combobox"]:not([data-dsgn-ready])').forEach(function (input) {
+      var list = document.getElementById(input.getAttribute('aria-controls'));
+      if (!list) return;
+      input.setAttribute('data-dsgn-ready', '');
+      var wrap = input.parentElement;
+      var hidden = wrap.querySelector('input[type="hidden"]');
+      var status = document.createElement('span');
+      status.className = 'dsgn-visually-hidden';
+      status.setAttribute('role', 'status');
+      wrap.insertAdjacentElement('afterend', status);
+      var options = function () { return Array.prototype.slice.call(list.querySelectorAll('[role="option"]')); };
+      var visible = function () { return options().filter(function (o) { return !o.hidden && o.getAttribute('aria-disabled') !== 'true'; }); };
+      var active = null;
+
+      function setActive(o) {
+        options().forEach(function (x) { x.setAttribute('aria-selected', x === o ? 'true' : 'false'); });
+        active = o;
+        if (o) { input.setAttribute('aria-activedescendant', o.id); o.scrollIntoView({ block: 'nearest' }); }
+        else input.removeAttribute('aria-activedescendant');
+      }
+      function place() {
+        var r = wrap.getBoundingClientRect();
+        list.style.minInlineSize = Math.round(r.width) + 'px';
+        placeMenu(list, wrap);
+      }
+      function open() {
+        if (list.matches(':popover-open')) return;
+        list.showPopover(); input.setAttribute('aria-expanded', 'true'); place();
+      }
+      function close() {
+        if (list.matches(':popover-open')) list.hidePopover();
+        input.setAttribute('aria-expanded', 'false'); setActive(null);
+      }
+      function filter() {
+        if (list.getAttribute('data-filter') !== 'none') {
+          var q = fold(input.value);
+          options().forEach(function (o) { o.hidden = q !== '' && fold(o.textContent).indexOf(q) < 0; });
+        }
+        var n = visible().length, empty = list.querySelector('[data-combobox-empty]');
+        if (empty) empty.hidden = n > 0;
+        status.textContent = n === 1 ? '1 result' : n + ' results';
+        if (active && active.hidden) setActive(null);
+      }
+      function pick(o) {
+        if (!o || o.getAttribute('aria-disabled') === 'true') return;
+        var label = (o.getAttribute('data-label') || o.textContent).trim();
+        var value = o.hasAttribute('data-value') ? o.getAttribute('data-value') : label;
+        input.value = label;
+        if (hidden) hidden.value = value;
+        close();
+        filter();
+        input.dispatchEvent(new Event('change', { bubbles: true }));
+        input.dispatchEvent(new CustomEvent('dsgn-select', { bubbles: true, detail: { value: value, label: label, option: o } }));
+      }
+      function move(step) {
+        open();
+        var all = visible(); if (!all.length) return;
+        var i = all.indexOf(active);
+        setActive(all[i < 0 ? (step > 0 ? 0 : all.length - 1) : (i + step + all.length) % all.length]);
+      }
+
+      input.addEventListener('input', function () { if (hidden) hidden.value = ''; filter(); open(); setActive(null); });
+      input.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowDown') { e.preventDefault(); if (e.altKey) { filter(); open(); } else move(1); }
+        else if (e.key === 'ArrowUp') { e.preventDefault(); move(-1); }
+        else if (e.key === 'Enter') { if (active && list.matches(':popover-open')) { e.preventDefault(); pick(active); } }
+        else if (e.key === 'Escape') { if (list.matches(':popover-open')) { e.preventDefault(); close(); } else if (input.value) { input.value = ''; if (hidden) hidden.value = ''; filter(); } }
+        else if (e.key === 'Tab') close();
+      });
+      input.addEventListener('blur', function () { setTimeout(function () { if (document.activeElement !== input) close(); }, 0); });
+      wrap.addEventListener('click', function (e) {
+        if (e.target === input) { filter(); open(); return; }
+        if (e.target.closest('.dsgn-icon')) { input.focus(); if (list.matches(':popover-open')) close(); else { filter(); open(); } }
+      });
+      list.addEventListener('pointerdown', function (e) { e.preventDefault(); });   // keep focus in the input
+      list.addEventListener('click', function (e) { pick(e.target.closest('[role="option"]')); });
+      list.addEventListener('pointermove', function (e) { var o = e.target.closest('[role="option"]'); if (o && o !== active && !o.hidden) setActive(o); });
+      window.addEventListener('resize', function () { if (list.matches(':popover-open')) place(); });
+      window.addEventListener('scroll', function () { if (list.matches(':popover-open')) place(); }, true);
+    });
+  }
+
   /* ── Form helpers: slider fill + output, number steps, search clear, chips, "/" shortcut ── */
   function slider(s) {
     var min = s.min === '' ? 0 : +s.min, max = s.max === '' ? 100 : +s.max, v = +s.value;
@@ -336,6 +449,7 @@
     initTooltips(root);
     initMenus(root);
     initForms(root);
+    initComboboxes(root);
   }
 
   window.dsgn = { init: init, toast: toast };

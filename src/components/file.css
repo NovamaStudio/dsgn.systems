@@ -1,0 +1,71 @@
+/* dsgn · File upload (drop zone around a native file input)
+ *
+ * <div class="dsgn-field">
+ *   <span class="dsgn-label" id="att-label">Attachments</span>
+ *   <label class="dsgn-file">
+ *     <input type="file" name="attachments" multiple accept=".pdf,image/*" aria-labelledby="att-label att-title" aria-describedby="att-hint">
+ *     <span class="dsgn-icon" aria-hidden="true">upload</span>
+ *     <span class="dsgn-file-title" id="att-title">Drop files here or <span class="dsgn-link">browse</span></span>
+ *     <span class="dsgn-file-text" id="att-hint">PDF, JPG or PNG, up to 10 MB each</span>
+ *   </label>
+ * </div>
+ *
+ * The real <input type="file"> stays in the page (keyboard, screen readers, form submit, mobile
+ * camera/gallery pickers); it is only visually hidden. The whole zone is the click target.
+ * dsgn.js adds drag and drop: while files are dragged over it the zone gets data-dragover, and
+ * dropped files go into the input (a change event fires, as if they were picked).
+ * Chosen files: render them under the zone as a List (static rows with a file icon, name, size or a
+ * Progress, and a remove icon button). Validate type and size on the server too.
+ * States: hover, keyboard focus (ring around the zone), drag over (accent), aria-invalid="true" on
+ * the input (danger outline; add a danger hint), disabled input.
+ */
+.dsgn-file {
+  --_border: var(--dsgn-border-control);
+  position: relative;
+  box-sizing: border-box;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: var(--dsgn-space-4);
+  padding: var(--dsgn-inset);
+  border: var(--dsgn-border-width) dashed var(--_border);
+  border-radius: var(--dsgn-radius-l);
+  background: var(--dsgn-surface-raised);
+  color: var(--dsgn-text);
+  font-family: var(--dsgn-font-sans);
+  font-size: var(--dsgn-font-size-body-s);
+  line-height: var(--dsgn-line-height-body-s);
+  text-align: center;
+  cursor: pointer;
+}
+.dsgn-file > input[type="file"] {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  opacity: 0;
+}
+.dsgn-file > .dsgn-icon { --dsgn-icon-size: var(--dsgn-line-height-heading); color: var(--dsgn-text-muted); }
+.dsgn-file-title { font-weight: var(--dsgn-font-weight-medium); }
+.dsgn-file-text { color: var(--dsgn-text-muted); font-size: var(--dsgn-font-size-caption); line-height: var(--dsgn-line-height-caption); }
+
+@media (hover: hover) {
+  .dsgn-file:not(:has(> input:disabled)):hover { --_border: var(--dsgn-text-muted); background: var(--dsgn-neutral-subtle); }
+}
+.dsgn-file:has(> input:focus-visible) {
+  outline: var(--dsgn-focus-width) solid var(--dsgn-focus);
+  outline-offset: var(--dsgn-focus-offset);
+}
+.dsgn-file[data-dragover] { --_border: var(--dsgn-control-solid); background: var(--dsgn-control-subtle); }
+.dsgn-file[data-dragover] > .dsgn-icon { --_fill: 1; color: var(--dsgn-control-text); }
+.dsgn-file:has(> input[aria-invalid="true"]) { --_border: var(--dsgn-danger-solid); }
+.dsgn-file:has(> input[aria-invalid="true"]:focus-visible) { outline-color: var(--dsgn-focus-danger); }
+.dsgn-file:has(> input:disabled) { background: var(--dsgn-neutral-subtle); --_border: var(--dsgn-border); color: var(--dsgn-text-disabled); cursor: not-allowed; }
+.dsgn-file:has(> input:disabled) :is(.dsgn-icon, .dsgn-file-text, .dsgn-link) { color: var(--dsgn-text-disabled); }
+
+@media (forced-colors: active) {
+  .dsgn-file { border-color: CanvasText; }
+  .dsgn-file[data-dragover] { border-color: Highlight; border-style: solid; }
+}

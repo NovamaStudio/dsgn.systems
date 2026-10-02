@@ -51,6 +51,56 @@ export const components = {
     <input class="dsgn-input" id="dx-vat" value="CZ12345678" disabled></div>
   <div class="dsgn-field" data-span="full"><label class="dsgn-label" for="dx-note">Note</label>
     <textarea class="dsgn-input" id="dx-note" rows="3" placeholder="Visible to the client"></textarea></div>
+</div>` },
+    { title: 'Date and time', html: `<div class="dsgn-grid" data-cols="1" data-cols-tablet="3">
+  <div class="dsgn-field"><label class="dsgn-label" for="dx-from">From</label><input class="dsgn-input" type="date" id="dx-from" value="2026-10-01"></div>
+  <div class="dsgn-field"><label class="dsgn-label" for="dx-to">To</label><input class="dsgn-input" type="date" id="dx-to" value="2026-10-31" min="2026-10-01"></div>
+  <div class="dsgn-field"><label class="dsgn-label" for="dx-time">Reminder at</label><input class="dsgn-input" type="time" id="dx-time" value="09:30"></div>
+</div>` },
+    { title: 'Spam trap (honeypot)', html: `<form class="dsgn-stack" data-gap="s" action="#input" style="max-inline-size: 24rem">
+  <div class="dsgn-field"><label class="dsgn-label" for="dx-hp-email">E-mail</label><input class="dsgn-input" type="email" id="dx-hp-email" autocomplete="email"></div>
+  <div class="dsgn-honeypot" inert><label for="dx-hp-website">Leave this empty</label><input id="dx-hp-website" name="website" autocomplete="off"></div>
+  <div><button class="dsgn-button" type="button">Subscribe</button></div>
+</form>` }],
+  },
+  combobox: {
+    name: 'Combobox', group: 'Forms', figma: ['Combobox'],
+    examples: [{ title: 'Pick a client', html: `<div class="dsgn-field" style="max-inline-size: 24rem">
+  <label class="dsgn-label" for="dx-cb">Client</label>
+  <div class="dsgn-input dsgn-combobox">
+    <input id="dx-cb" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="dx-cb-list" autocomplete="off" aria-describedby="dx-cb-h">
+    ${ic('expand_more')}
+    <input type="hidden" name="client_id">
+  </div>
+  <p class="dsgn-hint" id="dx-cb-h">Type to filter, for example "nov".</p>
+  <div class="dsgn-menu" id="dx-cb-list" role="listbox" popover="manual" aria-label="Clients">
+    <div class="dsgn-menu-item" role="option" id="dx-cb-1" data-value="7">Novama s.r.o.</div>
+    <div class="dsgn-menu-item" role="option" id="dx-cb-2" data-value="9">Nona Design</div>
+    <div class="dsgn-menu-item" role="option" id="dx-cb-3" data-value="12">Studio Kolo</div>
+    <div class="dsgn-menu-item" role="option" id="dx-cb-4" data-value="15">Awesome Dogs</div>
+    <div class="dsgn-menu-item" role="option" id="dx-cb-5" data-value="21">Jana Nováková</div>
+    <div class="dsgn-menu-label" data-combobox-empty hidden>No client matches</div>
+  </div>
+</div>` }],
+  },
+  file: {
+    name: 'File upload', group: 'Forms', figma: ['File upload'],
+    examples: [{ title: 'Drop zone and chosen files', html: `<div class="dsgn-stack" data-gap="s" style="max-inline-size: 32rem">
+  <div class="dsgn-field">
+    <span class="dsgn-label" id="dx-att-label">Attachments</span>
+    <label class="dsgn-file">
+      <input type="file" name="attachments" multiple accept=".pdf,image/*" aria-labelledby="dx-att-label dx-att-title" aria-describedby="dx-att-hint">
+      ${ic('upload')}
+      <span class="dsgn-file-title" id="dx-att-title">Drop files here or <span class="dsgn-link">browse</span></span>
+      <span class="dsgn-file-text" id="dx-att-hint">PDF, JPG or PNG, up to 10 MB each</span>
+    </label>
+  </div>
+  <ul class="dsgn-list" aria-label="Chosen files">
+    <li><div class="dsgn-list-item">${ic('description')}<span class="dsgn-list-item-content"><span class="dsgn-list-item-title">invoice-2026-114.pdf</span><span class="dsgn-list-item-text">120 kB</span></span>
+      <button class="dsgn-icon-button" data-variant="ghost" data-intent="neutral" aria-label="Remove invoice-2026-114.pdf">${ic('close')}</button></div></li>
+    <li><div class="dsgn-list-item">${ic('image')}<span class="dsgn-list-item-content"><span class="dsgn-list-item-title">receipt.jpg</span><progress class="dsgn-progress" value="40" max="100" aria-label="Uploading receipt.jpg">40 %</progress></span>
+      <button class="dsgn-icon-button" data-variant="ghost" data-intent="neutral" aria-label="Cancel upload of receipt.jpg">${ic('close')}</button></div></li>
+  </ul>
 </div>` }],
   },
   search: {
@@ -284,6 +334,11 @@ export const components = {
   <div role="tabpanel" class="dsgn-tabpanel" id="dx-p2" aria-labelledby="dx-t2" hidden><p class="dsgn-body-s dsgn-muted">Sent 28 Sep · opened 29 Sep.</p></div>
   <div role="tabpanel" class="dsgn-tabpanel" id="dx-p3" aria-labelledby="dx-t3" hidden></div></div>` }],
   },
+  'skip-link': {
+    name: 'Skip link', group: 'Navigation', figma: ['Skip link'],
+    examples: [{ title: 'Press Tab', html: `<p class="dsgn-body-s">This documentation has one: reload the page and press Tab. It appears in the top corner and jumps to the content.</p>
+<a class="dsgn-button dsgn-skip-link" href="#skip-link">Skip to content</a>` }],
+  },
   breadcrumbs: {
     name: 'Breadcrumbs', group: 'Navigation', figma: ['Breadcrumbs'],
     examples: [{ title: 'Trail', html: `<nav class="dsgn-breadcrumbs" aria-label="Breadcrumb example"><ol><li><a href="#breadcrumbs">Invoices</a></li><li><a href="#breadcrumbs">2026</a></li><li><a aria-current="page">2026-114</a></li></ol></nav>` }],
@@ -391,7 +446,7 @@ export const groups = ['Actions', 'Forms', 'Status', 'Content', 'Navigation', 'O
 // One-sentence summary per component: what it is for. The technical notes come from the CSS file header.
 export const leads = {
   button: 'The main way to act on a page. One solid button per area for the primary action; subtle and ghost for the rest.',
-  input: 'Text inputs, selects and text areas, with a Field wrapper that ties label, hint and error to the control.',
+  input: 'Text inputs, selects, text areas and native date and time pickers, with a Field wrapper that ties label, hint and error to the control, plus a spam-trap field.',
   search: 'A search input with clear button and shortcut hint, a number input with step buttons, and keyboard key labels.',
   choice: 'Native checkboxes, radios and switches, styled without replacing the input, so keyboard and forms work as usual.',
   segmented: 'A small set of mutually exclusive options shown side by side: view modes, filters, units.',
@@ -418,6 +473,9 @@ export const leads = {
   base: 'Text classes that match the Figma text styles one to one, from display to caption.',
   tabs: 'Switch between views of the same content without leaving the page.',
   breadcrumbs: 'Show where the page sits in the hierarchy and link back up.',
+  'skip-link': 'A hidden first link that keyboard users can use to jump past the header to the content.',
+  combobox: 'A text field with a filtered list of suggestions, for picking from long lists such as clients or cities.',
+  file: 'A drop zone for choosing files by dragging or browsing, with the chosen files listed below.',
   pagination: 'Move between pages of a long list or table.',
   steps: 'Show progress through a multi-step process.',
   nav: 'Navigation links, horizontal in a header or vertical in a sidebar.',

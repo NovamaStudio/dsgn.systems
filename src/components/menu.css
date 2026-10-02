@@ -42,6 +42,7 @@
 .dsgn-menu-item {
   --_hover: var(--dsgn-neutral-subtle);
   --_pressed: var(--dsgn-neutral-subtle-hover);
+  --_focus: var(--dsgn-focus);
   box-sizing: border-box;
   display: flex;
   align-items: center;

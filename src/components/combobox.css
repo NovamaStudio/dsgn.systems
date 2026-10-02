@@ -1,0 +1,44 @@
+/* dsgn · Combobox (text input with a filtered list of suggestions; needs dsgn.js)
+ *
+ * <div class="dsgn-field">
+ *   <label class="dsgn-label" for="client">Client</label>
+ *   <div class="dsgn-input dsgn-combobox">
+ *     <input id="client" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="client-list" autocomplete="off">
+ *     <span class="dsgn-icon" aria-hidden="true">expand_more</span>
+ *     <input type="hidden" name="client_id">
+ *   </div>
+ *   <div class="dsgn-menu" id="client-list" role="listbox" popover="manual" aria-label="Clients">
+ *     <div class="dsgn-menu-item" role="option" id="client-1" data-value="7">Novama s.r.o.</div>
+ *     <div class="dsgn-menu-item" role="option" id="client-2" data-value="9">Nona Design</div>
+ *     <div class="dsgn-menu-label" data-combobox-empty hidden>No client matches</div>
+ *   </div>
+ * </div>
+ *
+ * WAI-ARIA combobox with list autocomplete: typing filters the options (case and diacritics
+ * insensitive, "nov" finds "Nováková"), ArrowDown / ArrowUp move the highlight (aria-activedescendant,
+ * focus stays in the input), Enter or a click picks, Escape closes then clears, Tab leaves.
+ * Picking writes the option text into the input, data-value into the hidden input (if any) and fires
+ * change on the input plus a "dsgn-select" event with { value, label, option }.
+ * A polite status message announces the number of matches.
+ * Remote data: set data-filter="none" on the listbox, listen to input, replace the options yourself.
+ * For a short fixed list use a Select; a combobox is for long lists (clients, cities, products).
+ */
+.dsgn-combobox > .dsgn-icon:last-of-type { transition: rotate var(--dsgn-duration-fast) var(--dsgn-ease); }
+.dsgn-combobox:has(> [aria-expanded="true"]) > .dsgn-icon:last-of-type { rotate: 180deg; }
+.dsgn-combobox > .dsgn-icon { cursor: pointer; }
+
+/* the listbox reuses the Menu panel; the highlighted option looks like a hovered menu item */
+.dsgn-menu[role="listbox"] .dsgn-menu-item[role="option"][aria-selected="true"] {
+  background: var(--_hover);
+  outline: var(--dsgn-focus-width) solid var(--_focus);
+  outline-offset: calc(-1 * var(--dsgn-focus-width));
+}
+.dsgn-menu[role="listbox"] .dsgn-menu-item[role="option"][hidden] { display: none; }
+.dsgn-menu[role="listbox"] mark { background: none; color: inherit; font-weight: var(--dsgn-font-weight-semibold); }
+
+@media (prefers-reduced-motion: reduce) {
+  .dsgn-combobox > .dsgn-icon:last-of-type { transition: none; }
+}
+@media (forced-colors: active) {
+  .dsgn-menu[role="listbox"] .dsgn-menu-item[aria-selected="true"] { outline: 2px solid Highlight; }
+}

@@ -15,6 +15,12 @@
  *   <span class="dsgn-icon" aria-hidden="true">expand_more</span>
  * </div>
  *
+ * Date and time: the native control, so the browser's own calendar, keyboard entry and locale format
+ * (12. 10. 2026 in Czech) come for free and work on every phone:
+ * <input class="dsgn-input" type="date" id="due" min="2026-10-01">
+ * Also type="time", "datetime-local" and "month". The picker follows light / dark (color-scheme).
+ * A range is two date inputs in a Cluster, each with its own label (From / To).
+ *
  * States: :hover, focus (ring), aria-invalid="true", :disabled, [readonly].
  * Height = line-height + 2 × pad-y, identical to Button, so they line up in a row.
  * The border is an inset box-shadow: it never adds to the height (Figma: stroke inside).
@@ -90,6 +96,26 @@ textarea.dsgn-input:not([rows]) { block-size: calc(3 * var(--dsgn-control-line-h
   color: var(--dsgn-text);
 }
 
+/* date and time: native controls; keep the control height and a calm, theme-coloured picker icon */
+input.dsgn-input:is([type="date"], [type="time"], [type="datetime-local"], [type="month"], [type="week"]) {
+  display: flex;
+  min-block-size: var(--dsgn-control-height);
+  font-variant-numeric: tabular-nums;
+}
+input.dsgn-input::-webkit-date-and-time-value { text-align: start; min-block-size: var(--dsgn-control-line-height); }
+input.dsgn-input::-webkit-datetime-edit { padding: 0; }
+input.dsgn-input::-webkit-datetime-edit-fields-wrapper { padding: 0; }
+input.dsgn-input::-webkit-calendar-picker-indicator {
+  margin: 0;
+  margin-inline-start: var(--dsgn-control-gap);
+  padding: 0;
+  inline-size: var(--dsgn-control-line-height);
+  block-size: var(--dsgn-control-line-height);
+  opacity: 0.6;
+  cursor: pointer;
+}
+input.dsgn-input::-webkit-calendar-picker-indicator:hover { opacity: 1; }
+
 /* ── states ──────────────────────────────────────────────────────────────── */
 @media (hover: hover) {
   .dsgn-input:hover { --_border: var(--dsgn-text-muted); }
@@ -160,3 +186,19 @@ textarea.dsgn-input:not([rows]) { block-size: calc(3 * var(--dsgn-control-line-h
   gap: var(--dsgn-space-4);
 }
 .dsgn-hint .dsgn-icon { --_fill: 1; }
+
+/* ── honeypot: a spam trap field that people never see or reach ─────────────
+ * <div class="dsgn-honeypot" inert>
+ *   <label for="website">Leave this empty</label>
+ *   <input id="website" name="website" autocomplete="off">
+ * </div>
+ * Bots fill every field; the server rejects a submission where this one is not empty (and should
+ * also rate-limit). inert keeps it out of the tab order and away from screen readers, the class
+ * moves it off screen. Pick a plausible name (website, company_url), never "honeypot". */
+.dsgn-honeypot {
+  position: absolute !important;
+  inset-inline-start: -100vw;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+}
