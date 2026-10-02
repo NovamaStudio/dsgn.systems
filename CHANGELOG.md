@@ -2,6 +2,11 @@
 
 One version for the npm package and the Figma library. [Semantic versioning](https://semver.org): patch = fix, minor = addition, major = rename or removal (with migration notes).
 
+## Unreleased
+
+### Added
+- `skills/dsgn-systems/SKILL.md`: a skill for AI agents building with dsgn (setup, tokens, components, accessibility, SEO, form security, performance, privacy, definition of done). Shipped in the npm package.
+
 ## 0.10.0 — 2026-10-02
 
 ### Added

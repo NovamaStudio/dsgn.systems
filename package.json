@@ -54,7 +54,8 @@
     "src/theme.mjs",
     "README.md",
     "CHANGELOG.md",
-    "LICENSE"
+    "LICENSE",
+    "skills/"
   ],
   "sideEffects": [
     "*.css",

@@ -4,7 +4,7 @@
 
 Token-driven CSS design system. Plain HTML classes and `data-*` attributes, no framework, no build step in your project. The same tokens and components exist 1:1 in the Figma library.
 
-- **Colour**: OKLCH palettes where only hue and chroma change; lightness is fixed per step, so contrast is guaranteed for every hue (156 token pairs checked on every build).
+- **Colour**: OKLCH palettes where only hue and chroma change; lightness is fixed per step, so contrast is guaranteed for every hue (226 token pairs checked on every build).
 - **Density** S / M / L, **corners** sharp / default / rounded / pill, **elevation** flat / soft, **light and dark**: switch with one attribute, on the page or on any section.
 - **Sizes come from type**: control height = line-height + 2 × padding, every dimension snapped to a 2 px grid at any browser font size.
 - **Accessible by default**: WCAG 2.2 AA checked with axe, keyboard and forced-colours tests on every build.
@@ -76,6 +76,10 @@ Colours are given as a brand hex or hue + chroma, with an optional button fill s
 ```
 
 Note: `.dsgn-page` is a zero-specificity base. If your site has its own `body { … }` reset, that reset wins; set font and background there.
+
+## AI agents
+
+`skills/dsgn-systems/SKILL.md` (also in the npm package) teaches an AI coding agent to build with dsgn: setup, tokens, layout, every component, plus accessibility, SEO, form security, performance, privacy and a definition of done. Add it as a skill in Claude, or point other agents to it (e.g. from `AGENTS.md`: "Read node_modules/dsgn.systems/skills/dsgn-systems/SKILL.md before building UI").
 
 ## Lint your CSS
 
