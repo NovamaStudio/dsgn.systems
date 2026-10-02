@@ -256,7 +256,7 @@ for (const name in pal) {
 
 // panels
 const intents = ['neutral', 'accent', 'danger'];
-const ic = (n, fill) => '<span class="dsgn-icon"' + (fill ? ' data-fill' : '') + ' aria-hidden="true">' + n + '</span>';
+const ic = (n, fill, end) => '<span class="dsgn-icon"' + (fill ? ' data-fill' : '') + (end ? ' data-end' : '') + ' aria-hidden="true">' + n + '</span>';
 function formBlock(t) {
   const f = (id, label, control, hint) => '<div class="dsgn-field"><label class="dsgn-label" for="' + id + t + '">' + label + '</label>' + control + (hint || '') + '</div>';
   return '<div class="form2">' +
@@ -309,11 +309,11 @@ function mediaBlock(t) {
 function cardBlock(t) {
   return '<article class="dsgn-card"><h3 class="dsgn-card-title">Invoice 2026-114</h3>' +
     '<p class="dsgn-card-text">Sent to the client on 28 September. Payment due in 14 days. <a class="dsgn-link" href="#h-b">View history</a></p>' +
-    '<div class="dsgn-card-actions"><button class="dsgn-button">Send reminder' + ic('arrow_forward') + '</button><button class="dsgn-button" data-variant="ghost" data-intent="neutral">Cancel</button>' +
+    '<div class="dsgn-card-actions"><button class="dsgn-button">Send reminder' + ic('arrow_forward', 0, 1) + '</button><button class="dsgn-button" data-variant="ghost" data-intent="neutral">Cancel</button>' +
     '<button class="dsgn-icon-button" data-variant="ghost" data-intent="neutral" aria-pressed="false" aria-label="Star invoice" data-toggle>' + ic('favorite') + '</button>' +
     '<button class="dsgn-icon-button" data-variant="ghost" data-intent="neutral" aria-label="Duplicate" aria-describedby="tip-dup' + t + '">' + ic('content_copy') + '</button>' +
     '<div class="dsgn-tooltip" id="tip-dup' + t + '" role="tooltip" popover="manual">Copies the invoice as a new draft</div>' +
-    '<button class="dsgn-button" data-variant="subtle" data-intent="neutral" popovertarget="menu' + t + '">More' + ic('expand_more') + '</button>' +
+    '<button class="dsgn-button" data-variant="subtle" data-intent="neutral" popovertarget="menu' + t + '">More' + ic('expand_more', 0, 1) + '</button>' +
     '<div class="dsgn-menu" id="menu' + t + '" popover role="menu" aria-label="Invoice actions">' +
       '<div class="dsgn-menu-label">Invoice</div>' +
       '<button class="dsgn-menu-item" role="menuitem">' + ic('edit') + '<span class="dsgn-menu-item-label">Edit</span><span class="dsgn-menu-item-meta">E</span></button>' +

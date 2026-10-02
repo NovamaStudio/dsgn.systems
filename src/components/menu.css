@@ -2,7 +2,7 @@
  *
  * Action menu (needs dsgn.js for arrow keys, typeahead and focus return):
  * <button class="dsgn-button" data-variant="subtle" data-intent="neutral" popovertarget="inv-menu" aria-haspopup="menu">
- *   Actions<span class="dsgn-icon" aria-hidden="true">expand_more</span>
+ *   Actions<span class="dsgn-icon" data-end aria-hidden="true">expand_more</span>
  * </button>
  * <div class="dsgn-menu" id="inv-menu" popover role="menu" aria-label="Invoice actions">
  *   <button class="dsgn-menu-item" role="menuitem"><span class="dsgn-icon" aria-hidden="true">edit</span>

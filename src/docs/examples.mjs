@@ -5,7 +5,7 @@
 
 import { landscape, portrait, portrait2 } from './images.mjs';
 
-const ic = (n, fill) => `<span class="dsgn-icon"${fill ? ' data-fill' : ''} aria-hidden="true">${n}</span>`;
+const ic = (n, fill, end) => `<span class="dsgn-icon"${fill ? ' data-fill' : ''}${end ? ' data-end' : ''} aria-hidden="true">${n}</span>`;
 const btn = (label, attrs = '') => `<button class="dsgn-button"${attrs}>${label}</button>`;
 
 export const components = {
@@ -29,7 +29,7 @@ export const components = {
 </div>` },
       { title: 'Icons, toggle, disabled', html: `<div class="dsgn-cluster">
   <button class="dsgn-button">${ic('add')}New invoice</button>
-  <button class="dsgn-button" data-variant="subtle" data-intent="neutral">Next${ic('arrow_forward')}</button>
+  <button class="dsgn-button" data-variant="subtle" data-intent="neutral">Next${ic('arrow_forward', 0, 1)}</button>
   <button class="dsgn-icon-button" data-variant="ghost" data-intent="neutral" aria-label="Settings">${ic('settings')}</button>
   <button class="dsgn-icon-button" data-variant="subtle" data-intent="neutral" aria-pressed="true" aria-label="Starred">${ic('favorite')}</button>
   <button class="dsgn-button" disabled>Send</button>
@@ -178,7 +178,7 @@ export const components = {
     name: 'Card', group: 'Content', figma: ['Card'],
     examples: [{ title: 'Card with actions', html: `<article class="dsgn-card" style="max-inline-size: 28rem"><h3 class="dsgn-card-title">Invoice 2026-114</h3>
   <p class="dsgn-card-text">Sent on 28 September. Payment due in 14 days. <a class="dsgn-link" href="#card">View history</a></p>
-  <div class="dsgn-card-actions">${btn(`Send reminder${ic('arrow_forward')}`)}${btn('Cancel', ' data-variant="ghost" data-intent="neutral"')}</div></article>` },
+  <div class="dsgn-card-actions">${btn(`Send reminder${ic('arrow_forward', 0, 1)}`)}${btn('Cancel', ' data-variant="ghost" data-intent="neutral"')}</div></article>` },
     { title: 'Image on top, link cards', html: `<div class="dsgn-grid" data-cols="auto">
   <article class="dsgn-card"><div class="dsgn-media dsgn-card-media"><img src="${landscape}" alt=""></div>
     <h3 class="dsgn-card-title"><a class="dsgn-card-link" href="#card">Retreat in Lipno, May 2027</a></h3>
@@ -312,7 +312,7 @@ export const components = {
   },
   menu: {
     name: 'Menu', group: 'Overlays', figma: ['Menu', 'Menu item'],
-    examples: [{ title: 'Action menu', html: `<button class="dsgn-button" data-variant="subtle" data-intent="neutral" popovertarget="dx-menu">Actions${ic('expand_more')}</button>
+    examples: [{ title: 'Action menu', html: `<button class="dsgn-button" data-variant="subtle" data-intent="neutral" popovertarget="dx-menu">Actions${ic('expand_more', 0, 1)}</button>
 <div class="dsgn-menu" id="dx-menu" popover role="menu" aria-label="Invoice actions">
   <button class="dsgn-menu-item" role="menuitem">${ic('edit')}<span class="dsgn-menu-item-label">Edit</span><span class="dsgn-menu-item-meta">E</span></button>
   <button class="dsgn-menu-item" role="menuitem">${ic('download')}<span class="dsgn-menu-item-label">Download PDF</span></button>

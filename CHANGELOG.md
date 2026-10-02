@@ -22,7 +22,7 @@ One version for the npm package and the Figma library. [Semantic versioning](htt
 
 ### Changed
 - Fields and selectable containers (input, select, textarea, search, number, chip, option card) share one outline, `border-control`: lighter than before in light mode, 3 : 1 on base and raised surfaces in both modes.
-- Buttons with an icon: 6 px less padding on the icon side and a 2 px tighter gap (the glyph has its own white space).
+- Buttons with an icon: 6 px less padding on the icon side and a 2 px tighter gap (the glyph has its own white space). A trailing icon is marked `data-end` (`Next<span class="dsgn-icon" data-end>arrow_forward</span>`); a leading icon needs nothing. Fixes a bug where a button with one icon got the tight padding on both sides, so the text side looked cramped. Badge and chip follow the same rule.
 - Segmented control: selected segment without an outline; in dark mode an outlined track and a lighter selected segment.
 - Focus ring: one colour everywhere, `focus` (accent; neutral in monochrome), so keyboard focus always looks the same. Danger buttons, danger menu items and invalid fields use `focus-danger`. Links in a solid banner use the banner's text colour. The ring also holds 3 : 1 on the tinted fills it is drawn inside (menu item, nav link, list row, segment, tab).
 - Checkbox, radio, switch, slider, progress, tabs, steps and selected chip / option card / page / row use the `control-*` tokens (accent by default).

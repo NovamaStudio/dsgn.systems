@@ -5,6 +5,9 @@
  * <button class="dsgn-button" data-variant="ghost" data-intent="danger">
  *   <span class="dsgn-icon" aria-hidden="true">delete</span>Delete
  * </button>
+ * <button class="dsgn-button">
+ *   Next<span class="dsgn-icon" data-end aria-hidden="true">arrow_forward</span>
+ * </button>
  * <button class="dsgn-icon-button" data-variant="ghost" aria-label="Settings">
  *   <span class="dsgn-icon" aria-hidden="true">settings</span>
  * </button>
@@ -15,6 +18,8 @@
  *                             + filled icon. Solid buttons are never toggles.
  * disabled / aria-disabled="true"
  * Also works on <a href>.
+ * An icon after the text takes data-end (CSS cannot see where the bare text is, so this tells the
+ * button which side gets the tighter icon padding; without it the icon is treated as leading).
  *
  * Height is never set: line-height + 2 × pad-y. An icon button uses pad-y on all
  * sides and its icon is 1 line-height wide, so it is always a square of the same height.
@@ -71,10 +76,13 @@
 
 /* icon + text: the glyph carries its own white space (about 2–3 px each side), so the icon side gets
    6 px less padding and the gap is 2 px tighter; the button then looks optically balanced.
-   Figma: Density control/pad-x-icon and control/gap-icon. */
+   Figma: Density control/pad-x-icon and control/gap-icon.
 .dsgn-button:has(> .dsgn-icon) { gap: calc(var(--dsgn-control-gap) - var(--dsgn-space-2)); }
-.dsgn-button:has(> .dsgn-icon:first-child) { padding-inline-start: calc(var(--dsgn-control-pad-x) - var(--dsgn-space-4) - var(--dsgn-space-2)); }
-.dsgn-button:has(> .dsgn-icon:last-child) { padding-inline-end: calc(var(--dsgn-control-pad-x) - var(--dsgn-space-4) - var(--dsgn-space-2)); }
+   The text is a bare text node, so :first-child / :last-child cannot tell icon-before-text from
+   text-before-icon (with one icon the icon is both). A leading icon is the default; a trailing icon
+   is marked data-end. */
+.dsgn-button:has(> .dsgn-icon:not([data-end])) { padding-inline-start: calc(var(--dsgn-control-pad-x) - var(--dsgn-space-4) - var(--dsgn-space-2)); }
+.dsgn-button:has(> .dsgn-icon[data-end]) { padding-inline-end: calc(var(--dsgn-control-pad-x) - var(--dsgn-space-4) - var(--dsgn-space-2)); }
 
 /* ── intents ─────────────────────────────────────────────────────────────── */
 :is(.dsgn-button, .dsgn-icon-button)[data-intent="neutral"] {

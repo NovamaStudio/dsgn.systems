@@ -4,7 +4,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 
 const css = readFileSync(new URL('../dist/dsgn.css', import.meta.url), 'utf8');
 const js = readFileSync(new URL('../dist/dsgn.js', import.meta.url), 'utf8');
-const ic = (n, fill) => `<span class="dsgn-icon"${fill ? ' data-fill' : ''} aria-hidden="true">${n}</span>`;
+const ic = (n, fill, end) => `<span class="dsgn-icon"${fill ? ' data-fill' : ''}${end ? ' data-end' : ''} aria-hidden="true">${n}</span>`;
 
 const ICONS = ['add', 'analytics', 'arrow_forward', 'check', 'check_circle', 'chevron_left', 'chevron_right', 'close', 'dark_mode', 'description',
   'expand_more', 'group', 'help', 'home', 'light_mode', 'logout', 'menu', 'more_vert', 'notifications', 'payments', 'receipt_long', 'schedule',
@@ -54,7 +54,7 @@ const website = `
         <span class="dsgn-badge" data-intent="accent">${ic('verified_user')}New: automatic reminders</span>
         <h1 class="dsgn-display">Invoices that get paid on time</h1>
         <p class="dsgn-lead">Create an invoice in a minute, send it from your own address and let reminders do the chasing. Built for small studios and freelancers.</p>
-        <div class="dsgn-cluster"><a class="dsgn-button" href="#app">Start free${ic('arrow_forward')}</a><a class="dsgn-button" data-variant="ghost" data-intent="neutral" href="#features">See features</a></div>
+        <div class="dsgn-cluster"><a class="dsgn-button" href="#app">Start free${ic('arrow_forward', 0, 1)}</a><a class="dsgn-button" data-variant="ghost" data-intent="neutral" href="#features">See features</a></div>
         <p class="dsgn-caption dsgn-muted">Free for the first 10 invoices. No card needed.</p>
       </div>
       <article class="dsgn-card" aria-label="Example invoice">

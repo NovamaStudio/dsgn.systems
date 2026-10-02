@@ -32,7 +32,7 @@
   white-space: nowrap;
   vertical-align: middle;
 }
-.dsgn-badge:has(> .dsgn-icon:first-child) { padding-inline-start: var(--dsgn-space-4); }
+.dsgn-badge:has(> .dsgn-icon:not([data-end])) { padding-inline-start: var(--dsgn-space-4); }
 .dsgn-badge > .dsgn-icon { --_fill: 1; }
 
 .dsgn-badge[data-intent="accent"]  { --_subtle: var(--dsgn-accent-subtle);  --_text: var(--dsgn-accent-text);  --_solid: var(--dsgn-accent-solid);  --_on-solid: var(--dsgn-accent-solid-text); }

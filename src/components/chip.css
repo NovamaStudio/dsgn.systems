@@ -36,7 +36,7 @@
   -webkit-tap-highlight-color: transparent;
 }
 .dsgn-chip > .dsgn-icon { color: var(--dsgn-text-muted); }
-.dsgn-chip:has(> .dsgn-icon:first-child) { padding-inline-start: var(--dsgn-space-8); }
+.dsgn-chip:has(> .dsgn-icon:not([data-end])) { padding-inline-start: var(--dsgn-space-8); }
 .dsgn-chip:has(> .dsgn-chip-remove) { padding-inline-end: var(--dsgn-space-8); }
 button.dsgn-chip { cursor: pointer; }
 @media (hover: hover) {
