@@ -36,7 +36,7 @@ One version for the npm package and the Figma library. [Semantic versioning](htt
 - Menu divider stays inside the panel padding, like the items (Figma already had it so).
 - Number input: 2 px more side padding than an icon button, so the steps clear the curve in Pill (Figma: `number/pad-x`).
 - Figma: Input (text, icon, select) and Textarea gain the variant `State=Invalid focus` (red outline and red focus ring), matching code.
-- Table and List: the outer frame is drawn on top (an outline in code, a top layer "frame" in Figma), so the header, a hovered, selected or current row no longer cover it at the edges and corners. The sticky table header draws its own part of the frame (top edge and rounded corners), because sticky cells paint above an outline. List row separators sit on the row, so a hovered row keeps its line. The table's keyboard focus ring is drawn as a shadow so the frame stays.
+- Table and List: the outer frame is a real border on the wrapper (all four sides); rows and the header have only a bottom line and the last row none. Content is clipped inside the border, so the sticky header, a hovered, selected or current row can never cover it. In Figma the frame is a top layer "frame" over the rows (Figma draws children over a frame's stroke). List row separators sit on the row, so a hovered row keeps its line.
 - Hint text flows inline (code, links); the icon layout applies only when the hint starts with an icon.
 
 ## 0.9.0 — 2026-09-29

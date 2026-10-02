@@ -26,16 +26,12 @@
   overflow: auto;
   border-radius: var(--dsgn-radius-l);
   background: var(--dsgn-surface-raised);
+  /* a real border: the scrolling content (sticky header included) is clipped inside it, so a header,
+     hovered or selected row can never cover the frame */
+  border: var(--dsgn-border-width) solid var(--dsgn-border);
   box-shadow: var(--dsgn-shadow-raised);
-  /* the frame is an outline: outlines paint above the content, so the header, a hovered or a selected
-     row never cover it (an inset shadow would sit under the cell backgrounds) */
-  outline: var(--dsgn-border-width) solid var(--dsgn-border);
-  outline-offset: calc(-1 * var(--dsgn-border-width));
 }
-/* focus ring as a shadow, so the frame stays */
-.dsgn-table-wrap:focus-visible {
-  box-shadow: 0 0 0 var(--dsgn-focus-offset) var(--dsgn-surface-base), 0 0 0 calc(var(--dsgn-focus-offset) + var(--dsgn-focus-width)) var(--dsgn-focus), var(--dsgn-shadow-raised);
-}
+.dsgn-table-wrap:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: var(--dsgn-focus-offset); }
 
 .dsgn-table {
   inline-size: 100%;
@@ -63,22 +59,6 @@
   background: var(--dsgn-surface-base);
   color: var(--dsgn-text-muted);
   font-weight: var(--dsgn-font-weight-medium);
-}
-/* a sticky header is painted above the wrapper's outline, so the header row carries its own piece of
-   the frame: top edge on every cell, outer edges and corners on the first and last cell */
-.dsgn-table thead th {
-  box-shadow: inset 0 var(--dsgn-border-width) 0 var(--dsgn-border), inset 0 calc(-1 * var(--dsgn-border-width)) 0 var(--dsgn-border);
-}
-.dsgn-table thead th:first-child {
-  border-start-start-radius: var(--dsgn-radius-l);
-  box-shadow: inset var(--dsgn-border-width) var(--dsgn-border-width) 0 var(--dsgn-border), inset 0 calc(-1 * var(--dsgn-border-width)) 0 var(--dsgn-border);
-}
-.dsgn-table thead th:last-child {
-  border-start-end-radius: var(--dsgn-radius-l);
-  box-shadow: inset calc(-1 * var(--dsgn-border-width)) var(--dsgn-border-width) 0 var(--dsgn-border), inset 0 calc(-1 * var(--dsgn-border-width)) 0 var(--dsgn-border);
-}
-.dsgn-table thead th:only-child {
-  box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border);
 }
 .dsgn-table :is(th, td)[data-numeric] { text-align: end; }
 .dsgn-table :is(th, td)[data-numeric] .dsgn-table-sort { flex-direction: row-reverse; }
@@ -143,8 +123,7 @@
 
 @media (forced-colors: active) {
   .dsgn-table :is(th, td) { border-block-end: 1px solid CanvasText; }
-  .dsgn-table-wrap { outline: 1px solid CanvasText; outline-offset: -1px; }
-  .dsgn-table-wrap:focus-visible { outline: 2px solid Highlight; outline-offset: 2px; }
+  .dsgn-table tbody tr:last-child > * { border-block-end: 0; }
   /* selected row: a Highlight frame, cell contents keep their own system colours (links stay readable) */
   .dsgn-table tbody tr[aria-selected="true"] { outline: 2px solid Highlight; outline-offset: -2px; }
 }
