@@ -1,6 +1,6 @@
 {
   "name": "dsgn.systems",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "description": "dsgn — token-driven CSS design system: OKLCH colours with guaranteed contrast, density S/M/L, four corner styles, light and dark. Mirrored 1:1 in Figma.",
   "type": "module",
   "license": "MIT",

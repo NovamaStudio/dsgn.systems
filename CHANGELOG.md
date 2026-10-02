@@ -2,11 +2,18 @@
 
 One version for the npm package and the Figma library. [Semantic versioning](https://semver.org): patch = fix, minor = addition, major = rename or removal (with migration notes).
 
-## Unreleased
+## 0.11.0 — 2026-10-02
 
 ### Added
-- `skills/dsgn-systems/SKILL.md`: a skill for AI agents building with dsgn (setup, tokens, components, accessibility, SEO, form security, performance, privacy, definition of done). Shipped in the npm package.
+- **Skip link** (`components/skip-link.css`): `<a class="dsgn-button dsgn-skip-link" href="#main">` as the first element of the page; hidden until the first Tab, then a solid button in the top corner that jumps to the content (WCAG 2.4.1). The documentation, the demo and the preview now have one. Figma: component **Skip link**.
+- **File upload** (`components/file.css`): a drop zone around a native `<input type="file">` (`.dsgn-file`, `.dsgn-file-title`, `.dsgn-file-text`), with hover, keyboard focus, drag over, invalid and disabled states. dsgn.js adds drag and drop (dropped files go into the input and fire `change`). Chosen files are listed with List rows. Figma: set **File upload** (State).
+- **Combobox** (`components/combobox.css` + dsgn.js): WAI-ARIA combobox with a filtered list of suggestions, reusing the Menu panel (`role="listbox"`, options as `.dsgn-menu-item[role="option"]`). Case- and diacritics-insensitive filtering, arrow keys, Enter, Escape, a polite result count, hidden input for the value, `change` and `dsgn-select` events, `data-filter="none"` for remote data. Figma: component **Combobox** (field + list).
+- **Date and time inputs**: native `<input class="dsgn-input" type="date|time|datetime-local|month">` styled to the control height with a calm picker icon; the browser calendar follows light / dark. Figma: set **Date input** (State).
+- **Honeypot** (`.dsgn-honeypot`, in `input.css`): an off-screen, `inert` spam-trap field for forms.
+- `skills/dsgn-systems/SKILL.md`: a skill for AI agents building with dsgn (setup, tokens, components, accessibility, SEO, form security and injection, performance, privacy, definition of done). Shipped in the npm package.
 
+### Fixed
+- Menu items had no focus ring colour after the 0.10 focus change (the ring colour variable was only defined for danger items).
 ## 0.10.0 — 2026-10-02
 
 ### Added

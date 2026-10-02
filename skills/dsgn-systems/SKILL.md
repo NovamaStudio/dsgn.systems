@@ -50,8 +50,8 @@ Bundler: `import 'dsgn.systems/css'` and `import 'dsgn.systems/js'`.
 Pin the minor version:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dsgn.systems@0.10/dist/dsgn.css">
-<script src="https://cdn.jsdelivr.net/npm/dsgn.systems@0.10/dist/dsgn.js" defer></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dsgn.systems@0.11/dist/dsgn.css">
+<script src="https://cdn.jsdelivr.net/npm/dsgn.systems@0.11/dist/dsgn.js" defer></script>
 ```
 
 ### Fonts (not bundled)
@@ -69,7 +69,7 @@ For GDPR-strict sites (see section 9), self-host both fonts instead of Google Fo
 
 ### When to load dsgn.js
 
-Load it when the page uses any of: Tabs, Menu, Tooltip, Toast, Slider fill, Number steps, Search clear, Chip toggles, or Dialog on browsers without invoker commands. Everything else is CSS only.
+Load it when the page uses any of: Tabs, Menu, Combobox, Tooltip, Toast, File upload drag and drop, Slider fill, Number steps, Search clear, Chip toggles, or Dialog on browsers without invoker commands. Everything else is CSS only.
 
 ### Page skeleton
 
@@ -86,20 +86,15 @@ Load it when the page uses any of: Tabs, Menu, Tooltip, Toast, Slider fill, Numb
   <script src="…/dsgn.js" defer></script>
 </head>
 <body class="dsgn-page">
-  <a class="dsgn-button skip-link" href="#main">Přeskočit na obsah</a>
+  <a class="dsgn-button dsgn-skip-link" href="#main">Přeskočit na obsah</a>
   <header class="dsgn-header">…</header>
-  <main id="main" tabindex="-1">…</main>
+  <main id="main">…</main>
   <footer class="dsgn-footer">…</footer>
 </body>
 </html>
 ```
 
-The skip link needs a few lines of project CSS (dsgn has no skip-link component yet; keep project classes without the `dsgn-` prefix):
-
-```css
-.skip-link { position: absolute; inset-block-start: var(--dsgn-space-8); inset-inline-start: var(--dsgn-space-8); z-index: 10; }
-.skip-link:not(:focus-visible) { clip-path: inset(50%); inline-size: 1px; block-size: 1px; overflow: hidden; white-space: nowrap; padding: 0; }
-```
+The skip link (`.dsgn-skip-link` on a solid button) is the first element in `<body>`: hidden until the first Tab, then it appears in the top corner and jumps to `#main` (WCAG 2.4.1). The target needs only an id. Project-specific classes never use the `dsgn-` prefix.
 
 ### CSS layers and resets
 
@@ -215,6 +210,10 @@ Every component documents its full markup at the top of `dist/components/<name>.
 - **Error**: `aria-invalid="true"` on the control, plus `<p class="dsgn-hint" data-intent="danger" id="email-err"><span class="dsgn-icon" aria-hidden="true">error</span>Enter an e-mail like jana@firma.cz</p>` referenced from `aria-describedby`.
 - **Input with icon or Select**: the class goes on a wrapper: `<div class="dsgn-input"><select id="c">…</select><span class="dsgn-icon" aria-hidden="true">expand_more</span></div>`.
 - **Textarea**: `<textarea class="dsgn-input">`, three lines tall unless `rows` is set.
+- **Date and time**: native `<input class="dsgn-input" type="date">` (also `time`, `datetime-local`, `month`): the browser's calendar, keyboard entry and locale format, on every phone. A range = two date inputs (From / To) with their own labels; set `min`/`max`. Never build a custom calendar.
+- **Combobox** (dsgn.js, for long lists: clients, cities, products): `<div class="dsgn-input dsgn-combobox"><input role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="list-id" autocomplete="off"><span class="dsgn-icon" aria-hidden="true">expand_more</span><input type="hidden" name="client_id"></div>` + `<div class="dsgn-menu" id="list-id" role="listbox" popover="manual" aria-label="…">` with `<div class="dsgn-menu-item" role="option" id="…" data-value="7">Novama s.r.o.</div>` and an optional `<div class="dsgn-menu-label" data-combobox-empty hidden>No match</div>`. Filters case- and diacritics-insensitively; picking fills the input and the hidden input and fires `change` + `dsgn-select`. Remote data: `data-filter="none"` on the listbox and replace the options on `input`. Short fixed lists stay a Select.
+- **File upload** (dsgn.js for drag and drop): `<label class="dsgn-file"><input type="file" name="…" multiple accept="…" aria-labelledby="label-id title-id" aria-describedby="hint-id"><span class="dsgn-icon" aria-hidden="true">upload</span><span class="dsgn-file-title" id="title-id">Drop files here or <span class="dsgn-link">browse</span></span><span class="dsgn-file-text" id="hint-id">PDF, JPG or PNG, up to 10 MB each</span></label>`. List chosen files below as a `.dsgn-list` of static rows (file icon, name, size or `<progress class="dsgn-progress">`, remove icon button with an `aria-label` naming the file). `aria-invalid="true"` on the input + a danger hint for errors.
+- **Honeypot** (spam trap): `<div class="dsgn-honeypot" inert><label for="website">Leave this empty</label><input id="website" name="website" autocomplete="off"></div>` inside the form; the server rejects submissions where it is filled.
 - **Choice**: `<label class="dsgn-choice"><input type="checkbox" class="dsgn-checkbox"> Text</label>`; also `.dsgn-radio` and `.dsgn-switch` (with `role="switch"`). Group radios in a `<fieldset>` with a `<legend>`.
 - **Option card** (radio or checkbox in a card): `.dsgn-option-cards` > `label.dsgn-option-card` > input + `.dsgn-option-card-body` (`-title`, `-text`) + `.dsgn-option-card-meta`.
 - **Segmented control**: `.dsgn-segmented` (`role="radiogroup"`) > `label.dsgn-segment` > `<input type="radio">` + text. For 2–5 options that switch a view at once.
@@ -240,6 +239,7 @@ Every component documents its full markup at the top of `dist/components/<name>.
 **Navigation**
 - **Nav**: `nav.dsgn-nav[aria-label]` > `a.dsgn-nav-link` with `aria-current="page"`; `data-orientation="vertical"` for sidebars, `.dsgn-nav-label` for groups.
 - **Tabs** (dsgn.js): `.dsgn-tabs` > `[role=tablist]` > `button.dsgn-tab[role=tab][aria-selected][aria-controls]` + `.dsgn-tabpanel[role=tabpanel]`. Tabs switch panels within a page; for navigation between pages use Nav.
+- **Skip link**: `<a class="dsgn-button dsgn-skip-link" href="#main">Skip to content</a>` as the first element in `<body>` on every page.
 - **Breadcrumbs**: `nav.dsgn-breadcrumbs[aria-label="Breadcrumb"] > ol > li > a`; the last item `aria-current="page"`.
 - **Pagination**: `nav.dsgn-pagination` built from ghost neutral buttons, `aria-current="page"`, `.dsgn-pagination-gap`, or compact `.dsgn-pagination-status`.
 - **Steps**: `ol.dsgn-steps` > `li[data-state="done"]` / `li[aria-current="step"]` > `.dsgn-steps-label`.
@@ -258,7 +258,7 @@ Every component documents its full markup at the top of `dist/components/<name>.
 
 Utility: `.dsgn-visually-hidden` hides text visually but keeps it for screen readers.
 
-Components a project may still need and dsgn does not ship yet: date picker, combobox/autocomplete, file upload, rich text. Build them from native elements plus tokens (for example `<input type="date">` styled with `.dsgn-input`, `<input type="file">` in a field), mark them as project components, and tell the user they are not part of dsgn.
+Things dsgn does not ship: rich text editor, charts, carousel, maps, calendar views. Build them from native elements plus tokens (or a library themed with dsgn tokens), mark them as project components, and tell the user they are not part of dsgn.
 
 ## 7. Accessibility (WCAG 2.2 AA is the floor)
 
@@ -321,7 +321,7 @@ Client-side checks are for the user's convenience only. **Every rule is enforced
 
 **Protection**
 - **CSRF**: a per-session token in a hidden field (or SameSite cookies + a token for the API), checked on the server.
-- **Spam**: honeypot field (visually hidden, `tabindex="-1"`, `autocomplete="off"`) plus server-side rate limiting; a privacy-friendly challenge (Cloudflare Turnstile, Friendly Captcha) only if spam persists. No reCAPTCHA without consent (it sets tracking cookies).
+- **Spam**: a `.dsgn-honeypot` field (see Forms) checked on the server, plus server-side rate limiting; a privacy-friendly challenge (Cloudflare Turnstile, Friendly Captcha) only if spam persists. No reCAPTCHA without consent (it sets tracking cookies).
 - **Input**: validate type, length and format server-side against an allow-list (expected type, length, format, enum values); normalise (trim, Unicode NFC); reject unexpected fields (mass assignment).
 - **Uploads**: allow-list of types checked by content (magic bytes), size limit, renamed files stored outside the web root or on object storage, virus scan where relevant, never served from the same origin as executable content.
 - **Auth forms**: generic error messages ("E-mail or password is wrong") to avoid account enumeration; rate limit and lock-out with backoff; 2FA for admin; password reset via single-use expiring tokens.
