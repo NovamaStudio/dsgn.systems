@@ -15,6 +15,8 @@ One version for the npm package and the Figma library. [Semantic versioning](htt
 ### Changed
 - Figma: the 22 role slots (`accent/fill-light`, `control/tint-dark` …) moved out of **Primitives**, where they were raw hex values, into the **Accent** collection as aliases to Primitives palette steps. Primitives now hold only raw palettes, space, radius and stroke, so a theme mode (e.g. a brand palette) recolours buttons and controls too. The dsgn theme plugin re-points the Accent Default mode for a theme's accent fill / monochrome setting and restores it when the theme is removed. Code output is unchanged.
 
+- Figma: containers and slots no longer clip their content, so shadows and focus rings of nested components are not cut off. Clipping stays only where it is needed: a frame's own focus ring (Figma draws shadow spread on frames only with clipping on), images and fills on rounded edges (Media, Card image, Avatar image, Progress, Checkbox). The Figma lint (`figma/figma-lint.js`) now reports clipping without a reason.
+
 ### Fixed
 - Menu items had no focus ring colour after the 0.10 focus change (the ring colour variable was only defined for danger items).
 ## 0.10.0 — 2026-10-02

@@ -1,7 +1,8 @@
 // dsgn Figma lint — the Figma twin of the CSS lint in build/build.mjs. Read-only.
 // Walks every component (and variant) on every page and reports values that are not bound
 // to a variable or style: fills, strokes, stroke weights, corner radii, padding, gaps,
-// text without a text style, effects with raw colours. Instances inside a component are
+// text without a text style, effects with raw colours, and frames or slots that clip content
+// without a reason (clipping cuts off shadows and focus rings of nested components). Instances inside a component are
 // checked only on their own overrides (their internals belong to their own component).
 // Run via the Figma MCP (use_figma) or a scratch plugin; returns { ok, checked, issues[] }.
 const PAGES_SKIP = ['Templates'];               // pages made of instances only
@@ -15,6 +16,23 @@ function checkPaints(comp, n, key) {
     const b = p.boundVariables && p.boundVariables.color;
     if (!b && !(key === 'fills' ? n.fillStyleId : n.strokeStyleId)) add(comp, n, key === 'fills' ? 'fill not bound' : 'stroke not bound', '#' + ['r', 'g', 'b'].map((c) => Math.round(p.color[c] * 255).toString(16).padStart(2, '0')).join(''));
   });
+}
+const visFill = (c) => Array.isArray(c.fills) && c.fills.some((f) => f.visible !== false && (f.opacity ?? 1) > 0);
+// Clip content is allowed only where it is needed: the frame's own shadow uses spread (Figma
+// renders spread on frames only with clipping on), or a filled child / image reaches a rounded
+// edge (media, avatar image, progress fill, checkbox box), or a child overflows on purpose.
+function clipNeeded(n) {
+  if ((n.effects || []).some((e) => e.visible !== false && e.type === 'DROP_SHADOW' && e.spread)) return true;
+  if (n.type === 'SLOT' || !('children' in n)) return false;
+  const b = n.absoluteBoundingBox; if (!b) return true;
+  const r = typeof n.cornerRadius === 'number' ? n.cornerRadius : Math.max(n.topLeftRadius || 0, n.topRightRadius || 0, n.bottomLeftRadius || 0, n.bottomRightRadius || 0);
+  for (const c of n.children) {
+    const cb = c.visible && c.absoluteBoundingBox; if (!cb) continue;
+    if (cb.x < b.x - .5 || cb.y < b.y - .5 || cb.x + cb.width > b.x + b.width + .5 || cb.y + cb.height > b.y + b.height + .5) return true;
+    const edge = cb.x <= b.x + .5 || cb.y <= b.y + .5 || cb.x + cb.width >= b.x + b.width - .5 || cb.y + cb.height >= b.y + b.height - .5;
+    if (r > 0 && edge && visFill(c)) return true;
+  }
+  return false;
 }
 function checkNode(comp, n, isInstanceRoot) {
   checkPaints(comp, n, 'fills');
@@ -31,6 +49,7 @@ function checkNode(comp, n, isInstanceRoot) {
       if (n[k] > 0 && !bound(n, k) && !(k === 'itemSpacing' && n.primaryAxisAlignItems === 'SPACE_BETWEEN')) { add(comp, n, k + ' not bound', n[k]); }
     if (n.layoutMode === 'GRID') for (const k of ['gridRowGap', 'gridColumnGap']) if (n[k] > 0 && !bound(n, k)) add(comp, n, k + ' not bound', n[k]);
   }
+  if (!isInstanceRoot && n.clipsContent && !clipNeeded(n)) add(comp, n, 'clip content without a reason (cuts shadows)');
   if (n.type === 'TEXT') {
     if (!n.textStyleId && !bound(n, 'fontSize')) add(comp, n, 'text without style or bound size', n.fontSize);
   }
