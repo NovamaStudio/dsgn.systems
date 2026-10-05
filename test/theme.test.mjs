@@ -66,7 +66,8 @@ expect(!plain.includes(':root {') && !plain.includes(':not('), 'default config w
 
 // 5. Figma payload
 const f = themeFigma(t);
-expect(f.mode === 'Acme' && Object.keys(f.primitives).length === PALETTES.length * ladder.length + 22, 'Figma: every primitive for the mode');
+expect(f.mode === 'Acme' && Object.keys(f.primitives).length === PALETTES.length * ladder.length, 'Figma: every palette step for the mode (raw colours only)');
+expect(Object.keys(f.roles).length === 22 && Object.values(f.roles).every((a) => /^color\/[a-z]+\/\d+$/.test(a)), 'Figma: 22 Accent role slots alias palette steps');
 expect(Object.values(f.primitives).every((h) => /^#[0-9a-f]{6}$/.test(h)) && f.typography['family/sans'] === 'Söhne', 'Figma: hex values and font family');
 
 if (errors.length) { for (const e of errors) console.error('✗', e); console.error(`theme: ${errors.length} errors`); process.exit(1); }

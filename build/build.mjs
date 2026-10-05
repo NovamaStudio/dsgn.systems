@@ -163,11 +163,6 @@ for (const [pal, steps] of Object.entries(prims))
   for (const [step, c] of Object.entries(steps))
     primitives.variables.push({ name: `color/${pal}/${step}`, type: 'COLOR', scopes: [], codeSyntax: code(`${pal}-${step}`),
       values: { Value: c.hex }, description: fmtOklch(c) });
-for (const theme of ['light', 'dark']) for (const role of ROLES) {
-  const [pal, step] = roles[theme][role];
-  primitives.variables.push({ name: roleFigma(role, theme), type: 'COLOR', scopes: [], codeSyntax: code(roleVar(role, theme)),
-    values: { Value: prims[pal][step].hex }, description: `Role slot (${theme}): ${pal} ${step} by default; a project theme may re-point it.` });
-}
 for (const s of T.space)
   primitives.variables.push({ name: `space/${s}`, type: 'FLOAT', scopes: ['GAP', 'WIDTH_HEIGHT'], codeSyntax: code(`space-${s}`), values: { Value: s } });
 primitives.variables.push({ name: 'radius/full', type: 'FLOAT', scopes: ['CORNER_RADIUS'], codeSyntax: code('radius-full'), values: { Value: 9999 } });
@@ -175,18 +170,19 @@ for (const [k, n] of Object.entries(T.misc))
   primitives.variables.push({ name: `stroke/${k}`, type: 'FLOAT', scopes: ['STROKE_FLOAT'], codeSyntax: code(k), values: { Value: n } });
 figma.collections.push(primitives);
 
-// Accent: a mode switch on frames for the button-fill strength and monochrome (in code these are theme
-// options; in Figma a designer flips them per frame). Default follows the file's theme (the role slots and
-// accent palette in Primitives); Strong / Stronger / Monochrome re-point them. Semantic accent colours and
-// role-based tokens go through this collection.
+// Accent: the role slots (which palette step a button fill, control tint … uses) and a mode switch on
+// frames for the button-fill strength and monochrome (in code these are theme options; in Figma a designer
+// flips them per frame). Every value is an alias to a Primitives palette step, so Primitives hold only raw
+// palettes and a theme mode there recolours everything. Default = the package choice; the dsgn theme plugin
+// re-points Default when a theme sets accentFill or monochrome. Semantic colours go through this collection.
 const accentModes = [['Default', null], ['Strong', { accentFill: 'strong' }], ['Stronger', { accentFill: 'stronger' }], ['Monochrome', { controls: 'neutral' }]];
 const accentRoles = Object.fromEntries(accentModes.filter(([, o]) => o).map(([m, o]) => [m, roleRefs(o)]));
 const accentName = (role, theme) => roleFigma(role, theme).replace(/^color\//, '');
 const accent = { name: 'Accent', modes: accentModes.map(([m]) => m), variables: [] };
 for (const theme of ['light', 'dark']) for (const role of ROLES)
   accent.variables.push({ name: accentName(role, theme), type: 'COLOR', scopes: [], codeSyntax: code(roleVar(role, theme)),
-    description: `Role slot (${theme}) as the Accent mode sets it: Default follows the theme, Strong / Stronger darken (light) or lighten (dark) the fill, Monochrome uses neutral.`,
-    values: Object.fromEntries(accentModes.map(([m]) => [m, { alias: `Primitives::${m === 'Default' ? roleFigma(role, theme) : `color/${accentRoles[m][theme][role].join('/')}`}` }])) });
+    description: `Role slot (${theme}): the palette step this role uses. Default = the package / theme choice, Strong / Stronger darken (light) or lighten (dark) the fill, Monochrome uses neutral.`,
+    values: Object.fromEntries(accentModes.map(([m]) => [m, { alias: `Primitives::color/${(m === 'Default' ? roles : accentRoles[m])[theme][role].join('/')}` }])) });
 for (const s of T.ladder)
   accent.variables.push({ name: `palette/${s.step}`, type: 'COLOR', scopes: [], codeSyntax: code(`accent-${s.step}`),
     description: 'Accent palette step as the Accent mode sets it: the accent palette, or neutral in Monochrome.',

@@ -23,8 +23,29 @@ async function dsgnApplyTheme(P) {
     }
     done.push(colName + ': ' + (mode ? 'updated' : 'added') + ' mode "' + P.mode + '" (' + n + ' values)');
   }
+  if (P.roles) done.push(await dsgnSetRoles(P.roles, cols, vars));
   return done;
 }
+// Role slots live in the Accent collection as aliases to Primitives palette steps. Its Default mode is the
+// file's choice (one per file); a theme with accentFill or monochrome re-points it, removing a theme restores it.
+async function dsgnSetRoles(roles, cols, vars) {
+  cols = cols || await figma.variables.getLocalVariableCollectionsAsync();
+  vars = vars || await figma.variables.getLocalVariablesAsync();
+  const acc = cols.find((c) => c.name === 'Accent'), prim = cols.find((c) => c.name === 'Primitives');
+  if (!acc || !prim) return 'Accent: no Accent collection, role slots not changed';
+  const def = acc.modes[0].modeId;
+  let n = 0, changed = 0;
+  for (const [name, target] of Object.entries(roles)) {
+    const v = vars.find((x) => x.variableCollectionId === acc.id && x.name === name);
+    const p = vars.find((x) => x.variableCollectionId === prim.id && x.name === target);
+    if (!v || !p) continue;
+    const cur = v.valuesByMode[def];
+    if (!(cur && cur.type === 'VARIABLE_ALIAS' && cur.id === p.id)) changed++;
+    v.setValueForMode(def, figma.variables.createVariableAlias(p)); n++;
+  }
+  return 'Accent: Default mode role slots ' + (changed ? 're-pointed (' + changed + ' of ' + n + ')' : 'unchanged (' + n + ')');
+}
+const DSGN_DEFAULT_ROLES = {"accent/fill-light":"color/accent/54","accent/fill-hover-light":"color/accent/46","accent/fill-pressed-light":"color/accent/38","control/fill-light":"color/accent/54","control/fill-hover-light":"color/accent/46","control/fill-pressed-light":"color/accent/38","control/tint-light":"color/accent/94","control/tint-hover-light":"color/accent/90","control/tint-pressed-light":"color/accent/85","control/text-light":"color/accent/38","control/focus-light":"color/accent/54","accent/fill-dark":"color/accent/64","accent/fill-hover-dark":"color/accent/70","accent/fill-pressed-dark":"color/accent/76","control/fill-dark":"color/accent/64","control/fill-hover-dark":"color/accent/70","control/fill-pressed-dark":"color/accent/76","control/tint-dark":"color/accent/26","control/tint-hover-dark":"color/accent/30","control/tint-pressed-dark":"color/accent/38","control/text-dark":"color/accent/85","control/focus-dark":"color/accent/70"};
 async function dsgnRemoveTheme(name) {
   const cols = await figma.variables.getLocalVariableCollectionsAsync();
   const done = [];
@@ -33,6 +54,7 @@ async function dsgnRemoveTheme(name) {
     const i = col.modes.findIndex((m) => m.name === name);
     if (i > 0) { col.removeMode(col.modes[i].modeId); done.push(colName + ': removed mode "' + name + '"'); }   // never the first (package) mode
   }
+  if (done.length) done.push(await dsgnSetRoles(DSGN_DEFAULT_ROLES));
   return done;
 }
 async function dsgnStatus() {

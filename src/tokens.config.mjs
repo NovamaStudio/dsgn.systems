@@ -125,9 +125,9 @@ export const semanticColor = {
   ...intentTokens('warning', status),
 };
 
-// Role slots: a few per-theme primitives the semantic tokens above point to (CSS --dsgn-accent-fill-light,
-// Figma Primitives color/accent/fill-light …). A project theme re-points them (stronger accent, neutral
-// controls) without touching the Color collection. Defaults = the steps written above.
+// Role slots: a few per-theme pointers the semantic tokens above point to (CSS --dsgn-accent-fill-light,
+// Figma Accent accent/fill-light …, an alias to a Primitives palette step). A project theme re-points them
+// (stronger accent, neutral controls) without touching the Color collection. Defaults = the steps written above.
 export const roleChoices = {
   // accent fill strength: steps for solid / hover / pressed, light and dark (darker in light, lighter in dark)
   accentFill: {

@@ -233,15 +233,20 @@ export function themeCss(theme, { tokensCss = '', source = 'dsgn.theme.mjs', sel
 }
 
 // ── Figma ────────────────────────────────────────────────────────────────────
-/** Values for a new mode (named after the theme) in the Primitives and Typography collections. */
+const accentFigma = (role, theme) => roleFigma(role, theme).replace(/^color\//, '');   // Accent collection: accent/fill-light
+const roleAliases = (roles) => {
+  const out = {};
+  for (const theme of ['light', 'dark']) for (const role of ROLES) out[accentFigma(role, theme)] = `color/${roles[theme][role].join('/')}`;
+  return out;
+};
+/** Values for a new mode (named after the theme) in Primitives and Typography, plus the role slots for the Accent Default mode. */
 export function themeFigma(theme) {
   const t = theme.palettes ? theme : resolveTheme(theme);
   const prims = buildPrimitives(t.palettes);
   const primitives = {};
   for (const name of PALETTES) for (const s of ladder) primitives[`color/${name}/${s.step}`] = prims[name][s.step].hex;
-  for (const theme of ['light', 'dark']) for (const role of ROLES) { const [pal, step] = t.roles[theme][role]; primitives[roleFigma(role, theme)] = prims[pal][step].hex; }
   const family = t.font && t.font.sans ? t.font.sans.split(',')[0].trim().replace(/^['"]|['"]$/g, '') : null;
-  return { mode: t.name, primitives, typography: family ? { 'family/sans': family } : {} };
+  return { mode: t.name, primitives, typography: family ? { 'family/sans': family } : {}, roles: roleAliases(t.roles) };
 }
 
 /** Plugin API source shared by the one-off script and the Figma plugin: apply and remove a theme mode. */
@@ -269,8 +274,29 @@ async function dsgnApplyTheme(P) {
     }
     done.push(colName + ': ' + (mode ? 'updated' : 'added') + ' mode "' + P.mode + '" (' + n + ' values)');
   }
+  if (P.roles) done.push(await dsgnSetRoles(P.roles, cols, vars));
   return done;
 }
+// Role slots live in the Accent collection as aliases to Primitives palette steps. Its Default mode is the
+// file's choice (one per file); a theme with accentFill or monochrome re-points it, removing a theme restores it.
+async function dsgnSetRoles(roles, cols, vars) {
+  cols = cols || await figma.variables.getLocalVariableCollectionsAsync();
+  vars = vars || await figma.variables.getLocalVariablesAsync();
+  const acc = cols.find((c) => c.name === 'Accent'), prim = cols.find((c) => c.name === 'Primitives');
+  if (!acc || !prim) return 'Accent: no Accent collection, role slots not changed';
+  const def = acc.modes[0].modeId;
+  let n = 0, changed = 0;
+  for (const [name, target] of Object.entries(roles)) {
+    const v = vars.find((x) => x.variableCollectionId === acc.id && x.name === name);
+    const p = vars.find((x) => x.variableCollectionId === prim.id && x.name === target);
+    if (!v || !p) continue;
+    const cur = v.valuesByMode[def];
+    if (!(cur && cur.type === 'VARIABLE_ALIAS' && cur.id === p.id)) changed++;
+    v.setValueForMode(def, figma.variables.createVariableAlias(p)); n++;
+  }
+  return 'Accent: Default mode role slots ' + (changed ? 're-pointed (' + changed + ' of ' + n + ')' : 'unchanged (' + n + ')');
+}
+const DSGN_DEFAULT_ROLES = ${JSON.stringify(roleAliases(roleRefs()))};
 async function dsgnRemoveTheme(name) {
   const cols = await figma.variables.getLocalVariableCollectionsAsync();
   const done = [];
@@ -279,6 +305,7 @@ async function dsgnRemoveTheme(name) {
     const i = col.modes.findIndex((m) => m.name === name);
     if (i > 0) { col.removeMode(col.modes[i].modeId); done.push(colName + ': removed mode "' + name + '"'); }   // never the first (package) mode
   }
+  if (done.length) done.push(await dsgnSetRoles(DSGN_DEFAULT_ROLES));
   return done;
 }`;
 
