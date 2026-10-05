@@ -17,6 +17,8 @@ One version for the npm package and the Figma library. [Semantic versioning](htt
 
 - Figma: containers and slots no longer clip their content, so shadows and focus rings of nested components are not cut off. Clipping stays only where it is needed: a frame's own focus ring (Figma draws shadow spread on frames only with clipping on), images and fills on rounded edges (Media, Card image, Avatar image, Progress, Checkbox). The Figma lint (`figma/figma-lint.js`) now reports clipping without a reason.
 
+- Figma: Grid has a new variant **Columns = Auto** (= `data-cols="auto"`): one Items slot that wraps by width, so the columns change on their own when the frame width changes, e.g. when switching the Layout mode (Mobile 1, Tablet 2, Desktop 4 columns). Columns 1–4 stay for a fixed count per breakpoint frame; Figma cannot bind the column count to a variable.
+
 ### Fixed
 - Menu items had no focus ring colour after the 0.10 focus change (the ring colour variable was only defined for danger items).
 ## 0.10.0 — 2026-10-02
