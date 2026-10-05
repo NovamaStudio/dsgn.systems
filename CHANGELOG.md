@@ -19,6 +19,8 @@ One version for the npm package and the Figma library. [Semantic versioning](htt
 
 - Figma: Grid has a new variant **Columns = Auto** (= `data-cols="auto"`): one Items slot that wraps by width, so the columns change on their own when the frame width changes, e.g. when switching the Layout mode (Mobile 1, Tablet 2, Desktop 4 columns). Columns 1–4 stay for a fixed count per breakpoint frame; Figma cannot bind the column count to a variable.
 
+- Figma: **responsive frames driven by the Layout mode.** New Layout variables: `breakpoint` (string Mobile / Tablet / Desktop) and the booleans `show/tablet-up`, `show/desktop-up`, `show/mobile-only`, `show/below-desktop` (= `data-hide-below` / `data-hide-above` in code, for layer visibility). Header, Hero, CTA band, Footer and App shell got a **Tablet** variant; bind their Breakpoint property to `breakpoint` and one page frame re-flows when you switch its Layout mode: width, variant, margins, gaps and Grid Auto columns. Example: Templates › Landing / Responsive.
+
 ### Fixed
 - Menu items had no focus ring colour after the 0.10 focus change (the ring colour variable was only defined for danger items).
 ## 0.10.0 — 2026-10-02

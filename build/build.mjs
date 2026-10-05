@@ -270,6 +270,9 @@ for (const [k, vals] of Object.entries(T.layout.tokens))
   lay.variables.push({ name: k, type: 'FLOAT', scopes: k === 'grid-gap' ? ['GAP'] : ['GAP'], codeSyntax: code(k), values: Object.fromEntries(T.layout.modes.map((m, i) => [cap(m), vals[i]])) });
 for (const [k, n] of Object.entries(T.layout.container))
   lay.variables.push({ name: k, type: 'FLOAT', scopes: ['WIDTH_HEIGHT'], codeSyntax: code(k), values: Object.fromEntries(T.layout.modes.map((m) => [cap(m), n])) });
+lay.variables.push({ name: 'breakpoint', type: 'STRING', scopes: [], codeSyntax: { WEB: '@media (min-width: 40rem | 64rem)' }, description: 'Bind the Breakpoint variant of responsive components (Header, Hero, CTA band, Footer, App shell, Split) to this; the Layout mode then switches the variant.', values: Object.fromEntries(T.layout.modes.map((m, i) => [cap(m), T.layout.breakpointName[i]])) });
+for (const [k, [vals, web]] of Object.entries(T.layout.show))
+  lay.variables.push({ name: `show/${k}`, type: 'BOOLEAN', scopes: [], codeSyntax: { WEB: web }, description: `Bind a layer's visibility to this; the code equivalent is ${web}.`, values: Object.fromEntries(T.layout.modes.map((m, i) => [cap(m), vals[i]])) });
 figma.collections.push(lay);
 
 const type = { name: 'Typography', modes: ['Value'], variables: [] };

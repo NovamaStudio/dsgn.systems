@@ -303,4 +303,16 @@ export const layout = {
     'section-pad-y':   [48,    64,    96],    // vertical padding of a page section
   },
   container: { 'container-max': 1200, 'container-narrow': 720 },
+  // Figma only: what changes structurally per breakpoint. `breakpoint` (string) drives the
+  // Breakpoint variant of Header, Hero, CTA band, Footer, App shell and Split; the `show/…`
+  // booleans drive layer visibility and mirror data-hide-below / data-hide-above in code.
+  // Switching the Layout mode on one frame then re-flows the whole page.
+  breakpointName: ['Mobile', 'Tablet', 'Desktop'],
+  show: {
+    //                  mobile tablet desktop   code equivalent
+    'tablet-up':     [[false, true,  true ], 'data-hide-below="tablet"'],
+    'desktop-up':    [[false, false, true ], 'data-hide-below="desktop"'],
+    'mobile-only':   [[true,  false, false], 'data-hide-above="mobile"'],
+    'below-desktop': [[true,  true,  false], 'data-hide-above="tablet"'],
+  },
 };

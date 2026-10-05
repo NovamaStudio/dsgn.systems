@@ -12,3 +12,14 @@ Not checkable through the Plugin API: the FILL axis of the icon text styles (set
 the style panel: icon/outline = 0, icon/fill and icon/fill-display = 1).
 
 With a Figma Enterprise plan both checks can run in CI against the REST API instead.
+
+## Responsive frames (one frame, three breakpoints)
+
+Figma has no media queries, so breakpoints are variable modes of the **Layout** collection (Mobile / Tablet / Desktop):
+
+1. Page frame: bind its width to `Layout › viewport` and set its Layout mode.
+2. Responsive components (Header, Hero, CTA band, Footer, App shell): bind the **Breakpoint** property to `Layout › breakpoint` and set the instance's Layout mode to Auto, so it follows the frame.
+3. Columns: Grid **Columns = Auto** wraps by width (items Fill + min width).
+4. Anything else that should appear or disappear: bind the layer's visibility to `show/tablet-up`, `show/desktop-up`, `show/mobile-only` or `show/below-desktop` — the same rules as `data-hide-below` / `data-hide-above` in code.
+
+Switching the frame's Layout mode then changes width, variants, margins, gaps, columns and visibility at once. Example: Templates › Landing / Responsive. Not possible in Figma: binding auto-layout direction or a grid's column count to a variable — use a variant for that.
