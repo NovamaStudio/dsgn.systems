@@ -34,7 +34,7 @@ const ICONS = ['add', 'arrow_downward', 'arrow_forward', 'arrow_upward', 'check'
 const data = {
   ladder: T.ladder, palettes: T.palettes, guarantee: T.guarantee,
   semantic: T.semanticColor, pairs: T.contrastPairs(), worst,
-  density: T.density, radius: T.radius, elevation: T.elevation,
+  density: T.density, radius: T.radius, elevation: T.elevation, material: T.material,
   roleNames: ROLES,
   roles: { default: roleRefs({ accentFill: 'default' }), strong: roleRefs({ accentFill: 'strong' }), stronger: roleRefs({ accentFill: 'stronger' }), mono: roleRefs({ controls: 'neutral' }) },
 };
@@ -176,6 +176,7 @@ body {
       <div><span class="eyebrow">Density</span><div class="seg" id="seg-density"></div></div>
       <div><span class="eyebrow">Radius</span><div class="seg" id="seg-radius"></div></div>
       <div><span class="eyebrow">Shadows</span><div class="seg" id="seg-elevation"></div></div>
+      <div><span class="eyebrow">Material</span><div class="seg" id="seg-material"></div></div>
       <div><span class="eyebrow">Button fill</span><div class="seg" id="seg-fill"></div></div>
       <div><span class="eyebrow">Colour</span><div class="seg" id="seg-colour"></div></div>
     </div>
@@ -341,7 +342,9 @@ function cardBlock(t) {
       '<button class="dsgn-menu-item" role="menuitemcheckbox" aria-checked="false"><span class="dsgn-menu-item-label">Drafts</span></button>' +
       '<div class="dsgn-menu-divider" role="separator"></div>' +
       '<button class="dsgn-menu-item" role="menuitem" data-intent="danger">' + ic('delete') + '<span class="dsgn-menu-item-label">Delete</span></button>' +
-    '</div></div></article>';
+    '</div></div></article>' +
+    '<div style="padding: var(--dsgn-space-24); border-radius: var(--dsgn-radius-l); background: linear-gradient(135deg, var(--dsgn-accent-solid), var(--dsgn-warning-solid))">' +
+      '<article class="dsgn-card" data-surface="glass"><h3 class="dsgn-card-title">Glass card</h3><p class="dsgn-card-text">data-surface="glass" over a photo or a colourful band.</p></article></div>';
 }
 function alertBlock() {
   const a = (i, icon, title, text, close) => '<div class="dsgn-alert" data-intent="' + i + '">' + ic(icon) + '<div class="dsgn-alert-body"><p class="dsgn-alert-title">' + title + '</p><p>' + text + '</p></div>' +
@@ -614,6 +617,7 @@ function seg(id, attr, modes, def) {
 seg('seg-density', 'data-density', D.density.modes, D.density.default);
 seg('seg-radius', 'data-radius', D.radius.modes, D.radius.default);
 seg('seg-elevation', 'data-elevation', D.elevation.modes, D.elevation.default);
+seg('seg-material', 'data-material', D.material.modes, D.material.default);
 // theme options: re-point the role slots (and, for monochrome, the accent palette) on the panels
 let fillOpt = 'default', mono = false;
 function applyTheme() {

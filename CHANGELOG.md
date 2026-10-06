@@ -27,6 +27,9 @@ One version for the npm package and the Figma library. [Semantic versioning](htt
 
 - New colour token `--dsgn-surface-glass` (surface-raised at 78 %) for frosted surfaces. Figma: `Color › surface/glass` aliases the translucent primitives `color/glass/light|dark`, which themes regenerate from their neutral palette (Figma ignores the paint opacity of a variable-bound fill inside instances, so the fade has to live in the variable).
 
+- **Material mode** `data-material="solid|glass"` (Figma: collection **Material**, modes Solid / Glass): one switch for everything that floats over content — the site header, the app top bar and toasts become frosted glass (`--dsgn-surface-chrome`, `--dsgn-blur-chrome`) and the dim layer behind dialogs and drawers gets a light blur (`--dsgn-blur-backdrop`). Works on `<html>` or any section, in light and dark; solid where blur is unsupported, with reduced transparency and in forced colours. A component's own `data-surface="solid|glass"` still wins. Figma: Header surface `Default` follows the mode; Toast, the App shell top bar and the dialog scrim are bound to it.
+- **Glass card**: `data-surface="glass"` on `.dsgn-card` (Figma: Card › Surface = Glass) for a card over a photo or a colourful band.
+
 ### Fixed
 - Menu items had no focus ring colour after the 0.10 focus change (the ring colour variable was only defined for danger items).
 ## 0.10.0 — 2026-10-02

@@ -115,6 +115,7 @@ With Tailwind: keep Tailwind for layout utilities only if the project already us
 | `data-density` | `s` · `m` · `l` | `m`, on touch screens `l` |
 | `data-radius` | `sharp` · `default` · `rounded` · `pill` | `default` |
 | `data-elevation` | `flat` · `soft` | `flat` |
+| `data-material` | `solid` · `glass` (frosted header, app top bar, toast; blurred dialog backdrop) | `solid` |
 
 Put them on `<html>` for the whole page, or on any element for a section: `<section class="dsgn-section" data-theme="dark">` makes a dark band. Density S suits dense admin tables, L suits touch kiosks and marketing pages. Leave `data-density` off `<html>` unless you mean it: without it, touch screens (`pointer: coarse`) get L automatically (44 px controls, WCAG 2.5.5 AAA / Apple HIG), mouse users M. Setting it on `<html>` fixes one density for every device.
 
@@ -187,7 +188,7 @@ Header options (all combinable; dsgn.js drives the scroll states):
 |---|---|
 | `data-layout="start\|middle\|center"` | brand + nav left / nav centred / brand centred with nav + actions below (mobile: menu left, brand centre, actions right) |
 | nav `data-variant="text\|underline"` | text-only links, or a 2 px underline on the header edge (accent = current page) |
-| `data-surface="glass"` | frosted glass; solid where blur is unsupported or reduced transparency is preferred |
+| `data-surface="solid\|glass"` | override the page's `data-material` for this header (glass falls back to solid where blur is unsupported or reduced transparency is preferred) |
 | `data-surface="transparent"` | see-through at the top, glass once scrolled (`data-scrolled-surface="solid"` for solid); overlaps the first section; add `data-top-theme="dark"` over a dark hero |
 | `data-floating` | tablet + desktop: rounded box as wide as the content, offset from the top, slightly wider once scrolled |
 | `data-sticky="false"` | scrolls away with the page (default: stays on screen) |
@@ -239,7 +240,7 @@ Every component documents its full markup at the top of `dist/components/<name>.
 - **Chip**: filter `<button class="dsgn-chip" aria-pressed="false">` in `.dsgn-chip-group` (`role="group"`); removable tag with a `.dsgn-chip-remove` button.
 
 **Content**
-- **Card**: `article.dsgn-card` > `.dsgn-card-title`, `.dsgn-card-text`, any content, `.dsgn-card-actions`. On top either an image (`<div class="dsgn-media dsgn-card-media"><img …></div>`) or an icon (`<span class="dsgn-card-icon" data-intent="success">…</span>`), never both. `data-align="center"` centres it. Link card: either `<a class="dsgn-card">` (no buttons inside), or a stretched title link `<h3 class="dsgn-card-title"><a class="dsgn-card-link" href="…">…</a></h3>` when the card also has buttons.
+- **Card**: `article.dsgn-card` (`data-surface="glass"` over a photo or colourful band, one or two per view) > `.dsgn-card-title`, `.dsgn-card-text`, any content, `.dsgn-card-actions`. On top either an image (`<div class="dsgn-media dsgn-card-media"><img …></div>`) or an icon (`<span class="dsgn-card-icon" data-intent="success">…</span>`), never both. `data-align="center"` centres it. Link card: either `<a class="dsgn-card">` (no buttons inside), or a stretched title link `<h3 class="dsgn-card-title"><a class="dsgn-card-link" href="…">…</a></h3>` when the card also has buttons.
 - **Media**: `<div class="dsgn-media" data-ratio="16:9|4:3|3:2|1:1|21:9|auto"><img …></div>`; `<figure class="dsgn-figure">` + `<figcaption>`.
 - **List**: `ul.dsgn-list` > `li` > `a.dsgn-list-item` (or a `div` for a static row) with avatar/icon, `.dsgn-list-item-content` (`-title`, `-text`), `.dsgn-list-item-meta`. Never nest interactive elements inside a whole-row link. `data-variant="plain"` inside cards.
 - **Table**: `<div class="dsgn-table-wrap" tabindex="0" role="region" aria-label="…"><table class="dsgn-table">`, `<th scope="col">`, `data-numeric` for numbers, `aria-sort` + `.dsgn-table-sort` button for sorting, `.dsgn-table-select` checkbox column, `tr[aria-selected="true"]`. Add a `<caption>` (it can be visually hidden).
