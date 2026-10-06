@@ -5,7 +5,7 @@
 Token-driven CSS design system. Plain HTML classes and `data-*` attributes, no framework, no build step in your project. The same tokens and components exist 1:1 in the Figma library.
 
 - **Colour**: OKLCH palettes where only hue and chroma change; lightness is fixed per step, so contrast is guaranteed for every hue (226 token pairs checked on every build).
-- **Density** S / M / L, **corners** sharp / default / rounded / pill, **elevation** flat / soft, **light and dark**: switch with one attribute, on the page or on any section.
+- **Density** S / M / L (touch screens get L automatically, 44 px controls), **corners** sharp / default / rounded / pill, **elevation** flat / soft, **light and dark**: switch with one attribute, on the page or on any section.
 - **Sizes come from type**: control height = line-height + 2 × padding, every dimension snapped to a 2 px grid at any browser font size.
 - **Accessible by default**: WCAG 2.2 AA checked with axe, keyboard and forced-colours tests on every build.
 
@@ -32,7 +32,7 @@ Fonts are not bundled. Load Inter and Material Symbols Rounded (outline + fill a
 ## Use
 
 ```html
-<html data-theme="light" data-density="m" data-radius="default">
+<html data-theme="light" data-radius="default">
 <body class="dsgn-page">
   <button class="dsgn-button">Save</button>
   <button class="dsgn-button" data-variant="subtle" data-intent="neutral">Cancel</button>

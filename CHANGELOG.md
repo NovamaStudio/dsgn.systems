@@ -21,6 +21,8 @@ One version for the npm package and the Figma library. [Semantic versioning](htt
 
 - Figma: **responsive frames driven by the Layout mode.** New Layout variables: `breakpoint` (string Mobile / Tablet / Desktop) and the booleans `show/tablet-up`, `show/desktop-up`, `show/mobile-only`, `show/below-desktop` (= `data-hide-below` / `data-hide-above` in code, for layer visibility). Header, Hero, CTA band, Footer and App shell got a **Tablet** variant; bind their Breakpoint property to `breakpoint` and one page frame re-flows when you switch its Layout mode: width, variant, margins, gaps and Grid Auto columns. Example: Templates › Landing / Responsive.
 
+- **Touch screens get density L by default** (`@media (pointer: coarse)`): controls are 44 px tall instead of 36 px (WCAG 2.5.5 AAA, Apple HIG 44 pt). Only when the page sets no `data-density` and the project theme keeps the default; `data-density="m"` on `<html>` keeps M everywhere. In Figma pick Density L for touch designs.
+
 ### Fixed
 - Menu items had no focus ring colour after the 0.10 focus change (the ring colour variable was only defined for danger items).
 ## 0.10.0 — 2026-10-02

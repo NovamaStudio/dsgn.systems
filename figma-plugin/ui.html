@@ -548,6 +548,35 @@
   }
 }
 
+/* ── density on touch screens: the default becomes "l" (44 px controls); set data-density to opt out ── */
+
+@media (pointer: coarse) {
+  :root:not([data-density]) {
+    --dsgn-control-font-size: calc(4 * var(--dsgn-unit));
+    --dsgn-control-line-height: calc(6 * var(--dsgn-unit));
+    --dsgn-control-pad-y: calc(2.5 * var(--dsgn-unit));
+    --dsgn-control-pad-x: calc(5 * var(--dsgn-unit));
+    --dsgn-control-gap: calc(2 * var(--dsgn-unit));
+    --dsgn-control-indicator: calc(5 * var(--dsgn-unit));
+    --dsgn-row-pad-y: calc(3.5 * var(--dsgn-unit));
+    --dsgn-inset: calc(6 * var(--dsgn-unit));
+    --dsgn-stack: calc(4 * var(--dsgn-unit));
+    --dsgn-icon-optical-size: 24;
+  }
+  @supports (width: round(1px, 1px)) {
+    :root:not([data-density]) {
+      --dsgn-control-line-height: round(up, calc(6 * var(--dsgn-unit)), 2px);
+      --dsgn-control-pad-y: round(nearest, calc(2.5 * var(--dsgn-unit)), 2px);
+      --dsgn-control-pad-x: round(nearest, calc(5 * var(--dsgn-unit)), 2px);
+      --dsgn-control-gap: round(nearest, calc(2 * var(--dsgn-unit)), 2px);
+      --dsgn-control-indicator: round(nearest, calc(5 * var(--dsgn-unit)), 2px);
+      --dsgn-row-pad-y: round(nearest, calc(3.5 * var(--dsgn-unit)), 2px);
+      --dsgn-inset: round(nearest, calc(6 * var(--dsgn-unit)), 2px);
+      --dsgn-stack: round(nearest, calc(4 * var(--dsgn-unit)), 2px);
+    }
+  }
+}
+
 /* ── layout: page margin, grid gap, section padding per breakpoint ── */
 
 :root {
@@ -4202,6 +4231,11 @@ const density = {
   },
   // Material Symbols optical size follows the icon size (= control line-height). CSS only.
   iconOpticalSize: [20, 20, 24],
+  // On touch screens (pointer: coarse) the default density becomes this one, so controls are
+  // 44 px tall (WCAG 2.5.5 AAA, Apple HIG). Only when the page sets no data-density and the
+  // theme keeps the package default; data-density="m" on <html> opts out. CSS only — in
+  // Figma pick Density L for touch designs.
+  touch: 'l',
 };
 
 const radius = {

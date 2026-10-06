@@ -114,6 +114,16 @@ css.push(`/* ── grid snapping: rounds every dimension to ${T.snap.step}px wh
 css.push(`@supports (width: round(1px, 1px)) {\n${dimBlocks.map((b) =>
   `  ${b.sel.replace(/\n/g, '\n  ')} {\n${b.dims.filter(([k, n]) => n < 9999 && n !== 0 && snapMode(k)).map(dimLine(true)).map((l) => `    ${l}`).join('\n')}\n  }`).join('\n')}\n}\n`);
 
+// ── density on touch screens ──────────────────────────────────────────────────
+if (T.density.touch && T.density.touch !== T.density.default) {
+  const i = T.density.modes.indexOf(T.density.touch);
+  const dims = Object.entries(T.density.tokens).map(([k, vals]) => [k, vals[i]]);
+  const sel = ':root:not([data-density])';
+  css.push(`/* ── density on touch screens: the default becomes "${T.density.touch}" (44 px controls); set data-density to opt out ── */\n`);
+  css.push(`@media (pointer: coarse) {\n  ${sel} {\n${[...dims.map(dimLine(false)), `${v('icon-optical-size')}: ${T.density.iconOpticalSize[i]};`].map((l) => `    ${l}`).join('\n')}\n  }\n`
+    + `  @supports (width: round(1px, 1px)) {\n    ${sel} {\n${dims.filter(([k, n]) => n !== 0 && snapMode(k)).map(dimLine(true)).map((l) => `      ${l}`).join('\n')}\n    }\n  }\n}\n`);
+}
+
 // ── layout: breakpoint-dependent page spacing ────────────────────────────────
 {
   const L = T.layout, bp = [null, L.breakpoints.tablet, L.breakpoints.desktop];

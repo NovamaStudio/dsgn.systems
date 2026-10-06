@@ -244,6 +244,11 @@ export const density = {
   },
   // Material Symbols optical size follows the icon size (= control line-height). CSS only.
   iconOpticalSize: [20, 20, 24],
+  // On touch screens (pointer: coarse) the default density becomes this one, so controls are
+  // 44 px tall (WCAG 2.5.5 AAA, Apple HIG). Only when the page sets no data-density and the
+  // theme keeps the package default; data-density="m" on <html> opts out. CSS only — in
+  // Figma pick Density L for touch designs.
+  touch: 'l',
 };
 
 export const radius = {

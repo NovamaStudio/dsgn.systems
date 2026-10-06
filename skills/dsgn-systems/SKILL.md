@@ -75,7 +75,7 @@ Load it when the page uses any of: Tabs, Menu, Combobox, Tooltip, Toast, File up
 
 ```html
 <!doctype html>
-<html lang="cs" data-density="m" data-radius="default">
+<html lang="cs">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -112,11 +112,11 @@ With Tailwind: keep Tailwind for layout utilities only if the project already us
 | Attribute | Values | Default |
 |---|---|---|
 | `data-theme` | `light` · `dark` · (absent = follows the OS) | OS |
-| `data-density` | `s` · `m` · `l` | `m` |
+| `data-density` | `s` · `m` · `l` | `m`, on touch screens `l` |
 | `data-radius` | `sharp` · `default` · `rounded` · `pill` | `default` |
 | `data-elevation` | `flat` · `soft` | `flat` |
 
-Put them on `<html>` for the whole page, or on any element for a section: `<section class="dsgn-section" data-theme="dark">` makes a dark band. Density S suits dense admin tables, L suits touch kiosks and marketing pages.
+Put them on `<html>` for the whole page, or on any element for a section: `<section class="dsgn-section" data-theme="dark">` makes a dark band. Density S suits dense admin tables, L suits touch kiosks and marketing pages. Leave `data-density` off `<html>` unless you mean it: without it, touch screens (`pointer: coarse`) get L automatically (44 px controls, WCAG 2.5.5 AAA / Apple HIG), mouse users M. Setting it on `<html>` fixes one density for every device.
 
 A user theme toggle sets `data-theme` on `<html>` and stores the choice (localStorage, wrapped in try/catch). Without a stored choice, leave the attribute off so the OS decides.
 

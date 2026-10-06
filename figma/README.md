@@ -23,3 +23,7 @@ Figma has no media queries, so breakpoints are variable modes of the **Layout** 
 4. Anything else that should appear or disappear: bind the layer's visibility to `show/tablet-up`, `show/desktop-up`, `show/mobile-only` or `show/below-desktop` — the same rules as `data-hide-below` / `data-hide-above` in code.
 
 Switching the frame's Layout mode then changes width, variants, margins, gaps, columns and visibility at once. Example: Templates › Landing / Responsive. Not possible in Figma: binding auto-layout direction or a grid's column count to a variable — use a variant for that.
+
+## Density on touch screens
+
+In code the default density becomes **L** on touch screens (`pointer: coarse`, 44 px controls) unless the page sets `data-density`. Figma cannot know the device and the Layout mode cannot switch the Density mode, so set **Density L** on frames designed for touch (mobile and tablet apps) yourself, like Light / Dark.
