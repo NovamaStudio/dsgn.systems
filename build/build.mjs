@@ -76,6 +76,7 @@ const themeLines = (theme) => [
   `${v('shadow-overlay')}: ${T.shadowOverlay[theme]};`,
   `${v('scrim')}: ${T.scrim[theme]};`,
   `${v('surface-glass')}: color-mix(in oklch, var(${v('surface-raised')}) ${Math.round(T.glass.alpha * 100)}%, transparent);`,
+  `${v('surface-chrome')}: color-mix(in oklch, var(${v('surface-raised')}) calc(100% - var(${v('material')}) * ${100 - Math.round(T.glass.alpha * 100)}%), transparent);`,
   `${v('shadow-color')}: ${T.elevation.color[theme]};`,
   `${v('shadow-color-soft')}: ${T.elevation.colorSoft[theme]};`,
   ...shadowLines,
@@ -85,8 +86,23 @@ css.push('/* ── theme ──────────────────
 block(':root,\n[data-theme="light"]', themeLines('light'));
 block('[data-theme="dark"]', themeLines('dark'));
 css.push(`@media (prefers-color-scheme: dark) {\n  :root:not([data-theme="light"]) {\n${themeLines('dark').map((l) => `    ${l}`).join('\n')}\n  }\n}\n`);
-
+// material: solid or glass chrome (header, app top bar, toast, dialog backdrop). --dsgn-material is
+// 0 or 1; surface-chrome is re-mixed wherever the theme or the material changes.
 const defaultFirst = (ax) => ax.modes.map((m, i) => [m, i]).sort(([a], [b]) => (b === ax.default) - (a === ax.default));
+css.push('/* ── material ───────────────────────────────────────── */\n');
+defaultFirst(T.material).forEach(([m, i]) => {
+  const sel = m === T.material.default ? `:root,\n[data-material="${m}"]` : `[data-material="${m}"]`;
+  block(sel, [
+    `${v('material')}: ${i};`,
+    `${v('surface-chrome')}: color-mix(in oklch, var(${v('surface-raised')}) calc(100% - var(${v('material')}) * ${100 - Math.round(T.glass.alpha * 100)}%), transparent);`,
+    `${v('blur-chrome')}: ${T.material.blurChrome[i] ? `var(${v('space-' + T.material.blurChrome[i])})` : '0px'};`,
+    `${v('blur-backdrop')}: ${T.material.blurBackdrop[i] ? `var(${v('space-' + T.material.blurBackdrop[i])})` : '0px'};`,
+  ]);
+});
+const opaque = [`${v('surface-glass')}: var(${v('surface-raised')});`, `${v('surface-chrome')}: var(${v('surface-raised')});`, `${v('blur-chrome')}: 0px;`, `${v('blur-backdrop')}: 0px;`];
+css.push(`/* no glass where blur is unsupported or the user asks for less transparency */\n@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {\n  :root:root, [data-theme], [data-material] {\n${opaque.map((l) => `    ${l}`).join('\n')}\n  }\n}\n`);
+css.push(`@media (prefers-reduced-transparency: reduce) {\n  :root:root, [data-theme], [data-material] {\n${opaque.map((l) => `    ${l}`).join('\n')}\n  }\n}\n`);
+
 defaultFirst(T.density).forEach(([m, i]) => {
   const sel = m === T.density.default ? `:root,\n[data-density="${m}"]` : `[data-density="${m}"]`;
   dimBlocks.push({ sel, dims: Object.entries(T.density.tokens).map(([k, vals]) => [k, vals[i]]),
@@ -278,6 +294,15 @@ const elev = { name: 'Elevation', modes: defaultFirst(T.elevation).map(([m]) => 
 for (const [k, vals] of [['control-y', T.elevation.control.y], ['control-blur', T.elevation.control.blur], ['raised-y', T.elevation.raised.y], ['raised-blur', T.elevation.raised.blur], ['raised-y2', T.elevation.raised.y2], ['raised-blur2', T.elevation.raised.blur2]])
   elev.variables.push({ name: `shadow/${k}`, type: 'FLOAT', scopes: ['EFFECT_FLOAT'], codeSyntax: code(`elevation-${k}`), values: Object.fromEntries(T.elevation.modes.map((m, i) => [cap(m), vals[i]])) });
 figma.collections.push(elev);
+const mat = { name: 'Material', modes: defaultFirst(T.material).map(([m]) => cap(m)), variables: [] };
+mat.variables.push({ name: 'surface/chrome', type: 'COLOR', scopes: ['FRAME_FILL', 'SHAPE_FILL'], codeSyntax: code('surface-chrome'),
+  description: 'Fill of chrome that floats over content (header, app top bar, toast): surface/raised when Solid, surface/glass when Glass.',
+  values: Object.fromEntries(defaultFirst(T.material).map(([m]) => [cap(m), { alias: m === 'glass' ? 'Color::surface/glass' : 'Color::surface/raised' }])) });
+mat.variables.push({ name: 'blur/chrome', type: 'FLOAT', scopes: ['EFFECT_FLOAT'], codeSyntax: code('blur-chrome'), description: 'Background blur of the chrome (0 = none).',
+  values: Object.fromEntries(defaultFirst(T.material).map(([m, i]) => [cap(m), T.material.blurChrome[i]])) });
+mat.variables.push({ name: 'blur/backdrop', type: 'FLOAT', scopes: ['EFFECT_FLOAT'], codeSyntax: code('blur-backdrop'), description: 'Background blur of the dim layer behind dialogs and drawers.',
+  values: Object.fromEntries(defaultFirst(T.material).map(([m, i]) => [cap(m), T.material.blurBackdrop[i]])) });
+figma.collections.push(mat);
 figma.effectStyles = [
   { name: 'shadow/control', effects: [{ y: 'Elevation::shadow/control-y', blur: 'Elevation::shadow/control-blur', color: 'Color::base/shadow' }] },
   { name: 'shadow/raised', effects: [{ y: 'Elevation::shadow/raised-y', blur: 'Elevation::shadow/raised-blur', color: 'Color::base/shadow' }, { y: 'Elevation::shadow/raised-y2', blur: 'Elevation::shadow/raised-blur2', color: 'Color::base/shadow-soft' }] },

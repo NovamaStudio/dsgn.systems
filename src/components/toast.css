@@ -32,8 +32,10 @@
   max-inline-size: 100%;
   padding: var(--dsgn-control-pad-y) var(--dsgn-control-pad-y) var(--dsgn-control-pad-y) var(--dsgn-control-pad-x);
   border-radius: var(--dsgn-radius-l);
-  background: var(--dsgn-surface-raised);
+  background: var(--dsgn-surface-chrome);
   box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border), var(--dsgn-shadow-overlay);
+  -webkit-backdrop-filter: blur(var(--dsgn-blur-chrome));
+  backdrop-filter: blur(var(--dsgn-blur-chrome));
   color: var(--dsgn-text);
   font-family: var(--dsgn-font-sans);
   font-size: var(--dsgn-font-size-body-s);

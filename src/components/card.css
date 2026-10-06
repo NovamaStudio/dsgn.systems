@@ -23,6 +23,9 @@
  * Alignment — start (default) or centred: icon, title, text and actions centre, an image stays full width.
  * data-align  center
  *
+ * Glass — over a photo or a colourful band: data-surface="glass" (surface-glass + background blur;
+ * solid where blur is unsupported). Use it for one or two cards per view; blur is costly.
+ *
  * Link card — either the whole card is the link (no buttons inside), or the title link stretches
  * over the card so buttons inside keep working. Both get hover (stronger border)
  * and the focus ring on the whole card:
@@ -44,6 +47,8 @@
   line-height: var(--dsgn-line-height-body-s);
   text-decoration: none;
 }
+/* glass card: over a photo or a colourful band (opt-in, one or two per view — blur is costly) */
+.dsgn-card[data-surface="glass"] { background: var(--dsgn-surface-glass); -webkit-backdrop-filter: blur(var(--dsgn-space-16)); backdrop-filter: blur(var(--dsgn-space-16)); }
 .dsgn-card > * { margin: 0; }
 .dsgn-card-title {
   font-size: var(--dsgn-font-size-title);

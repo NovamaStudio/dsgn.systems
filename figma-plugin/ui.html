@@ -146,6 +146,7 @@
   --dsgn-shadow-overlay: 0 1px 2px oklch(0% 0 0 / 0.06), 0 8px 24px oklch(0% 0 0 / 0.12);
   --dsgn-scrim: oklch(14% 0.004 260 / 0.45);
   --dsgn-surface-glass: color-mix(in oklch, var(--dsgn-surface-raised) 78%, transparent);
+  --dsgn-surface-chrome: color-mix(in oklch, var(--dsgn-surface-raised) calc(100% - var(--dsgn-material) * 22%), transparent);
   --dsgn-shadow-color: oklch(22% 0.01 260 / 0.10);
   --dsgn-shadow-color-soft: oklch(22% 0.01 260 / 0.06);
   --dsgn-shadow-control: 0 var(--dsgn-elevation-control-y) var(--dsgn-elevation-control-blur) var(--dsgn-shadow-color);
@@ -217,6 +218,7 @@
   --dsgn-shadow-overlay: 0 1px 2px oklch(0% 0 0 / 0.4), 0 8px 24px oklch(0% 0 0 / 0.5);
   --dsgn-scrim: oklch(8% 0.004 260 / 0.7);
   --dsgn-surface-glass: color-mix(in oklch, var(--dsgn-surface-raised) 78%, transparent);
+  --dsgn-surface-chrome: color-mix(in oklch, var(--dsgn-surface-raised) calc(100% - var(--dsgn-material) * 22%), transparent);
   --dsgn-shadow-color: oklch(0% 0 0 / 0.45);
   --dsgn-shadow-color-soft: oklch(0% 0 0 / 0.30);
   --dsgn-shadow-control: 0 var(--dsgn-elevation-control-y) var(--dsgn-elevation-control-blur) var(--dsgn-shadow-color);
@@ -289,6 +291,7 @@
     --dsgn-shadow-overlay: 0 1px 2px oklch(0% 0 0 / 0.4), 0 8px 24px oklch(0% 0 0 / 0.5);
     --dsgn-scrim: oklch(8% 0.004 260 / 0.7);
     --dsgn-surface-glass: color-mix(in oklch, var(--dsgn-surface-raised) 78%, transparent);
+    --dsgn-surface-chrome: color-mix(in oklch, var(--dsgn-surface-raised) calc(100% - var(--dsgn-material) * 22%), transparent);
     --dsgn-shadow-color: oklch(0% 0 0 / 0.45);
     --dsgn-shadow-color-soft: oklch(0% 0 0 / 0.30);
     --dsgn-shadow-control: 0 var(--dsgn-elevation-control-y) var(--dsgn-elevation-control-blur) var(--dsgn-shadow-color);
@@ -352,6 +355,42 @@
     --dsgn-warning-text: var(--dsgn-warning-85);
     --dsgn-warning-border: var(--dsgn-warning-38);
     --dsgn-warning-solid-text: var(--dsgn-neutral-14);
+  }
+}
+
+/* ── material ───────────────────────────────────────── */
+
+:root,
+[data-material="solid"] {
+  --dsgn-material: 0;
+  --dsgn-surface-chrome: color-mix(in oklch, var(--dsgn-surface-raised) calc(100% - var(--dsgn-material) * 22%), transparent);
+  --dsgn-blur-chrome: 0px;
+  --dsgn-blur-backdrop: 0px;
+}
+
+[data-material="glass"] {
+  --dsgn-material: 1;
+  --dsgn-surface-chrome: color-mix(in oklch, var(--dsgn-surface-raised) calc(100% - var(--dsgn-material) * 22%), transparent);
+  --dsgn-blur-chrome: var(--dsgn-space-16);
+  --dsgn-blur-backdrop: var(--dsgn-space-4);
+}
+
+/* no glass where blur is unsupported or the user asks for less transparency */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  :root:root, [data-theme], [data-material] {
+    --dsgn-surface-glass: var(--dsgn-surface-raised);
+    --dsgn-surface-chrome: var(--dsgn-surface-raised);
+    --dsgn-blur-chrome: 0px;
+    --dsgn-blur-backdrop: 0px;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  :root:root, [data-theme], [data-material] {
+    --dsgn-surface-glass: var(--dsgn-surface-raised);
+    --dsgn-surface-chrome: var(--dsgn-surface-raised);
+    --dsgn-blur-chrome: 0px;
+    --dsgn-blur-backdrop: 0px;
   }
 }
 
@@ -1269,6 +1308,9 @@
  * Alignment — start (default) or centred: icon, title, text and actions centre, an image stays full width.
  * data-align  center
  *
+ * Glass — over a photo or a colourful band: data-surface="glass" (surface-glass + background blur;
+ * solid where blur is unsupported). Use it for one or two cards per view; blur is costly.
+ *
  * Link card — either the whole card is the link (no buttons inside), or the title link stretches
  * over the card so buttons inside keep working. Both get hover (stronger border)
  * and the focus ring on the whole card:
@@ -1290,6 +1332,8 @@
   line-height: var(--dsgn-line-height-body-s);
   text-decoration: none;
 }
+/* glass card: over a photo or a colourful band (opt-in, one or two per view — blur is costly) */
+.dsgn-card[data-surface="glass"] { background: var(--dsgn-surface-glass); -webkit-backdrop-filter: blur(var(--dsgn-space-16)); backdrop-filter: blur(var(--dsgn-space-16)); }
 .dsgn-card > * { margin: 0; }
 .dsgn-card-title {
   font-size: var(--dsgn-font-size-title);
@@ -1672,7 +1716,7 @@ button.dsgn-chip:not(:disabled):active { background: var(--dsgn-neutral-subtle-h
 .dsgn-dialog[open] { display: flex; flex-direction: column; }
 .dsgn-dialog[data-size="s"] { --_width: calc(10 * var(--dsgn-space-40)); }
 .dsgn-dialog[data-size="l"] { --_width: calc(18 * var(--dsgn-space-40)); }
-.dsgn-dialog::backdrop { background: var(--dsgn-scrim); }
+.dsgn-dialog::backdrop { background: var(--dsgn-scrim); -webkit-backdrop-filter: blur(var(--dsgn-blur-backdrop, 0px)); backdrop-filter: blur(var(--dsgn-blur-backdrop, 0px)); }
 
 .dsgn-dialog-header {
   display: flex;
@@ -2881,7 +2925,7 @@ input.dsgn-input:disabled::-webkit-calendar-picker-indicator { background: var(-
  *   data-layout   (none) brand · nav · actions spread out; start = brand + nav left, actions right;
  *                 middle = nav centred; center = brand centred, nav + actions centred below it
  *                 (below desktop: menu left, brand centred, actions right)
- *   data-surface  solid (default) · glass (frosted, falls back to solid) · transparent (at the top of
+ *   data-surface  (none) follows data-material on the page · solid · glass (frosted) · transparent (at the top of
  *                 the page; glass or data-scrolled-surface="solid" once scrolled; overlays the first section)
  *   data-floating tablet + desktop: a rounded box as wide as the content, offset from the top;
  *                 once scrolled it widens a little. data-sticky="false": scrolls away with the page.
@@ -2892,7 +2936,7 @@ input.dsgn-input:disabled::-webkit-calendar-picker-indicator { background: var(-
  *                 <div class="dsgn-grid" data-cols="2" data-cols-desktop="5">brand + link columns</div>
  *                 <div class="dsgn-cluster" data-justify="between">legal</div></div></footer>
  * Page header   <div class="dsgn-page-header"> breadcrumbs · title + actions · lead </div>
- * App shell     <div class="dsgn-app"><aside class="dsgn-app-sidebar">…</aside>
+ * App shell     <div class="dsgn-app"><aside class="dsgn-app-sidebar">…</aside>   (top bar: data-surface="solid|glass", else the page's material)
  *                 <div class="dsgn-app-main"><div class="dsgn-app-topbar">…</div><main class="dsgn-app-content">…</main></div></div>
  */
 
@@ -2900,11 +2944,11 @@ input.dsgn-input:disabled::-webkit-calendar-picker-indicator { background: var(-
 .dsgn-header {
   --_pad-y: var(--dsgn-space-12);
   --_glass: var(--dsgn-surface-glass);
-  --_bg: var(--dsgn-surface-raised);
+  --_bg: var(--dsgn-surface-chrome);
   --_edge: var(--dsgn-border);
   --_ring: inset 0 calc(-1 * var(--dsgn-border-width)) 0 var(--_edge);
   --_shadow: 0 0 0 0 transparent;
-  --_blur: 0;
+  --_blur: var(--dsgn-blur-chrome);
   --_inset-x: 0;
   --_radius: 0;
   --_nav-edge: var(--_pad-y);
@@ -2930,15 +2974,14 @@ input.dsgn-input:disabled::-webkit-calendar-picker-indicator { background: var(-
 .dsgn-header[data-sticky="false"] { position: relative; }
 html:has(.dsgn-header:not([data-sticky="false"])) { scroll-padding-block-start: calc(var(--dsgn-header-height, 0px) + var(--dsgn-space-16)); }
 
-/* surfaces */
+/* surfaces: by default the page's material (data-material="solid|glass"); data-surface overrides it */
+.dsgn-header[data-surface="solid"] { --_bg: var(--dsgn-surface-raised); --_blur: 0px; }
 .dsgn-header:is([data-surface="glass"], [data-surface="transparent"]) { --_bg: var(--_glass); --_blur: var(--dsgn-space-16); }
 .dsgn-header[data-surface="transparent"][data-scrolled-surface="solid"] { --_bg: var(--dsgn-surface-raised); --_blur: 0; }
 .dsgn-header[data-surface="transparent"][data-at-top] { --_bg: transparent; --_edge: transparent; --_blur: 0; }
 .dsgn-header[data-surface="transparent"] { margin-block-end: calc(-1 * var(--dsgn-header-height, 0px)); }
 .dsgn-header[data-surface="transparent"] + .dsgn-section,
 .dsgn-header[data-surface="transparent"] + * > .dsgn-section:first-child { padding-block-start: calc(var(--dsgn-section-pad-y) + var(--dsgn-header-height, 0px)); }
-@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .dsgn-header { --_glass: var(--dsgn-surface-raised); } }
-@media (prefers-reduced-transparency: reduce) { .dsgn-header { --_glass: var(--dsgn-surface-raised); } }
 
 /* layouts (the actions wrapper is .dsgn-header-actions, the menu button .dsgn-header-menu) */
 .dsgn-header-menu { flex: none; }
@@ -3065,9 +3108,13 @@ html:has(.dsgn-header:not([data-sticky="false"])) { scroll-padding-block-start: 
   align-items: center;
   gap: var(--dsgn-control-gap);
   padding: var(--dsgn-space-12) var(--dsgn-page-margin);
-  background: var(--dsgn-surface-raised);
+  background: var(--dsgn-surface-chrome);
   box-shadow: inset 0 calc(-1 * var(--dsgn-border-width)) 0 var(--dsgn-border);
+  -webkit-backdrop-filter: blur(var(--dsgn-blur-chrome));
+  backdrop-filter: blur(var(--dsgn-blur-chrome));
 }
+.dsgn-app-topbar[data-surface="solid"] { background: var(--dsgn-surface-raised); -webkit-backdrop-filter: none; backdrop-filter: none; }
+.dsgn-app-topbar[data-surface="glass"] { background: var(--dsgn-surface-glass); -webkit-backdrop-filter: blur(var(--dsgn-space-16)); backdrop-filter: blur(var(--dsgn-space-16)); }
 .dsgn-app-content { padding: var(--dsgn-space-24) var(--dsgn-page-margin) var(--dsgn-section-pad-y); }
 @media (min-width: 64rem) {
   .dsgn-app { grid-template-columns: var(--side, calc(4 * var(--dsgn-space-64))) minmax(0, 1fr); }
@@ -3896,8 +3943,10 @@ html:has(.dsgn-header:not([data-sticky="false"])) { scroll-padding-block-start: 
   max-inline-size: 100%;
   padding: var(--dsgn-control-pad-y) var(--dsgn-control-pad-y) var(--dsgn-control-pad-y) var(--dsgn-control-pad-x);
   border-radius: var(--dsgn-radius-l);
-  background: var(--dsgn-surface-raised);
+  background: var(--dsgn-surface-chrome);
   box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border), var(--dsgn-shadow-overlay);
+  -webkit-backdrop-filter: blur(var(--dsgn-blur-chrome));
+  backdrop-filter: blur(var(--dsgn-blur-chrome));
   color: var(--dsgn-text);
   font-family: var(--dsgn-font-sans);
   font-size: var(--dsgn-font-size-body-s);
@@ -4415,6 +4464,17 @@ const elevation = {
   color: { light: 'oklch(22% 0.01 260 / 0.10)', dark: 'oklch(0% 0 0 / 0.45)' },
   colorSoft: { light: 'oklch(22% 0.01 260 / 0.06)', dark: 'oklch(0% 0 0 / 0.30)' },
 };
+// Material: what the chrome that floats over content is made of — site header, app top bar,
+// toast, and the dim layer behind dialogs. solid = surface-raised (default); glass = surface-glass
+// with a background blur, and a light blur behind dialogs. Switch with data-material on any element;
+// a component's own data-surface="solid|glass" still wins. Figma: collection "Material".
+const material = {
+  modes: ['solid', 'glass'],
+  default: 'solid',
+  //               solid  glass
+  blurChrome:    [0,     16],
+  blurBackdrop:  [0,     4],
+};
 const motion = { 'duration-fast': '100ms', duration: '200ms', ease: 'cubic-bezier(0.2, 0, 0, 1)' };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -4447,7 +4507,7 @@ const layout = {
   },
 };
 
-return { prefix, unit, snap, ladder, palettes, guarantee, semanticColor, roleChoices, contrastPairs, fontFamily, fontWeight, typeScale, space, density, radius, misc, iconGrade, glass, scrim, shadowOverlay, elevation, motion, layout };
+return { prefix, unit, snap, ladder, palettes, guarantee, semanticColor, roleChoices, contrastPairs, fontFamily, fontWeight, typeScale, space, density, radius, misc, iconGrade, glass, scrim, shadowOverlay, elevation, material, motion, layout };
 })();
 const __theme = (() => {
 // dsgn theme engine — a project theme is a handful of parameters on top of the package:

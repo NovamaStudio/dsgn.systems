@@ -12,7 +12,7 @@
  *   data-layout   (none) brand · nav · actions spread out; start = brand + nav left, actions right;
  *                 middle = nav centred; center = brand centred, nav + actions centred below it
  *                 (below desktop: menu left, brand centred, actions right)
- *   data-surface  solid (default) · glass (frosted, falls back to solid) · transparent (at the top of
+ *   data-surface  (none) follows data-material on the page · solid · glass (frosted) · transparent (at the top of
  *                 the page; glass or data-scrolled-surface="solid" once scrolled; overlays the first section)
  *   data-floating tablet + desktop: a rounded box as wide as the content, offset from the top;
  *                 once scrolled it widens a little. data-sticky="false": scrolls away with the page.
@@ -23,7 +23,7 @@
  *                 <div class="dsgn-grid" data-cols="2" data-cols-desktop="5">brand + link columns</div>
  *                 <div class="dsgn-cluster" data-justify="between">legal</div></div></footer>
  * Page header   <div class="dsgn-page-header"> breadcrumbs · title + actions · lead </div>
- * App shell     <div class="dsgn-app"><aside class="dsgn-app-sidebar">…</aside>
+ * App shell     <div class="dsgn-app"><aside class="dsgn-app-sidebar">…</aside>   (top bar: data-surface="solid|glass", else the page's material)
  *                 <div class="dsgn-app-main"><div class="dsgn-app-topbar">…</div><main class="dsgn-app-content">…</main></div></div>
  */
 
@@ -31,11 +31,11 @@
 .dsgn-header {
   --_pad-y: var(--dsgn-space-12);
   --_glass: var(--dsgn-surface-glass);
-  --_bg: var(--dsgn-surface-raised);
+  --_bg: var(--dsgn-surface-chrome);
   --_edge: var(--dsgn-border);
   --_ring: inset 0 calc(-1 * var(--dsgn-border-width)) 0 var(--_edge);
   --_shadow: 0 0 0 0 transparent;
-  --_blur: 0;
+  --_blur: var(--dsgn-blur-chrome);
   --_inset-x: 0;
   --_radius: 0;
   --_nav-edge: var(--_pad-y);
@@ -61,15 +61,14 @@
 .dsgn-header[data-sticky="false"] { position: relative; }
 html:has(.dsgn-header:not([data-sticky="false"])) { scroll-padding-block-start: calc(var(--dsgn-header-height, 0px) + var(--dsgn-space-16)); }
 
-/* surfaces */
+/* surfaces: by default the page's material (data-material="solid|glass"); data-surface overrides it */
+.dsgn-header[data-surface="solid"] { --_bg: var(--dsgn-surface-raised); --_blur: 0px; }
 .dsgn-header:is([data-surface="glass"], [data-surface="transparent"]) { --_bg: var(--_glass); --_blur: var(--dsgn-space-16); }
 .dsgn-header[data-surface="transparent"][data-scrolled-surface="solid"] { --_bg: var(--dsgn-surface-raised); --_blur: 0; }
 .dsgn-header[data-surface="transparent"][data-at-top] { --_bg: transparent; --_edge: transparent; --_blur: 0; }
 .dsgn-header[data-surface="transparent"] { margin-block-end: calc(-1 * var(--dsgn-header-height, 0px)); }
 .dsgn-header[data-surface="transparent"] + .dsgn-section,
 .dsgn-header[data-surface="transparent"] + * > .dsgn-section:first-child { padding-block-start: calc(var(--dsgn-section-pad-y) + var(--dsgn-header-height, 0px)); }
-@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .dsgn-header { --_glass: var(--dsgn-surface-raised); } }
-@media (prefers-reduced-transparency: reduce) { .dsgn-header { --_glass: var(--dsgn-surface-raised); } }
 
 /* layouts (the actions wrapper is .dsgn-header-actions, the menu button .dsgn-header-menu) */
 .dsgn-header-menu { flex: none; }
@@ -196,9 +195,13 @@ html:has(.dsgn-header:not([data-sticky="false"])) { scroll-padding-block-start: 
   align-items: center;
   gap: var(--dsgn-control-gap);
   padding: var(--dsgn-space-12) var(--dsgn-page-margin);
-  background: var(--dsgn-surface-raised);
+  background: var(--dsgn-surface-chrome);
   box-shadow: inset 0 calc(-1 * var(--dsgn-border-width)) 0 var(--dsgn-border);
+  -webkit-backdrop-filter: blur(var(--dsgn-blur-chrome));
+  backdrop-filter: blur(var(--dsgn-blur-chrome));
 }
+.dsgn-app-topbar[data-surface="solid"] { background: var(--dsgn-surface-raised); -webkit-backdrop-filter: none; backdrop-filter: none; }
+.dsgn-app-topbar[data-surface="glass"] { background: var(--dsgn-surface-glass); -webkit-backdrop-filter: blur(var(--dsgn-space-16)); backdrop-filter: blur(var(--dsgn-space-16)); }
 .dsgn-app-content { padding: var(--dsgn-space-24) var(--dsgn-page-margin) var(--dsgn-section-pad-y); }
 @media (min-width: 64rem) {
   .dsgn-app { grid-template-columns: var(--side, calc(4 * var(--dsgn-space-64))) minmax(0, 1fr); }

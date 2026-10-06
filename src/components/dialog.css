@@ -40,7 +40,7 @@
 .dsgn-dialog[open] { display: flex; flex-direction: column; }
 .dsgn-dialog[data-size="s"] { --_width: calc(10 * var(--dsgn-space-40)); }
 .dsgn-dialog[data-size="l"] { --_width: calc(18 * var(--dsgn-space-40)); }
-.dsgn-dialog::backdrop { background: var(--dsgn-scrim); }
+.dsgn-dialog::backdrop { background: var(--dsgn-scrim); -webkit-backdrop-filter: blur(var(--dsgn-blur-backdrop, 0px)); backdrop-filter: blur(var(--dsgn-blur-backdrop, 0px)); }
 
 .dsgn-dialog-header {
   display: flex;

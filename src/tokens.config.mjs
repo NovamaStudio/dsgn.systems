@@ -295,6 +295,17 @@ export const elevation = {
   color: { light: 'oklch(22% 0.01 260 / 0.10)', dark: 'oklch(0% 0 0 / 0.45)' },
   colorSoft: { light: 'oklch(22% 0.01 260 / 0.06)', dark: 'oklch(0% 0 0 / 0.30)' },
 };
+// Material: what the chrome that floats over content is made of — site header, app top bar,
+// toast, and the dim layer behind dialogs. solid = surface-raised (default); glass = surface-glass
+// with a background blur, and a light blur behind dialogs. Switch with data-material on any element;
+// a component's own data-surface="solid|glass" still wins. Figma: collection "Material".
+export const material = {
+  modes: ['solid', 'glass'],
+  default: 'solid',
+  //               solid  glass
+  blurChrome:    [0,     16],
+  blurBackdrop:  [0,     4],
+};
 export const motion = { 'duration-fast': '100ms', duration: '200ms', ease: 'cubic-bezier(0.2, 0, 0, 1)' };
 
 // ─────────────────────────────────────────────────────────────────────────────
