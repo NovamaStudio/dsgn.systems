@@ -69,7 +69,7 @@
     "node": ">=18"
   },
   "scripts": {
-    "build": "node build/build.mjs && node build/demo.mjs && node build/preview.mjs && node build/parity.mjs && node build/parity.mjs --report figma/parity-report.json && node build/docs.mjs && node build/plugin.mjs",
+    "build": "node build/build.mjs && node build/demo.mjs && node build/preview.mjs && node build/parity.mjs && node build/parity.mjs --report figma/parity-report.json && node build/handoff.mjs && node build/docs.mjs && node build/plugin.mjs",
     "test": "npm run build && node test/theme.test.mjs && node test/grid.test.mjs && node test/a11y.test.mjs",
     "test:theme": "node test/theme.test.mjs",
     "test:grid": "node test/grid.test.mjs",

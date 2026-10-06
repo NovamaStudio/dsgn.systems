@@ -214,6 +214,22 @@ Header options (all combinable; dsgn.js drives the scroll states):
 
 Test every page at 320 px, 768 px and 1280 px wide. Nothing may scroll sideways except tables (they scroll inside `.dsgn-table-wrap`).
 
+## 5b. Building from a Figma design
+
+Every dsgn component in the Figma library carries its code in the description (Dev Mode, or `get_design_context` / `get_metadata` through the Figma MCP): the snippet, the property → attribute mapping and the docs link; each variant lists its own attributes. The general rules:
+
+| Figma property | Code |
+|---|---|
+| Variant, Intent, Size, Tone, Ratio, Align, Placement, Layout, Surface | `data-variant`, `data-intent`, `data-size` … (lower-case value; the default value is written as nothing) |
+| State = Hover / Pressed / Focus | browser states (`:hover`, `:active`, `:focus-visible`) — never write them |
+| State = Disabled / Invalid / Selected / Current | `disabled`, `aria-invalid="true"`, `aria-pressed="true"`, `aria-current="page"` |
+| Checked / Open | `checked`, `open` |
+| Breakpoint | not an attribute: the CSS switches at 40rem / 64rem |
+| Color, Density, Radius, Elevation, Material, Lines, Layout modes on a frame | `data-theme`, `data-density`, `data-radius`, `data-elevation`, `data-material`, `data-lines` on `<html>` or the section (Layout mode = viewport width) |
+| Text properties, slots | the content |
+
+Use the component's description first; fall back to these rules only for what it does not say.
+
 ## 6. Components
 
 Every component documents its full markup at the top of `dist/components/<name>.css`; read that file when unsure. Short reference:

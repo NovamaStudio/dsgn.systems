@@ -194,6 +194,7 @@ const guides = [
     <ul class="docs-list"><li>Build screens from library instances and slots; never detach.</li><li>Only colours and sizes from variables; set Color, Density, Radius and Layout modes on the frame.</li><li>Anything the library does not have goes to a <strong>Proposals</strong> page in the project file, marked as a proposal.</li></ul>
     <h2 class="dsgn-heading-s">Keeping Figma and code in sync</h2>
     <p class="docs-prose">Two read-only scripts check the Figma file against the code: <code>dist/figma-parity.js</code> compares every variable, mode and text style; <code>figma/figma-lint.js</code> checks that everything inside components is bound to variables.</p>
+    <p class="docs-prose">Every component in the library carries its code (no Code Connect plan needed): the description shows the snippet, how each property value is written in code and a link to its docs page; each variant lists its own attributes. Open a component in Dev Mode to see it. The mapping lives in <code>src/docs/figma-map.mjs</code> and <code>dist/figma-handoff.js</code> writes it into the library.</p>
     ${parity ? md(parity) : ''}` },
   { id: 'quality', title: 'Accessibility and checks', html: `
     <p class="dsgn-lead">Every build checks colour contrast, token use and the 2 px grid; <code>npm test</code> adds an accessibility audit in a real browser.</p>

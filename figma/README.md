@@ -27,3 +27,12 @@ Switching the frame's Layout mode then changes width, variants, margins, gaps, c
 ## Density on touch screens
 
 In code the default density becomes **L** on touch screens (`pointer: coarse`, 44 px controls) unless the page sets `data-density`. Figma cannot know the device and the Layout mode cannot switch the Density mode, so set **Density L** on frames designed for touch (mobile and tablet apps) yourself, like Light / Dark.
+
+## Handoff: code in every component (Code Connect substitute)
+
+Code Connect needs a Figma Organization or Enterprise plan, so dsgn writes the same information where every plan shows it:
+
+- **Description** of each component and component set (Dev Mode, assets panel): the canonical snippet, how every property value is written in code (`Variant: Ghost → data-variant="ghost"`, `State: Hover → :hover`), and the docs link. Each variant gets the attributes of exactly that variant.
+- **Documentation link** of each component → its page in the docs.
+
+The source is `src/docs/figma-map.mjs`. `npm run build` checks it against the docs (every docs page's Figma components must be mapped) and writes `dist/figma-handoff.js`; run that in the library file through the Figma MCP or a scratch plugin and save the result as `figma/handoff-report.json` (`ok: true` = every component and property value mapped). The designer's own text above the **— Code —** marker is kept.

@@ -37,7 +37,7 @@ export const components = {
     ],
   },
   input: {
-    name: 'Input, Select, Textarea, Field', group: 'Forms', figma: ['Input', 'Textarea', 'Field'],
+    name: 'Input, Select, Textarea, Field', group: 'Forms', figma: ['Input', 'Textarea', 'Field', 'Date input'],
     examples: [{ title: 'Fields', html: `<div class="dsgn-grid" data-cols="1" data-cols-tablet="2">
   <div class="dsgn-field"><label class="dsgn-label" for="dx-client">Client</label>
     <input class="dsgn-input" id="dx-client" value="Novama s.r.o." aria-describedby="dx-client-h">
@@ -225,7 +225,7 @@ export const components = {
   <div class="dsgn-empty-actions">${btn(`${ic('add')}New invoice`)}${btn(`${ic('upload')}Import CSV`, ' data-variant="ghost" data-intent="neutral"')}</div></div></div>` }],
   },
   card: {
-    name: 'Card', group: 'Content', figma: ['Card'],
+    name: 'Card', group: 'Content', figma: ['Card', 'Card icon'],
     examples: [{ title: 'Card with actions', html: `<article class="dsgn-card" style="max-inline-size: 28rem"><h3 class="dsgn-card-title">Invoice 2026-114</h3>
   <p class="dsgn-card-text">Sent on 28 September. Payment due in 14 days. <a class="dsgn-link" href="#card">View history</a></p>
   <div class="dsgn-card-actions">${btn(`Send reminder${ic('arrow_forward', 0, 1)}`)}${btn('Cancel', ' data-variant="ghost" data-intent="neutral"')}</div></article>` },
@@ -418,7 +418,7 @@ export const components = {
 <section class="dsgn-section" data-tone="sunken" style="--dsgn-section-pad-y: var(--dsgn-space-24)"><div class="dsgn-container" data-width="narrow"><p class="dsgn-body-s">Section, tone sunken, narrow container</p></div></section>` }],
   },
   patterns: {
-    name: 'Header, Footer, Page header, App shell', group: 'Layout', figma: ['Header', 'Footer', 'Page header', 'App shell', 'Brand', 'Hero', 'CTA band', 'Footer column', 'Section header'],
+    name: 'Header, Footer, Page header, App shell', group: 'Layout', figma: ['Header', 'Footer', 'Page header', 'App shell', 'Brand', 'Hero', 'CTA band', 'Footer column', 'Section header', 'Header surface'],
     examples: [{ title: 'Header and page header', wide: true, html: `<header class="dsgn-header" data-sticky="false"><div class="dsgn-container dsgn-cluster" data-justify="between" data-nowrap>
   <a class="dsgn-brand" href="#patterns"><span class="dsgn-brand-mark">N</span>Novama</a>
   <nav class="dsgn-nav" data-hide-below="desktop" aria-label="Header example"><a class="dsgn-nav-link" href="#patterns" aria-current="page">Features</a><a class="dsgn-nav-link" href="#patterns">Pricing</a></nav>
