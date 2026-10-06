@@ -388,7 +388,9 @@ function dialogBlock(t) {
 function navBlock(t) {
   const av = (x, extra) => '<span class="dsgn-avatar"' + (extra || '') + '>' + x + '</span>';
   const page = (n, cur) => '<a class="dsgn-button" data-variant="ghost" data-intent="neutral" href="#h-b"' + (cur ? ' aria-current="page"' : '') + '>' + n + '</a>';
-  return '<nav class="dsgn-breadcrumbs" aria-label="Breadcrumb, ' + t + ' theme"><ol><li><a href="#h-b">Invoices</a></li><li><a href="#h-b">2026</a></li><li><a aria-current="page">2026-114</a></li></ol></nav>' +
+  const navs = ['', 'text', 'underline'].map(function (v) { return '<nav class="dsgn-nav"' + (v ? ' data-variant="' + v + '"' : '') + ' aria-label="Nav ' + (v || 'pill') + ', ' + t + ' theme"><a class="dsgn-nav-link" href="#h-b" aria-current="page">Features</a><a class="dsgn-nav-link" href="#h-b">Pricing</a><a class="dsgn-nav-link" href="#h-b">FAQ</a></nav>'; }).join('');
+  return '<div class="row" style="row-gap: var(--dsgn-space-16)">' + navs + '</div>' +
+    '<nav class="dsgn-breadcrumbs" aria-label="Breadcrumb, ' + t + ' theme"><ol><li><a href="#h-b">Invoices</a></li><li><a href="#h-b">2026</a></li><li><a aria-current="page">2026-114</a></li></ol></nav>' +
     '<div class="row">' +
       av('MN', ' role="img" aria-label="Martin Novák"') + av('N', ' data-intent="accent" role="img" aria-label="Novama"') + av(ic('person'), ' data-intent="success"') +
       av('AD', ' data-size="s" role="img" aria-label="Awesome Dogs"') +

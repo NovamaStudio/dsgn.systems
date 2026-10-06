@@ -5,10 +5,14 @@
  *   <a class="dsgn-nav-link" href="/clients">Clients</a>
  * </nav>
  * <nav class="dsgn-nav" data-orientation="vertical" aria-label="App">…</nav>
+ * <nav class="dsgn-nav" data-variant="text|underline" aria-label="Main">…</nav>   (horizontal only)
  *
  * Links look like ghost neutral buttons: same height (Density), same radius, muted until
  * hovered; the current page is base/text on neutral-subtle with a filled icon.
  * Vertical: full width, text starts at the left edge, optional group labels (.dsgn-nav-label).
+ * text: no fill; muted links, the current one in full text colour and semibold.
+ * underline: a 2 px line under the whole link (accent for the current page, neutral on hover,
+ * sliding in); inside .dsgn-header it sits on the header's bottom edge.
  */
 .dsgn-nav {
   display: flex;
@@ -52,9 +56,32 @@
   line-height: var(--dsgn-line-height-caption);
   font-weight: var(--dsgn-font-weight-medium);
 }
+/* text and underline styles: no fill, only the text (and the line) change */
+.dsgn-nav:is([data-variant="text"], [data-variant="underline"]) { gap: var(--dsgn-space-8); }
+.dsgn-nav:is([data-variant="text"], [data-variant="underline"]) .dsgn-nav-link { padding-inline: var(--dsgn-space-8); background: none; }
+.dsgn-nav[data-variant="text"] .dsgn-nav-link[aria-current="page"] { font-weight: var(--dsgn-font-weight-semibold); }
+@media (hover: hover) {
+  .dsgn-nav:is([data-variant="text"], [data-variant="underline"]) .dsgn-nav-link:hover { background: none; color: var(--dsgn-text); }
+}
+.dsgn-nav[data-variant="underline"] .dsgn-nav-link { position: relative; }
+.dsgn-nav[data-variant="underline"] .dsgn-nav-link::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: calc(-1 * var(--_nav-edge, 0px));
+  block-size: var(--dsgn-space-2);
+  background: var(--dsgn-border-strong);
+  scale: 0 1;
+}
+@media (hover: hover) { .dsgn-nav[data-variant="underline"] .dsgn-nav-link:hover::after { scale: 1 1; } }
+.dsgn-nav[data-variant="underline"] .dsgn-nav-link[aria-current="page"]::after { background: var(--dsgn-accent-solid); scale: 1 1; }
+
 @media (prefers-reduced-motion: no-preference) {
   .dsgn-nav-link { transition: background-color var(--dsgn-duration-fast) var(--dsgn-ease), color var(--dsgn-duration-fast) var(--dsgn-ease); }
+  .dsgn-nav[data-variant="underline"] .dsgn-nav-link::after { transition: scale var(--dsgn-duration) var(--dsgn-ease), background-color var(--dsgn-duration-fast) var(--dsgn-ease); }
 }
 @media (forced-colors: active) {
   .dsgn-nav-link[aria-current="page"] { outline: 2px solid LinkText; outline-offset: -2px; }
+  .dsgn-nav[data-variant="underline"] .dsgn-nav-link::after { background: LinkText; forced-color-adjust: none; }
+  .dsgn-nav[data-variant="underline"] .dsgn-nav-link[aria-current="page"] { outline: none; }
 }

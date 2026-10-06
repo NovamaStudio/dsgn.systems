@@ -29,15 +29,15 @@ const faq = [
 ];
 
 const website = `
-<header class="dsgn-header">
+<header class="dsgn-header" data-layout="start" data-surface="glass" data-hide-on-scroll>
   <div class="dsgn-container dsgn-cluster" data-justify="between" data-nowrap>
     ${brand}
     ${webNav(false)}
-    <div class="dsgn-cluster" data-nowrap>
+    <div class="dsgn-cluster dsgn-header-actions" data-nowrap>
       <a class="dsgn-button" data-variant="ghost" data-intent="neutral" href="#app" data-hide-below="tablet">Log in</a>
       <a class="dsgn-button" href="#app">Start free</a>
-      <button class="dsgn-icon-button" data-variant="ghost" data-intent="neutral" command="show-modal" commandfor="menu" aria-label="Open menu" data-hide-above="tablet">${ic('menu')}</button>
     </div>
+    <button class="dsgn-icon-button dsgn-header-menu" data-variant="ghost" data-intent="neutral" command="show-modal" commandfor="menu" aria-label="Open menu" data-hide-above="tablet">${ic('menu')}</button>
   </div>
 </header>
 <dialog class="dsgn-dialog" id="menu" data-placement="end" aria-label="Menu" closedby="any">

@@ -1,9 +1,24 @@
 /* dsgn · Patterns — the few pieces of page chrome that need their own CSS.
  * Everything inside them is layout primitives + components (see the snippets in docs).
  *
- * Site header   <header class="dsgn-header"><div class="dsgn-container dsgn-cluster" data-justify="between" data-nowrap>
- *                 <a class="dsgn-brand" href="/">…</a> <nav class="dsgn-nav" data-hide-below="desktop">…</nav>
- *                 <div class="dsgn-cluster">actions + menu button (data-hide-above="tablet")</div></div></header>
+ * Site header   <header class="dsgn-header" data-layout="start|middle|center" data-surface="solid|glass|transparent"
+ *                 data-floating data-sticky="false" data-hide-on-scroll data-top-theme="dark">
+ *                 <div class="dsgn-container dsgn-cluster" data-justify="between" data-nowrap>
+ *                 <a class="dsgn-brand" href="/">…</a>
+ *                 <nav class="dsgn-nav" data-variant="text|underline" data-hide-below="desktop">…</nav>
+ *                 <div class="dsgn-cluster dsgn-header-actions" data-nowrap>buttons</div>
+ *                 <button class="dsgn-icon-button dsgn-header-menu" data-hide-above="tablet" aria-label="Menu">…</button>
+ *               </div></header>
+ *   data-layout   (none) brand · nav · actions spread out; start = brand + nav left, actions right;
+ *                 middle = nav centred; center = brand centred, nav + actions centred below it
+ *                 (below desktop: menu left, brand centred, actions right)
+ *   data-surface  solid (default) · glass (frosted, falls back to solid) · transparent (at the top of
+ *                 the page; glass or data-scrolled-surface="solid" once scrolled; overlays the first section)
+ *   data-floating tablet + desktop: a rounded box as wide as the content, offset from the top;
+ *                 once scrolled it widens a little. data-sticky="false": scrolls away with the page.
+ *   data-hide-on-scroll  mobile: slides away when scrolling down, back when scrolling up.
+ *   data-top-theme="dark"  transparent header over a dark hero: dark theme while at the top.
+ *   dsgn.js sets data-at-top / data-scrolled / data-hidden and --dsgn-header-height on <html>.
  * Site footer   <footer class="dsgn-footer"><div class="dsgn-container dsgn-stack" data-gap="xl">
  *                 <div class="dsgn-grid" data-cols="2" data-cols-desktop="5">brand + link columns</div>
  *                 <div class="dsgn-cluster" data-justify="between">legal</div></div></footer>
@@ -14,15 +29,101 @@
 
 /* ── Site header ─────────────────────────────────────────────────────────── */
 .dsgn-header {
+  --_pad-y: var(--dsgn-space-12);
+  --_glass: color-mix(in oklch, var(--dsgn-surface-raised) 78%, transparent);
+  --_bg: var(--dsgn-surface-raised);
+  --_edge: var(--dsgn-border);
+  --_ring: inset 0 calc(-1 * var(--dsgn-border-width)) 0 var(--_edge);
+  --_shadow: 0 0 0 0 transparent;
+  --_blur: 0;
+  --_inset-x: 0;
+  --_radius: 0;
+  --_nav-edge: var(--_pad-y);
   position: sticky;
   inset-block-start: 0;
   z-index: 10;
-  padding-block: var(--dsgn-space-12);
-  background: var(--dsgn-surface-raised);
-  box-shadow: inset 0 calc(-1 * var(--dsgn-border-width)) 0 var(--dsgn-border);
+  padding-block: var(--_pad-y);
   color: var(--dsgn-text);
 }
-.dsgn-header[data-sticky="false"] { position: static; }
+/* the surface is a layer of its own, so it can float, widen and blur without moving the content */
+.dsgn-header::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset-block: 0;
+  inset-inline: var(--_inset-x);
+  border-radius: var(--_radius);
+  background: var(--_bg);
+  box-shadow: var(--_ring), var(--_shadow);
+  -webkit-backdrop-filter: blur(var(--_blur));
+  backdrop-filter: blur(var(--_blur));
+}
+.dsgn-header[data-sticky="false"] { position: relative; }
+html:has(.dsgn-header:not([data-sticky="false"])) { scroll-padding-block-start: calc(var(--dsgn-header-height, 0px) + var(--dsgn-space-16)); }
+
+/* surfaces */
+.dsgn-header:is([data-surface="glass"], [data-surface="transparent"]) { --_bg: var(--_glass); --_blur: var(--dsgn-space-16); }
+.dsgn-header[data-surface="transparent"][data-scrolled-surface="solid"] { --_bg: var(--dsgn-surface-raised); --_blur: 0; }
+.dsgn-header[data-surface="transparent"][data-at-top] { --_bg: transparent; --_edge: transparent; --_blur: 0; }
+.dsgn-header[data-surface="transparent"] { margin-block-end: calc(-1 * var(--dsgn-header-height, 0px)); }
+.dsgn-header[data-surface="transparent"] + .dsgn-section,
+.dsgn-header[data-surface="transparent"] + * > .dsgn-section:first-child { padding-block-start: calc(var(--dsgn-section-pad-y) + var(--dsgn-header-height, 0px)); }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .dsgn-header { --_glass: var(--dsgn-surface-raised); } }
+@media (prefers-reduced-transparency: reduce) { .dsgn-header { --_glass: var(--dsgn-surface-raised); } }
+
+/* layouts (the actions wrapper is .dsgn-header-actions, the menu button .dsgn-header-menu) */
+.dsgn-header-menu { flex: none; }
+@media (min-width: 64rem) { .dsgn-header .dsgn-header-menu { display: none; } }
+.dsgn-header[data-layout="start"] > .dsgn-container { justify-content: flex-start; }
+.dsgn-header[data-layout="start"] > .dsgn-container > .dsgn-nav { margin-inline-start: var(--dsgn-space-16); }
+.dsgn-header[data-layout="start"] .dsgn-header-actions { margin-inline-start: auto; }
+.dsgn-header[data-layout="middle"] > .dsgn-container { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto; column-gap: 0; }
+.dsgn-header[data-layout="middle"] > .dsgn-container > .dsgn-brand { grid-column: 1; justify-self: start; }
+.dsgn-header[data-layout="middle"] > .dsgn-container > .dsgn-nav { grid-column: 2; }
+.dsgn-header[data-layout="middle"] .dsgn-header-actions { grid-column: 3; justify-self: end; }
+.dsgn-header[data-layout="middle"] .dsgn-header-menu { grid-column: 4; margin-inline-start: var(--dsgn-space-8); }
+.dsgn-header[data-layout="center"] > .dsgn-container { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); column-gap: var(--dsgn-space-8); }
+.dsgn-header[data-layout="center"] .dsgn-header-menu { grid-column: 1; grid-row: 1; justify-self: start; }
+.dsgn-header[data-layout="center"] > .dsgn-container > .dsgn-brand { grid-column: 2; grid-row: 1; }
+.dsgn-header[data-layout="center"] .dsgn-header-actions { grid-column: 3; grid-row: 1; justify-self: end; }
+@media (min-width: 64rem) {
+  .dsgn-header[data-layout="center"] > .dsgn-container { display: flex; flex-wrap: wrap; justify-content: center; row-gap: var(--dsgn-space-8); }
+  .dsgn-header[data-layout="center"] > .dsgn-container::after { content: ""; order: 1; flex-basis: 100%; }
+  .dsgn-header[data-layout="center"] > .dsgn-container > :is(.dsgn-nav, .dsgn-header-actions) { order: 2; }
+}
+
+/* floating box (tablet and desktop) */
+@media (min-width: 40rem) {
+  .dsgn-header[data-floating] {
+    --_gutter: max(var(--dsgn-page-margin), calc((100% - var(--dsgn-container-max)) / 2));
+    --_inset-x: var(--_gutter);
+    --_radius: var(--dsgn-radius-l);
+    --_ring: inset 0 0 0 var(--dsgn-border-width) var(--_edge);
+    --_shadow: var(--dsgn-shadow-control);
+    margin-block-start: var(--dsgn-space-12);
+    inset-block-start: var(--dsgn-space-12);
+  }
+  .dsgn-header[data-floating] > .dsgn-container {
+    max-inline-size: calc(var(--dsgn-container-max) - 2 * var(--dsgn-space-16));
+    padding-inline: calc(var(--dsgn-page-margin) + var(--dsgn-space-16));
+  }
+  .dsgn-header[data-floating][data-scrolled] { --_inset-x: max(var(--dsgn-space-8), calc(var(--_gutter) - var(--dsgn-space-20))); --_shadow: var(--dsgn-shadow-raised); }
+  .dsgn-header[data-floating][data-surface="transparent"][data-at-top] { --_shadow: 0 0 0 0 transparent; }
+}
+
+/* hide on scroll (mobile) */
+@media (width < 40rem) {
+  .dsgn-header[data-hide-on-scroll][data-hidden] { translate: 0 -100%; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .dsgn-header[data-ready] { transition: translate calc(1.5 * var(--dsgn-duration)) var(--dsgn-ease), color var(--dsgn-duration) var(--dsgn-ease); }
+  .dsgn-header[data-ready]::before {
+    transition-property: inset, border-radius, background-color, box-shadow, backdrop-filter, -webkit-backdrop-filter;
+    transition-duration: calc(1.5 * var(--dsgn-duration));
+    transition-timing-function: var(--dsgn-ease);
+  }
+}
 .dsgn-brand {
   display: inline-flex;
   align-items: center;
@@ -106,6 +207,8 @@
 
 @media (forced-colors: active) {
   .dsgn-brand-mark { outline: 1px solid CanvasText; }
-  .dsgn-header, .dsgn-app-topbar { border-block-end: 1px solid CanvasText; }
+  .dsgn-app-topbar { border-block-end: 1px solid CanvasText; }
+  .dsgn-header::before { background: Canvas; border-block-end: 1px solid CanvasText; backdrop-filter: none; }
+  .dsgn-header[data-floating]::before { border: 1px solid CanvasText; }
   .dsgn-app-sidebar { border-inline-end: 1px solid CanvasText; }
 }

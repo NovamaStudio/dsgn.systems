@@ -172,12 +172,28 @@ They only place things; they draw nothing. Page-level spacing changes at tablet 
 Page patterns (classes for chrome; everything inside is primitives and components):
 
 ```html
-<header class="dsgn-header"><div class="dsgn-container dsgn-cluster" data-justify="between" data-nowrap>
+<header class="dsgn-header" data-layout="start"><div class="dsgn-container dsgn-cluster" data-justify="between" data-nowrap>
   <a class="dsgn-brand" href="/">…</a>
   <nav class="dsgn-nav" aria-label="Hlavní" data-hide-below="desktop">…</nav>
-  <div class="dsgn-cluster">…actions + menu button with data-hide-above="tablet"…</div>
+  <div class="dsgn-cluster dsgn-header-actions" data-nowrap>…buttons…</div>
+  <button class="dsgn-icon-button dsgn-header-menu" data-variant="ghost" data-intent="neutral" data-hide-above="tablet" aria-label="Menu" command="show-modal" commandfor="menu">…</button>
 </div></header>
 
+```
+
+Header options (all combinable; dsgn.js drives the scroll states):
+
+| Attribute | Effect |
+|---|---|
+| `data-layout="start\|middle\|center"` | brand + nav left / nav centred / brand centred with nav + actions below (mobile: menu left, brand centre, actions right) |
+| nav `data-variant="text\|underline"` | text-only links, or a 2 px underline on the header edge (accent = current page) |
+| `data-surface="glass"` | frosted glass; solid where blur is unsupported or reduced transparency is preferred |
+| `data-surface="transparent"` | see-through at the top, glass once scrolled (`data-scrolled-surface="solid"` for solid); overlaps the first section; add `data-top-theme="dark"` over a dark hero |
+| `data-floating` | tablet + desktop: rounded box as wide as the content, offset from the top, slightly wider once scrolled |
+| `data-sticky="false"` | scrolls away with the page (default: stays on screen) |
+| `data-hide-on-scroll` | mobile: hides while scrolling down, returns when scrolling up |
+
+```html
 <div class="dsgn-page-header">breadcrumbs · <h1 class="dsgn-page-header-title">…</h1> + actions · <p class="dsgn-lead">…</p></div>
 
 <footer class="dsgn-footer"><div class="dsgn-container dsgn-stack" data-gap="xl">

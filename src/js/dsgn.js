@@ -443,8 +443,57 @@
     if (target) { e.preventDefault(); target.focus(); }
   });
 
+  // ── Header: scroll states ─────────────────────────────────────────────────
+  // data-at-top / data-scrolled (surfaces, floating width, top theme), data-hidden (mobile
+  // hide on scroll) and --dsgn-header-height on <html> (overlay offset, scroll padding).
+  function initHeaders(root) {
+    var headers = [].slice.call(root.querySelectorAll('.dsgn-header'));
+    if (!headers.length) return;
+    var mobile = window.matchMedia('(width < 40rem)');
+    headers.forEach(function (h, index) {
+      if (h.dsgnHeader) return;
+      h.dsgnHeader = true;
+      var topTheme = h.getAttribute('data-top-theme');
+      var ownTheme = h.getAttribute('data-theme');
+      var lastY = window.scrollY, hidden = false, ticking = false;
+      function setHeight() {
+        if (index === 0) document.documentElement.style.setProperty('--dsgn-header-height', h.getBoundingClientRect().height + 'px');
+      }
+      function update() {
+        ticking = false;
+        var y = Math.max(0, window.scrollY);
+        var atTop = y <= 4;
+        h.toggleAttribute('data-at-top', atTop);
+        h.toggleAttribute('data-scrolled', !atTop);
+        if (topTheme) {
+          if (atTop) h.setAttribute('data-theme', topTheme);
+          else if (ownTheme) h.setAttribute('data-theme', ownTheme);
+          else h.removeAttribute('data-theme');
+        }
+        if (h.hasAttribute('data-hide-on-scroll')) {
+          var dy = y - lastY;
+          if (!mobile.matches || atTop || h.contains(document.activeElement)) hidden = false;
+          else if (dy > 6 && y > h.offsetHeight) hidden = true;
+          else if (dy < -6) hidden = false;
+          h.toggleAttribute('data-hidden', hidden);
+        }
+        if (Math.abs(y - lastY) > 6 || atTop) lastY = y;
+      }
+      window.addEventListener('scroll', function () {
+        if (!ticking) { ticking = true; requestAnimationFrame(update); }
+      }, { passive: true });
+      h.addEventListener('focusin', function () { hidden = false; h.removeAttribute('data-hidden'); });
+      if ('ResizeObserver' in window) new ResizeObserver(setHeight).observe(h);
+      setHeight();
+      update();
+      // transitions only after the first state is painted, so the page does not animate on load
+      requestAnimationFrame(function () { requestAnimationFrame(function () { h.setAttribute('data-ready', ''); }); });
+    });
+  }
+
   function init(root) {
     root = root || document;
+    initHeaders(root);
     initTabs(root);
     initTooltips(root);
     initMenus(root);

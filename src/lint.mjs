@@ -50,4 +50,4 @@ export function lintCss(source, file, { defined, hooks = new Set(), mode = 'syst
 }
 
 export const tokensDefinedIn = (tokensCss) => new Set([...tokensCss.matchAll(/(--dsgn-[\w-]+)\s*:/g)].map((m) => m[1]));
-export const HOOKS = new Set(['--dsgn-icon-size']);
+export const HOOKS = new Set(['--dsgn-icon-size', '--dsgn-header-height']);

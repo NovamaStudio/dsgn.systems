@@ -23,6 +23,8 @@ One version for the npm package and the Figma library. [Semantic versioning](htt
 
 - **Touch screens get density L by default** (`@media (pointer: coarse)`): controls are 44 px tall instead of 36 px (WCAG 2.5.5 AAA, Apple HIG 44 pt). Only when the page sets no `data-density` and the project theme keeps the default; `data-density="m"` on `<html>` keeps M everywhere. In Figma pick Density L for touch designs.
 
+- **Header variants** (all combinable): `data-layout="start|middle|center"`; navigation styles `data-variant="text|underline"` on `.dsgn-nav`; `data-surface="glass|transparent"` (frosted glass with a solid fallback; transparent at the top of the page, glass or solid once scrolled, `data-top-theme="dark"` over dark heroes); `data-floating` (a rounded box on tablet and desktop that widens a little on scroll); `data-hide-on-scroll` (mobile). All changes animate with the motion tokens and respect reduced motion. New markup hooks `.dsgn-header-actions` and `.dsgn-header-menu`. dsgn.js sets `data-at-top` / `data-scrolled` / `data-hidden` and `--dsgn-header-height` (also used for `scroll-padding`, so anchors are not hidden under a sticky header). `data-sticky="false"` now uses `position: relative`.
+
 ### Fixed
 - Menu items had no focus ring colour after the 0.10 focus change (the ring colour variable was only defined for danger items).
 ## 0.10.0 — 2026-10-02
