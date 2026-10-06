@@ -138,7 +138,7 @@ Options include `accentFill: 'default' | 'strong' | 'stronger' | 'auto'` and `mo
 | Controls | `--dsgn-control-height`, `-pad-x`, `-pad-y`, `-gap`, `-line-height`, `-font-size` |
 | Corners | `--dsgn-radius-s` (small bits), `-m` (controls), `-l` (containers), `-full` |
 | Text colour | `--dsgn-text`, `--dsgn-text-muted`, `--dsgn-text-disabled` |
-| Surfaces | `--dsgn-surface-base` (page), `-raised` (cards, panels), `-sunken` (wells) |
+| Surfaces | `--dsgn-surface-base` (page), `-raised` (cards, panels), `-sunken` (wells), `-glass` (raised at 78 %, with `backdrop-filter`) |
 | Lines | `--dsgn-border`, `--dsgn-border-strong`, `--dsgn-border-control`, `--dsgn-border-width` |
 | Intent colours | `--dsgn-{accent,neutral,success,warning,danger}-{subtle,subtle-hover,text,solid,solid-text,border}` |
 | Focus | `--dsgn-focus`, `--dsgn-focus-danger`, `--dsgn-focus-width`, `--dsgn-focus-offset` |

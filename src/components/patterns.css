@@ -30,7 +30,7 @@
 /* ── Site header ─────────────────────────────────────────────────────────── */
 .dsgn-header {
   --_pad-y: var(--dsgn-space-12);
-  --_glass: color-mix(in oklch, var(--dsgn-surface-raised) 78%, transparent);
+  --_glass: var(--dsgn-surface-glass);
   --_bg: var(--dsgn-surface-raised);
   --_edge: var(--dsgn-border);
   --_ring: inset 0 calc(-1 * var(--dsgn-border-width)) 0 var(--_edge);

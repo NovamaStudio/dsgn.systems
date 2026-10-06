@@ -5,7 +5,7 @@
 // redefines primitive custom properties inside @layer dsgn.theme (above dsgn.tokens), plus the
 // matching Figma values. Dependency-free: runs in Node (CLI) and in the browser (customizer).
 import { resolve, contrast, fmtOklch } from './color.mjs';
-import { prefix, ladder, palettes as basePalettes, guarantee, semanticColor, contrastPairs, density, radius, elevation, roleChoices } from './tokens.config.mjs';
+import { glass, prefix, ladder, palettes as basePalettes, guarantee, semanticColor, contrastPairs, density, radius, elevation, roleChoices } from './tokens.config.mjs';
 
 export const PALETTES = Object.keys(basePalettes);          // neutral, accent, danger, success, warning
 const v = (n) => `--${prefix}-${n}`;
@@ -245,6 +245,7 @@ export function themeFigma(theme) {
   const prims = buildPrimitives(t.palettes);
   const primitives = {};
   for (const name of PALETTES) for (const s of ladder) primitives[`color/${name}/${s.step}`] = prims[name][s.step].hex;
+  for (const th of ['light', 'dark']) primitives[`color/glass/${th}`] = prims[glass[th][0]][glass[th][1]].hex + Math.round(glass.alpha * 255).toString(16).padStart(2, '0');
   const family = t.font && t.font.sans ? t.font.sans.split(',')[0].trim().replace(/^['"]|['"]$/g, '') : null;
   return { mode: t.name, primitives, typography: family ? { 'family/sans': family } : {}, roles: roleAliases(t.roles) };
 }
@@ -252,7 +253,7 @@ export function themeFigma(theme) {
 /** Plugin API source shared by the one-off script and the Figma plugin: apply and remove a theme mode. */
 export const figmaApplySource = `
 async function dsgnApplyTheme(P) {
-  const hex = (h) => ({ r: parseInt(h.slice(1, 3), 16) / 255, g: parseInt(h.slice(3, 5), 16) / 255, b: parseInt(h.slice(5, 7), 16) / 255 });
+  const hex = (h) => ({ r: parseInt(h.slice(1, 3), 16) / 255, g: parseInt(h.slice(3, 5), 16) / 255, b: parseInt(h.slice(5, 7), 16) / 255, a: h.length > 7 ? parseInt(h.slice(7, 9), 16) / 255 : 1 });
   const cols = await figma.variables.getLocalVariableCollectionsAsync();
   const vars = await figma.variables.getLocalVariablesAsync();
   const done = [];

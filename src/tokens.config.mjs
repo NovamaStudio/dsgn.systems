@@ -274,6 +274,11 @@ export const misc = {
 export const iconGrade = { light: 0, dark: -25 };
 // Overlay shadow (menus, select picker). Dark mode leans on the border; the shadow only separates.
 // Scrim behind modal dialogs. Not part of the lightness ladder: a translucent near-black.
+// Frosted glass (header data-surface="glass"): surface-raised at this opacity + background blur.
+// Figma cannot fade a variable-bound fill inside instances, so Primitives get a translucent copy
+// of the two surface-raised steps (color/glass/light, color/glass/dark) and Color › surface/glass
+// aliases them; themes regenerate them from their own neutral palette.
+export const glass = { alpha: 0.78, light: ['neutral', 99], dark: ['neutral', 22] };
 export const scrim = { light: 'oklch(14% 0.004 260 / 0.45)', dark: 'oklch(8% 0.004 260 / 0.7)' };
 export const shadowOverlay = {
   light: '0 1px 2px oklch(0% 0 0 / 0.06), 0 8px 24px oklch(0% 0 0 / 0.12)',

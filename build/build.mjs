@@ -75,6 +75,7 @@ const themeLines = (theme) => [
   `${v('icon-grade')}: ${T.iconGrade[theme]};`,
   `${v('shadow-overlay')}: ${T.shadowOverlay[theme]};`,
   `${v('scrim')}: ${T.scrim[theme]};`,
+  `${v('surface-glass')}: color-mix(in oklch, var(${v('surface-raised')}) ${Math.round(T.glass.alpha * 100)}%, transparent);`,
   `${v('shadow-color')}: ${T.elevation.color[theme]};`,
   `${v('shadow-color-soft')}: ${T.elevation.colorSoft[theme]};`,
   ...shadowLines,
@@ -173,6 +174,10 @@ for (const [pal, steps] of Object.entries(prims))
   for (const [step, c] of Object.entries(steps))
     primitives.variables.push({ name: `color/${pal}/${step}`, type: 'COLOR', scopes: [], codeSyntax: code(`${pal}-${step}`),
       values: { Value: c.hex }, description: fmtOklch(c) });
+const glassHex = (pal) => (th) => pal[T.glass[th][0]][T.glass[th][1]].hex + Math.round(T.glass.alpha * 255).toString(16).padStart(2, '0');
+for (const th of ['light', 'dark'])
+  primitives.variables.push({ name: `color/glass/${th}`, type: 'COLOR', scopes: [], values: { Value: glassHex(prims)(th) },
+    description: `${T.glass[th].join('-')} at ${Math.round(T.glass.alpha * 100)} % (Figma cannot fade a bound fill in instances). Used by Color › surface/glass.` });
 for (const s of T.space)
   primitives.variables.push({ name: `space/${s}`, type: 'FLOAT', scopes: ['GAP', 'WIDTH_HEIGHT'], codeSyntax: code(`space-${s}`), values: { Value: s } });
 primitives.variables.push({ name: 'radius/full', type: 'FLOAT', scopes: ['CORNER_RADIUS'], codeSyntax: code('radius-full'), values: { Value: 9999 } });
@@ -216,6 +221,9 @@ for (const n of Object.keys(T.semanticColor)) {
 // scrim: oklch with alpha → 8-digit hex per theme
 const scrimHex = (str) => { const m = str.match(/oklch\(([\d.]+)% ([\d.]+) ([\d.]+) \/ ([\d.]+)\)/); const r = resolve(+m[1] / 100, +m[2], +m[3]);
   return r.hex + Math.round(+m[4] * 255).toString(16).padStart(2, '0'); };
+color.variables.push({ name: 'surface/glass', type: 'COLOR', scopes: ['FRAME_FILL', 'SHAPE_FILL'], codeSyntax: code('surface-glass'),
+  description: `surface/raised at ${Math.round(T.glass.alpha * 100)} %: frosted glass with a background blur (header data-surface="glass").`,
+  values: { Light: { alias: 'Primitives::color/glass/light' }, Dark: { alias: 'Primitives::color/glass/dark' } } });
 color.variables.push({ name: 'base/scrim', type: 'COLOR', scopes: ['FRAME_FILL', 'SHAPE_FILL'], codeSyntax: code('scrim'),
   values: { Light: scrimHex(T.scrim.light), Dark: scrimHex(T.scrim.dark) } });
 const alphaHex = (str) => { const m = str.match(/oklch\(([\d.]+)% ([\d.]+) ([\d.]+) \/ ([\d.]+)\)/); const r = resolve(+m[1] / 100, +m[2], +m[3]);
