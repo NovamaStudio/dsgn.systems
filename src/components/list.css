@@ -28,14 +28,14 @@
   border-radius: var(--dsgn-radius-l);
   background: var(--dsgn-surface-raised);
   /* a real border: rows are clipped inside it, so a hovered or current row never covers the frame */
-  border: var(--dsgn-border-width) solid var(--dsgn-border);
+  border: var(--dsgn-line-container) solid var(--dsgn-border);
   box-shadow: var(--dsgn-shadow-raised);
   font-family: var(--dsgn-font-sans);
 }
 .dsgn-list[data-variant="plain"] { overflow: visible; border-radius: 0; background: none; box-shadow: none; border: 0; }
 /* row separators sit on the row itself, so its hover background does not hide them */
-.dsgn-list > li:not(:last-child) { box-shadow: inset 0 calc(-1 * var(--dsgn-border-width)) 0 var(--dsgn-border); }
-.dsgn-list > li:not(:last-child) > .dsgn-list-item { box-shadow: inset 0 calc(-1 * var(--dsgn-border-width)) 0 var(--dsgn-border); }
+.dsgn-list > li:not(:last-child) { box-shadow: inset 0 calc(-1 * var(--dsgn-line-separator)) 0 var(--dsgn-border); }
+.dsgn-list > li:not(:last-child) > .dsgn-list-item { box-shadow: inset 0 calc(-1 * var(--dsgn-line-separator)) 0 var(--dsgn-border); }
 
 .dsgn-list-item {
   box-sizing: border-box;

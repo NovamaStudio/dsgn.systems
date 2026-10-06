@@ -18,7 +18,7 @@
   gap: var(--dsgn-space-4);
   overflow-x: auto;
   scrollbar-width: none;
-  box-shadow: inset 0 calc(-1 * var(--dsgn-border-width)) 0 var(--dsgn-border);
+  box-shadow: inset 0 calc(-1 * var(--dsgn-line-separator)) 0 var(--dsgn-border);
 }
 .dsgn-tab {
   box-sizing: border-box;

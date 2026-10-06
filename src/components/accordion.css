@@ -19,8 +19,8 @@
   font-size: var(--dsgn-font-size-body-s);
   line-height: var(--dsgn-line-height-body-s);
 }
-.dsgn-accordion > details { box-shadow: inset 0 calc(-1 * var(--dsgn-border-width)) 0 var(--dsgn-border); }
-.dsgn-accordion > details:first-child { box-shadow: inset 0 var(--dsgn-border-width) 0 var(--dsgn-border), inset 0 calc(-1 * var(--dsgn-border-width)) 0 var(--dsgn-border); }
+.dsgn-accordion > details { box-shadow: inset 0 calc(-1 * var(--dsgn-line-separator)) 0 var(--dsgn-border); }
+.dsgn-accordion > details:first-child { box-shadow: inset 0 var(--dsgn-line-separator) 0 var(--dsgn-border), inset 0 calc(-1 * var(--dsgn-line-separator)) 0 var(--dsgn-border); }
 .dsgn-accordion summary {
   display: flex;
   align-items: center;

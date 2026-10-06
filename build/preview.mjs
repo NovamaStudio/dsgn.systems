@@ -34,7 +34,7 @@ const ICONS = ['add', 'arrow_downward', 'arrow_forward', 'arrow_upward', 'check'
 const data = {
   ladder: T.ladder, palettes: T.palettes, guarantee: T.guarantee,
   semantic: T.semanticColor, pairs: T.contrastPairs(), worst,
-  density: T.density, radius: T.radius, elevation: T.elevation, material: T.material,
+  density: T.density, radius: T.radius, elevation: T.elevation, material: T.material, lines: T.lines,
   roleNames: ROLES,
   roles: { default: roleRefs({ accentFill: 'default' }), strong: roleRefs({ accentFill: 'strong' }), stronger: roleRefs({ accentFill: 'stronger' }), mono: roleRefs({ controls: 'neutral' }) },
 };
@@ -177,6 +177,7 @@ body {
       <div><span class="eyebrow">Radius</span><div class="seg" id="seg-radius"></div></div>
       <div><span class="eyebrow">Shadows</span><div class="seg" id="seg-elevation"></div></div>
       <div><span class="eyebrow">Material</span><div class="seg" id="seg-material"></div></div>
+      <div><span class="eyebrow">Lines</span><div class="seg" id="seg-lines"></div></div>
       <div><span class="eyebrow">Button fill</span><div class="seg" id="seg-fill"></div></div>
       <div><span class="eyebrow">Colour</span><div class="seg" id="seg-colour"></div></div>
     </div>
@@ -618,6 +619,7 @@ seg('seg-density', 'data-density', D.density.modes, D.density.default);
 seg('seg-radius', 'data-radius', D.radius.modes, D.radius.default);
 seg('seg-elevation', 'data-elevation', D.elevation.modes, D.elevation.default);
 seg('seg-material', 'data-material', D.material.modes, D.material.default);
+seg('seg-lines', 'data-lines', D.lines.modes, D.lines.default);
 // theme options: re-point the role slots (and, for monochrome, the accent palette) on the panels
 let fillOpt = 'default', mono = false;
 function applyTheme() {

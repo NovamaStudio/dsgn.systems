@@ -30,6 +30,8 @@ One version for the npm package and the Figma library. [Semantic versioning](htt
 - **Material mode** `data-material="solid|glass"` (Figma: collection **Material**, modes Solid / Glass): one switch for everything that floats over content — the site header, the app top bar and toasts become frosted glass (`--dsgn-surface-chrome`, `--dsgn-blur-chrome`) and the dim layer behind dialogs and drawers gets a light blur (`--dsgn-blur-backdrop`). Works on `<html>` or any section, in light and dark; solid where blur is unsupported, with reduced transparency and in forced colours. A component's own `data-surface="solid|glass"` still wins. Figma: Header surface `Default` follows the mode; Toast, the App shell top bar and the dialog scrim are bound to it.
 - **Glass card**: `data-surface="glass"` on `.dsgn-card` (Figma: Card › Surface = Glass) for a card over a photo or a colourful band.
 
+- **Lines mode** `data-lines="on|minimal|none"` (Figma: collection **Lines**, modes On / Minimal / None): switches the decorative lines. `minimal` drops the outlines of cards, table and list frames, stat tiles, media, alerts, banners, the header / app top bar / sidebar edges and the footer edge (`--dsgn-line-container`); `none` also drops the separators — table and list rows, description lists, accordions, the tab baseline, menu and footer separators (`--dsgn-line-separator`). Never switched: outlines of fields and selection controls (WCAG 1.4.11), focus rings, overlays (menu, dialog, toast, tooltip), Divider, hover outlines. Combine with Shadows = Soft if cards should stay distinct without a line.
+
 ### Fixed
 - Menu items had no focus ring colour after the 0.10 focus change (the ring colour variable was only defined for danger items).
 ## 0.10.0 — 2026-10-02

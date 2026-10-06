@@ -98,7 +98,7 @@
 .dsgn-menu-item:is(:disabled, [aria-disabled="true"]) > .dsgn-icon { color: var(--dsgn-text-disabled); }
 
 .dsgn-menu-divider {
-  block-size: var(--dsgn-border-width);
+  block-size: var(--dsgn-line-separator);
   margin-block: var(--dsgn-space-4);   /* inside the panel padding, like the items */
   background: var(--dsgn-border);
 }

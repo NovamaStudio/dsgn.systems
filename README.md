@@ -5,7 +5,7 @@
 Token-driven CSS design system. Plain HTML classes and `data-*` attributes, no framework, no build step in your project. The same tokens and components exist 1:1 in the Figma library.
 
 - **Colour**: OKLCH palettes where only hue and chroma change; lightness is fixed per step, so contrast is guaranteed for every hue (226 token pairs checked on every build).
-- **Density** S / M / L (touch screens get L automatically, 44 px controls), **corners** sharp / default / rounded / pill, **elevation** flat / soft, **material** solid / glass, **light and dark**: switch with one attribute, on the page or on any section.
+- **Density** S / M / L (touch screens get L automatically, 44 px controls), **corners** sharp / default / rounded / pill, **elevation** flat / soft, **material** solid / glass, **lines** on / minimal / none, **light and dark**: switch with one attribute, on the page or on any section.
 - **Sizes come from type**: control height = line-height + 2 × padding, every dimension snapped to a 2 px grid at any browser font size.
 - **Accessible by default**: WCAG 2.2 AA checked with axe, keyboard and forced-colours tests on every build.
 
@@ -51,7 +51,7 @@ Every component documents its markup at the top of its file in `dist/components/
 
 ## Customise
 
-1. **Attributes**: `data-theme`, `data-density`, `data-radius`, `data-elevation` (`flat` / `soft` shadows), `data-material` (`solid` / `glass` chrome) on `<html>` or any element.
+1. **Attributes**: `data-theme`, `data-density`, `data-radius`, `data-elevation` (`flat` / `soft` shadows), `data-material` (`solid` / `glass` chrome), `data-lines` (`on` / `minimal` / `none`) on `<html>` or any element.
 2. **Your CSS always wins**: everything dsgn ships is in `@layer dsgn.tokens` and `@layer dsgn.components`, so a plain unlayered rule overrides it without `!important` or specificity tricks.
 3. **Hooks**: `--side` (Split / App shell side panel), `--min` (auto grid column), `--dsgn-icon-size`. Properties named `--_*` are internal.
 4. **Project theme**: brand colour, greys, status colours, font, default corners and density.

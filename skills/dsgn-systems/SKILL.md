@@ -116,6 +116,7 @@ With Tailwind: keep Tailwind for layout utilities only if the project already us
 | `data-radius` | `sharp` · `default` · `rounded` · `pill` | `default` |
 | `data-elevation` | `flat` · `soft` | `flat` |
 | `data-material` | `solid` · `glass` (frosted header, app top bar, toast; blurred dialog backdrop) | `solid` |
+| `data-lines` | `on` · `minimal` (no outlines on cards, table/list frames, chrome edges; row separators stay) · `none` (no separators either) | `on` |
 
 Put them on `<html>` for the whole page, or on any element for a section: `<section class="dsgn-section" data-theme="dark">` makes a dark band. Density S suits dense admin tables, L suits touch kiosks and marketing pages. Leave `data-density` off `<html>` unless you mean it: without it, touch screens (`pointer: coarse`) get L automatically (44 px controls, WCAG 2.5.5 AAA / Apple HIG), mouse users M. Setting it on `<html>` fixes one density for every device.
 

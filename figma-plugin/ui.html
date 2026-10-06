@@ -375,6 +375,24 @@
   --dsgn-blur-backdrop: var(--dsgn-space-4);
 }
 
+/* ── lines ──────────────────────────────────────────── */
+
+:root,
+[data-lines="on"] {
+  --dsgn-line-container: var(--dsgn-border-width);
+  --dsgn-line-separator: var(--dsgn-border-width);
+}
+
+[data-lines="minimal"] {
+  --dsgn-line-container: 0px;
+  --dsgn-line-separator: var(--dsgn-border-width);
+}
+
+[data-lines="none"] {
+  --dsgn-line-container: 0px;
+  --dsgn-line-separator: 0px;
+}
+
 /* no glass where blur is unsupported or the user asks for less transparency */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   :root:root, [data-theme], [data-material] {
@@ -734,8 +752,8 @@
   font-size: var(--dsgn-font-size-body-s);
   line-height: var(--dsgn-line-height-body-s);
 }
-.dsgn-accordion > details { box-shadow: inset 0 calc(-1 * var(--dsgn-border-width)) 0 var(--dsgn-border); }
-.dsgn-accordion > details:first-child { box-shadow: inset 0 var(--dsgn-border-width) 0 var(--dsgn-border), inset 0 calc(-1 * var(--dsgn-border-width)) 0 var(--dsgn-border); }
+.dsgn-accordion > details { box-shadow: inset 0 calc(-1 * var(--dsgn-line-separator)) 0 var(--dsgn-border); }
+.dsgn-accordion > details:first-child { box-shadow: inset 0 var(--dsgn-line-separator) 0 var(--dsgn-border), inset 0 calc(-1 * var(--dsgn-line-separator)) 0 var(--dsgn-border); }
 .dsgn-accordion summary {
   display: flex;
   align-items: center;
@@ -795,7 +813,7 @@
   padding: var(--dsgn-inset);
   border-radius: var(--dsgn-radius-l);
   background: var(--_subtle);
-  box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--_border);
+  box-shadow: inset 0 0 0 var(--dsgn-line-container) var(--_border);
   color: var(--dsgn-text);
   font-family: var(--dsgn-font-sans);
   font-size: var(--dsgn-font-size-body-s);
@@ -964,7 +982,7 @@
   --_on-solid: var(--dsgn-accent-solid-text);
   box-sizing: border-box;
   background: var(--_subtle);
-  box-shadow: inset 0 calc(-1 * var(--dsgn-border-width)) 0 var(--_border);
+  box-shadow: inset 0 calc(-1 * var(--dsgn-line-container)) 0 var(--_border);
   color: var(--dsgn-text);
   font-family: var(--dsgn-font-sans);
   font-size: var(--dsgn-font-size-body-s);
@@ -1325,7 +1343,7 @@
   padding: var(--dsgn-inset);
   border-radius: var(--dsgn-radius-l);
   background: var(--dsgn-surface-raised);
-  box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border), var(--dsgn-shadow-raised);
+  box-shadow: inset 0 0 0 var(--dsgn-line-container) var(--dsgn-border), var(--dsgn-shadow-raised);
   color: var(--dsgn-text);
   font-family: var(--dsgn-font-sans);
   font-size: var(--dsgn-font-size-body-s);
@@ -1375,9 +1393,9 @@
 .dsgn-card > .dsgn-card-media {
   inline-size: auto;
   max-inline-size: none;
-  margin: calc(var(--dsgn-border-width) - var(--dsgn-inset));
+  margin: calc(var(--dsgn-line-container) - var(--dsgn-inset));
   margin-block-end: 0;
-  border-radius: max(0px, calc(var(--dsgn-radius-l) - var(--dsgn-border-width))) max(0px, calc(var(--dsgn-radius-l) - var(--dsgn-border-width))) 0 0;
+  border-radius: max(0px, calc(var(--dsgn-radius-l) - var(--dsgn-line-container))) max(0px, calc(var(--dsgn-radius-l) - var(--dsgn-line-container))) 0 0;
 }
 .dsgn-card > .dsgn-card-media::after { content: none; }
 
@@ -1879,7 +1897,7 @@ html:has(.dsgn-dialog:modal) { overflow: hidden; }
   grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
   gap: var(--dsgn-space-2) var(--dsgn-space-16);
   padding-block: var(--dsgn-row-pad-y);
-  box-shadow: inset 0 calc(-1 * var(--dsgn-border-width)) 0 var(--dsgn-border);
+  box-shadow: inset 0 calc(-1 * var(--dsgn-line-separator)) 0 var(--dsgn-border);
 }
 .dsgn-dl > div:last-child { box-shadow: none; }
 .dsgn-dl dt { color: var(--dsgn-text-muted); }
@@ -2400,14 +2418,14 @@ input.dsgn-input:disabled::-webkit-calendar-picker-indicator { background: var(-
   border-radius: var(--dsgn-radius-l);
   background: var(--dsgn-surface-raised);
   /* a real border: rows are clipped inside it, so a hovered or current row never covers the frame */
-  border: var(--dsgn-border-width) solid var(--dsgn-border);
+  border: var(--dsgn-line-container) solid var(--dsgn-border);
   box-shadow: var(--dsgn-shadow-raised);
   font-family: var(--dsgn-font-sans);
 }
 .dsgn-list[data-variant="plain"] { overflow: visible; border-radius: 0; background: none; box-shadow: none; border: 0; }
 /* row separators sit on the row itself, so its hover background does not hide them */
-.dsgn-list > li:not(:last-child) { box-shadow: inset 0 calc(-1 * var(--dsgn-border-width)) 0 var(--dsgn-border); }
-.dsgn-list > li:not(:last-child) > .dsgn-list-item { box-shadow: inset 0 calc(-1 * var(--dsgn-border-width)) 0 var(--dsgn-border); }
+.dsgn-list > li:not(:last-child) { box-shadow: inset 0 calc(-1 * var(--dsgn-line-separator)) 0 var(--dsgn-border); }
+.dsgn-list > li:not(:last-child) > .dsgn-list-item { box-shadow: inset 0 calc(-1 * var(--dsgn-line-separator)) 0 var(--dsgn-border); }
 
 .dsgn-list-item {
   box-sizing: border-box;
@@ -2501,7 +2519,7 @@ input.dsgn-input:disabled::-webkit-calendar-picker-indicator { background: var(-
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border);
+  box-shadow: inset 0 0 0 var(--dsgn-line-container) var(--dsgn-border);
   pointer-events: none;
 }
 
@@ -2623,7 +2641,7 @@ input.dsgn-input:disabled::-webkit-calendar-picker-indicator { background: var(-
 .dsgn-menu-item:is(:disabled, [aria-disabled="true"]) > .dsgn-icon { color: var(--dsgn-text-disabled); }
 
 .dsgn-menu-divider {
-  block-size: var(--dsgn-border-width);
+  block-size: var(--dsgn-line-separator);
   margin-block: var(--dsgn-space-4);   /* inside the panel padding, like the items */
   background: var(--dsgn-border);
 }
@@ -2946,7 +2964,7 @@ input.dsgn-input:disabled::-webkit-calendar-picker-indicator { background: var(-
   --_glass: var(--dsgn-surface-glass);
   --_bg: var(--dsgn-surface-chrome);
   --_edge: var(--dsgn-border);
-  --_ring: inset 0 calc(-1 * var(--dsgn-border-width)) 0 var(--_edge);
+  --_ring: inset 0 calc(-1 * var(--dsgn-line-container)) 0 var(--_edge);
   --_shadow: 0 0 0 0 transparent;
   --_blur: var(--dsgn-blur-chrome);
   --_inset-x: 0;
@@ -3010,7 +3028,7 @@ html:has(.dsgn-header:not([data-sticky="false"])) { scroll-padding-block-start: 
     --_gutter: max(var(--dsgn-page-margin), calc((100% - var(--dsgn-container-max)) / 2));
     --_inset-x: var(--_gutter);
     --_radius: var(--dsgn-radius-l);
-    --_ring: inset 0 0 0 var(--dsgn-border-width) var(--_edge);
+    --_ring: inset 0 0 0 var(--dsgn-line-container) var(--_edge);
     --_shadow: var(--dsgn-shadow-control);
     margin-block-start: var(--dsgn-space-12);
     inset-block-start: var(--dsgn-space-12);
@@ -3065,7 +3083,7 @@ html:has(.dsgn-header:not([data-sticky="false"])) { scroll-padding-block-start: 
 .dsgn-footer {
   padding-block: var(--dsgn-section-pad-y) var(--dsgn-space-32);
   background: var(--dsgn-surface-sunken);
-  box-shadow: inset 0 var(--dsgn-border-width) 0 var(--dsgn-border);
+  box-shadow: inset 0 var(--dsgn-line-container) 0 var(--dsgn-border);
   color: var(--dsgn-text-muted);
   font-size: var(--dsgn-font-size-body-s);
   line-height: var(--dsgn-line-height-body-s);
@@ -3075,7 +3093,7 @@ html:has(.dsgn-header:not([data-sticky="false"])) { scroll-padding-block-start: 
 .dsgn-footer a:not([class]) { color: var(--dsgn-text-muted); text-decoration: none; border-radius: var(--dsgn-radius-s); }
 @media (hover: hover) { .dsgn-footer a:not([class]):hover { color: var(--dsgn-text); text-decoration: underline; text-underline-offset: 0.2em; } }
 .dsgn-footer a:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: var(--dsgn-focus-offset); }
-.dsgn-footer-legal { padding-block-start: var(--dsgn-space-24); box-shadow: inset 0 var(--dsgn-border-width) 0 var(--dsgn-border); }
+.dsgn-footer-legal { padding-block-start: var(--dsgn-space-24); box-shadow: inset 0 var(--dsgn-line-separator) 0 var(--dsgn-border); }
 
 /* ── Page header (app pages) ─────────────────────────────────────────────── */
 .dsgn-page-header { display: grid; gap: var(--dsgn-space-8); padding-block-end: var(--dsgn-space-24); }
@@ -3095,7 +3113,7 @@ html:has(.dsgn-header:not([data-sticky="false"])) { scroll-padding-block-start: 
   gap: var(--dsgn-space-16);
   padding: var(--dsgn-space-12);
   background: var(--dsgn-surface-sunken);
-  box-shadow: inset calc(-1 * var(--dsgn-border-width)) 0 0 var(--dsgn-border);
+  box-shadow: inset calc(-1 * var(--dsgn-line-container)) 0 0 var(--dsgn-border);
 }
 .dsgn-app-sidebar > .dsgn-brand { padding-inline: var(--dsgn-control-pad-y); }
 .dsgn-app-sidebar-footer { margin-block-start: auto; }
@@ -3109,7 +3127,7 @@ html:has(.dsgn-header:not([data-sticky="false"])) { scroll-padding-block-start: 
   gap: var(--dsgn-control-gap);
   padding: var(--dsgn-space-12) var(--dsgn-page-margin);
   background: var(--dsgn-surface-chrome);
-  box-shadow: inset 0 calc(-1 * var(--dsgn-border-width)) 0 var(--dsgn-border);
+  box-shadow: inset 0 calc(-1 * var(--dsgn-line-container)) 0 var(--dsgn-border);
   -webkit-backdrop-filter: blur(var(--dsgn-blur-chrome));
   backdrop-filter: blur(var(--dsgn-blur-chrome));
 }
@@ -3584,7 +3602,7 @@ html:has(.dsgn-header:not([data-sticky="false"])) { scroll-padding-block-start: 
   padding: var(--dsgn-inset);
   border-radius: var(--dsgn-radius-l);
   background: var(--dsgn-surface-raised);
-  box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border), var(--dsgn-shadow-raised);
+  box-shadow: inset 0 0 0 var(--dsgn-line-container) var(--dsgn-border), var(--dsgn-shadow-raised);
   color: var(--dsgn-text);
   font-family: var(--dsgn-font-sans);
   font-size: var(--dsgn-font-size-body-s);
@@ -3733,7 +3751,7 @@ html:has(.dsgn-header:not([data-sticky="false"])) { scroll-padding-block-start: 
   background: var(--dsgn-surface-raised);
   /* a real border: the scrolling content (sticky header included) is clipped inside it, so a header,
      hovered or selected row can never cover the frame */
-  border: var(--dsgn-border-width) solid var(--dsgn-border);
+  border: var(--dsgn-line-container) solid var(--dsgn-border);
   box-shadow: var(--dsgn-shadow-raised);
 }
 .dsgn-table-wrap:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: var(--dsgn-focus-offset); }
@@ -3754,7 +3772,7 @@ html:has(.dsgn-header:not([data-sticky="false"])) { scroll-padding-block-start: 
   text-align: start;
   vertical-align: middle;
   white-space: nowrap;
-  box-shadow: inset 0 calc(-1 * var(--dsgn-border-width)) 0 var(--dsgn-border);
+  box-shadow: inset 0 calc(-1 * var(--dsgn-line-separator)) 0 var(--dsgn-border);
 }
 .dsgn-table tbody tr:last-child > * { box-shadow: none; }
 .dsgn-table th {
@@ -3854,7 +3872,7 @@ html:has(.dsgn-header:not([data-sticky="false"])) { scroll-padding-block-start: 
   gap: var(--dsgn-space-4);
   overflow-x: auto;
   scrollbar-width: none;
-  box-shadow: inset 0 calc(-1 * var(--dsgn-border-width)) 0 var(--dsgn-border);
+  box-shadow: inset 0 calc(-1 * var(--dsgn-line-separator)) 0 var(--dsgn-border);
 }
 .dsgn-tab {
   box-sizing: border-box;
@@ -4475,6 +4493,18 @@ const material = {
   blurChrome:    [0,     16],
   blurBackdrop:  [0,     4],
 };
+// Lines: decorative lines on/off. container = outlines of cards, table and list frames, stat tiles,
+// media, alerts, banners, header / app chrome edges, footer edge; separator = rows of tables, lists,
+// description lists, accordions, tab baseline, menu and footer separators. Never switched: control
+// outlines (fields, checkboxes, chips, option cards — WCAG 1.4.11), focus rings, overlays (menu,
+// dialog, toast, tooltip keep their edge), Divider. Switch with data-lines; Figma: collection "Lines".
+const lines = {
+  modes: ['on', 'minimal', 'none'],
+  default: 'on',
+  //            on  minimal none
+  container:  [1,  0,      0],
+  separator:  [1,  1,      0],
+};
 const motion = { 'duration-fast': '100ms', duration: '200ms', ease: 'cubic-bezier(0.2, 0, 0, 1)' };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -4507,7 +4537,7 @@ const layout = {
   },
 };
 
-return { prefix, unit, snap, ladder, palettes, guarantee, semanticColor, roleChoices, contrastPairs, fontFamily, fontWeight, typeScale, space, density, radius, misc, iconGrade, glass, scrim, shadowOverlay, elevation, material, motion, layout };
+return { prefix, unit, snap, ladder, palettes, guarantee, semanticColor, roleChoices, contrastPairs, fontFamily, fontWeight, typeScale, space, density, radius, misc, iconGrade, glass, scrim, shadowOverlay, elevation, material, lines, motion, layout };
 })();
 const __theme = (() => {
 // dsgn theme engine — a project theme is a handful of parameters on top of the package:

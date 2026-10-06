@@ -306,6 +306,18 @@ export const material = {
   blurChrome:    [0,     16],
   blurBackdrop:  [0,     4],
 };
+// Lines: decorative lines on/off. container = outlines of cards, table and list frames, stat tiles,
+// media, alerts, banners, header / app chrome edges, footer edge; separator = rows of tables, lists,
+// description lists, accordions, tab baseline, menu and footer separators. Never switched: control
+// outlines (fields, checkboxes, chips, option cards — WCAG 1.4.11), focus rings, overlays (menu,
+// dialog, toast, tooltip keep their edge), Divider. Switch with data-lines; Figma: collection "Lines".
+export const lines = {
+  modes: ['on', 'minimal', 'none'],
+  default: 'on',
+  //            on  minimal none
+  container:  [1,  0,      0],
+  separator:  [1,  1,      0],
+};
 export const motion = { 'duration-fast': '100ms', duration: '200ms', ease: 'cubic-bezier(0.2, 0, 0, 1)' };
 
 // ─────────────────────────────────────────────────────────────────────────────

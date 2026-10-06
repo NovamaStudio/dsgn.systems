@@ -22,7 +22,7 @@
   --_on-solid: var(--dsgn-accent-solid-text);
   box-sizing: border-box;
   background: var(--_subtle);
-  box-shadow: inset 0 calc(-1 * var(--dsgn-border-width)) 0 var(--_border);
+  box-shadow: inset 0 calc(-1 * var(--dsgn-line-container)) 0 var(--_border);
   color: var(--dsgn-text);
   font-family: var(--dsgn-font-sans);
   font-size: var(--dsgn-font-size-body-s);

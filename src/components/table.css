@@ -28,7 +28,7 @@
   background: var(--dsgn-surface-raised);
   /* a real border: the scrolling content (sticky header included) is clipped inside it, so a header,
      hovered or selected row can never cover the frame */
-  border: var(--dsgn-border-width) solid var(--dsgn-border);
+  border: var(--dsgn-line-container) solid var(--dsgn-border);
   box-shadow: var(--dsgn-shadow-raised);
 }
 .dsgn-table-wrap:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: var(--dsgn-focus-offset); }
@@ -49,7 +49,7 @@
   text-align: start;
   vertical-align: middle;
   white-space: nowrap;
-  box-shadow: inset 0 calc(-1 * var(--dsgn-border-width)) 0 var(--dsgn-border);
+  box-shadow: inset 0 calc(-1 * var(--dsgn-line-separator)) 0 var(--dsgn-border);
 }
 .dsgn-table tbody tr:last-child > * { box-shadow: none; }
 .dsgn-table th {

@@ -99,6 +99,12 @@ defaultFirst(T.material).forEach(([m, i]) => {
     `${v('blur-backdrop')}: ${T.material.blurBackdrop[i] ? `var(${v('space-' + T.material.blurBackdrop[i])})` : '0px'};`,
   ]);
 });
+// lines: decorative container outlines and separators on / minimal / none
+css.push('/* ── lines ──────────────────────────────────────────── */\n');
+defaultFirst(T.lines).forEach(([m, i]) => {
+  const sel = m === T.lines.default ? `:root,\n[data-lines="${m}"]` : `[data-lines="${m}"]`;
+  block(sel, ['container', 'separator'].map((k) => `${v('line-' + k)}: ${T.lines[k][i] ? `var(${v('border-width')})` : '0px'};`));
+});
 const opaque = [`${v('surface-glass')}: var(${v('surface-raised')});`, `${v('surface-chrome')}: var(${v('surface-raised')});`, `${v('blur-chrome')}: 0px;`, `${v('blur-backdrop')}: 0px;`];
 css.push(`/* no glass where blur is unsupported or the user asks for less transparency */\n@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {\n  :root:root, [data-theme], [data-material] {\n${opaque.map((l) => `    ${l}`).join('\n')}\n  }\n}\n`);
 css.push(`@media (prefers-reduced-transparency: reduce) {\n  :root:root, [data-theme], [data-material] {\n${opaque.map((l) => `    ${l}`).join('\n')}\n  }\n}\n`);
@@ -303,6 +309,11 @@ mat.variables.push({ name: 'blur/chrome', type: 'FLOAT', scopes: ['EFFECT_FLOAT'
 mat.variables.push({ name: 'blur/backdrop', type: 'FLOAT', scopes: ['EFFECT_FLOAT'], codeSyntax: code('blur-backdrop'), description: 'Background blur of the dim layer behind dialogs and drawers.',
   values: Object.fromEntries(defaultFirst(T.material).map(([m, i]) => [cap(m), T.material.blurBackdrop[i]])) });
 figma.collections.push(mat);
+const lin = { name: 'Lines', modes: defaultFirst(T.lines).map(([m]) => cap(m)), variables: [] };
+for (const [k, desc] of [['container', 'Outline of cards, table and list frames, stat tiles, media, alerts, banners, header and app chrome edges, footer edge.'], ['separator', 'Rows of tables, lists, description lists and accordions; tab baseline; menu and footer separators.']])
+  lin.variables.push({ name: `line/${k}`, type: 'FLOAT', scopes: ['STROKE_FLOAT', 'WIDTH_HEIGHT'], codeSyntax: code(`line-${k}`), description: desc + ' 0 = off.',
+    values: Object.fromEntries(defaultFirst(T.lines).map(([m, i]) => [cap(m), T.lines[k][i] ? { alias: 'Primitives::stroke/border-width' } : 0])) });
+figma.collections.push(lin);
 figma.effectStyles = [
   { name: 'shadow/control', effects: [{ y: 'Elevation::shadow/control-y', blur: 'Elevation::shadow/control-blur', color: 'Color::base/shadow' }] },
   { name: 'shadow/raised', effects: [{ y: 'Elevation::shadow/raised-y', blur: 'Elevation::shadow/raised-blur', color: 'Color::base/shadow' }, { y: 'Elevation::shadow/raised-y2', blur: 'Elevation::shadow/raised-blur2', color: 'Color::base/shadow-soft' }] },
