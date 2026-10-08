@@ -36,6 +36,8 @@ One version for the npm package and the Figma library. [Semantic versioning](htt
 
 ### Fixed
 - Menu items had no focus ring colour after the 0.10 focus change (the ring colour variable was only defined for danger items).
+- Figma: switching a variant no longer resets what was typed or added. 32 Card variants (image / icon on top, centred) had lost the links to Title, Text, Show actions and the Content slot (now one shared slot again); Input, Textarea and Date input variants were missing links in some states; Section header's Actions is now a real slot; the unused Alert › Icon name property was removed. The Figma lint now reports any variant layer that is not linked to the property its siblings use.
+- Figma: slots no longer ship placeholder boxes (Grid, Section, Split) — they start empty and offer preferred components (e.g. Grid → Card, Stat tile, Media) with a hint. Card, Stat tile and Media have a minimum width of 256, so in Grid › Columns = Auto an item set to Width = Fill wraps like `data-cols="auto"`. Layout page: Grid / examples shows both grids filled with cards.
 ## 0.10.0 — 2026-10-02
 
 ### Added

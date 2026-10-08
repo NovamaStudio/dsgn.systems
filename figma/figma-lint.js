@@ -2,7 +2,8 @@
 // Walks every component (and variant) on every page and reports values that are not bound
 // to a variable or style: fills, strokes, stroke weights, corner radii, padding, gaps,
 // text without a text style, effects with raw colours, and frames or slots that clip content
-// without a reason (clipping cuts off shadows and focus rings of nested components). Instances inside a component are
+// without a reason (clipping cuts off shadows and focus rings of nested components), and variant
+// layers that are not linked to the property their siblings use. Instances inside a component are
 // checked only on their own overrides (their internals belong to their own component).
 // Run via the Figma MCP (use_figma) or a scratch plugin; returns { ok, checked, issues[] }.
 const PAGES_SKIP = ['Templates'];               // pages made of instances only
@@ -70,6 +71,26 @@ for (const page of figma.root.children) {
   for (const c of comps) {
     const name = c.parent && c.parent.type === 'COMPONENT_SET' ? c.parent.name + ' / ' + c.name : c.name;
     walk(page.name + ' › ' + name, c, 0);
+  }
+}
+// property links: when a property drives a layer in one variant, the same-named layer in every
+// other variant must be linked too, or an instance loses its text / toggle / slot content when the
+// variant changes. Listed pairs differ on purpose (e.g. the hint layer shows Hint or Error message).
+const LINK_OK = ['Field · Hint', 'Field · Error message', 'Pagination item · Page', 'Avatar · Initials', 'Avatar · Show icon', 'Avatar · Icon name', 'Segment · Show icon', 'Search field · Placeholder', 'Search field · Value', 'Chip · Show icon', 'Chip · Icon'];
+for (const page of figma.root.children) {
+  if (PAGES_SKIP.includes(page.name)) continue;
+  for (const set of page.findAll((n) => n.type === 'COMPONENT_SET')) {
+    for (const key of Object.keys(set.componentPropertyDefinitions).filter((k) => k.includes('#'))) {
+      const label = set.name + ' · ' + key.split('#')[0];
+      if (LINK_OK.includes(label)) continue;
+      const uses = [];
+      for (const v of set.children) for (const n of [v, ...v.findAll((x) => !x.id.startsWith('I'))]) for (const [f, k] of Object.entries(n.componentPropertyReferences || {})) if (k === key && !uses.some((u) => u.name === n.name && u.field === f)) uses.push({ name: n.name, type: n.type, field: f });
+      if (!uses.length) { add(page.name + ' › ' + set.name, set, 'property ' + key.split('#')[0] + ' is not used by any layer'); continue; }
+      for (const v of set.children) for (const u of uses) {
+        const nodes = v.findAll((x) => !x.id.startsWith('I') && x.name === u.name && x.type === u.type);
+        if (nodes.length === 1 && (nodes[0].componentPropertyReferences || {})[u.field] !== key) add(page.name + ' › ' + set.name + ' / ' + v.name, nodes[0], 'not linked to ' + key.split('#')[0] + ' (' + u.field + ') — lost on variant change');
+      }
+    }
   }
 }
 // group identical problems per component set so the list stays readable
