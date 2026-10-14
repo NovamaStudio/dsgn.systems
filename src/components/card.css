@@ -58,7 +58,10 @@
 .dsgn-card-text { color: var(--dsgn-text-muted); }
 .dsgn-card-actions { display: flex; flex-wrap: wrap; gap: var(--dsgn-control-gap); }
 
-/* icon on top */
+/* icon on top: put any .dsgn-icon first (data-variant="subtle" for the tinted square).
+   .dsgn-card-icon is the 0.10 wrapper, kept for compatibility — prefer the icon itself. */
+.dsgn-card > .dsgn-icon { justify-self: start; }
+.dsgn-card[data-align="center"] > .dsgn-icon { justify-self: center; }
 .dsgn-card-icon {
   --_subtle: var(--dsgn-accent-subtle);
   --_text: var(--dsgn-accent-text);

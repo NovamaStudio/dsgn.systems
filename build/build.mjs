@@ -350,7 +350,7 @@ figma.textStyles.push(
   { name: 'icon/outline', family: 'Material Symbols Rounded', fill: 0, bind: { fontSize: 'Density::control/line-height', lineHeight: 'Density::control/line-height' } },
   { name: 'icon/fill', family: 'Material Symbols Rounded', fill: 1, bind: { fontSize: 'Density::control/line-height', lineHeight: 'Density::control/line-height' } },
   { name: 'icon/fill-display', family: 'Material Symbols Rounded', fill: 1, bind: { fontSize: 'Typography::display/line-height', lineHeight: 'Typography::display/line-height' } },
-  // standalone icon sizes (Icon / Icon tile components; code: .dsgn-icon[data-size])
+  // standalone icon sizes (Icon component, all Backgrounds; code: .dsgn-icon[data-size])
   ...[['s', 16], ['m', 20], ['l', 24], ['xl', 32], ['2xl', 48]].flatMap(([z, n]) => [0, 1].map((f) => ({ name: `icon/${z}/${f ? 'fill' : 'outline'}`, family: 'Material Symbols Rounded', fill: f, bind: { fontSize: `Primitives::space/${n}`, lineHeight: `Primitives::space/${n}` } }))),
 );
 out('figma-variables.json', JSON.stringify(figma, null, 2));

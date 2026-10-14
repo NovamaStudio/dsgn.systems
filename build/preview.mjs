@@ -310,7 +310,7 @@ function moreFormsBlock(t) {
   '<div class="dsgn-honeypot" inert><label for="hp' + t + '">Leave this empty</label><input id="hp' + t + '" name="website" autocomplete="off"></div>';
 }
 function featureBlock(t) {
-  const tile = (icon, attrs) => '<span class="dsgn-icon-tile"' + (attrs || '') + '>' + ic(icon) + '</span>';
+  const tile = (icon, attrs) => '<span class="dsgn-icon" data-variant="' + (attrs && attrs.indexOf('solid') > -1 ? 'solid' : 'subtle') + '"' + (attrs || '').replace(' data-variant="solid"', '') + ' aria-hidden="true">' + icon + '</span>';
   const feat = (layout, icon, title, text) => '<div class="dsgn-feature"' + (layout ? ' data-layout="' + layout + '"' : '') + '>' + tile(icon) +
     '<div class="dsgn-feature-body">' + (title ? '<h3 class="dsgn-feature-title">' + title + '</h3>' : '') + (text ? '<p class="dsgn-feature-text">' + text + '</p>' : '') + '</div></div>';
   return '<div class="row" style="align-items: end">' +
