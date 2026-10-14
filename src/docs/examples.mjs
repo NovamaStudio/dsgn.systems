@@ -8,7 +8,7 @@ import { landscape, portrait, portrait2 } from './images.mjs';
 const ic = (n, fill, end) => `<span class="dsgn-icon"${fill ? ' data-fill' : ''}${end ? ' data-end' : ''} aria-hidden="true">${n}</span>`;
 const btn = (label, attrs = '') => `<button class="dsgn-button"${attrs}>${label}</button>`;
 const stars = (n, size) => `<span class="dsgn-rating"${size ? ` data-size="${size}"` : ''} role="img" aria-label="${n} out of 5 stars">${[1, 2, 3, 4, 5].map((i) => ic('star', i <= n)).join('')}</span>`;
-const quote = ({ rating = 5, text, name, role, avatar, align }) => `<figure class="dsgn-card dsgn-testimonial"${align ? ` data-align="${align}"` : ''}>${rating ? stars(rating) : ''}${text ? `<blockquote class="dsgn-testimonial-quote"><p>${text}</p></blockquote>` : ''}${name || role || avatar ? `<figcaption class="dsgn-testimonial-author">${avatar || ''}${name || role ? `<span class="dsgn-testimonial-person">${name ? `<span class="dsgn-testimonial-name">${name}</span>` : ''}${role ? `<span class="dsgn-testimonial-role">${role}</span>` : ''}</span>` : ''}</figcaption>` : ''}</figure>`;
+const quote = ({ rating = 5, text, name, role, avatar, align }) => `<figure class="dsgn-card dsgn-testimonial"${align ? ` data-align="${align}"` : ''}>${name || role || avatar ? `<figcaption class="dsgn-testimonial-author">${avatar || ''}${name || role ? `<span class="dsgn-testimonial-person">${name ? `<span class="dsgn-testimonial-name">${name}</span>` : ''}${role ? `<span class="dsgn-testimonial-role">${role}</span>` : ''}</span>` : ''}</figcaption>` : ''}${text ? `<blockquote class="dsgn-testimonial-quote"><p>${text}</p></blockquote>` : ''}${rating ? stars(rating) : ''}</figure>`;
 
 export const components = {
   button: {
@@ -266,14 +266,15 @@ export const components = {
   testimonial: {
     name: 'Testimonial', group: 'Content', figma: ['Testimonial', 'Rating', 'Avatar'],
     examples: [
-      { title: 'In an auto grid', note: 'A Card: same surface, border, radius and padding. Rating, quote, avatar, name and role are all optional. The author sits at the bottom, so quotes of different lengths line up.', html: `<div class="dsgn-grid" data-cols="auto">
+      { title: 'In an auto grid', note: 'A Card: same surface, border, radius and padding. Avatar beside name and role (smaller), then the quote, then the stars in the accent colour. Every part is optional; the stars sit at the bottom, so quotes of different lengths line up.', html: `<div class="dsgn-grid" data-cols="auto">
   ${quote({ text: 'Invoices go out in a minute and clients finally pay on time. The reminders do the awkward part for us.', name: 'Jana Kolářová', role: 'Owner, Studio Kolo', avatar: `<span class="dsgn-avatar"><img src="${portrait}" alt=""></span>` })}
   ${quote({ rating: 4, text: 'Bank sync saves me an afternoon every month.', name: 'Petra Lišková', role: 'Accountant', avatar: `<span class="dsgn-avatar"><img src="${portrait2}" alt=""></span>` })}
   ${quote({ rating: 5, text: 'Simple enough that the whole team uses it.', name: 'Martin Novák', role: 'Novama', avatar: '<span class="dsgn-avatar" data-intent="accent" aria-hidden="true">MN</span>' })}
 </div>` },
-      { title: 'Centred, without parts', note: 'data-align="center" as on Card. Left: no rating and no avatar. Right: no role, initials avatar.', html: `<div class="dsgn-grid" data-cols="auto">
-  ${quote({ rating: 0, text: 'The clearest invoicing tool we have tried.', name: 'Tomáš Beneš', role: 'Freelance designer', align: 'center' })}
-  ${quote({ rating: 3, text: 'Good, but we miss multi-currency.', name: 'Eva Malá', avatar: '<span class="dsgn-avatar" aria-hidden="true">EM</span>', align: 'center' })}
+      { title: 'Centred', note: 'data-align="center": a 48 px avatar on the top edge, half outside the card, then name, role, quote and stars. The card adds space-24 on top for the avatar. Without an avatar it starts with the name.', html: `<div class="dsgn-grid" data-cols="auto">
+  ${quote({ text: 'Invoices go out in a minute and clients finally pay on time.', name: 'Jana Kolářová', role: 'Owner, Studio Kolo', avatar: `<span class="dsgn-avatar"><img src="${portrait}" alt=""></span>`, align: 'center' })}
+  ${quote({ rating: 4, text: 'Simple enough that the whole team uses it.', name: 'Martin Novák', role: 'Novama', avatar: '<span class="dsgn-avatar" data-intent="accent" aria-hidden="true">MN</span>', align: 'center' })}
+  ${quote({ rating: 3, text: 'Good, but we miss multi-currency.', name: 'Eva Malá', role: 'Freelance designer', align: 'center' })}
 </div>` }],
   },
   rating: {

@@ -324,9 +324,9 @@ function featureBlock(t) {
 }
 function testimonialBlock(t) {
   var stars = function (n, size) { var o = '<span class="dsgn-rating"' + (size ? ' data-size="' + size + '"' : '') + ' role="img" aria-label="' + n + ' out of 5 stars">'; for (var i = 1; i <= 5; i++) o += ic('star', i <= n); return o + '</span>'; };
-  var q = function (n, text, name, role, avatar, align) { return '<figure class="dsgn-card dsgn-testimonial"' + (align ? ' data-align="' + align + '"' : '') + '>' + (n ? stars(n) : '') +
-    '<blockquote class="dsgn-testimonial-quote"><p>' + text + '</p></blockquote><figcaption class="dsgn-testimonial-author">' + avatar +
-    '<span class="dsgn-testimonial-person"><span class="dsgn-testimonial-name">' + name + '</span>' + (role ? '<span class="dsgn-testimonial-role">' + role + '</span>' : '') + '</span></figcaption></figure>'; };
+  var q = function (n, text, name, role, avatar, align) { return '<figure class="dsgn-card dsgn-testimonial"' + (align ? ' data-align="' + align + '"' : '') + '><figcaption class="dsgn-testimonial-author">' + avatar +
+    '<span class="dsgn-testimonial-person"><span class="dsgn-testimonial-name">' + name + '</span>' + (role ? '<span class="dsgn-testimonial-role">' + role + '</span>' : '') + '</span></figcaption>' +
+    '<blockquote class="dsgn-testimonial-quote"><p>' + text + '</p></blockquote>' + (n ? stars(n) : '') + '</figure>'; };
   return '<div class="media-row">' + q(5, 'Invoices go out in a minute and clients pay on time.', 'Jana Kolářová', 'Owner, Studio Kolo', '<span class="dsgn-avatar"><img src="' + portrait + '" alt=""></span>') +
     q(4, 'Bank sync saves me an afternoon every month.', 'Martin Novák', 'Novama', '<span class="dsgn-avatar" data-intent="accent" aria-hidden="true">MN</span>', 'center') + '</div>' +
     '<div class="row">' + stars(3) + stars(5, 's') + '</div>';

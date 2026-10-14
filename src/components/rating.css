@@ -5,7 +5,7 @@
  *   <span class="dsgn-icon" aria-hidden="true">star</span>             ×1
  * </span>
  *
- * Always five stars: filled ones (data-fill) for the score, outline ones for the rest, so the score
+ * Always five stars: filled ones (data-fill, accent colour) for the score, outline ones for the rest, so the score
  * is readable without colour. The label carries the score for screen readers (role="img" + aria-label);
  * the stars are decorative. Read-only — a star picker for a form is a radio group, not this.
  * data-size  s (16 px stars, for lists and cards) · default 20 px
@@ -21,5 +21,5 @@
 }
 .dsgn-rating[data-size="s"] { --dsgn-icon-size: var(--dsgn-space-16); }
 .dsgn-rating > .dsgn-icon { color: var(--dsgn-border-control); }
-.dsgn-rating > .dsgn-icon[data-fill] { color: var(--dsgn-warning-solid); }
+.dsgn-rating > .dsgn-icon[data-fill] { color: var(--dsgn-accent-solid); }
 @media (forced-colors: active) { .dsgn-rating > .dsgn-icon { color: CanvasText; } }

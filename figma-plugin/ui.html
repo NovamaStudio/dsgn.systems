@@ -3374,7 +3374,7 @@ html:has(.dsgn-header:not([data-sticky="false"])) { scroll-padding-block-start: 
  *   <span class="dsgn-icon" aria-hidden="true">star</span>             ×1
  * </span>
  *
- * Always five stars: filled ones (data-fill) for the score, outline ones for the rest, so the score
+ * Always five stars: filled ones (data-fill, accent colour) for the score, outline ones for the rest, so the score
  * is readable without colour. The label carries the score for screen readers (role="img" + aria-label);
  * the stars are decorative. Read-only — a star picker for a form is a radio group, not this.
  * data-size  s (16 px stars, for lists and cards) · default 20 px
@@ -3390,7 +3390,7 @@ html:has(.dsgn-header:not([data-sticky="false"])) { scroll-padding-block-start: 
 }
 .dsgn-rating[data-size="s"] { --dsgn-icon-size: var(--dsgn-space-16); }
 .dsgn-rating > .dsgn-icon { color: var(--dsgn-border-control); }
-.dsgn-rating > .dsgn-icon[data-fill] { color: var(--dsgn-warning-solid); }
+.dsgn-rating > .dsgn-icon[data-fill] { color: var(--dsgn-accent-solid); }
 @media (forced-colors: active) { .dsgn-rating > .dsgn-icon { color: CanvasText; } }
 
 /* ── search.css ── */
@@ -4081,32 +4081,47 @@ html:has(.dsgn-header:not([data-sticky="false"])) { scroll-padding-block-start: 
 }
 
 /* ── testimonial.css ── */
-/* dsgn · Testimonial — a customer quote with stars and the person behind it, styled as a Card
+/* dsgn · Testimonial — a customer quote with the person behind it and stars, styled as a Card
  *
  * <figure class="dsgn-card dsgn-testimonial">
- *   <span class="dsgn-rating" role="img" aria-label="5 out of 5 stars">…5 stars…</span>
- *   <blockquote class="dsgn-testimonial-quote"><p>Invoices go out in a minute and clients pay on time.</p></blockquote>
  *   <figcaption class="dsgn-testimonial-author">
- *     <span class="dsgn-avatar" role="img" aria-label="Jana Kolářová">JK</span>   (or an <img> inside)
+ *     <span class="dsgn-avatar"><img src="…" alt=""></span>   (or initials: <span class="dsgn-avatar" aria-hidden="true">JK</span>)
  *     <span class="dsgn-testimonial-person">
  *       <span class="dsgn-testimonial-name">Jana Kolářová</span>
  *       <span class="dsgn-testimonial-role">Owner, Studio Kolo</span>
  *     </span>
  *   </figcaption>
+ *   <blockquote class="dsgn-testimonial-quote"><p>Invoices go out in a minute and clients pay on time.</p></blockquote>
+ *   <span class="dsgn-rating" role="img" aria-label="5 out of 5 stars">…5 stars…</span>
  * </figure>
  *
- * Every part is optional: rating, quote, avatar, name, role — leave out what you do not have.
- * It is a Card (.dsgn-card), so it takes the Card options: data-align="center",
- * data-surface="glass", and the Density, Radius, Lines and Elevation modes. The author sits at the
- * bottom, so testimonials of different lengths line up in a Grid (data-cols="auto": min 16rem each).
- * A decorative avatar next to the visible name can be aria-hidden="true" instead of role="img".
+ * Order: author (avatar beside name and role) → quote → stars. Every part is optional.
+ * It is a Card (.dsgn-card), so it takes data-surface="glass" and the Density, Radius, Lines and
+ * Elevation modes. The stars sit at the bottom, so testimonials of different lengths line up in a
+ * Grid (data-cols="auto": min 16rem each).
+ *
+ * Centred — data-align="center": a 48 px avatar centred on the top edge, half of it outside the card,
+ * then name, role, quote and stars, all centred. The card gets space-24 of top margin so the avatar
+ * does not touch what is above it.
  */
 .dsgn-testimonial {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
-.dsgn-card.dsgn-testimonial[data-align="center"] { align-items: center; }
+.dsgn-card > .dsgn-testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: var(--dsgn-space-12);
+  min-inline-size: 0;
+}
+.dsgn-testimonial-person { display: grid; min-inline-size: 0; }
+.dsgn-testimonial-name { font-weight: var(--dsgn-font-weight-medium); }
+.dsgn-testimonial-role {
+  color: var(--dsgn-text-muted);
+  font-size: var(--dsgn-font-size-caption);
+  line-height: var(--dsgn-line-height-caption);
+}
 .dsgn-testimonial-quote {
   align-self: stretch;
   margin: 0;
@@ -4116,16 +4131,18 @@ html:has(.dsgn-header:not([data-sticky="false"])) { scroll-padding-block-start: 
 }
 .dsgn-testimonial-quote > * { margin: 0; }
 .dsgn-testimonial-quote > * + * { margin-block-start: var(--dsgn-stack); }
-.dsgn-card > .dsgn-testimonial-author {
-  display: flex;
-  align-items: center;
-  gap: var(--dsgn-space-12);
-  margin-block-start: auto;
-  min-inline-size: 0;
+.dsgn-card.dsgn-testimonial > .dsgn-rating { margin-block-start: auto; }
+
+/* centred: avatar on the top edge */
+.dsgn-card.dsgn-testimonial[data-align="center"] { align-items: center; }
+.dsgn-card.dsgn-testimonial[data-align="center"] > .dsgn-testimonial-author { flex-direction: column; gap: 0; }
+.dsgn-card.dsgn-testimonial[data-align="center"] > .dsgn-testimonial-author > .dsgn-avatar {
+  --_size: var(--dsgn-space-48);
+  /* top edge of the avatar 24 px above the card; the name starts at inset + space-12 + stack from the
+     card's top edge (Figma: a space-12 spacer under the padding, then the stack gap) */
+  margin-block: calc(-1 * (var(--dsgn-inset) + var(--dsgn-space-24))) calc(var(--dsgn-inset) + var(--dsgn-stack) - var(--dsgn-space-12));
 }
-.dsgn-testimonial-person { display: grid; min-inline-size: 0; }
-.dsgn-testimonial-name { font-weight: var(--dsgn-font-weight-medium); }
-.dsgn-testimonial-role { color: var(--dsgn-text-muted); }
+.dsgn-card.dsgn-testimonial[data-align="center"]:has(> .dsgn-testimonial-author > .dsgn-avatar) { margin-block-start: var(--dsgn-space-24); }
 
 /* ── toast.css ── */
 /* dsgn · Toast (created by dsgn.toast(), needs dsgn.js)
