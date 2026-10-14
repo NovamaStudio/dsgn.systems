@@ -30,7 +30,7 @@ Figma has no media queries, so breakpoints are variable modes of the **Layout** 
 
 1. Page frame: bind its width to `Layout › viewport` and set its Layout mode.
 2. Responsive components (Header, Hero, CTA band, Footer, App shell): bind the **Breakpoint** property to `Layout › breakpoint` and set the instance's Layout mode to Auto, so it follows the frame.
-3. Columns: Grid **Columns = Auto** wraps by width. Put Cards / Stat tiles / Media into its Items slot and set each to **Width = Fill** (they carry min width 256). Slots start empty and offer the preferred components.
+3. Columns: Grid **Columns = Auto** wraps by width. Put Cards / Features / Stat tiles / Media into its Items slot and set each to **Width = Fill** (they carry min width 256, like `--min: 16rem` in code). Figma limitation: an incomplete last row stretches its items to the full width; in code they keep the column width. Slots start empty and offer the preferred components.
 4. Anything else that should appear or disappear: bind the layer's visibility to `show/tablet-up`, `show/desktop-up`, `show/mobile-only` or `show/below-desktop` — the same rules as `data-hide-below` / `data-hide-above` in code.
 
 Switching the frame's Layout mode then changes width, variants, margins, gaps, columns and visibility at once. Example: Templates › Landing / Responsive. Not possible in Figma: binding auto-layout direction or a grid's column count to a variable — use a variant for that.

@@ -1,6 +1,7 @@
 // dsgn Figma state fingerprint — prepended by the build to every Figma script (parity, handoff, lint).
-// Hashes what those scripts check: components (properties, variants and the layer tree: type, name,
-// size, visibility, variable bindings, text styles, property links), variables with their values per
+// Hashes what those scripts check: components (properties incl. slot preferred values, variants and the
+// layer tree: type, name, size, min / max size, sizing, layout, visibility, clipping, variable bindings,
+// text styles, property links), variables with their values per
 // mode, and text styles. Descriptions are left out (the handoff script writes them). The build
 // accepts the three reports only when they carry the same fingerprint, i.e. they were all run on the
 // same state of the file — any change in Figma after a run makes the reports stale.
@@ -16,9 +17,10 @@ async function __figmaState() {
     if (page.name === 'Templates') continue;
     await page.loadAsync();
     for (const c of page.findAll((x) => x.type === 'COMPONENT_SET' || (x.type === 'COMPONENT' && x.parent.type !== 'COMPONENT_SET'))) {
-      parts.push('K|' + c.name + '|' + Object.entries(c.componentPropertyDefinitions || {}).map(([k, d]) => k.split('#')[0] + ':' + d.type + (d.variantOptions ? '[' + d.variantOptions.join('/') + ']' : '') + '=' + JSON.stringify(d.defaultValue)).sort().join(';'));
+      parts.push('K|' + c.name + '|' + Object.entries(c.componentPropertyDefinitions || {}).map(([k, d]) => k.split('#')[0] + ':' + d.type + (d.variantOptions ? '[' + d.variantOptions.join('/') + ']' : '') + '=' + JSON.stringify(d.defaultValue) + (d.preferredValues ? '>' + d.preferredValues.map((p) => p.key).join('+') : '') + (d.description ? '"' + d.description : '')).sort().join(';'));
       const walk = (n, path) => {
-        parts.push('N|' + path + '|' + n.type + '|' + Math.round(n.width) + 'x' + Math.round(n.height) + '|' + (n.visible ? 1 : 0) + '|' + b(n) + '|' + (n.textStyleId || '') + '|' + JSON.stringify(n.componentPropertyReferences || {}) + (n.type === 'TEXT' ? '|' + n.characters : '') +
+        parts.push('N|' + path + '|' + n.type + '|' + Math.round(n.width) + 'x' + Math.round(n.height) + '|' + (n.visible ? 1 : 0) + '|' + b(n) +
+          '|' + [n.layoutMode, n.layoutWrap, n.layoutSizingHorizontal, n.layoutSizingVertical, n.minWidth, n.maxWidth, n.minHeight, n.maxHeight, n.clipsContent, n.opacity, n.primaryAxisAlignItems, n.counterAxisAlignItems].join(',') + '|' + (n.textStyleId || '') + '|' + JSON.stringify(n.componentPropertyReferences || {}) + (n.type === 'TEXT' ? '|' + n.characters : '') +
           (n.type === 'INSTANCE' ? '|' + JSON.stringify(Object.entries(n.componentProperties || {}).map(([k, p]) => [k.split('#')[0], p.value]).sort()) + '|' + n.isExposedInstance : ''));
         if ('children' in n && n.type !== 'INSTANCE') n.children.forEach((ch, i) => walk(ch, path + '/' + i + ':' + ch.name));
       };

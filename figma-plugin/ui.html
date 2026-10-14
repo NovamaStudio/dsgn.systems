@@ -2050,7 +2050,9 @@ html:has(.dsgn-dialog:modal) { overflow: hidden; }
  * data-layout  inline (default: icon beside the text) · stack (icon above, left) · center (icon above, centred)
  * The icon is any .dsgn-icon — with a background (data-variant subtle|solid) or bare (data-size); title and text are both optional —
  * leave out the one you do not need. The title takes whatever heading level fits the page.
- * Put several in a Grid: <div class="dsgn-grid" data-cols="1" data-cols-tablet="2" data-cols-desktop="3">.
+ * Put several in a Grid: <div class="dsgn-grid" data-cols="1" data-cols-tablet="2" data-cols-desktop="3">, or
+ * data-cols="auto" (as many columns as fit, each at least --min, default 16rem = 256 px — the same
+ * rule as Card; in Figma Feature carries min width 256 and goes into Grid › Auto at Width = Fill).
  */
 .dsgn-feature {
   display: grid;
