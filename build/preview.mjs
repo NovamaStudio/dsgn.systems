@@ -16,7 +16,7 @@ for (const r of results) worst[`${r.theme}|${r.fg}|${r.bg}`] = r.worst;
 // Material Symbols is loaded as a subset (icon_names), so every glyph the page uses must be listed.
 // A missing name renders as plain text. The guard below fails the build if one is missed.
 const ICONS = ['add', 'arrow_downward', 'arrow_forward', 'arrow_upward', 'check', 'check_circle', 'chevron_left', 'chevron_right', 'close', 'content_copy', 'delete', 'description', 'download', 'edit', 'error',
-  'expand_more', 'favorite', 'calendar_month', 'folder', 'group', 'history', 'home', 'info', 'inventory_2', 'list', 'menu', 'notifications', 'more_vert', 'person', 'receipt_long', 'refresh', 'remove', 'savings', 'schedule', 'search', 'send', 'settings', 'trending_down', 'trending_up', 'tune', 'unfold_more', 'upload', 'view_kanban', 'warning'].sort();
+  'expand_more', 'favorite', 'calendar_month', 'folder', 'group', 'history', 'home', 'info', 'inventory_2', 'list', 'menu', 'notifications', 'more_vert', 'person', 'receipt_long', 'refresh', 'remove', 'savings', 'schedule', 'search', 'send', 'settings', 'star', 'trending_down', 'trending_up', 'tune', 'unfold_more', 'upload', 'view_kanban', 'warning'].sort();
 {
   const self = readFileSync(new URL(import.meta.url), 'utf8');
   const compCss = readFileSync(new URL('../dist/dsgn.components.css', import.meta.url), 'utf8');
@@ -322,6 +322,15 @@ function featureBlock(t) {
       feat('center', 'account_balance', 'Bank sync', 'Icon above, centred.') + '</div>' +
     '<div class="row"><div class="dsgn-media" data-ratio="circle" style="inline-size: 4rem"><img src="' + portrait + '" alt="Jana Kolářová"></div></div>';
 }
+function testimonialBlock(t) {
+  var stars = function (n, size) { var o = '<span class="dsgn-rating"' + (size ? ' data-size="' + size + '"' : '') + ' role="img" aria-label="' + n + ' out of 5 stars">'; for (var i = 1; i <= 5; i++) o += ic('star', i <= n); return o + '</span>'; };
+  var q = function (n, text, name, role, avatar, align) { return '<figure class="dsgn-card dsgn-testimonial"' + (align ? ' data-align="' + align + '"' : '') + '>' + (n ? stars(n) : '') +
+    '<blockquote class="dsgn-testimonial-quote"><p>' + text + '</p></blockquote><figcaption class="dsgn-testimonial-author">' + avatar +
+    '<span class="dsgn-testimonial-person"><span class="dsgn-testimonial-name">' + name + '</span>' + (role ? '<span class="dsgn-testimonial-role">' + role + '</span>' : '') + '</span></figcaption></figure>'; };
+  return '<div class="media-row">' + q(5, 'Invoices go out in a minute and clients pay on time.', 'Jana Kolářová', 'Owner, Studio Kolo', '<span class="dsgn-avatar"><img src="' + portrait + '" alt=""></span>') +
+    q(4, 'Bank sync saves me an afternoon every month.', 'Martin Novák', 'Novama', '<span class="dsgn-avatar" data-intent="accent" aria-hidden="true">MN</span>', 'center') + '</div>' +
+    '<div class="row">' + stars(3) + stars(5, 's') + '</div>';
+}
 function mediaBlock(t) {
   return '<div class="media-row">' +
     '<article class="dsgn-card"><div class="dsgn-media dsgn-card-media"><img src="' + landscape + '" alt=""></div>' +
@@ -567,7 +576,7 @@ function panel(theme) {
     '<div class="panel-head"><h2>' + (theme === 'light' ? 'Light' : 'Dark') + '</h2><span class="mono muted">data-theme="' + theme + '"</span></div>' +
     '<div class="row">' + btns('solid') + '</div><div class="row">' + btns('subtle') + '</div><div class="row">' + btns('ghost') + '</div>' +
     '<div class="row">' + icons('solid') + icons('subtle') + icons('ghost') + '</div>' +
-    formBlock(theme) + moreFormsBlock(theme) + choiceBlock(theme) + badgeBlock() + cardBlock(theme) + mediaBlock(theme) + featureBlock(theme) + alertBlock() + tabsBlock(theme) + tableBlock(theme) + navBlock(theme) + loadingBlock(theme) + dialogBlock(theme) + moreBlock(theme) + layoutBlock(theme) +
+    formBlock(theme) + moreFormsBlock(theme) + choiceBlock(theme) + badgeBlock() + cardBlock(theme) + mediaBlock(theme) + featureBlock(theme) + testimonialBlock(theme) + alertBlock() + tabsBlock(theme) + tableBlock(theme) + navBlock(theme) + loadingBlock(theme) + dialogBlock(theme) + moreBlock(theme) + layoutBlock(theme) +
     '<details><summary class="muted">All ' + Object.keys(D.semantic).length + ' colour tokens</summary><div class="tokgrid" style="margin-top:8px">' + toks + '</div></details></div>';
 }
 document.getElementById('panels').innerHTML = panel('light') + panel('dark');

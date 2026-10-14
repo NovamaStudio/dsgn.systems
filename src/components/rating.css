@@ -1,0 +1,25 @@
+/* dsgn · Rating — 1 to 5 stars (a review, a product score)
+ *
+ * <span class="dsgn-rating" role="img" aria-label="4 out of 5 stars">
+ *   <span class="dsgn-icon" data-fill aria-hidden="true">star</span> ×4
+ *   <span class="dsgn-icon" aria-hidden="true">star</span>             ×1
+ * </span>
+ *
+ * Always five stars: filled ones (data-fill) for the score, outline ones for the rest, so the score
+ * is readable without colour. The label carries the score for screen readers (role="img" + aria-label);
+ * the stars are decorative. Read-only — a star picker for a form is a radio group, not this.
+ * data-size  s (16 px stars, for lists and cards) · default 20 px
+ */
+.dsgn-rating {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dsgn-space-2);
+  vertical-align: middle;
+  line-height: 1;
+  --dsgn-icon-size: var(--dsgn-space-20);
+  --dsgn-icon-optical-size: 20;
+}
+.dsgn-rating[data-size="s"] { --dsgn-icon-size: var(--dsgn-space-16); }
+.dsgn-rating > .dsgn-icon { color: var(--dsgn-border-control); }
+.dsgn-rating > .dsgn-icon[data-fill] { color: var(--dsgn-warning-solid); }
+@media (forced-colors: active) { .dsgn-rating > .dsgn-icon { color: CanvasText; } }

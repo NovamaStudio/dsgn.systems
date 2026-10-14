@@ -7,6 +7,8 @@ import { landscape, portrait, portrait2 } from './images.mjs';
 
 const ic = (n, fill, end) => `<span class="dsgn-icon"${fill ? ' data-fill' : ''}${end ? ' data-end' : ''} aria-hidden="true">${n}</span>`;
 const btn = (label, attrs = '') => `<button class="dsgn-button"${attrs}>${label}</button>`;
+const stars = (n, size) => `<span class="dsgn-rating"${size ? ` data-size="${size}"` : ''} role="img" aria-label="${n} out of 5 stars">${[1, 2, 3, 4, 5].map((i) => ic('star', i <= n)).join('')}</span>`;
+const quote = ({ rating = 5, text, name, role, avatar, align }) => `<figure class="dsgn-card dsgn-testimonial"${align ? ` data-align="${align}"` : ''}>${rating ? stars(rating) : ''}${text ? `<blockquote class="dsgn-testimonial-quote"><p>${text}</p></blockquote>` : ''}${name || role || avatar ? `<figcaption class="dsgn-testimonial-author">${avatar || ''}${name || role ? `<span class="dsgn-testimonial-person">${name ? `<span class="dsgn-testimonial-name">${name}</span>` : ''}${role ? `<span class="dsgn-testimonial-role">${role}</span>` : ''}</span>` : ''}</figcaption>` : ''}</figure>`;
 
 export const components = {
   button: {
@@ -261,6 +263,23 @@ export const components = {
       { title: 'In an auto grid', note: 'data-cols="auto": as many columns as fit, each at least --min (16rem by default), exactly like cards. In Figma: Grid › Columns = Auto, each Feature at Width = Fill (it has min width 256).', html: `<div class="dsgn-grid" data-cols="auto"><div class="dsgn-feature" data-layout="stack"><span class="dsgn-icon" data-variant="subtle" aria-hidden="true">bolt</span><div class="dsgn-feature-body"><h3 class="dsgn-feature-title">Invoices in a minute</h3><p class="dsgn-feature-text">Pick a client, add lines, send.</p></div></div><div class="dsgn-feature" data-layout="stack"><span class="dsgn-icon" data-variant="subtle" aria-hidden="true">notifications</span><div class="dsgn-feature-body"><h3 class="dsgn-feature-title">Automatic reminders</h3><p class="dsgn-feature-text">Polite nudges before and after the due date.</p></div></div><div class="dsgn-feature" data-layout="stack"><span class="dsgn-icon" data-variant="subtle" aria-hidden="true">account_balance</span><div class="dsgn-feature-body"><h3 class="dsgn-feature-title">Bank sync</h3><p class="dsgn-feature-text">Payments are matched as they arrive.</p></div></div><div class="dsgn-feature" data-layout="stack"><span class="dsgn-icon" data-variant="subtle" aria-hidden="true">support_agent</span><div class="dsgn-feature-body"><h3 class="dsgn-feature-title">Support in Czech</h3><p class="dsgn-feature-text">A real person, on working days.</p></div></div><div class="dsgn-feature" data-layout="stack"><span class="dsgn-icon" data-variant="subtle" aria-hidden="true">lock</span><div class="dsgn-feature-body"><h3 class="dsgn-feature-title">Data in the EU</h3><p class="dsgn-feature-text">Encrypted at rest and in transit.</p></div></div></div>` },
       { title: 'Title only, text only, plain icon', note: 'Title and text are optional; the icon can have a background (data-variant) or be bare (data-size).', html: `<div class="dsgn-grid" data-cols="1" data-cols-tablet="3"><div class="dsgn-feature"><span class="dsgn-icon" data-variant="subtle" aria-hidden="true">support_agent</span><div class="dsgn-feature-body"><h3 class="dsgn-feature-title">Support in Czech</h3></div></div><div class="dsgn-feature"><span class="dsgn-icon" data-variant="subtle" aria-hidden="true">lock</span><div class="dsgn-feature-body"><p class="dsgn-feature-text">Data stored in the EU, encrypted at rest.</p></div></div><div class="dsgn-feature"><span class="dsgn-icon" data-size="xl" data-intent="accent" aria-hidden="true">devices</span><div class="dsgn-feature-body"><h3 class="dsgn-feature-title">Works everywhere</h3><p class="dsgn-feature-text">Phone, tablet and desktop.</p></div></div></div>` }],
   },
+  testimonial: {
+    name: 'Testimonial', group: 'Content', figma: ['Testimonial', 'Rating', 'Avatar'],
+    examples: [
+      { title: 'In an auto grid', note: 'A Card: same surface, border, radius and padding. Rating, quote, avatar, name and role are all optional. The author sits at the bottom, so quotes of different lengths line up.', html: `<div class="dsgn-grid" data-cols="auto">
+  ${quote({ text: 'Invoices go out in a minute and clients finally pay on time. The reminders do the awkward part for us.', name: 'Jana Kolářová', role: 'Owner, Studio Kolo', avatar: `<span class="dsgn-avatar"><img src="${portrait}" alt=""></span>` })}
+  ${quote({ rating: 4, text: 'Bank sync saves me an afternoon every month.', name: 'Petra Lišková', role: 'Accountant', avatar: `<span class="dsgn-avatar"><img src="${portrait2}" alt=""></span>` })}
+  ${quote({ rating: 5, text: 'Simple enough that the whole team uses it.', name: 'Martin Novák', role: 'Novama', avatar: '<span class="dsgn-avatar" data-intent="accent" aria-hidden="true">MN</span>' })}
+</div>` },
+      { title: 'Centred, without parts', note: 'data-align="center" as on Card. Left: no rating and no avatar. Right: no role, initials avatar.', html: `<div class="dsgn-grid" data-cols="auto">
+  ${quote({ rating: 0, text: 'The clearest invoicing tool we have tried.', name: 'Tomáš Beneš', role: 'Freelance designer', align: 'center' })}
+  ${quote({ rating: 3, text: 'Good, but we miss multi-currency.', name: 'Eva Malá', avatar: '<span class="dsgn-avatar" aria-hidden="true">EM</span>', align: 'center' })}
+</div>` }],
+  },
+  rating: {
+    name: 'Rating', group: 'Content', figma: ['Rating'],
+    examples: [{ title: 'Scores and sizes', note: 'Always five stars: filled for the score, outline for the rest, so it reads without colour. role="img" + aria-label gives screen readers the score. data-size="s" for lists.', html: `<div class="dsgn-stack">${[5, 4, 3, 2, 1].map((n) => stars(n)).join('')}${stars(4, 's')}</div>` }],
+  },
   media: {
     name: 'Media', group: 'Content', figma: ['Media'],
     examples: [{ title: 'Ratios', html: `<div class="dsgn-grid" data-cols="auto" style="--min: 10rem">
@@ -509,6 +528,8 @@ export const leads = {
   empty: 'What to show when a list or view has nothing in it yet, with the next step.',
   card: 'A surface that groups related content and actions, optionally with an image on top or as a link.',
   feature: 'An icon with a title and a short text, beside or above it, for feature lists and benefits.',
+  testimonial: 'A customer quote with stars, avatar, name and role, styled as a card, for social proof on landing pages.',
+  rating: 'One to five stars for a review or a product score, readable without colour and announced to screen readers.',
   media: 'A frame for an image or video with a fixed aspect ratio or a circle; corners follow the radius mode.',
   stat: 'A key number with its label and change, for dashboards and summaries.',
   list: 'Rows of items with optional icon, text, meta and action; rows match table row height.',

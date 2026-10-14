@@ -3366,6 +3366,33 @@ html:has(.dsgn-header:not([data-sticky="false"])) { scroll-padding-block-start: 
   .dsgn-progress::-moz-progress-bar { background: Highlight; }
 }
 
+/* ── rating.css ── */
+/* dsgn · Rating — 1 to 5 stars (a review, a product score)
+ *
+ * <span class="dsgn-rating" role="img" aria-label="4 out of 5 stars">
+ *   <span class="dsgn-icon" data-fill aria-hidden="true">star</span> ×4
+ *   <span class="dsgn-icon" aria-hidden="true">star</span>             ×1
+ * </span>
+ *
+ * Always five stars: filled ones (data-fill) for the score, outline ones for the rest, so the score
+ * is readable without colour. The label carries the score for screen readers (role="img" + aria-label);
+ * the stars are decorative. Read-only — a star picker for a form is a radio group, not this.
+ * data-size  s (16 px stars, for lists and cards) · default 20 px
+ */
+.dsgn-rating {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dsgn-space-2);
+  vertical-align: middle;
+  line-height: 1;
+  --dsgn-icon-size: var(--dsgn-space-20);
+  --dsgn-icon-optical-size: 20;
+}
+.dsgn-rating[data-size="s"] { --dsgn-icon-size: var(--dsgn-space-16); }
+.dsgn-rating > .dsgn-icon { color: var(--dsgn-border-control); }
+.dsgn-rating > .dsgn-icon[data-fill] { color: var(--dsgn-warning-solid); }
+@media (forced-colors: active) { .dsgn-rating > .dsgn-icon { color: CanvasText; } }
+
 /* ── search.css ── */
 /* dsgn · Search field, Number input, Kbd — additions to the Input wrapper
  *
@@ -4052,6 +4079,53 @@ html:has(.dsgn-header:not([data-sticky="false"])) { scroll-padding-block-start: 
 @media (forced-colors: active) {
   .dsgn-tab[aria-selected="true"]::after { background: Highlight; }
 }
+
+/* ── testimonial.css ── */
+/* dsgn · Testimonial — a customer quote with stars and the person behind it, styled as a Card
+ *
+ * <figure class="dsgn-card dsgn-testimonial">
+ *   <span class="dsgn-rating" role="img" aria-label="5 out of 5 stars">…5 stars…</span>
+ *   <blockquote class="dsgn-testimonial-quote"><p>Invoices go out in a minute and clients pay on time.</p></blockquote>
+ *   <figcaption class="dsgn-testimonial-author">
+ *     <span class="dsgn-avatar" role="img" aria-label="Jana Kolářová">JK</span>   (or an <img> inside)
+ *     <span class="dsgn-testimonial-person">
+ *       <span class="dsgn-testimonial-name">Jana Kolářová</span>
+ *       <span class="dsgn-testimonial-role">Owner, Studio Kolo</span>
+ *     </span>
+ *   </figcaption>
+ * </figure>
+ *
+ * Every part is optional: rating, quote, avatar, name, role — leave out what you do not have.
+ * It is a Card (.dsgn-card), so it takes the Card options: data-align="center",
+ * data-surface="glass", and the Density, Radius, Lines and Elevation modes. The author sits at the
+ * bottom, so testimonials of different lengths line up in a Grid (data-cols="auto": min 16rem each).
+ * A decorative avatar next to the visible name can be aria-hidden="true" instead of role="img".
+ */
+.dsgn-testimonial {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.dsgn-card.dsgn-testimonial[data-align="center"] { align-items: center; }
+.dsgn-testimonial-quote {
+  align-self: stretch;
+  margin: 0;
+  font-size: var(--dsgn-font-size-body);
+  line-height: var(--dsgn-line-height-body);
+  text-wrap: pretty;
+}
+.dsgn-testimonial-quote > * { margin: 0; }
+.dsgn-testimonial-quote > * + * { margin-block-start: var(--dsgn-stack); }
+.dsgn-card > .dsgn-testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: var(--dsgn-space-12);
+  margin-block-start: auto;
+  min-inline-size: 0;
+}
+.dsgn-testimonial-person { display: grid; min-inline-size: 0; }
+.dsgn-testimonial-name { font-weight: var(--dsgn-font-weight-medium); }
+.dsgn-testimonial-role { color: var(--dsgn-text-muted); }
 
 /* ── toast.css ── */
 /* dsgn · Toast (created by dsgn.toast(), needs dsgn.js)
