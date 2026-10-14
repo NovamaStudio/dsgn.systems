@@ -744,36 +744,32 @@
 .dsgn-icon[data-size="l"]   { --dsgn-icon-size: var(--dsgn-space-24); --dsgn-icon-optical-size: 24; }
 .dsgn-icon[data-size="xl"]  { --dsgn-icon-size: var(--dsgn-space-32); --dsgn-icon-optical-size: 40; }
 .dsgn-icon[data-size="2xl"] { --dsgn-icon-size: var(--dsgn-space-48); --dsgn-icon-optical-size: 48; }
-/* intent: one set of colours, used as text colour (bare) or as background + glyph (variant) */
-.dsgn-icon {
-  --_text: var(--dsgn-accent-text);
-  --_subtle: var(--dsgn-accent-subtle);
-  --_solid: var(--dsgn-accent-solid);
-  --_on-solid: var(--dsgn-accent-solid-text);
-}
-.dsgn-icon[data-intent="neutral"] { --_text: var(--dsgn-neutral-text); --_subtle: var(--dsgn-neutral-subtle); --_solid: var(--dsgn-neutral-solid); --_on-solid: var(--dsgn-neutral-solid-text); }
-.dsgn-icon[data-intent="success"] { --_text: var(--dsgn-success-text); --_subtle: var(--dsgn-success-subtle); --_solid: var(--dsgn-success-solid); --_on-solid: var(--dsgn-success-solid-text); }
-.dsgn-icon[data-intent="warning"] { --_text: var(--dsgn-warning-text); --_subtle: var(--dsgn-warning-subtle); --_solid: var(--dsgn-warning-solid); --_on-solid: var(--dsgn-warning-solid-text); }
-.dsgn-icon[data-intent="danger"]  { --_text: var(--dsgn-danger-text);  --_subtle: var(--dsgn-danger-subtle);  --_solid: var(--dsgn-danger-solid);  --_on-solid: var(--dsgn-danger-solid-text); }
-.dsgn-icon[data-intent] { color: var(--_text); }
+/* intent: one set of colours, used as text colour (bare) or as background + glyph (variant).
+   Private names are icon-specific (--_ic-*) and set only on icons that ask for them, so an icon
+   inside Alert, Banner, Button … keeps inheriting its colour from that component. */
+.dsgn-icon[data-intent="accent"]  { --_ic-text: var(--dsgn-accent-text);  --_ic-subtle: var(--dsgn-accent-subtle);  --_ic-solid: var(--dsgn-accent-solid);  --_ic-on-solid: var(--dsgn-accent-solid-text); }
+.dsgn-icon[data-intent="neutral"] { --_ic-text: var(--dsgn-neutral-text); --_ic-subtle: var(--dsgn-neutral-subtle); --_ic-solid: var(--dsgn-neutral-solid); --_ic-on-solid: var(--dsgn-neutral-solid-text); }
+.dsgn-icon[data-intent="success"] { --_ic-text: var(--dsgn-success-text); --_ic-subtle: var(--dsgn-success-subtle); --_ic-solid: var(--dsgn-success-solid); --_ic-on-solid: var(--dsgn-success-solid-text); }
+.dsgn-icon[data-intent="warning"] { --_ic-text: var(--dsgn-warning-text); --_ic-subtle: var(--dsgn-warning-subtle); --_ic-solid: var(--dsgn-warning-solid); --_ic-on-solid: var(--dsgn-warning-solid-text); }
+.dsgn-icon[data-intent="danger"]  { --_ic-text: var(--dsgn-danger-text);  --_ic-subtle: var(--dsgn-danger-subtle);  --_ic-solid: var(--dsgn-danger-solid);  --_ic-on-solid: var(--dsgn-danger-solid-text); }
+.dsgn-icon[data-intent] { color: var(--_ic-text); }
 .dsgn-icon[data-intent="neutral"]:not([data-variant]) { color: var(--dsgn-text-muted); }
 
 /* background: padding around the glyph, the glyph keeps its size */
 .dsgn-icon[data-variant] {
-  --_pad: var(--dsgn-space-8);
   box-sizing: content-box;
-  padding: var(--_pad);
+  padding: var(--_ic-pad, var(--dsgn-space-8));
   border-radius: var(--dsgn-radius-m);
-  background: var(--_subtle);
-  color: var(--_text);
+  background: var(--_ic-subtle, var(--dsgn-accent-subtle));
+  color: var(--_ic-text, var(--dsgn-accent-text));
   text-align: center;
 }
 .dsgn-icon[data-variant]:not([data-size]) { --dsgn-icon-size: var(--dsgn-space-20); --dsgn-icon-optical-size: 20; }
-.dsgn-icon[data-variant="solid"] { background: var(--_solid); color: var(--_on-solid); }
-.dsgn-icon[data-variant][data-size="s"]   { --_pad: var(--dsgn-space-4); }
-.dsgn-icon[data-variant][data-size="l"]   { --_pad: var(--dsgn-space-12); border-radius: var(--dsgn-radius-l); }
+.dsgn-icon[data-variant="solid"] { background: var(--_ic-solid, var(--dsgn-accent-solid)); color: var(--_ic-on-solid, var(--dsgn-accent-solid-text)); }
+.dsgn-icon[data-variant][data-size="s"]   { --_ic-pad: var(--dsgn-space-4); }
+.dsgn-icon[data-variant][data-size="l"]   { --_ic-pad: var(--dsgn-space-12); border-radius: var(--dsgn-radius-l); }
 .dsgn-icon[data-variant][data-size="xl"],
-.dsgn-icon[data-variant][data-size="2xl"] { --_pad: var(--dsgn-space-16); border-radius: var(--dsgn-radius-l); }
+.dsgn-icon[data-variant][data-size="2xl"] { --_ic-pad: var(--dsgn-space-16); border-radius: var(--dsgn-radius-l); }
 @media (forced-colors: active) { .dsgn-icon[data-variant] { outline: 1px solid CanvasText; outline-offset: -1px; } }
 
 @media (prefers-reduced-motion: no-preference) {
