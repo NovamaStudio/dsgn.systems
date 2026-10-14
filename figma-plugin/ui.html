@@ -4142,6 +4142,8 @@ html:has(.dsgn-header:not([data-sticky="false"])) { scroll-padding-block-start: 
      card's top edge (Figma: a space-12 spacer under the padding, then the stack gap) */
   margin-block: calc(-1 * (var(--dsgn-inset) + var(--dsgn-space-24))) calc(var(--dsgn-inset) + var(--dsgn-stack) - var(--dsgn-space-12));
 }
+/* avatar without name and role: the quote follows at inset + space-12 + stack, as in Figma */
+.dsgn-card.dsgn-testimonial[data-align="center"] > .dsgn-testimonial-author:not(:has(.dsgn-testimonial-person)) > .dsgn-avatar { margin-block-end: calc(var(--dsgn-inset) - var(--dsgn-space-12)); }
 .dsgn-card.dsgn-testimonial[data-align="center"]:has(> .dsgn-testimonial-author > .dsgn-avatar) { margin-block-start: var(--dsgn-space-24); }
 
 /* ── toast.css ── */
