@@ -63,7 +63,8 @@ export const figmaMap = {
 
   // ── Status ──
   'Badge': { doc: 'badge', code: '<span class="dsgn-badge">Draft</span>',
-    props: { Variant: { Subtle: '', Solid: 'data-variant="solid"' }, Intent: INTENT('Neutral') } },
+    props: { Variant: { Subtle: '', Solid: 'data-variant="solid"' }, Intent: INTENT('Neutral') },
+    bools: { 'Show icon': '<span class="dsgn-icon" aria-hidden="true">…</span> before the label', 'Show close': '<button type="button" class="dsgn-badge-remove" aria-label="Remove …"><span class="dsgn-icon" aria-hidden="true">close</span></button> after the label' } },
   'Alert': { doc: 'alert', code: `<div class="dsgn-alert" data-intent="danger" role="alert">${ICON}<div class="dsgn-alert-body"><p class="dsgn-alert-title">…</p><p>…</p></div></div>`,
     props: { Intent: INTENT('Accent') } },
   'Banner': { doc: 'banner', code: '<div class="dsgn-banner" data-intent="warning" role="status"><div class="dsgn-container dsgn-banner-inner">…<p class="dsgn-banner-text">…</p></div></div>',

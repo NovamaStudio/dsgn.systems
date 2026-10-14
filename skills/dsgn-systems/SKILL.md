@@ -264,7 +264,7 @@ Every component documents its full markup at the top of `dist/components/<name>.
 - **Description list**: `dl.dsgn-dl` > `div` > `dt` + `dd`.
 - **Stat tile**: `.dsgn-stat` > `.dsgn-stat-label`, `.dsgn-stat-value`, `.dsgn-stat-meta` with `.dsgn-stat-delta[data-intent]`. The delta always has text.
 - **Avatar**: `<span class="dsgn-avatar"><img src="…" alt="Name"></span>` or initials with `role="img" aria-label="Name"`; `data-size="s"`, `data-intent`; `.dsgn-avatar-group`.
-- **Badge**: `<span class="dsgn-badge" data-intent="success">Paid</span>`, `data-variant="solid"`. Not interactive.
+- **Badge**: `<span class="dsgn-badge" data-intent="success">Paid</span>`, `data-variant="solid"`. A status label; always 20 px. With close (active filter, picked value): append `<button type="button" class="dsgn-badge-remove" aria-label="Remove filter Paid"><span class="dsgn-icon" aria-hidden="true">close</span></button>`; the app removes the badge and moves focus to the next one. A removable tag inside a field at control height is a Chip.
 - **Accordion**: `.dsgn-accordion` > `<details name="faq">` > `<summary>Question<span class="dsgn-icon" aria-hidden="true">expand_more</span></summary>` + `.dsgn-accordion-content`.
 - **Divider**: `<hr class="dsgn-divider">`, `data-orientation="vertical"`, or a labelled `div.dsgn-divider[role=separator]`.
 - **Link**: `<a class="dsgn-link">` inside running text; it is always underlined.

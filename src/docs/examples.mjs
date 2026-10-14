@@ -175,6 +175,11 @@ export const components = {
   <span class="dsgn-badge">Draft</span><span class="dsgn-badge" data-intent="accent">Sent</span>
   <span class="dsgn-badge" data-intent="success">Paid</span><span class="dsgn-badge" data-intent="warning">${ic('schedule')}Due soon</span>
   <span class="dsgn-badge" data-intent="danger" data-variant="solid">Overdue</span>
+</div>` },
+      { title: 'With close', note: 'For active filters or picked values. The badge stays 20 px tall; the close button has a 24 × 24 hit area. The app removes the badge and moves focus to the next one. A tag inside a field at control height is a Chip.', html: `<div class="dsgn-cluster" role="group" aria-label="Active filters">
+  <span class="dsgn-badge" data-intent="accent">Status: Paid<button type="button" class="dsgn-badge-remove" aria-label="Remove filter Status: Paid">${ic('close')}</button></span>
+  <span class="dsgn-badge">${ic('person')}Novama s.r.o.<button type="button" class="dsgn-badge-remove" aria-label="Remove filter Novama s.r.o.">${ic('close')}</button></span>
+  <span class="dsgn-badge" data-intent="danger" data-variant="solid">Overdue<button type="button" class="dsgn-badge-remove" aria-label="Remove filter Overdue">${ic('close')}</button></span>
 </div>` }],
   },
   alert: {

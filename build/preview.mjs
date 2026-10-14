@@ -292,7 +292,9 @@ function badgeBlock() {
   const ints = ['neutral', 'accent', 'success', 'warning', 'danger'], words = ['Draft', 'Sent', 'Paid', 'Due soon', 'Overdue'];
   return '<div class="row">' + ints.map((i, n) => '<span class="dsgn-badge" data-intent="' + i + '">' + words[n] + '</span>').join('') +
     '</div><div class="row">' + ints.map((i, n) => '<span class="dsgn-badge" data-intent="' + i + '" data-variant="solid">' + words[n] + '</span>').join('') +
-    '<span class="dsgn-badge" data-intent="warning">' + ic('schedule') + '2 days</span></div>';
+    '<span class="dsgn-badge" data-intent="warning">' + ic('schedule') + '2 days</span></div>' +
+    '<div class="row">' + [['accent', '', 'Status: Paid'], ['neutral', ic('person'), 'Novama s.r.o.'], ['danger" data-variant="solid', '', 'Overdue']].map(function (b) {
+      return '<span class="dsgn-badge" data-intent="' + b[0] + '">' + b[1] + b[2] + '<button type="button" class="dsgn-badge-remove" aria-label="Remove filter ' + b[2] + '">' + ic('close') + '</button></span>'; }).join('') + '</div>';
 }
 function moreFormsBlock(t) {
   const opt = (id, v, label) => '<div class="dsgn-menu-item" role="option" id="cb' + t + id + '" data-value="' + v + '">' + label + '</div>';

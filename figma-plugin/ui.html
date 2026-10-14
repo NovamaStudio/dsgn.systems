@@ -963,9 +963,15 @@
  * <span class="dsgn-badge" data-intent="danger" data-variant="solid">Overdue</span>
  * <span class="dsgn-badge" data-intent="warning"><span class="dsgn-icon" aria-hidden="true">schedule</span>Due soon</span>
  *
+ * With close (an active filter, a selected value; the app removes the badge and moves focus on):
+ * <span class="dsgn-badge" data-intent="accent">Paid<button type="button" class="dsgn-badge-remove" aria-label="Remove filter Paid"><span class="dsgn-icon" aria-hidden="true">close</span></button></span>
+ *
  * data-intent   neutral (default) | accent | success | warning | danger
  * data-variant  subtle (default) | solid
- * Status label, not interactive. Caption type, fixed size (does not follow Density): 16 + 2 × 2 = 20 px.
+ * Status label; only the close button is interactive. Caption type, fixed size (does not follow
+ * Density): 16 + 2 × 2 = 20 px with or without icon and close — both are 16 px (one caption line).
+ * A start icon or the close button tightens that side to space-4. The close button's hit area is
+ * 24 × 24 (WCAG 2.5.8). For a tag inside a field or a filter bar at control height use Chip.
  */
 .dsgn-badge {
   --_subtle: var(--dsgn-neutral-subtle);
@@ -992,6 +998,27 @@
 }
 .dsgn-badge:has(> .dsgn-icon:not([data-end])) { padding-inline-start: var(--dsgn-space-4); }
 .dsgn-badge > .dsgn-icon { --_fill: 1; }
+
+/* close */
+.dsgn-badge:has(> .dsgn-badge-remove) { padding-inline-end: var(--dsgn-space-4); }
+.dsgn-badge-remove {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--dsgn-radius-s);
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.dsgn-badge-remove::before { content: ''; position: absolute; inset: calc(-1 * var(--dsgn-space-4)); }
+@media (hover: hover) { .dsgn-badge-remove:hover > .dsgn-icon { --_wght: 700; } }
+.dsgn-badge-remove:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: 0; }
+.dsgn-badge[data-variant="solid"] .dsgn-badge-remove:focus-visible { outline-color: currentColor; }
 
 .dsgn-badge[data-intent="accent"]  { --_subtle: var(--dsgn-accent-subtle);  --_text: var(--dsgn-accent-text);  --_solid: var(--dsgn-accent-solid);  --_on-solid: var(--dsgn-accent-solid-text); }
 .dsgn-badge[data-intent="success"] { --_subtle: var(--dsgn-success-subtle); --_text: var(--dsgn-success-text); --_solid: var(--dsgn-success-solid); --_on-solid: var(--dsgn-success-solid-text); }
