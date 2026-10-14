@@ -309,6 +309,17 @@ function moreFormsBlock(t) {
     '<span class="dsgn-file-title" id="attt' + t + '">Drop files here or <span class="dsgn-link">browse</span></span><span class="dsgn-file-text" id="atth' + t + '">PDF, JPG or PNG, up to 10 MB each</span></label></div>' +
   '<div class="dsgn-honeypot" inert><label for="hp' + t + '">Leave this empty</label><input id="hp' + t + '" name="website" autocomplete="off"></div>';
 }
+function featureBlock(t) {
+  const tile = (icon, attrs) => '<span class="dsgn-icon-tile"' + (attrs || '') + '>' + ic(icon) + '</span>';
+  const feat = (layout, icon, title, text) => '<div class="dsgn-feature"' + (layout ? ' data-layout="' + layout + '"' : '') + '>' + tile(icon) +
+    '<div class="dsgn-feature-body">' + (title ? '<h3 class="dsgn-feature-title">' + title + '</h3>' : '') + (text ? '<p class="dsgn-feature-text">' + text + '</p>' : '') + '</div></div>';
+  return '<div class="row" style="align-items: end">' +
+      ['s', 'm', 'l', 'xl', '2xl'].map(function (z) { return '<span class="dsgn-icon" data-size="' + z + '" data-intent="accent" aria-hidden="true">savings</span>'; }).join('') +
+      tile('bolt', ' data-size="s"') + tile('bolt') + tile('bolt', ' data-size="l" data-intent="success"') + tile('bolt', ' data-size="xl" data-variant="solid"') + '</div>' +
+    '<div class="media-row">' + feat('', 'bolt', 'Invoices in a minute', 'Icon beside the text.') + feat('stack', 'notifications', 'Reminders', 'Icon above, left.') +
+      feat('center', 'account_balance', 'Bank sync', 'Icon above, centred.') + '</div>' +
+    '<div class="row"><div class="dsgn-media" data-ratio="circle" style="inline-size: 4rem"><img src="' + portrait + '" alt="Jana Kolářová"></div></div>';
+}
 function mediaBlock(t) {
   return '<div class="media-row">' +
     '<article class="dsgn-card"><div class="dsgn-media dsgn-card-media"><img src="' + landscape + '" alt=""></div>' +
@@ -554,7 +565,7 @@ function panel(theme) {
     '<div class="panel-head"><h2>' + (theme === 'light' ? 'Light' : 'Dark') + '</h2><span class="mono muted">data-theme="' + theme + '"</span></div>' +
     '<div class="row">' + btns('solid') + '</div><div class="row">' + btns('subtle') + '</div><div class="row">' + btns('ghost') + '</div>' +
     '<div class="row">' + icons('solid') + icons('subtle') + icons('ghost') + '</div>' +
-    formBlock(theme) + moreFormsBlock(theme) + choiceBlock(theme) + badgeBlock() + cardBlock(theme) + mediaBlock(theme) + alertBlock() + tabsBlock(theme) + tableBlock(theme) + navBlock(theme) + loadingBlock(theme) + dialogBlock(theme) + moreBlock(theme) + layoutBlock(theme) +
+    formBlock(theme) + moreFormsBlock(theme) + choiceBlock(theme) + badgeBlock() + cardBlock(theme) + mediaBlock(theme) + featureBlock(theme) + alertBlock() + tabsBlock(theme) + tableBlock(theme) + navBlock(theme) + loadingBlock(theme) + dialogBlock(theme) + moreBlock(theme) + layoutBlock(theme) +
     '<details><summary class="muted">All ' + Object.keys(D.semantic).length + ' colour tokens</summary><div class="tokgrid" style="margin-top:8px">' + toks + '</div></details></div>';
 }
 document.getElementById('panels').innerHTML = panel('light') + panel('dark');

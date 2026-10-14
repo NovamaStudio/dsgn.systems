@@ -257,8 +257,8 @@ export const radius = {
   tokens: {
     //              sharp default rounded pill
     'radius-s':    [0,    2,      4,      6],     // checkbox, tooltip, inner bits
-    'radius-m':    [0,    4,      8,      9999],  // controls
-    'radius-l':    [0,    8,      16,     24],    // containers (pill capped)
+    'radius-m':    [0,    4,      8,      9999],  // controls; pill = fully round (Figma: alias of radius/full)
+    'radius-l':    [0,    8,      16,     24],    // containers: a pill-shaped card or dialog would look broken, so capped
   },
   constant: { 'radius-full': 9999 },              // radio, switch, avatar
 };

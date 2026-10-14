@@ -1,0 +1,44 @@
+/* dsgn · Feature — an icon with a title and a short text (feature lists, benefits, contact blocks)
+ *
+ * <div class="dsgn-feature">
+ *   <span class="dsgn-icon-tile"><span class="dsgn-icon" aria-hidden="true">bolt</span></span>
+ *   <div class="dsgn-feature-body">
+ *     <h3 class="dsgn-feature-title">Invoices in a minute</h3>
+ *     <p class="dsgn-feature-text">Pick a client, add lines, send.</p>
+ *   </div>
+ * </div>
+ *
+ * data-layout  inline (default: icon beside the text) · stack (icon above, left) · center (icon above, centred)
+ * The icon is a .dsgn-icon-tile or a plain .dsgn-icon (data-size); title and text are both optional —
+ * leave out the one you do not need. The title takes whatever heading level fits the page.
+ * Put several in a Grid: <div class="dsgn-grid" data-cols="1" data-cols-tablet="2" data-cols-desktop="3">.
+ */
+.dsgn-feature {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: var(--dsgn-space-16);
+  color: var(--dsgn-text);
+  font-family: var(--dsgn-font-sans);
+}
+.dsgn-feature[data-layout="stack"],
+.dsgn-feature[data-layout="center"] { grid-template-columns: minmax(0, 1fr); gap: var(--dsgn-space-12); justify-items: start; }
+.dsgn-feature[data-layout="center"] { justify-items: center; text-align: center; }
+.dsgn-feature-body { display: grid; gap: var(--dsgn-space-4); min-inline-size: 0; }
+.dsgn-feature-title {
+  margin: 0;
+  font-size: var(--dsgn-font-size-title);
+  line-height: var(--dsgn-line-height-title);
+  font-weight: var(--dsgn-font-weight-semibold);
+  text-wrap: balance;
+}
+.dsgn-feature-text {
+  margin: 0;
+  color: var(--dsgn-text-muted);
+  font-size: var(--dsgn-font-size-body-s);
+  line-height: var(--dsgn-line-height-body-s);
+  text-wrap: pretty;
+}
+/* inline: a plain icon sits on the title's first line */
+.dsgn-feature:not([data-layout]) > .dsgn-icon,
+.dsgn-feature[data-layout="inline"] > .dsgn-icon { margin-block-start: calc((var(--dsgn-line-height-title) - var(--dsgn-icon-size, 1lh)) / 2); }

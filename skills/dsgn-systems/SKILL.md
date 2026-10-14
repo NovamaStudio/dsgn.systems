@@ -258,7 +258,7 @@ Every component documents its full markup at the top of `dist/components/<name>.
 
 **Content**
 - **Card**: `article.dsgn-card` (`data-surface="glass"` over a photo or colourful band, one or two per view) > `.dsgn-card-title`, `.dsgn-card-text`, any content, `.dsgn-card-actions`. On top either an image (`<div class="dsgn-media dsgn-card-media"><img …></div>`) or an icon (`<span class="dsgn-card-icon" data-intent="success">…</span>`), never both. `data-align="center"` centres it. Link card: either `<a class="dsgn-card">` (no buttons inside), or a stretched title link `<h3 class="dsgn-card-title"><a class="dsgn-card-link" href="…">…</a></h3>` when the card also has buttons.
-- **Media**: `<div class="dsgn-media" data-ratio="16:9|4:3|3:2|1:1|21:9|auto"><img …></div>`; `<figure class="dsgn-figure">` + `<figcaption>`.
+- **Media**: `<div class="dsgn-media" data-ratio="16:9|4:3|3:2|1:1|21:9|auto|circle"><img …></div>`; `<figure class="dsgn-figure">` + `<figcaption>`.
 - **List**: `ul.dsgn-list` > `li` > `a.dsgn-list-item` (or a `div` for a static row) with avatar/icon, `.dsgn-list-item-content` (`-title`, `-text`), `.dsgn-list-item-meta`. Never nest interactive elements inside a whole-row link. `data-variant="plain"` inside cards.
 - **Table**: `<div class="dsgn-table-wrap" tabindex="0" role="region" aria-label="…"><table class="dsgn-table">`, `<th scope="col">`, `data-numeric` for numbers, `aria-sort` + `.dsgn-table-sort` button for sorting, `.dsgn-table-select` checkbox column, `tr[aria-selected="true"]`. Add a `<caption>` (it can be visually hidden).
 - **Description list**: `dl.dsgn-dl` > `div` > `dt` + `dd`.
@@ -268,7 +268,8 @@ Every component documents its full markup at the top of `dist/components/<name>.
 - **Accordion**: `.dsgn-accordion` > `<details name="faq">` > `<summary>Question<span class="dsgn-icon" aria-hidden="true">expand_more</span></summary>` + `.dsgn-accordion-content`.
 - **Divider**: `<hr class="dsgn-divider">`, `data-orientation="vertical"`, or a labelled `div.dsgn-divider[role=separator]`.
 - **Link**: `<a class="dsgn-link">` inside running text; it is always underlined.
-- **Icon**: `<span class="dsgn-icon" aria-hidden="true">name</span>`, `data-fill` for the filled style. Icons are decorative; the control carries the name.
+- **Icon**: `<span class="dsgn-icon" aria-hidden="true">name</span>`, `data-fill` for the filled style. Icons are decorative; the control carries the name. Standalone: `data-size="s|m|l|xl|2xl"` (16–48 px) and `data-intent` for colour. **Icon tile**: `<span class="dsgn-icon-tile" data-size="l" data-intent="success">…icon…</span>` (`data-variant="solid"`).
+- **Feature** (icon + title + text): `<div class="dsgn-feature" data-layout="stack|center">` > icon tile + `.dsgn-feature-body` > `.dsgn-feature-title` + `.dsgn-feature-text` (both optional); default = icon beside the text. Several in a Grid for feature lists.
 
 **Navigation**
 - **Nav**: `nav.dsgn-nav[aria-label]` > `a.dsgn-nav-link` with `aria-current="page"`; `data-orientation="vertical"` for sidebars, `.dsgn-nav-label` for groups.

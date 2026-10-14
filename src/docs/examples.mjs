@@ -247,6 +247,14 @@ export const components = {
     <h3 class="dsgn-card-title">Retreat in Lipno</h3><p class="dsgn-card-text">Centred, the image stays full width.</p></article>
 </div>` }],
   },
+  feature: {
+    name: 'Feature', group: 'Content', figma: ['Feature'],
+    examples: [
+      { title: 'Beside (default)', html: `<div class="dsgn-grid" data-cols="1" data-cols-tablet="3"><div class="dsgn-feature"><span class="dsgn-icon-tile"><span class="dsgn-icon" aria-hidden="true">bolt</span></span><div class="dsgn-feature-body"><h3 class="dsgn-feature-title">Invoices in a minute</h3><p class="dsgn-feature-text">Pick a client, add lines, send. Numbering and VAT are filled in.</p></div></div><div class="dsgn-feature"><span class="dsgn-icon-tile"><span class="dsgn-icon" aria-hidden="true">notifications</span></span><div class="dsgn-feature-body"><h3 class="dsgn-feature-title">Automatic reminders</h3><p class="dsgn-feature-text">Polite nudges before and after the due date.</p></div></div><div class="dsgn-feature"><span class="dsgn-icon-tile"><span class="dsgn-icon" aria-hidden="true">account_balance</span></span><div class="dsgn-feature-body"><h3 class="dsgn-feature-title">Bank sync</h3><p class="dsgn-feature-text">Payments are matched as they arrive.</p></div></div></div>` },
+      { title: 'Stacked, left', html: `<div class="dsgn-grid" data-cols="1" data-cols-tablet="3"><div class="dsgn-feature" data-layout="stack"><span class="dsgn-icon-tile"><span class="dsgn-icon" aria-hidden="true">bolt</span></span><div class="dsgn-feature-body"><h3 class="dsgn-feature-title">Invoices in a minute</h3><p class="dsgn-feature-text">Pick a client, add lines, send.</p></div></div><div class="dsgn-feature" data-layout="stack"><span class="dsgn-icon-tile"><span class="dsgn-icon" aria-hidden="true">notifications</span></span><div class="dsgn-feature-body"><h3 class="dsgn-feature-title">Automatic reminders</h3><p class="dsgn-feature-text">Polite nudges before and after the due date.</p></div></div><div class="dsgn-feature" data-layout="stack"><span class="dsgn-icon-tile"><span class="dsgn-icon" aria-hidden="true">account_balance</span></span><div class="dsgn-feature-body"><h3 class="dsgn-feature-title">Bank sync</h3><p class="dsgn-feature-text">Payments are matched as they arrive.</p></div></div></div>` },
+      { title: 'Stacked, centred', html: `<div class="dsgn-grid" data-cols="1" data-cols-tablet="3"><div class="dsgn-feature" data-layout="center"><span class="dsgn-icon-tile"><span class="dsgn-icon" aria-hidden="true">bolt</span></span><div class="dsgn-feature-body"><h3 class="dsgn-feature-title">Invoices in a minute</h3><p class="dsgn-feature-text">Pick a client, add lines, send.</p></div></div><div class="dsgn-feature" data-layout="center"><span class="dsgn-icon-tile"><span class="dsgn-icon" aria-hidden="true">notifications</span></span><div class="dsgn-feature-body"><h3 class="dsgn-feature-title">Automatic reminders</h3><p class="dsgn-feature-text">Polite nudges before and after the due date.</p></div></div><div class="dsgn-feature" data-layout="center"><span class="dsgn-icon-tile"><span class="dsgn-icon" aria-hidden="true">account_balance</span></span><div class="dsgn-feature-body"><h3 class="dsgn-feature-title">Bank sync</h3><p class="dsgn-feature-text">Payments are matched as they arrive.</p></div></div></div>` },
+      { title: 'Title only, text only, plain icon', note: 'Title and text are optional; the icon can be a tile or a plain icon with data-size.', html: `<div class="dsgn-grid" data-cols="1" data-cols-tablet="3"><div class="dsgn-feature"><span class="dsgn-icon-tile"><span class="dsgn-icon" aria-hidden="true">support_agent</span></span><div class="dsgn-feature-body"><h3 class="dsgn-feature-title">Support in Czech</h3></div></div><div class="dsgn-feature"><span class="dsgn-icon-tile"><span class="dsgn-icon" aria-hidden="true">lock</span></span><div class="dsgn-feature-body"><p class="dsgn-feature-text">Data stored in the EU, encrypted at rest.</p></div></div><div class="dsgn-feature"><span class="dsgn-icon" data-size="xl" data-intent="accent" aria-hidden="true">devices</span><div class="dsgn-feature-body"><h3 class="dsgn-feature-title">Works everywhere</h3><p class="dsgn-feature-text">Phone, tablet and desktop.</p></div></div></div>` }],
+  },
   media: {
     name: 'Media', group: 'Content', figma: ['Media'],
     examples: [{ title: 'Ratios', html: `<div class="dsgn-grid" data-cols="auto" style="--min: 10rem">
@@ -255,6 +263,7 @@ export const components = {
   <div class="dsgn-media" data-ratio="1:1"><img src="${landscape}" alt=""></div>
   <div class="dsgn-media" data-ratio="3:2" aria-hidden="true"></div>
 </div>` },
+    { title: 'Circle', note: 'data-ratio="circle": 1:1 and fully round, for portraits and logos; give it a width.', html: `<div class="dsgn-cluster"><div class="dsgn-media" data-ratio="circle" style="inline-size: 6rem"><img src="${portrait}" alt="Jana Kolářová"></div><div class="dsgn-media" data-ratio="circle" style="inline-size: 4rem"><img src="${landscape}" alt=""></div></div>` },
     { title: 'Figure with caption', html: `<figure class="dsgn-figure" style="max-inline-size: 28rem">
   <div class="dsgn-media" data-ratio="3:2"><img src="${landscape}" alt="Lake at dawn below wooded hills"></div>
   <figcaption>Lipno, the morning before the retreat.</figcaption>
@@ -314,8 +323,13 @@ export const components = {
     examples: [{ title: 'In running text', html: `<p class="dsgn-body">The client can <a class="dsgn-link" href="#link">download the PDF</a> or read the <a class="dsgn-link" data-intent="neutral" href="#link">terms</a>.</p>` }],
   },
   icon: {
-    name: 'Icon', group: 'Content', figma: ['icon/outline', 'icon/fill (text styles)'],
-    examples: [{ title: 'Outline and fill', html: `<p class="dsgn-body">${ic('receipt_long')} ${ic('receipt_long', 1)} ${ic('favorite')} ${ic('favorite', 1)} ${ic('schedule')} ${ic('schedule', 1)}</p>` }],
+    name: 'Icon', group: 'Content', figma: ['Icon', 'Icon tile', 'icon/outline', 'icon/fill (text styles)'],
+    examples: [{ title: 'Outline and fill', html: `<p class="dsgn-body">${ic('receipt_long')} ${ic('receipt_long', 1)} ${ic('favorite')} ${ic('favorite', 1)} ${ic('schedule')} ${ic('schedule', 1)}</p>` },
+      { title: 'Standalone sizes and colours', note: 'Outside text or a control: data-size s 16 · m 20 · l 24 · xl 32 · 2xl 48 and data-intent for the colour.', html: `<div class="dsgn-cluster" style="align-items: end">${['s', 'm', 'l', 'xl', '2xl'].map((z) => `<span class="dsgn-icon" data-size="${z}" aria-hidden="true">savings</span>`).join('')}
+  ${['neutral', 'accent', 'success', 'warning', 'danger'].map((i) => `<span class="dsgn-icon" data-size="xl" data-intent="${i}" data-fill aria-hidden="true">savings</span>`).join('')}</div>` },
+      { title: 'Icon tile', note: 'An icon on a tinted square: data-size s · m · l · xl, data-intent, data-variant="solid". Corners follow the Radius mode (Pill = circle).', html: `<div class="dsgn-cluster" style="align-items: end">${['s', 'm', 'l', 'xl'].map((z) => `<span class="dsgn-icon-tile" data-size="${z}"><span class="dsgn-icon" aria-hidden="true">bolt</span></span>`).join('')}
+  ${['neutral', 'success', 'warning', 'danger'].map((i) => `<span class="dsgn-icon-tile" data-size="l" data-intent="${i}"><span class="dsgn-icon" data-fill aria-hidden="true">bolt</span></span>`).join('')}
+  ${['accent', 'success', 'danger'].map((i) => `<span class="dsgn-icon-tile" data-size="l" data-variant="solid" data-intent="${i}"><span class="dsgn-icon" aria-hidden="true">bolt</span></span>`).join('')}</div>` }],
   },
   base: {
     name: 'Text styles', group: 'Content', figma: ['display … caption (text styles)'],
@@ -488,7 +502,8 @@ export const leads = {
   skeleton: 'Placeholders in the shape of the content while it loads.',
   empty: 'What to show when a list or view has nothing in it yet, with the next step.',
   card: 'A surface that groups related content and actions, optionally with an image on top or as a link.',
-  media: 'A frame for an image or video with a fixed aspect ratio; corners follow the radius mode.',
+  feature: 'An icon with a title and a short text, beside or above it, for feature lists and benefits.',
+  media: 'A frame for an image or video with a fixed aspect ratio or a circle; corners follow the radius mode.',
   stat: 'A key number with its label and change, for dashboards and summaries.',
   list: 'Rows of items with optional icon, text, meta and action; rows match table row height.',
   dl: 'Label and value pairs, such as the properties of a record.',

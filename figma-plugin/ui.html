@@ -697,6 +697,18 @@
  * the parent), so an icon always sits exactly in a line of text or a control.
  * Decorative by default: always aria-hidden. A meaningful icon needs a text label
  * on its control (aria-label), never on the glyph.
+ *
+ * Standalone (outside text or a control):
+ *   data-size   s 16 · m 20 · l 24 · xl 32 · 2xl 48 px (optical size follows)
+ *   data-intent neutral (muted) · accent · success · warning · danger (colour; default = text)
+ * <span class="dsgn-icon" data-size="xl" data-intent="accent" aria-hidden="true">savings</span>
+ *
+ * Icon tile — an icon on a tinted square (feature lists, empty states, cards):
+ * <span class="dsgn-icon-tile" data-size="l" data-intent="success"><span class="dsgn-icon" aria-hidden="true">savings</span></span>
+ *   data-size    s 24 · m 36 (default) · l 48 · xl 64 px; corners follow Radius (Pill = circle)
+ *   data-intent  accent (default) · neutral · success · warning · danger
+ *   data-variant subtle (default, tinted) · solid (filled colour, white glyph)
+ *   Outline or filled glyph: data-fill on the inner .dsgn-icon (outline by default).
  */
 .dsgn-icon {
   --_fill: 0;
@@ -725,6 +737,51 @@
     'opsz' var(--dsgn-icon-optical-size, 20);
 }
 .dsgn-icon[data-fill] { --_fill: 1; }
+
+/* standalone sizes */
+.dsgn-icon[data-size="s"]   { --dsgn-icon-size: var(--dsgn-space-16); --dsgn-icon-optical-size: 20; }
+.dsgn-icon[data-size="m"]   { --dsgn-icon-size: var(--dsgn-space-20); --dsgn-icon-optical-size: 20; }
+.dsgn-icon[data-size="l"]   { --dsgn-icon-size: var(--dsgn-space-24); --dsgn-icon-optical-size: 24; }
+.dsgn-icon[data-size="xl"]  { --dsgn-icon-size: var(--dsgn-space-32); --dsgn-icon-optical-size: 40; }
+.dsgn-icon[data-size="2xl"] { --dsgn-icon-size: var(--dsgn-space-48); --dsgn-icon-optical-size: 48; }
+.dsgn-icon[data-intent="neutral"] { color: var(--dsgn-text-muted); }
+.dsgn-icon[data-intent="accent"]  { color: var(--dsgn-accent-text); }
+.dsgn-icon[data-intent="success"] { color: var(--dsgn-success-text); }
+.dsgn-icon[data-intent="warning"] { color: var(--dsgn-warning-text); }
+.dsgn-icon[data-intent="danger"]  { color: var(--dsgn-danger-text); }
+
+/* icon tile */
+.dsgn-icon-tile {
+  --_bg: var(--dsgn-accent-subtle);
+  --_fg: var(--dsgn-accent-text);
+  --_pad: var(--dsgn-space-8);
+  box-sizing: border-box;
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  padding: var(--_pad);
+  border-radius: var(--dsgn-radius-m);
+  background: var(--_bg);
+  color: var(--_fg);
+  line-height: 1;
+}
+.dsgn-icon-tile > .dsgn-icon { --dsgn-icon-size: var(--dsgn-space-20); --dsgn-icon-optical-size: 20; }
+.dsgn-icon-tile[data-size="s"]  { --_pad: var(--dsgn-space-4); }
+.dsgn-icon-tile[data-size="s"] > .dsgn-icon  { --dsgn-icon-size: var(--dsgn-space-16); }
+.dsgn-icon-tile[data-size="l"]  { --_pad: var(--dsgn-space-12); border-radius: var(--dsgn-radius-l); }
+.dsgn-icon-tile[data-size="l"] > .dsgn-icon  { --dsgn-icon-size: var(--dsgn-space-24); --dsgn-icon-optical-size: 24; }
+.dsgn-icon-tile[data-size="xl"] { --_pad: var(--dsgn-space-16); border-radius: var(--dsgn-radius-l); }
+.dsgn-icon-tile[data-size="xl"] > .dsgn-icon { --dsgn-icon-size: var(--dsgn-space-32); --dsgn-icon-optical-size: 40; }
+.dsgn-icon-tile[data-intent="neutral"] { --_bg: var(--dsgn-neutral-subtle); --_fg: var(--dsgn-neutral-text); }
+.dsgn-icon-tile[data-intent="success"] { --_bg: var(--dsgn-success-subtle); --_fg: var(--dsgn-success-text); }
+.dsgn-icon-tile[data-intent="warning"] { --_bg: var(--dsgn-warning-subtle); --_fg: var(--dsgn-warning-text); }
+.dsgn-icon-tile[data-intent="danger"]  { --_bg: var(--dsgn-danger-subtle);  --_fg: var(--dsgn-danger-text); }
+.dsgn-icon-tile[data-variant="solid"]                         { --_bg: var(--dsgn-accent-solid);  --_fg: var(--dsgn-accent-solid-text); }
+.dsgn-icon-tile[data-variant="solid"][data-intent="neutral"] { --_bg: var(--dsgn-neutral-solid); --_fg: var(--dsgn-neutral-solid-text); }
+.dsgn-icon-tile[data-variant="solid"][data-intent="success"] { --_bg: var(--dsgn-success-solid); --_fg: var(--dsgn-success-solid-text); }
+.dsgn-icon-tile[data-variant="solid"][data-intent="warning"] { --_bg: var(--dsgn-warning-solid); --_fg: var(--dsgn-warning-solid-text); }
+.dsgn-icon-tile[data-variant="solid"][data-intent="danger"]  { --_bg: var(--dsgn-danger-solid);  --_fg: var(--dsgn-danger-solid-text); }
+@media (forced-colors: active) { .dsgn-icon-tile { outline: 1px solid CanvasText; outline-offset: -1px; } }
 
 @media (prefers-reduced-motion: no-preference) {
   .dsgn-icon { transition: font-variation-settings var(--dsgn-duration-fast) var(--dsgn-ease); }
@@ -1959,6 +2016,52 @@ html:has(.dsgn-dialog:modal) { overflow: hidden; }
   margin-block-start: var(--dsgn-space-8);
 }
 
+/* ── feature.css ── */
+/* dsgn · Feature — an icon with a title and a short text (feature lists, benefits, contact blocks)
+ *
+ * <div class="dsgn-feature">
+ *   <span class="dsgn-icon-tile"><span class="dsgn-icon" aria-hidden="true">bolt</span></span>
+ *   <div class="dsgn-feature-body">
+ *     <h3 class="dsgn-feature-title">Invoices in a minute</h3>
+ *     <p class="dsgn-feature-text">Pick a client, add lines, send.</p>
+ *   </div>
+ * </div>
+ *
+ * data-layout  inline (default: icon beside the text) · stack (icon above, left) · center (icon above, centred)
+ * The icon is a .dsgn-icon-tile or a plain .dsgn-icon (data-size); title and text are both optional —
+ * leave out the one you do not need. The title takes whatever heading level fits the page.
+ * Put several in a Grid: <div class="dsgn-grid" data-cols="1" data-cols-tablet="2" data-cols-desktop="3">.
+ */
+.dsgn-feature {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: var(--dsgn-space-16);
+  color: var(--dsgn-text);
+  font-family: var(--dsgn-font-sans);
+}
+.dsgn-feature[data-layout="stack"],
+.dsgn-feature[data-layout="center"] { grid-template-columns: minmax(0, 1fr); gap: var(--dsgn-space-12); justify-items: start; }
+.dsgn-feature[data-layout="center"] { justify-items: center; text-align: center; }
+.dsgn-feature-body { display: grid; gap: var(--dsgn-space-4); min-inline-size: 0; }
+.dsgn-feature-title {
+  margin: 0;
+  font-size: var(--dsgn-font-size-title);
+  line-height: var(--dsgn-line-height-title);
+  font-weight: var(--dsgn-font-weight-semibold);
+  text-wrap: balance;
+}
+.dsgn-feature-text {
+  margin: 0;
+  color: var(--dsgn-text-muted);
+  font-size: var(--dsgn-font-size-body-s);
+  line-height: var(--dsgn-line-height-body-s);
+  text-wrap: pretty;
+}
+/* inline: a plain icon sits on the title's first line */
+.dsgn-feature:not([data-layout]) > .dsgn-icon,
+.dsgn-feature[data-layout="inline"] > .dsgn-icon { margin-block-start: calc((var(--dsgn-line-height-title) - var(--dsgn-icon-size, 1lh)) / 2); }
+
 /* ── file.css ── */
 /* dsgn · File upload (drop zone around a native file input)
  *
@@ -2483,7 +2586,8 @@ input.dsgn-input:disabled::-webkit-calendar-picker-indicator { background: var(-
  *
  * A frame for an image or video: fixed aspect ratio, the picture fills it (object-fit: cover),
  * corners follow radius-l (Sharp 0 · Default 8 · Rounded 16 · Pill 24) like cards and panels.
- * data-ratio  16:9 (default) | 4:3 | 3:2 | 1:1 | 21:9 | auto (the image keeps its own shape).
+ * data-ratio  16:9 (default) | 4:3 | 3:2 | 1:1 | 21:9 | auto (the image keeps its own shape)
+ *             | circle (1:1, fully round — portraits, logos; set a width, e.g. style="inline-size: 8rem").
  * Empty frames show a neutral placeholder; a thin inner line keeps light images off the surface.
  * Decorative images take alt="", meaningful ones a real description.
  */
@@ -2505,6 +2609,7 @@ input.dsgn-input:disabled::-webkit-calendar-picker-indicator { background: var(-
 .dsgn-media[data-ratio="1:1"]  { --_ratio: 1 / 1; }
 .dsgn-media[data-ratio="21:9"] { --_ratio: 21 / 9; }
 .dsgn-media[data-ratio="auto"] { aspect-ratio: auto; }
+.dsgn-media[data-ratio="circle"] { --_ratio: 1 / 1; border-radius: var(--dsgn-radius-full); }
 .dsgn-media > :is(img, video, picture, iframe, svg) {
   display: block;
   inline-size: 100%;
@@ -4444,8 +4549,8 @@ const radius = {
   tokens: {
     //              sharp default rounded pill
     'radius-s':    [0,    2,      4,      6],     // checkbox, tooltip, inner bits
-    'radius-m':    [0,    4,      8,      9999],  // controls
-    'radius-l':    [0,    8,      16,     24],    // containers (pill capped)
+    'radius-m':    [0,    4,      8,      9999],  // controls; pill = fully round (Figma: alias of radius/full)
+    'radius-l':    [0,    8,      16,     24],    // containers: a pill-shaped card or dialog would look broken, so capped
   },
   constant: { 'radius-full': 9999 },              // radio, switch, avatar
 };

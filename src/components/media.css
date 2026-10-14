@@ -9,7 +9,8 @@
  *
  * A frame for an image or video: fixed aspect ratio, the picture fills it (object-fit: cover),
  * corners follow radius-l (Sharp 0 · Default 8 · Rounded 16 · Pill 24) like cards and panels.
- * data-ratio  16:9 (default) | 4:3 | 3:2 | 1:1 | 21:9 | auto (the image keeps its own shape).
+ * data-ratio  16:9 (default) | 4:3 | 3:2 | 1:1 | 21:9 | auto (the image keeps its own shape)
+ *             | circle (1:1, fully round — portraits, logos; set a width, e.g. style="inline-size: 8rem").
  * Empty frames show a neutral placeholder; a thin inner line keeps light images off the surface.
  * Decorative images take alt="", meaningful ones a real description.
  */
@@ -31,6 +32,7 @@
 .dsgn-media[data-ratio="1:1"]  { --_ratio: 1 / 1; }
 .dsgn-media[data-ratio="21:9"] { --_ratio: 21 / 9; }
 .dsgn-media[data-ratio="auto"] { aspect-ratio: auto; }
+.dsgn-media[data-ratio="circle"] { --_ratio: 1 / 1; border-radius: var(--dsgn-radius-full); }
 .dsgn-media > :is(img, video, picture, iframe, svg) {
   display: block;
   inline-size: 100%;

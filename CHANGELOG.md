@@ -34,6 +34,13 @@ One version for the npm package and the Figma library. [Semantic versioning](htt
 
 - **Figma → code handoff** (a Code Connect substitute that works on every Figma plan): all 69 components carry their code in the description — the snippet, every property value → attribute (`Variant: Ghost → data-variant="ghost"`, `State: Hover → :hover`) and the docs link; each variant lists its own attributes; each component has its documentation link set. Source: `src/docs/figma-map.mjs`, checked against the docs on every build; `dist/figma-handoff.js` writes it into the library. The skill has a Figma property → code table for agents building from a design.
 
+- **Standalone icons**: `.dsgn-icon` takes `data-size="s|m|l|xl|2xl"` (16 / 20 / 24 / 32 / 48 px, optical size follows) and `data-intent` for its colour, outline or `data-fill`. Figma: component **Icon** (Size × Style × Intent) and text styles `icon/{s…2xl}/{outline|fill}`.
+- **Icon tile** `.dsgn-icon-tile`: an icon on a tinted square — `data-size="s|m|l|xl"` (24 / 36 / 48 / 64), `data-intent`, `data-variant="solid"`; corners follow Radius (Pill = circle). Figma: **Icon tile** (Size × Style × Variant × Intent).
+- **Feature** `.dsgn-feature`: icon + title + text, `data-layout` inline (default) / stack / center; title and text optional. Figma: **Feature** (Layout, Show title, Show text, nested Icon tile).
+- **Media** `data-ratio="circle"` (1:1, fully round). Figma: Media › Ratio = Circle.
+- Figma: **Description row** has a Value slot, so the description can hold components (badge, link, avatar …), like `<dd>` in code.
+- Figma: Radius Pill › `radius/m` (controls, fully round) is now an alias of `radius/full` instead of a raw 9999. The values are unchanged and deliberate: controls become pills, small bits 6, containers capped at 24 (a pill-shaped card or dialog would look broken).
+
 ### Fixed
 - Menu items had no focus ring colour after the 0.10 focus change (the ring colour variable was only defined for danger items).
 - Figma: switching a variant no longer resets what was typed or added. 32 Card variants (image / icon on top, centred) had lost the links to Title, Text, Show actions and the Content slot (now one shared slot again); Input, Textarea and Date input variants were missing links in some states; Section header's Actions is now a real slot; the unused Alert › Icon name property was removed. The Figma lint now reports any variant layer that is not linked to the property its siblings use.

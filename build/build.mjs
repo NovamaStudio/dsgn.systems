@@ -284,10 +284,11 @@ figma.collections.push(dens);
 const rad = { name: 'Radius', modes: defaultFirst(T.radius).map(([m]) => cap(m)), variables: [] };
 for (const [k, vals] of Object.entries(T.radius.tokens))
   rad.variables.push({ name: k.replace('radius-', 'radius/'), type: 'FLOAT', scopes: ['CORNER_RADIUS'], codeSyntax: code(k),
-    values: Object.fromEntries(T.radius.modes.map((m, i) => [cap(m), vals[i]])) });
+    // fully round (pill controls) = an alias of Primitives › radius/full, so Figma shows "radius/full", not 9999
+    values: Object.fromEntries(T.radius.modes.map((m, i) => [cap(m), vals[i] >= 9999 ? { alias: 'Primitives::radius/full' } : vals[i]])) });
 rad.variables.push({ name: 'radius/m-inner', type: 'FLOAT', scopes: ['CORNER_RADIUS'], codeSyntax: { WEB: `max(0px, calc(var(${v('radius-m')}) - var(${v('space-2')})))` },
   description: '= max(0, radius-m − space-2): corners of an item inset by 2 px (Segmented control). Figma only.',
-  values: Object.fromEntries(T.radius.modes.map((m, i) => { const r = T.radius.tokens['radius-m'][i]; return [cap(m), r >= 9999 ? 9999 : Math.max(0, r - 2)]; })) });
+  values: Object.fromEntries(T.radius.modes.map((m, i) => { const r = T.radius.tokens['radius-m'][i]; return [cap(m), r >= 9999 ? { alias: 'Primitives::radius/full' } : Math.max(0, r - 2)]; })) });
 const rI = (k, i) => T.radius.tokens[k][i];
 const radDerived = (name, web, description, f) => rad.variables.push({ name, type: 'FLOAT', scopes: ['CORNER_RADIUS'], codeSyntax: { WEB: web }, description,
   values: Object.fromEntries(T.radius.modes.map((m, i) => [cap(m), f(rI('radius-m', i), rI('radius-l', i))])) });
@@ -349,6 +350,8 @@ figma.textStyles.push(
   { name: 'icon/outline', family: 'Material Symbols Rounded', fill: 0, bind: { fontSize: 'Density::control/line-height', lineHeight: 'Density::control/line-height' } },
   { name: 'icon/fill', family: 'Material Symbols Rounded', fill: 1, bind: { fontSize: 'Density::control/line-height', lineHeight: 'Density::control/line-height' } },
   { name: 'icon/fill-display', family: 'Material Symbols Rounded', fill: 1, bind: { fontSize: 'Typography::display/line-height', lineHeight: 'Typography::display/line-height' } },
+  // standalone icon sizes (Icon / Icon tile components; code: .dsgn-icon[data-size])
+  ...[['s', 16], ['m', 20], ['l', 24], ['xl', 32], ['2xl', 48]].flatMap(([z, n]) => [0, 1].map((f) => ({ name: `icon/${z}/${f ? 'fill' : 'outline'}`, family: 'Material Symbols Rounded', fill: f, bind: { fontSize: `Primitives::space/${n}`, lineHeight: `Primitives::space/${n}` } }))),
 );
 out('figma-variables.json', JSON.stringify(figma, null, 2));
 
