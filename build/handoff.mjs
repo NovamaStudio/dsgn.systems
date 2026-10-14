@@ -4,6 +4,7 @@
 // description — the snippet, how each property value is written in code, and the docs link — and
 // sets the component's documentation link. Variants get the attributes of that exact variant.
 // It returns { ok, updated, missing[], unmapped[] }; save it as figma/handoff-report.json.
+import { writeFigmaScript } from './figma-run.mjs';
 import { writeFileSync, readFileSync, existsSync } from 'node:fs';
 import { components } from '../src/docs/examples.mjs';
 import { figmaMap, STATE } from '../src/docs/figma-map.mjs';
@@ -58,9 +59,8 @@ for (const page of figma.root.children) {
 }
 return { ok: missing.length === 0 && unmapped.length === 0, updated, missing, unmapped };
 `;
-writeFileSync(new URL('../dist/figma-handoff.js', import.meta.url), script);
-console.log(`figma-handoff.js written (${Object.keys(figmaMap).length} components, ${(script.length / 1024).toFixed(1)} kB) — run it in Figma, save the result as figma/handoff-report.json`);
-if (script.length > 49000) { console.error('✗ handoff script exceeds the 50 kB MCP limit'); process.exit(1); }
+const written = writeFigmaScript('handoff', script);
+console.log(`figma-handoff.js written (${Object.keys(figmaMap).length} components, ${(written.length / 1024).toFixed(1)} kB) — run it in Figma, save the result as figma/handoff-report.json`);
 
 const rep = new URL('../figma/handoff-report.json', import.meta.url);
 if (existsSync(rep)) { const r = JSON.parse(readFileSync(rep, 'utf8')); if (!r.ok) { console.error('✗ handoff: last Figma run reported', r.missing.length, 'unmapped components and', r.unmapped.length, 'unmapped values (figma/handoff-report.json)'); process.exit(1); } console.log(`handoff: ${r.updated} Figma components carry their code ✓`); }

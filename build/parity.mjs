@@ -11,6 +11,7 @@
 //                (colours within 1/255 per channel, numbers exactly, aliases by target name)
 //   text styles  existence, font family + weight, variable bindings of size and line-height
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
+import { writeFigmaScript } from './figma-run.mjs';
 
 const arg = (k) => { const i = process.argv.indexOf(k); return i > 0 ? process.argv[i + 1] : null; };
 
@@ -109,9 +110,8 @@ for (const et of EXPECTED.textStyles) {
 for (const fs of styles) if (!EXPECTED.textStyles.some((s) => s.name === fs.name)) miss('text/' + fs.name, 'text style exists only in Figma', '—', fs.fontName.family + ' ' + fs.fontName.style);
 return { ok: out.length === 0, checkedAt: Date.now(), summary, mismatches: out };
 `;
-writeFileSync(new URL('../dist/figma-parity.js', import.meta.url), checker);
-console.log(`figma-parity.js written (${(checker.length / 1024).toFixed(1)} kB) — run it in Figma, save the result, then: node build/parity.mjs --report <file>`);
-if (checker.length > 49000) { console.error('✗ parity script exceeds the 50 kB MCP limit'); process.exit(1); }
+const parityScript = writeFigmaScript('parity', checker);
+console.log(`figma-parity.js written (${(parityScript.length / 1024).toFixed(1)} kB) — run it in Figma, save the result as figma/parity-report.json`);
 
 // ── figma-sync.js: the same payload, applied. Creates missing collections, modes and variables, sets
 // scopes, code syntax and every value / alias, and upserts the effect styles. Never deletes anything.
