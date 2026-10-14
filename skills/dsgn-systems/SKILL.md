@@ -223,6 +223,8 @@ Every dsgn component in the Figma library carries its code in the description (D
 | Variant, Intent, Size, Tone, Ratio, Align, Placement, Layout, Surface | `data-variant`, `data-intent`, `data-size` … (lower-case value; the default value is written as nothing) |
 | State = Hover / Pressed / Focus | browser states (`:hover`, `:active`, `:focus-visible`) — never write them |
 | State = Disabled / Invalid / Selected / Current | `disabled`, `aria-invalid="true"`, `aria-pressed="true"`, `aria-current="page"` |
+| Background (Icon, also the nested icon in Card and Feature) | `data-variant="subtle\|solid"` on the `.dsgn-icon`; None = no attribute |
+| Show … booleans (Show icon, Show close, Show title …) | include or leave out that element (the description names it) |
 | Checked / Open | `checked`, `open` |
 | Breakpoint | not an attribute: the CSS switches at 40rem / 64rem |
 | Color, Density, Radius, Elevation, Material, Lines, Layout modes on a frame | `data-theme`, `data-density`, `data-radius`, `data-elevation`, `data-material`, `data-lines` on `<html>` or the section (Layout mode = viewport width) |
@@ -269,7 +271,7 @@ Every component documents its full markup at the top of `dist/components/<name>.
 - **Divider**: `<hr class="dsgn-divider">`, `data-orientation="vertical"`, or a labelled `div.dsgn-divider[role=separator]`.
 - **Link**: `<a class="dsgn-link">` inside running text; it is always underlined.
 - **Icon**: `<span class="dsgn-icon" aria-hidden="true">name</span>`, `data-fill` for the filled style. Icons are decorative; the control carries the name. Standalone: `data-size="s|m|l|xl|2xl"` (16–48 px) and `data-intent` for colour. **Background**: `data-variant="subtle|solid"` puts the same icon on a tinted square (padding added around the glyph: s 24 · m 36 default · l 48 · xl 64 · 2xl 80; accent unless `data-intent`). Use it in Card, Feature, empty states. In Figma it is the Icon's **Background** property (None / Subtle / Solid).
-- **Feature** (icon + title + text): `<div class="dsgn-feature" data-layout="stack|center">` > icon tile + `.dsgn-feature-body` > `.dsgn-feature-title` + `.dsgn-feature-text` (both optional); default = icon beside the text. Several in a Grid for feature lists.
+- **Feature** (icon + title + text): `<div class="dsgn-feature" data-layout="stack|center">` > an icon (`<span class="dsgn-icon" data-variant="subtle" aria-hidden="true">bolt</span>`, or bare with `data-size`) + `.dsgn-feature-body` > `.dsgn-feature-title` + `.dsgn-feature-text` (both optional); default = icon beside the text. Several in a Grid for feature lists.
 
 **Navigation**
 - **Nav**: `nav.dsgn-nav[aria-label]` > `a.dsgn-nav-link` with `aria-current="page"`; `data-orientation="vertical"` for sidebars, `.dsgn-nav-label` for groups.

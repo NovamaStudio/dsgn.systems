@@ -330,8 +330,8 @@ function mediaBlock(t) {
       '<div class="dsgn-card-actions"><button class="dsgn-button" data-variant="subtle" data-intent="neutral">' + ic('download') + 'Quote</button></div></article>' +
     '<a class="dsgn-card" href="#h-b"><div class="dsgn-media dsgn-card-media" data-ratio="3:2"><img src="' + landscape + '" alt=""></div>' +
       '<h3 class="dsgn-card-title">Studio Kolo</h3><p class="dsgn-card-text">The whole card is the link.</p></a>' +
-    '<article class="dsgn-card"><span class="dsgn-card-icon">' + ic('receipt_long') + '</span><h3 class="dsgn-card-title">Invoices in a minute</h3><p class="dsgn-card-text">Icon instead of an image.</p></article>' +
-    '<article class="dsgn-card" data-align="center"><span class="dsgn-card-icon" data-intent="success">' + ic('savings') + '</span><h3 class="dsgn-card-title">Bank sync</h3><p class="dsgn-card-text">Centred card.</p>' +
+    '<article class="dsgn-card"><span class="dsgn-icon" data-variant="subtle" aria-hidden="true">receipt_long</span><h3 class="dsgn-card-title">Invoices in a minute</h3><p class="dsgn-card-text">Icon instead of an image.</p></article>' +
+    '<article class="dsgn-card" data-align="center"><span class="dsgn-icon" data-variant="solid" data-intent="success" aria-hidden="true">savings</span><h3 class="dsgn-card-title">Bank sync</h3><p class="dsgn-card-text">Centred card.</p>' +
       '<div class="dsgn-card-actions"><button class="dsgn-button" data-variant="subtle" data-intent="neutral">Connect bank</button></div></article>' +
     '<figure class="dsgn-figure"><div class="dsgn-media" data-ratio="1:1"><img src="' + landscape + '" alt="Lake at dawn below wooded hills"></div><figcaption>Media 1:1 with caption</figcaption></figure>' +
     '<figure class="dsgn-figure"><div class="dsgn-media" data-ratio="4:3"></div><figcaption>Empty 4:3 placeholder</figcaption></figure>' +
@@ -710,7 +710,8 @@ drawLadders(); drawPairs();
   const esc = demoHtml.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
   const shown = html.replace(esc, '').replace(css, '') + demoHtml.replace(/<style>[\s\S]*?<\/style>/g, '');
   const classes = [...new Set([...compCss.matchAll(/\.(dsgn-[a-z0-9-]+)/g)].map(m => m[1]))];
-  const missing = classes.filter(c => !shown.includes(c));
+  const DEPRECATED = ['dsgn-card-icon'];   // still styled for compatibility, no longer shown
+  const missing = classes.filter(c => !shown.includes(c) && !DEPRECATED.includes(c));
   if (missing.length) { console.error('✗ components not shown in the preview:', missing.join(', ')); process.exit(1); }
   console.log('preview covers all ' + classes.length + ' component classes');
 }

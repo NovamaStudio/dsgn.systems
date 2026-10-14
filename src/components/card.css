@@ -16,9 +16,10 @@
  *   <h3 class="dsgn-card-title">…</h3> …
  * </article>
  *
- * Icon on top instead of an image (one or the other) — a tinted tile, size = control height (Density),
- * corners radius-m, data-intent accent (default) | neutral | success | warning | danger:
- * <span class="dsgn-card-icon" data-intent="success"><span class="dsgn-icon" aria-hidden="true">savings</span></span>
+ * Icon on top instead of an image (one or the other) — any .dsgn-icon as the first child; with a
+ * background (data-variant subtle | solid), data-size, data-intent (see icon.css):
+ * <span class="dsgn-icon" data-variant="subtle" data-intent="success" aria-hidden="true">savings</span>
+ * (.dsgn-card-icon, the 0.10 wrapper, still works but is deprecated.)
  *
  * Alignment — start (default) or centred: icon, title, text and actions centre, an image stays full width.
  * data-align  center
