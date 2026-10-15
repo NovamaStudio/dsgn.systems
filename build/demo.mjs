@@ -49,7 +49,7 @@ const website = `
 
 <main id="web-main">
   <section class="dsgn-section">
-    <div class="dsgn-container dsgn-split" data-side="half">
+    <div class="dsgn-container dsgn-split" data-side="half" data-gap="xl">
       <div class="dsgn-stack" data-gap="l" data-align="start">
         <span class="dsgn-badge" data-intent="accent">${ic('verified_user')}New: automatic reminders</span>
         <h1 class="dsgn-display">Invoices that get paid on time</h1>

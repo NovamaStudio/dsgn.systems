@@ -46,6 +46,7 @@ One version for the npm package and the Figma library. [Semantic versioning](htt
 - Figma: Radius Pill › `radius/m` (controls, fully round) is now an alias of `radius/full` instead of a raw 9999. The values are unchanged and deliberate: controls become pills, small bits 6, containers capped at 24 (a pill-shaped card or dialog would look broken).
 
 ### Fixed
+- Hero on mobile and tablet: the gap between content and media (grid gap, 16 / 24 px) was not larger than the gaps inside the content (24 px), so the two read as one block. Split now takes `data-gap` like Stack and Grid; the hero uses `data-gap="xl"` (48 px) at every breakpoint. Figma: Hero › container gap = space/48.
 - Figma: a Badge with an icon was 24 px tall instead of 20 (the icon used the 20 px `icon/fill` text style). The icon is now 16 px (`icon/s/fill`), and the start padding tightens to space-4 with an icon, as in code.
 - Menu items had no focus ring colour after the 0.10 focus change (the ring colour variable was only defined for danger items).
 - Figma: switching a variant no longer resets what was typed or added. 32 Card variants (image / icon on top, centred) had lost the links to Title, Text, Show actions and the Content slot (now one shared slot again); Input, Textarea and Date input variants were missing links in some states; Section header's Actions is now a real slot; the unused Alert › Icon name property was removed. The Figma lint now reports any variant layer that is not linked to the property its siblings use.

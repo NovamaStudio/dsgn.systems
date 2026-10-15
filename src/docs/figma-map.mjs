@@ -156,7 +156,7 @@ export const figmaMap = {
     props: { Surface: { Default: 'follows data-material', Solid: 'data-surface="solid"', Glass: 'data-surface="glass"', Transparent: 'data-surface="transparent" (+ data-top-theme="dark" over a dark hero)' }, Shape: { Bar: '', Floating: 'data-floating', 'Floating scrolled': 'data-floating, scrolled' } } },
   'Footer': { doc: 'patterns', code: '<footer class="dsgn-footer"><div class="dsgn-container dsgn-stack" data-gap="xl">…columns… <div class="dsgn-cluster dsgn-footer-legal" data-justify="between">…</div></div></footer>', props: { Breakpoint: BP } },
   'Footer column': { doc: 'patterns', code: '<div><p class="dsgn-footer-title">Product</p><ul class="dsgn-footer-links"><li><a href="…">…</a></li></ul></div>' },
-  'Hero': { doc: 'patterns', code: '<section class="dsgn-section"><div class="dsgn-container dsgn-split" data-side="half">…content… …media…</div></section>', props: { Breakpoint: BP } },
+  'Hero': { doc: 'patterns', code: '<section class="dsgn-section"><div class="dsgn-container dsgn-split" data-side="half" data-gap="xl"><div class="dsgn-stack" data-gap="l">…content…</div> …media…</div></section>', props: { Breakpoint: BP } },
   'CTA band': { doc: 'patterns', code: '<section class="dsgn-section" data-theme="dark"><div class="dsgn-container dsgn-cluster" data-justify="between">…text… …actions…</div></section>', props: { Breakpoint: BP } },
   'Page header': { doc: 'patterns', code: '<div class="dsgn-page-header">breadcrumbs · <h1 class="dsgn-page-header-title">…</h1> + actions</div>' },
   'Section header': { doc: 'patterns', code: '<div class="dsgn-stack"><p class="dsgn-eyebrow">…</p><h2 class="dsgn-heading">…</h2><p class="dsgn-lead">…</p></div>',

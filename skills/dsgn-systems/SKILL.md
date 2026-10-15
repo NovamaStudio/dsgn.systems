@@ -169,6 +169,7 @@ They only place things; they draw nothing. Page-level spacing changes at tablet 
 | Cluster (wrapping row) | `<div class="dsgn-cluster" data-justify="between\|end\|center">` (+ `data-nowrap`) |
 | Grid | `<div class="dsgn-grid" data-cols="1" data-cols-tablet="2" data-cols-desktop="4">`, or `data-cols="auto" style="--min: 16rem"`; child `data-span="full\|2\|3"` |
 | Split (main + side) | `<div class="dsgn-split" data-side="start\|end" style="--side: 20rem">` |
+| Hero (two halves) | `<div class="dsgn-container dsgn-split" data-side="half" data-gap="xl">` > `<div class="dsgn-stack" data-gap="l">` content + media. The split gap (xl) must stay larger than the content gaps (l), or content and media read as one group when they stack on mobile |
 | Visibility | `data-hide-below="tablet\|desktop"`, `data-hide-above="mobile\|tablet"` |
 
 Page patterns (classes for chrome; everything inside is primitives and components):
