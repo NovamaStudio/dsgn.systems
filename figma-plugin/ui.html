@@ -3084,8 +3084,14 @@ input.dsgn-input:disabled::-webkit-calendar-picker-indicator { background: var(-
  *   data-top-theme="dark"  transparent header over a dark hero: dark theme while at the top.
  *   dsgn.js sets data-at-top / data-scrolled / data-hidden and --dsgn-header-height on <html>.
  * Site footer   <footer class="dsgn-footer"><div class="dsgn-container dsgn-stack" data-gap="xl">
- *                 <div class="dsgn-grid" data-cols="2" data-cols-desktop="5">brand + link columns</div>
- *                 <div class="dsgn-cluster" data-justify="between">legal</div></div></footer>
+ *                 <div class="dsgn-footer-top">
+ *                   <div class="dsgn-footer-brand">brand · tagline</div>
+ *                   <div class="dsgn-footer-columns">…link columns…</div></div>
+ *                 <div class="dsgn-cluster dsgn-footer-legal" data-justify="between">legal</div></div></footer>
+ *               Reflows by its own width, no breakpoints (as Grid Auto, and the same in Figma): the brand
+ *               is 16rem wide beside the columns, or above them when both do not fit; columns are at
+ *               least 8rem, as many in a row as fit (4 on desktop, 2 next to the brand on a tablet,
+ *               2 on a phone).
  * Page header   <div class="dsgn-page-header"> breadcrumbs · title + actions · lead </div>
  * App shell     <div class="dsgn-app"><aside class="dsgn-app-sidebar">…</aside>   (top bar: data-surface="solid|glass", else the page's material)
  *                 <div class="dsgn-app-main"><div class="dsgn-app-topbar">…</div><main class="dsgn-app-content">…</main></div></div>
@@ -3226,6 +3232,16 @@ html:has(.dsgn-header:not([data-sticky="false"])) { scroll-padding-block-start: 
 .dsgn-footer a:not([class]) { color: var(--dsgn-text-muted); text-decoration: none; border-radius: var(--dsgn-radius-s); }
 @media (hover: hover) { .dsgn-footer a:not([class]):hover { color: var(--dsgn-text); text-decoration: underline; text-underline-offset: 0.2em; } }
 .dsgn-footer a:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: var(--dsgn-focus-offset); }
+/* top row: the brand (16rem) beside the columns, or above them when there is no room */
+.dsgn-footer-top { display: flex; flex-wrap: wrap; gap: var(--dsgn-grid-gap); }
+.dsgn-footer-brand { display: grid; align-content: start; gap: var(--dsgn-space-8); flex: 0 1 calc(4 * var(--dsgn-space-64)); min-inline-size: 0; }
+.dsgn-footer-columns {
+  flex: 1 1 calc(4 * var(--dsgn-space-64) + var(--dsgn-grid-gap));   /* room for two columns */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(calc(2 * var(--dsgn-space-64)), 100%), 1fr));
+  gap: var(--dsgn-grid-gap);
+  min-inline-size: 0;
+}
 .dsgn-footer-legal { padding-block-start: var(--dsgn-space-24); box-shadow: inset 0 var(--dsgn-line-separator) 0 var(--dsgn-border); }
 
 /* ── Page header (app pages) ─────────────────────────────────────────────── */
