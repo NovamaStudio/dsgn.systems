@@ -115,9 +115,9 @@ const website = `
 
 <footer class="dsgn-footer">
   <div class="dsgn-container dsgn-stack" data-gap="xl">
-    <div class="dsgn-grid" data-cols="2" data-cols-tablet="3" data-cols-desktop="5">
-      <div class="dsgn-stack" data-gap="s" data-span="full" data-span-desktop="1">${brand}<p>Invoicing for small studios. Made in Prague.</p></div>
-      ${[['Product', ['Features', 'Pricing', 'Changelog']], ['Company', ['About', 'Careers', 'Contact']], ['Resources', ['Help centre', 'Templates', 'API']], ['Legal', ['Terms', 'Privacy', 'Cookies']]].map(([t, l]) => `<div><p class="dsgn-footer-title">${t}</p><ul class="dsgn-footer-links">${l.map((x) => `<li><a href="#web">${x}</a></li>`).join('')}</ul></div>`).join('')}
+    <div class="dsgn-footer-top">
+      <div class="dsgn-footer-brand">${brand}<p>Invoicing for small studios. Made in Prague.</p></div>
+      <div class="dsgn-footer-columns">${[['Product', ['Features', 'Pricing', 'Changelog']], ['Company', ['About', 'Careers', 'Contact']], ['Resources', ['Help centre', 'Templates', 'API']], ['Legal', ['Terms', 'Privacy', 'Cookies']]].map(([t, l]) => `<div><p class="dsgn-footer-title">${t}</p><ul class="dsgn-footer-links">${l.map((x) => `<li><a href="#web">${x}</a></li>`).join('')}</ul></div>`).join('')}</div>
     </div>
     <div class="dsgn-footer-legal dsgn-cluster" data-justify="between"><span>© 2026 Novama s.r.o.</span><span>IČO 12345678</span></div>
   </div>

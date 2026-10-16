@@ -199,8 +199,9 @@ Header options (all combinable; dsgn.js drives the scroll states):
 ```html
 <div class="dsgn-page-header">breadcrumbs · <h1 class="dsgn-page-header-title">…</h1> + actions · <p class="dsgn-lead">…</p></div>
 
-<footer class="dsgn-footer"><div class="dsgn-container dsgn-stack" data-gap="xl">
-  <div class="dsgn-grid" data-cols="2" data-cols-desktop="5">brand + .dsgn-footer-title / .dsgn-footer-links columns</div>
+<footer class="dsgn-footer"><div class="dsgn-container dsgn-stack" data-gap="xl">   <!-- reflows by its own width: brand 16rem beside or above the columns, columns min 8rem -->
+  <div class="dsgn-footer-top"><div class="dsgn-footer-brand">brand · tagline</div>
+    <div class="dsgn-footer-columns">.dsgn-footer-title / .dsgn-footer-links columns</div></div>
   <div class="dsgn-cluster dsgn-footer-legal" data-justify="between">© · legal links</div>
 </div></footer>
 
