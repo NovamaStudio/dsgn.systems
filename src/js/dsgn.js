@@ -222,6 +222,16 @@
     });
   }
 
+  /* a link to a section of this page inside an open dialog (mobile menu drawer) closes the dialog,
+     so the page can scroll to the section */
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="#"]');
+    var d = a && a.closest('dialog[open]');
+    if (!d || a.getAttribute('href').length < 2 || e.defaultPrevented) return;
+    var id = decodeURIComponent(a.getAttribute('href').slice(1));
+    if (document.getElementById(id) && !d.contains(document.getElementById(id))) d.close();
+  });
+
   /* ── Toast ──────────────────────────────────────────────────────────────── */
   var MAX_TOASTS = 3;
   var ICONS = { accent: 'info', neutral: 'info', success: 'check_circle', warning: 'warning', danger: 'error' };

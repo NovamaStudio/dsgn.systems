@@ -42,20 +42,21 @@ Bundler: `import 'dsgn.systems/css'` and `import 'dsgn.systems/js'`.
 | `dsgn.systems/tokens.css` | tokens only |
 | `dsgn.systems/components/<name>.css` | one component; load `tokens.css` and `components/icon.css` first |
 | `dsgn.systems/js` | behaviour; auto-initialises, call `dsgn.init(root)` after inserting markup |
+| `dsgn.systems/min.css`, `min.js` | the same, minified, for production |
 | `dsgn.systems/tokens.json` | tokens in W3C DTCG format |
 | `dsgn.systems/theme` | `resolveTheme`, `themeCss`, `checkContrast`, `hexToOklch` for build tools |
 
 ### Static site on your own hosting (no build)
 
-Copy the two files next to the page instead of linking `node_modules` (which is not deployed). Keep the copy in step with the installed version by running it on every install:
+Copy the two files next to the page instead of linking `node_modules` (which is not deployed). They are copied minified (about 19 kB CSS and 5 kB JS over the wire); `--readable` copies the commented sources. Keep the copy in step with the installed version by running it on every install:
 
 ```bash
 npm i dsgn.systems
-npx dsgn copy            # → vendor/dsgn/dsgn.css, dsgn.js, VERSION
+npx dsgn copy public/vendor/dsgn     # → dsgn.css, dsgn.js (minified), VERSION
 ```
 
 ```json
-"scripts": { "postinstall": "dsgn copy", "theme": "dsgn theme", "lint": "dsgn lint styles.css", "serve": "dsgn serve" }
+"scripts": { "postinstall": "dsgn copy public/vendor/dsgn", "theme": "dsgn theme --out public", "lint": "dsgn lint public", "serve": "dsgn serve public" }
 ```
 
 ```html
@@ -65,15 +66,36 @@ npx dsgn copy            # → vendor/dsgn/dsgn.css, dsgn.js, VERSION
 <script src="vendor/dsgn/dsgn.js" defer></script>
 ```
 
-**Local preview**: `npx dsgn serve` (Node only, port 4173; `--port n`, optional folder). Do not reach for Python or write your own server; a preview tool that needs a launch command gets `npx dsgn serve`.
+**Local preview**: `npx dsgn serve public` (Node only, port 4173; `--port n`). Do not reach for Python or write your own server; a preview tool that needs a launch command gets `npx dsgn serve public`. The site itself needs no build: the files in `public/` are the website.
+
+### What goes to the hosting, what stays in git
+
+Keep everything the browser loads in **one folder, `public/`**, and deploy only that folder (Vercel / Netlify: output or publish directory `public`; FTP: upload its contents). The project root holds the working files.
+
+```
+public/                 ← deployed, exactly as it is
+  index.html, *.html    pages
+  styles.css, main.js   project CSS and JS
+  dsgn.theme.css        generated theme (npx dsgn theme --out public)
+  vendor/dsgn/          dsgn.css + dsgn.js (npx dsgn copy, minified)
+  img/                  optimised images (webp/avif, the sizes the page uses)
+  robots.txt, sitemap.xml, favicon.svg
+dsgn.theme.mjs          ← in git, not deployed: theme source
+dsgn.theme.figma.*      ← in git, not deployed: Figma mode for the library
+assets/                 ← in git, not deployed: source images, exports from Figma
+package.json, package-lock.json   ← in git, not deployed
+node_modules/, .claude/, .vercel/, .DS_Store   ← neither: listed in .gitignore
+```
+
+`.gitignore` decides what is not in the repository (things that can be regenerated or are personal): `node_modules/`, `.DS_Store`, `.vercel/`, `.claude/`. It is not the deployment filter; `public/` is. Never deploy `node_modules`, theme sources, Figma files, source images or anything with keys.
 
 ### CDN (prototypes, Claude artifacts)
 
 Pin the minor version:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dsgn.systems@0.13/dist/dsgn.css">
-<script src="https://cdn.jsdelivr.net/npm/dsgn.systems@0.13/dist/dsgn.js" defer></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dsgn.systems@0.14/dist/dsgn.min.css">
+<script src="https://cdn.jsdelivr.net/npm/dsgn.systems@0.14/dist/dsgn.min.js" defer></script>
 ```
 
 ### Fonts (not bundled)
@@ -315,7 +337,7 @@ Every component documents its full markup at the top of `dist/components/<name>.
 - **Banner** (page-wide, at the top edge): `.dsgn-banner` > `.dsgn-container.dsgn-banner-inner` > icon + `.dsgn-banner-text`. One at a time.
 - **Toast** (dsgn.js): `dsgn.toast({ text, intent, title, action: { label, onClick } })`. Only for confirmations of something the user just did, never the only path to an action.
 - **Dialog**: native `<dialog class="dsgn-dialog" aria-labelledby="…" closedby="any">` with `.dsgn-dialog-header` / `-title` / `-body` / `-footer`; open with `command="show-modal" commandfor="id"`; `data-size="s|m|l"`. Prefer a page or inline editing over a dialog for long forms.
-- **Drawer / sheet**: the same dialog docked to an edge: `<dialog class="dsgn-dialog" data-placement="start|end|bottom" …>`. `start`/`end` = full-height side panel (mobile menu, filters, detail), `bottom` = sheet on mobile. Header, body and footer work as in Dialog; the body scrolls. Use `.dsgn-list[data-variant="plain"]` or a vertical `.dsgn-nav` inside.
+- **Drawer / sheet**: the same dialog docked to an edge: `<dialog class="dsgn-dialog" data-placement="start|end|bottom" …>`. `start`/`end` = full-height side panel (mobile menu, filters, detail), `bottom` = sheet on mobile. Header, body and footer work as in Dialog; the body scrolls. Use `.dsgn-list[data-variant="plain"]` or a vertical `.dsgn-nav` inside. It slides in from its edge and back out; dsgn.js closes it when a link to a section of the page (`href="#…"`) inside it is picked, so a mobile menu needs no script of its own.
 - **Tooltip** (dsgn.js): `div.dsgn-tooltip[role=tooltip][popover=manual]` referenced by `aria-describedby`. Short supplementary text only, never essential information.
 - **Progress / Spinner**: native `<progress class="dsgn-progress">` (labelled); `<span class="dsgn-spinner" role="status" aria-label="Loading">`.
 - **Skeleton**: `.dsgn-skeleton[data-kind="text|control|avatar|block"]` inside a container with `aria-busy="true"` and a visually hidden "Loading…" text.
@@ -355,7 +377,7 @@ dsgn guarantees contrast, focus rings, target sizes, forced-colours support and 
 - Colour is never the only signal: badges have text, deltas have text, invalid fields have an icon and message.
 
 **Motion and media**
-- Respect `prefers-reduced-motion` for any custom animation (dsgn components already do).
+- dsgn animates what moves: dialogs and drawers in and out, menus, tooltips, toasts, accordion content, tab panels, hover states, and smooth scrolling to `#section` links (with `.dsgn-page` on `<body>`). All of it uses `--dsgn-duration`, `--dsgn-duration-fast` and `--dsgn-ease` and switches off with `prefers-reduced-motion`. Don't add JS scroll libraries or animate layout; respect `prefers-reduced-motion` for any custom animation.
 - Video has captions; audio has a transcript.
 
 **Test before handing over**
@@ -446,7 +468,8 @@ Before handing anything over, check and say which of these you verified:
 - [ ] Injection: parameterised queries, output escaped by context, no `innerHTML` with user data, URLs and redirects validated
 - [ ] axe: 0 violations; zoom 200 % works
 - [ ] SEO: title, description, canonical, OG, JSON-LD where it fits, sitemap/robots, `noindex` where needed
-- [ ] Performance: images sized and lazy, fonts subset, JS deferred, no layout shift
+- [ ] Performance: images sized and lazy, fonts subset, JS deferred, no layout shift, minified dsgn files in production
+- [ ] Deploy: only `public/` goes to the hosting; theme source, Figma files, source images and `node_modules` stay out
 - [ ] Security headers and CSP planned or set; no secrets in the client
 - [ ] Privacy: consent before tracking, privacy links on forms, company details in the footer
 - [ ] Real content in the right language, Czech typography (non-breaking spaces, number and date formats)

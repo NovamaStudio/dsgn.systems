@@ -36,8 +36,9 @@
   font-size: var(--dsgn-font-size-body-s);
   line-height: var(--dsgn-line-height-body-s);
   overflow: hidden;
+  flex-direction: column;   /* always: while closing, the dialog keeps display: flex for the exit animation */
 }
-.dsgn-dialog[open] { display: flex; flex-direction: column; }
+.dsgn-dialog[open] { display: flex; }
 .dsgn-dialog[data-size="s"] { --_width: calc(10 * var(--dsgn-space-40)); }
 .dsgn-dialog[data-size="l"] { --_width: calc(18 * var(--dsgn-space-40)); }
 .dsgn-dialog::backdrop { background: var(--dsgn-scrim); -webkit-backdrop-filter: blur(var(--dsgn-blur-backdrop, 0px)); backdrop-filter: blur(var(--dsgn-blur-backdrop, 0px)); }
@@ -87,6 +88,9 @@ html:has(.dsgn-dialog:modal) { overflow: hidden; }
     transition: opacity var(--dsgn-duration) var(--dsgn-ease), translate var(--dsgn-duration) var(--dsgn-ease),
       display var(--dsgn-duration) allow-discrete, overlay var(--dsgn-duration) allow-discrete;
   }
+  /* closed state = where it animates from on open and to on close */
+  .dsgn-dialog:not([open]) { opacity: 0; translate: 0 var(--dsgn-space-8); }
+  .dsgn-dialog:not([open])::backdrop { opacity: 0; }
   @starting-style {
     .dsgn-dialog[open] { opacity: 0; translate: 0 var(--dsgn-space-8); }
     .dsgn-dialog[open]::backdrop { opacity: 0; }
@@ -99,6 +103,8 @@ html:has(.dsgn-dialog:modal) { overflow: hidden; }
 /* ── Drawer: the same dialog, docked to an edge ─────────────────────────────
  * <dialog class="dsgn-dialog" data-placement="start|end|bottom" …>
  * start / end: full height side panel (mobile menu, filters, details); bottom: sheet.
+ * It slides in from its edge and back out. dsgn.js closes it when a link to a section of the page
+ * (href="#…") inside it is picked, so a mobile menu needs no script of its own.
  * Header / body / footer work the same; the body scrolls. */
 .dsgn-dialog[data-placement] {
   --_width: calc(9 * var(--dsgn-space-40));
@@ -125,6 +131,10 @@ html:has(.dsgn-dialog:modal) { overflow: hidden; }
 }
 .dsgn-dialog[data-placement] .dsgn-dialog-body { flex: 1; }
 @media (prefers-reduced-motion: no-preference) {
+  /* drawers slide in from their edge and back out to it */
+  .dsgn-dialog[data-placement="start"]:not([open]) { translate: -100% 0; opacity: 1; }
+  .dsgn-dialog[data-placement="end"]:not([open]) { translate: 100% 0; opacity: 1; }
+  .dsgn-dialog[data-placement="bottom"]:not([open]) { translate: 0 100%; opacity: 1; }
   @starting-style {
     .dsgn-dialog[data-placement="start"][open] { translate: -100% 0; opacity: 1; }
     .dsgn-dialog[data-placement="end"][open] { translate: 100% 0; opacity: 1; }

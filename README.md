@@ -22,7 +22,9 @@ npm i dsgn.systems
 
 With a bundler: `import 'dsgn.systems/css'` and `import 'dsgn.systems/js'`.
 
-Static site without a build (where `node_modules` is not deployed): `npx dsgn copy` puts `dsgn.css` and `dsgn.js` into `vendor/dsgn/` (add `"postinstall": "dsgn copy"` so updates refresh the copy), and `npx dsgn serve` previews the folder locally (Node only).
+Production: `dsgn.systems/min.css` and `min.js` (`dist/dsgn.min.css`, `dist/dsgn.min.js`) are the same files minified, about 19 kB CSS and 5 kB JS gzipped.
+
+Static site without a build (where `node_modules` is not deployed): keep the website in `public/` and deploy only that folder. `npx dsgn copy public/vendor/dsgn` puts the minified `dsgn.css` and `dsgn.js` there (add it as `"postinstall"` so updates refresh the copy), `npx dsgn theme --out public` writes the theme CSS there (its Figma files stay next to `dsgn.theme.mjs`), and `npx dsgn serve public` previews it locally (Node only). Nothing is compiled; the files in `public/` are the website.
 
 Fonts are not bundled. Load Inter and Material Symbols Rounded (outline + fill axis), e.g. from Google Fonts:
 

@@ -2,7 +2,7 @@
 <html lang="en" data-density="s">
 <head><meta charset="utf-8"><title>dsgn theme</title>
 <style>
-/* dsgn 0.13.0 — tokens + components. Everything is in @layer dsgn.*; your own CSS always wins. */
+/* dsgn 0.14.0 — tokens + components. Everything is in @layer dsgn.*; your own CSS always wins. */
 @layer dsgn.tokens, dsgn.theme, dsgn.components;
 @layer dsgn.tokens {
 /* dsgn tokens — generated from src/tokens.config.mjs. Do not edit. */
@@ -795,7 +795,7 @@
  *
  * The same name on several <details> makes them exclusive (one open at a time) natively.
  * Rows use row-pad-y, like table rows. Summary = body-s medium, content = body-s muted.
- * Chevron turns when open; the in-page find (Ctrl+F) opens a closed item automatically.
+ * Chevron turns when open, the content slides open; the in-page find (Ctrl+F) opens a closed item automatically.
  */
 .dsgn-accordion {
   display: grid;
@@ -832,6 +832,16 @@
 .dsgn-accordion-content > * { margin: 0; }
 @media (prefers-reduced-motion: no-preference) {
   .dsgn-accordion summary > .dsgn-icon { transition: rotate var(--dsgn-duration-fast) var(--dsgn-ease); }
+  /* the content slides open and closed; browsers without ::details-content / interpolate-size just toggle */
+  @supports (interpolate-size: allow-keywords) {
+    .dsgn-accordion > details { interpolate-size: allow-keywords; }
+    .dsgn-accordion > details::details-content {
+      block-size: 0;
+      overflow: clip;
+      transition: block-size var(--dsgn-duration) var(--dsgn-ease), content-visibility var(--dsgn-duration) allow-discrete;
+    }
+    .dsgn-accordion > details[open]::details-content { block-size: auto; }
+  }
 }
 
 /* ── alert.css ── */
@@ -1108,6 +1118,7 @@
  * Text styles as classes, same names as the Figma text styles:
  *   .dsgn-display .dsgn-heading .dsgn-heading-s .dsgn-title .dsgn-body .dsgn-body-s .dsgn-caption
  *   .dsgn-lead (body, muted, for intros) · .dsgn-muted · .dsgn-eyebrow (caption, accent, spaced caps)
+ * With .dsgn-page on <body>, links to a section (#id) scroll smoothly (instantly with reduced motion).
  */
 :where(.dsgn-page) {
   margin: 0;
@@ -1123,6 +1134,8 @@
 :where(.dsgn-page) :is(h1, h2, h3, h4, p, ul, ol, figure) { margin: 0; }
 :where(.dsgn-page) :is(h1, h2, h3, h4) { text-wrap: balance; }
 :where(.dsgn-page) img { max-inline-size: 100%; display: block; }
+/* in-page links (#section) scroll smoothly; the sticky header offset comes from patterns.css */
+@media (prefers-reduced-motion: no-preference) { :where(html:has(> .dsgn-page)) { scroll-behavior: smooth; } }
 
 .dsgn-display   { font-size: var(--dsgn-font-size-display);   line-height: var(--dsgn-line-height-display);   font-weight: var(--dsgn-font-weight-semibold); letter-spacing: -0.02em; }
 .dsgn-heading   { font-size: var(--dsgn-font-size-heading);   line-height: var(--dsgn-line-height-heading);   font-weight: var(--dsgn-font-weight-semibold); letter-spacing: -0.01em; }
@@ -1496,6 +1509,9 @@ a.dsgn-card:focus-visible, .dsgn-card:has(.dsgn-card-link:focus-visible) {
   outline: var(--dsgn-focus-width) solid var(--dsgn-focus);
   outline-offset: var(--dsgn-focus-offset);
 }
+@media (prefers-reduced-motion: no-preference) {
+  :is(a.dsgn-card, .dsgn-card:has(.dsgn-card-link)) { transition: box-shadow var(--dsgn-duration) var(--dsgn-ease); }
+}
 @media (forced-colors: active) {
   .dsgn-card { outline: 1px solid CanvasText; outline-offset: -1px; }
 }
@@ -1813,8 +1829,9 @@ button.dsgn-chip:not(:disabled):active { background: var(--dsgn-neutral-subtle-h
   font-size: var(--dsgn-font-size-body-s);
   line-height: var(--dsgn-line-height-body-s);
   overflow: hidden;
+  flex-direction: column;   /* always: while closing, the dialog keeps display: flex for the exit animation */
 }
-.dsgn-dialog[open] { display: flex; flex-direction: column; }
+.dsgn-dialog[open] { display: flex; }
 .dsgn-dialog[data-size="s"] { --_width: calc(10 * var(--dsgn-space-40)); }
 .dsgn-dialog[data-size="l"] { --_width: calc(18 * var(--dsgn-space-40)); }
 .dsgn-dialog::backdrop { background: var(--dsgn-scrim); -webkit-backdrop-filter: blur(var(--dsgn-blur-backdrop, 0px)); backdrop-filter: blur(var(--dsgn-blur-backdrop, 0px)); }
@@ -1864,6 +1881,9 @@ html:has(.dsgn-dialog:modal) { overflow: hidden; }
     transition: opacity var(--dsgn-duration) var(--dsgn-ease), translate var(--dsgn-duration) var(--dsgn-ease),
       display var(--dsgn-duration) allow-discrete, overlay var(--dsgn-duration) allow-discrete;
   }
+  /* closed state = where it animates from on open and to on close */
+  .dsgn-dialog:not([open]) { opacity: 0; translate: 0 var(--dsgn-space-8); }
+  .dsgn-dialog:not([open])::backdrop { opacity: 0; }
   @starting-style {
     .dsgn-dialog[open] { opacity: 0; translate: 0 var(--dsgn-space-8); }
     .dsgn-dialog[open]::backdrop { opacity: 0; }
@@ -1876,6 +1896,8 @@ html:has(.dsgn-dialog:modal) { overflow: hidden; }
 /* ── Drawer: the same dialog, docked to an edge ─────────────────────────────
  * <dialog class="dsgn-dialog" data-placement="start|end|bottom" …>
  * start / end: full height side panel (mobile menu, filters, details); bottom: sheet.
+ * It slides in from its edge and back out. dsgn.js closes it when a link to a section of the page
+ * (href="#…") inside it is picked, so a mobile menu needs no script of its own.
  * Header / body / footer work the same; the body scrolls. */
 .dsgn-dialog[data-placement] {
   --_width: calc(9 * var(--dsgn-space-40));
@@ -1902,6 +1924,10 @@ html:has(.dsgn-dialog:modal) { overflow: hidden; }
 }
 .dsgn-dialog[data-placement] .dsgn-dialog-body { flex: 1; }
 @media (prefers-reduced-motion: no-preference) {
+  /* drawers slide in from their edge and back out to it */
+  .dsgn-dialog[data-placement="start"]:not([open]) { translate: -100% 0; opacity: 1; }
+  .dsgn-dialog[data-placement="end"]:not([open]) { translate: 100% 0; opacity: 1; }
+  .dsgn-dialog[data-placement="bottom"]:not([open]) { translate: 0 100%; opacity: 1; }
   @starting-style {
     .dsgn-dialog[data-placement="start"][open] { translate: -100% 0; opacity: 1; }
     .dsgn-dialog[data-placement="end"][open] { translate: 100% 0; opacity: 1; }
@@ -2144,6 +2170,9 @@ html:has(.dsgn-dialog:modal) { overflow: hidden; }
 .dsgn-file-title { font-weight: var(--dsgn-font-weight-medium); }
 .dsgn-file-text { color: var(--dsgn-text-muted); font-size: var(--dsgn-font-size-caption); line-height: var(--dsgn-line-height-caption); }
 
+@media (prefers-reduced-motion: no-preference) {
+  .dsgn-file { transition: background-color var(--dsgn-duration-fast) var(--dsgn-ease), border-color var(--dsgn-duration-fast) var(--dsgn-ease); }
+}
 @media (hover: hover) {
   .dsgn-file:not(:has(> input:disabled)):hover { --_border: var(--dsgn-text-muted); background: var(--dsgn-neutral-subtle); }
 }
@@ -2518,6 +2547,9 @@ input.dsgn-input:disabled::-webkit-calendar-picker-indicator { background: var(-
 @media (hover: hover) {
   .dsgn-link:hover { text-decoration-thickness: 0.12em; }
 }
+@media (prefers-reduced-motion: no-preference) {
+  .dsgn-link { transition: text-decoration-thickness var(--dsgn-duration-fast) var(--dsgn-ease), color var(--dsgn-duration-fast) var(--dsgn-ease); }
+}
 .dsgn-link:focus-visible {
   outline: var(--dsgn-focus-width) solid var(--dsgn-focus);
   outline-offset: var(--dsgn-focus-offset);
@@ -2842,6 +2874,13 @@ input.dsgn-input:disabled::-webkit-calendar-picker-indicator { background: var(-
 }
 
 @media (prefers-reduced-motion: no-preference) {
+  /* popover menus and combobox lists fade and grow a little in and out */
+  .dsgn-menu[popover] {
+    transition: opacity var(--dsgn-duration-fast) var(--dsgn-ease), scale var(--dsgn-duration-fast) var(--dsgn-ease),
+      display var(--dsgn-duration-fast) allow-discrete, overlay var(--dsgn-duration-fast) allow-discrete;
+  }
+  .dsgn-menu[popover]:not(:popover-open) { opacity: 0; scale: 0.98; }
+  @starting-style { .dsgn-menu[popover]:popover-open { opacity: 0; scale: 0.98; } }
   .dsgn-menu-item { transition: background-color var(--dsgn-duration-fast) var(--dsgn-ease); }
   .dsgn-input > select ~ .dsgn-icon { transition: rotate var(--dsgn-duration-fast) var(--dsgn-ease); }
 }
@@ -4012,6 +4051,9 @@ html:has(.dsgn-header:not([data-sticky="false"])) { scroll-padding-block-start: 
     --dsgn-neutral-subtle: var(--_n1); --dsgn-neutral-subtle-hover: var(--_n2); --dsgn-neutral-subtle-pressed: var(--_n2);
   }
 }
+@media (prefers-reduced-motion: no-preference) {
+  .dsgn-table tbody td { transition: background-color var(--dsgn-duration-fast) var(--dsgn-ease); }
+}
 /* selected row: control tint (accent, or grey with neutral controls); neutral things inside take the tint one step up */
 .dsgn-table tbody tr[aria-selected="true"] > td {
   background: var(--dsgn-control-subtle);
@@ -4100,6 +4142,12 @@ html:has(.dsgn-header:not([data-sticky="false"])) { scroll-padding-block-start: 
 .dsgn-tab:disabled { color: var(--dsgn-text-disabled); cursor: not-allowed; }
 
 .dsgn-tabpanel { min-inline-size: 0; border-radius: var(--dsgn-radius-s); }
+@media (prefers-reduced-motion: no-preference) {
+  .dsgn-tab { transition: color var(--dsgn-duration-fast) var(--dsgn-ease); }
+  .dsgn-tab::after { transition: background-color var(--dsgn-duration) var(--dsgn-ease); }
+  .dsgn-tabpanel { transition: opacity var(--dsgn-duration) var(--dsgn-ease); }
+  @starting-style { .dsgn-tabpanel:not([hidden]) { opacity: 0; } }   /* the newly shown panel fades in */
+}
 .dsgn-tabpanel:focus-visible {
   outline: var(--dsgn-focus-width) solid var(--dsgn-focus);
   outline-offset: var(--dsgn-focus-offset);
@@ -4279,11 +4327,13 @@ html:has(.dsgn-header:not([data-sticky="false"])) { scroll-padding-block-start: 
 .dsgn-tooltip:not(:popover-open):not([data-open]) { display: none; }
 
 @media (prefers-reduced-motion: no-preference) {
-  .dsgn-tooltip:is(:popover-open, [data-open]) {
-    animation: dsgn-tooltip-in var(--dsgn-duration-fast) var(--dsgn-ease);
+  .dsgn-tooltip {
+    transition: opacity var(--dsgn-duration-fast) var(--dsgn-ease),
+      display var(--dsgn-duration-fast) allow-discrete, overlay var(--dsgn-duration-fast) allow-discrete;
   }
+  .dsgn-tooltip:not(:popover-open):not([data-open]) { opacity: 0; }
+  @starting-style { .dsgn-tooltip:is(:popover-open, [data-open]) { opacity: 0; } }
 }
-@keyframes dsgn-tooltip-in { from { opacity: 0; } }
 @media (forced-colors: active) {
   .dsgn-tooltip { outline: 1px solid CanvasText; }
 }

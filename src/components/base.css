@@ -5,6 +5,7 @@
  * Text styles as classes, same names as the Figma text styles:
  *   .dsgn-display .dsgn-heading .dsgn-heading-s .dsgn-title .dsgn-body .dsgn-body-s .dsgn-caption
  *   .dsgn-lead (body, muted, for intros) · .dsgn-muted · .dsgn-eyebrow (caption, accent, spaced caps)
+ * With .dsgn-page on <body>, links to a section (#id) scroll smoothly (instantly with reduced motion).
  */
 :where(.dsgn-page) {
   margin: 0;
@@ -20,6 +21,8 @@
 :where(.dsgn-page) :is(h1, h2, h3, h4, p, ul, ol, figure) { margin: 0; }
 :where(.dsgn-page) :is(h1, h2, h3, h4) { text-wrap: balance; }
 :where(.dsgn-page) img { max-inline-size: 100%; display: block; }
+/* in-page links (#section) scroll smoothly; the sticky header offset comes from patterns.css */
+@media (prefers-reduced-motion: no-preference) { :where(html:has(> .dsgn-page)) { scroll-behavior: smooth; } }
 
 .dsgn-display   { font-size: var(--dsgn-font-size-display);   line-height: var(--dsgn-line-height-display);   font-weight: var(--dsgn-font-weight-semibold); letter-spacing: -0.02em; }
 .dsgn-heading   { font-size: var(--dsgn-font-size-heading);   line-height: var(--dsgn-line-height-heading);   font-weight: var(--dsgn-font-weight-semibold); letter-spacing: -0.01em; }

@@ -107,6 +107,9 @@
     --dsgn-neutral-subtle: var(--_n1); --dsgn-neutral-subtle-hover: var(--_n2); --dsgn-neutral-subtle-pressed: var(--_n2);
   }
 }
+@media (prefers-reduced-motion: no-preference) {
+  .dsgn-table tbody td { transition: background-color var(--dsgn-duration-fast) var(--dsgn-ease); }
+}
 /* selected row: control tint (accent, or grey with neutral controls); neutral things inside take the tint one step up */
 .dsgn-table tbody tr[aria-selected="true"] > td {
   background: var(--dsgn-control-subtle);

@@ -64,6 +64,12 @@
 .dsgn-tab:disabled { color: var(--dsgn-text-disabled); cursor: not-allowed; }
 
 .dsgn-tabpanel { min-inline-size: 0; border-radius: var(--dsgn-radius-s); }
+@media (prefers-reduced-motion: no-preference) {
+  .dsgn-tab { transition: color var(--dsgn-duration-fast) var(--dsgn-ease); }
+  .dsgn-tab::after { transition: background-color var(--dsgn-duration) var(--dsgn-ease); }
+  .dsgn-tabpanel { transition: opacity var(--dsgn-duration) var(--dsgn-ease); }
+  @starting-style { .dsgn-tabpanel:not([hidden]) { opacity: 0; } }   /* the newly shown panel fades in */
+}
 .dsgn-tabpanel:focus-visible {
   outline: var(--dsgn-focus-width) solid var(--dsgn-focus);
   outline-offset: var(--dsgn-focus-offset);

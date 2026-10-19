@@ -51,6 +51,9 @@
 .dsgn-file-title { font-weight: var(--dsgn-font-weight-medium); }
 .dsgn-file-text { color: var(--dsgn-text-muted); font-size: var(--dsgn-font-size-caption); line-height: var(--dsgn-line-height-caption); }
 
+@media (prefers-reduced-motion: no-preference) {
+  .dsgn-file { transition: background-color var(--dsgn-duration-fast) var(--dsgn-ease), border-color var(--dsgn-duration-fast) var(--dsgn-ease); }
+}
 @media (hover: hover) {
   .dsgn-file:not(:has(> input:disabled)):hover { --_border: var(--dsgn-text-muted); background: var(--dsgn-neutral-subtle); }
 }

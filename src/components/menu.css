@@ -160,6 +160,13 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
+  /* popover menus and combobox lists fade and grow a little in and out */
+  .dsgn-menu[popover] {
+    transition: opacity var(--dsgn-duration-fast) var(--dsgn-ease), scale var(--dsgn-duration-fast) var(--dsgn-ease),
+      display var(--dsgn-duration-fast) allow-discrete, overlay var(--dsgn-duration-fast) allow-discrete;
+  }
+  .dsgn-menu[popover]:not(:popover-open) { opacity: 0; scale: 0.98; }
+  @starting-style { .dsgn-menu[popover]:popover-open { opacity: 0; scale: 0.98; } }
   .dsgn-menu-item { transition: background-color var(--dsgn-duration-fast) var(--dsgn-ease); }
   .dsgn-input > select ~ .dsgn-icon { transition: rotate var(--dsgn-duration-fast) var(--dsgn-ease); }
 }

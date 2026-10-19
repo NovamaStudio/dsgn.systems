@@ -13,7 +13,8 @@
 //      is nested (a regression guard: --_gap used to leak from a parent with data-gap)
 //   8. modes on <html>: data-radius / data-density set on the root element win over the defaults
 //      (a regression guard: the snapped default block used to override pill and sharp)
-//   9. forced colours: screenshots for manual review → dist/a11y/
+//   9. minified build: dsgn.min.css gives every element the same computed style as dsgn.css
+//  10. forced colours: screenshots for manual review → dist/a11y/
 // Fonts are served from node_modules so the audit runs offline.
 import { chromium } from 'playwright';
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
@@ -34,7 +35,7 @@ async function open(file, width = 1440, opts = {}) {
   return { ctx, page };
 }
 
-const report = { axe: [], keyboard: [], reflow: [], spacing: [], motion: [], icons: [], gaps: [], modes: [] };
+const report = { axe: [], keyboard: [], reflow: [], spacing: [], motion: [], icons: [], gaps: [], modes: [], min: [] };
 const TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa', 'best-practice'];
 
 // ── 1. axe ───────────────────────────────────────────────────────────────────
@@ -85,6 +86,8 @@ for (const [file, width] of [['layout-demo.html', 390], ['layout-demo.html', 144
   const seen = new Set();
   for (let i = 0; i < 200; i++) {
     await page.keyboard.press('Tab');
+    // smooth scrolling (dsgn-page) animates the scroll to the focused element: wait until it settles
+    await page.evaluate(() => new Promise((done) => { let last = -1, still = 0; const tick = () => { const y = scrollY + document.scrollingElement.scrollLeft; still = y === last ? still + 1 : 0; last = y; if (still > 3) done(); else requestAnimationFrame(tick); }; tick(); }));
     const r = await page.evaluate(() => {
       const el = document.activeElement; if (!el || el === document.body) return null;
       if (!el.dataset.kb) el.dataset.kb = String(document.querySelectorAll('[data-kb]').length + 1);
@@ -205,7 +208,26 @@ for (const file of ['layout-demo.html', 'docs.html']) for (const width of [390, 
   await ctx.close();
 }
 
-// ── 9. forced colours (screenshots for review) ───────────────────────────────
+// ── 9. the minified CSS renders the same ─────────────────────────────────────
+for (const width of [390, 1440]) {
+  const { ctx, page } = await open('layout-demo.html', width);
+  const full = readFileSync(new URL('../dist/dsgn.css', import.meta.url), 'utf8');
+  const min = readFileSync(new URL('../dist/dsgn.min.css', import.meta.url), 'utf8');
+  // standard properties only: custom properties keep their text as written (0.5 vs .5), which is not a difference
+  const snap = () => page.evaluate(() => [...document.querySelectorAll('body *')].map((el) => { const cs = getComputedStyle(el); return [...cs].filter((p) => !p.startsWith('--')).map((p) => cs.getPropertyValue(p)).join('|'); }));
+  await page.waitForTimeout(500);   // let dsgn.js finish its first pass (e.g. data-ready on the header)
+  const before = await snap();
+  const swapped = await page.evaluate(({ full, min }) => { const st = [...document.querySelectorAll('style')].find((x) => x.textContent.includes(full)); if (!st) return false; st.textContent = st.textContent.replace(full, min); return true; }, { full, min });
+  if (!swapped) report.min.push({ file: 'layout-demo.html @' + width, problem: 'dsgn.css not found inline, could not swap in dsgn.min.css' });
+  else {
+    const after = await snap();
+    const diff = before.reduce((n, b, i) => n + (b !== after[i] ? 1 : 0), 0);
+    if (diff) report.min.push({ file: 'layout-demo.html @' + width, problem: `dsgn.min.css: ${diff} elements render differently than with dsgn.css` });
+  }
+  await ctx.close();
+}
+
+// ── 10. forced colours (screenshots for review) ───────────────────────────────
 {
   const { ctx, page } = await open('preview.html', 1200, { forcedColors: 'active' });
   const panel = page.locator('.panel').first();
@@ -231,20 +253,21 @@ const md = ['# Accessibility audit', '', `axe-core ${JSON.parse(readFileSync(new
   `| Status icon colours (Alert, Banner) | ${report.icons.length ? report.icons.length + ' problems' : 'pass'} |`,
   `| Layout gaps not inherited | ${report.gaps.length ? report.gaps.length + ' problems' : 'pass'} |`,
   `| Modes on <html> (radius, density) | ${report.modes.length ? report.modes.length + ' problems' : 'pass'} |`,
+  `| Minified CSS renders the same | ${report.min.length ? report.min.length + ' problems' : 'pass'} |`,
   '| Forced colours | screenshots in dist/a11y/ for manual review |', '', `axe could not decide colour contrast for ${report.incomplete || 0} elements (text over gradients, pseudo-elements); the build-time contrast contract covers every token pair instead.`, ''];
 if (axeU.length) { md.push('## axe', '', '| Rule | Impact | Where | Element | Seen |', '|---|---|---|---|---|'); for (const v of axeU) md.push(`| ${v.rule} | ${v.impact} | ${v.where} | \`${v.target}\` | ${v.count}× |`); md.push(''); }
-for (const [k, list] of [['Keyboard', kb], ['Reflow', report.reflow], ['Text spacing', report.spacing], ['Reduced motion', report.motion], ['Status icons', report.icons], ['Layout gaps', report.gaps], ['Modes', report.modes]])
+for (const [k, list] of [['Keyboard', kb], ['Reflow', report.reflow], ['Text spacing', report.spacing], ['Reduced motion', report.motion], ['Status icons', report.icons], ['Layout gaps', report.gaps], ['Modes', report.modes], ['Minified', report.min]])
   if (list.length) { md.push('## ' + k, '', ...list.map((x) => '- ' + Object.values(x).join(' · ')), ''); }
 writeFileSync(new URL('../dist/a11y-report.md', import.meta.url), md.join('\n'));
 writeFileSync(new URL('../dist/a11y/report.json', import.meta.url), JSON.stringify({ ...report, axe: axeU }, null, 1));
-const total = axeU.length + kb.length + report.reflow.length + report.spacing.length + report.motion.length + report.icons.length + report.gaps.length + report.modes.length;
+const total = axeU.length + kb.length + report.reflow.length + report.spacing.length + report.motion.length + report.icons.length + report.gaps.length + report.modes.length + report.min.length;
 console.log(total ? `a11y: ${total} issues → dist/a11y-report.md` : 'a11y: no issues ✓ (forced-colours screenshots in dist/a11y/)');
 // on GitHub Actions: every issue becomes an annotation on the run, the report goes to the job summary
 if (process.env.GITHUB_ACTIONS) {
   const esc = (t) => String(t).replace(/%/g, '%25').replace(/\r/g, '%0D').replace(/\n/g, '%0A');
   const issues = [...axeU.map((v) => `axe ${v.rule} (${v.impact}) · ${v.where} · ${v.target} · ${v.count}×`),
     ...kb.map((x) => `keyboard · ${x.width} · ${x.element} · ${x.problem}`),
-    ...[...report.reflow, ...report.spacing, ...report.motion, ...report.icons, ...report.gaps, ...report.modes].map((x) => `${x.file || ''} ${x.problem} ${x.element || x.culprits || ''}`)];
+    ...[...report.reflow, ...report.spacing, ...report.motion, ...report.icons, ...report.gaps, ...report.modes, ...report.min].map((x) => `${x.file || ''} ${x.problem} ${x.element || x.culprits || ''}`)];
   for (const i of issues.slice(0, 40)) console.log(`::error title=a11y::${esc(i)}`);
   if (process.env.GITHUB_STEP_SUMMARY) writeFileSync(process.env.GITHUB_STEP_SUMMARY, md.join('\n') + '\n', { flag: 'a' });
 }

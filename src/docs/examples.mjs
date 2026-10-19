@@ -424,7 +424,7 @@ export const components = {
   },
   dialog: {
     name: 'Dialog, Drawer', group: 'Overlays', figma: ['Dialog', 'Modal example', 'Drawer'],
-    examples: [{ title: 'Modal dialog and side drawer', html: `<div class="dsgn-cluster">
+    examples: [{ title: 'Modal dialog and side drawer', note: 'The dialog fades in and out, the drawer slides in from its edge and back (instantly with reduced motion). A link to a section of the page (href="#…") inside a drawer closes it, so a mobile menu needs no script.', html: `<div class="dsgn-cluster">
   <button class="dsgn-button" data-variant="subtle" data-intent="danger" command="show-modal" commandfor="dx-dlg">${ic('delete')}Delete invoice…</button>
   <button class="dsgn-button" data-variant="subtle" data-intent="neutral" command="show-modal" commandfor="dx-drw">${ic('tune')}Filters</button>
 </div>

@@ -10,7 +10,7 @@
  *
  * The same name on several <details> makes them exclusive (one open at a time) natively.
  * Rows use row-pad-y, like table rows. Summary = body-s medium, content = body-s muted.
- * Chevron turns when open; the in-page find (Ctrl+F) opens a closed item automatically.
+ * Chevron turns when open, the content slides open; the in-page find (Ctrl+F) opens a closed item automatically.
  */
 .dsgn-accordion {
   display: grid;
@@ -47,4 +47,14 @@
 .dsgn-accordion-content > * { margin: 0; }
 @media (prefers-reduced-motion: no-preference) {
   .dsgn-accordion summary > .dsgn-icon { transition: rotate var(--dsgn-duration-fast) var(--dsgn-ease); }
+  /* the content slides open and closed; browsers without ::details-content / interpolate-size just toggle */
+  @supports (interpolate-size: allow-keywords) {
+    .dsgn-accordion > details { interpolate-size: allow-keywords; }
+    .dsgn-accordion > details::details-content {
+      block-size: 0;
+      overflow: clip;
+      transition: block-size var(--dsgn-duration) var(--dsgn-ease), content-visibility var(--dsgn-duration) allow-discrete;
+    }
+    .dsgn-accordion > details[open]::details-content { block-size: auto; }
+  }
 }

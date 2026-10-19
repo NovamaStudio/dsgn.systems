@@ -114,6 +114,9 @@ a.dsgn-card:focus-visible, .dsgn-card:has(.dsgn-card-link:focus-visible) {
   outline: var(--dsgn-focus-width) solid var(--dsgn-focus);
   outline-offset: var(--dsgn-focus-offset);
 }
+@media (prefers-reduced-motion: no-preference) {
+  :is(a.dsgn-card, .dsgn-card:has(.dsgn-card-link)) { transition: box-shadow var(--dsgn-duration) var(--dsgn-ease); }
+}
 @media (forced-colors: active) {
   .dsgn-card { outline: 1px solid CanvasText; outline-offset: -1px; }
 }

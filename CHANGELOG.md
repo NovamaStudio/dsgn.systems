@@ -2,6 +2,21 @@
 
 One version for the npm package and the Figma library. [Semantic versioning](https://semver.org): patch = fix, minor = addition, major = rename or removal (with migration notes).
 
+## 0.14.0 — 2026-10-19
+
+### Added
+- **Minified files** `dist/dsgn.min.css` and `dist/dsgn.min.js` (exports `dsgn.systems/min.css`, `min.js`): about 19 kB CSS and 5 kB JS gzipped instead of 41 kB and 7 kB. The a11y test checks that every element of the demo renders the same with the minified CSS. `npx dsgn copy` copies the minified files by default (`--readable` for the commented ones); the skill's CDN links point to them.
+- **Motion** where things move, all on the motion tokens and off with `prefers-reduced-motion`: smooth scrolling to `#section` links on a `.dsgn-page`; dialogs fade and drawers slide out as well as in; popover menus and combobox lists fade and grow in and out; tooltips fade out too; accordion content slides open and closed (browsers with `::details-content`); the newly shown tab panel fades in and the tab indicator changes colour smoothly; card links, links, table rows and the file drop zone ease their hover.
+- dsgn.js closes a dialog when a link to a section of the page (`href="#…"`) inside it is picked, so a mobile menu drawer needs no script of its own.
+- Skill: **what goes to the hosting** — the website lives in `public/` and only that folder is deployed; theme source, Figma theme files, source images and `node_modules` stay out; `.gitignore` is for what is not in git. Definition of done has a deploy item and minified files.
+
+### Changed
+- `npx dsgn theme --out <dir>` writes only `dsgn.theme.css` there; `dsgn.theme.figma.js` / `.json` stay next to `dsgn.theme.mjs`, so they are never deployed with the site.
+- `npx dsgn lint <folder>` skips copies of dsgn itself (`dsgn.css`, `dsgn.min.css`, `dsgn.theme.css`), so `dsgn lint public` checks only the project's CSS.
+
+### Fixed
+- Drawer (mobile menu) closing glitch: while closing, the panel lost its column layout, so the close button jumped next to the links and the panel widened, and it disappeared without sliding out. The column layout no longer depends on `[open]`, and the closed state is defined, so the drawer slides back to its edge (a dialog fades out).
+
 ## 0.13.0 — 2026-10-19
 
 ### Added

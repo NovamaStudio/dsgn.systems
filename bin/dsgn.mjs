@@ -2,9 +2,9 @@
 // dsgn command line
 //   dsgn lint <files or folders…>   check project CSS against the dsgn rules (tokens only, no px, no literal colours)
 //   dsgn tokens                     list every token
-//   dsgn theme [config] [--out dir]  project theme: dsgn.theme.mjs → dsgn.theme.css (+ Figma files), with a contrast check
+//   dsgn theme [config] [--out dir]  project theme: dsgn.theme.mjs → dsgn.theme.css in --out (Figma files next to the config), with a contrast check
 //   dsgn theme --init               write a starter dsgn.theme.mjs
-//   dsgn copy [dir]                 copy dsgn.css + dsgn.js into a static site (default vendor/dsgn)
+//   dsgn copy [dir] [--readable]    copy dsgn.css + dsgn.js (minified) into a static site (default vendor/dsgn)
 //   dsgn serve [dir] [--port n]     local preview server for a static site (Node only, no Python)
 //   dsgn --version
 import { readFileSync, readdirSync, statSync, existsSync, writeFileSync, mkdirSync, copyFileSync } from 'node:fs';
@@ -21,7 +21,7 @@ function files(paths) {
   const walk = (p) => {
     const s = statSync(p);
     if (s.isDirectory()) { for (const f of readdirSync(p)) if (f !== 'node_modules' && !f.startsWith('.')) walk(join(p, f)); }
-    else if (['.css', '.scss', '.pcss'].includes(extname(p)) && !p.endsWith('dsgn.theme.css')) out.push(p);   // the theme file is generated
+    else if (['.css', '.scss', '.pcss'].includes(extname(p)) && !/(^|[\\/])dsgn(\.theme|\.min)?\.css$/.test(p)) out.push(p);   // generated: the theme, copies of dsgn itself
   };
   for (const p of paths) if (existsSync(p)) walk(p); else console.error(`dsgn: ${p} not found`);
   return out;
@@ -71,19 +71,23 @@ if (cmd === 'lint') {
   mkdirSync(dir, { recursive: true });
   const src = relative(dir, file) || file;
   writeFileSync(join(dir, 'dsgn.theme.css'), themeCss(t, { tokensCss, source: src }));
-  writeFileSync(join(dir, 'dsgn.theme.figma.json'), JSON.stringify(themeFigma(t), null, 2) + '\n');
-  writeFileSync(join(dir, 'dsgn.theme.figma.js'), themeFigmaScript(t));
+  // the Figma files stay next to the config (they are not part of the website, even with --out public)
+  const figDir = dirname(file);
+  writeFileSync(join(figDir, 'dsgn.theme.figma.json'), JSON.stringify(themeFigma(t), null, 2) + '\n');
+  writeFileSync(join(figDir, 'dsgn.theme.figma.js'), themeFigmaScript(t));
   console.log(`✓ contrast: ${results.length} pairs pass (tightest: ${worst.fg} on ${worst.bg}, ${worst.theme}, ${worst.actual.toFixed(2)} ≥ ${worst.min})`);
   console.log(`✓ wrote ${join(dir, 'dsgn.theme.css')} — load it right after dsgn.css`);
-  console.log(`  Figma: run ${join(dir, 'dsgn.theme.figma.js')} in the library file to add the mode "${t.name}"`);
+  console.log(`  Figma: run ${join(figDir, 'dsgn.theme.figma.js')} in the library file to add the mode "${t.name}"`);
 } else if (cmd === 'copy') {
   // Static sites without a build: copy the two files next to the page. Run it again after every
   // update (e.g. as "postinstall"), so the copy never drifts from the installed version.
-  const dir = resolvePath(args[0] || 'vendor/dsgn');
+  // Minified by default (the file names stay dsgn.css / dsgn.js); --readable copies the commented sources.
+  const readable = args.includes('--readable');
+  const dir = resolvePath(args.find((a) => !a.startsWith('--')) || 'vendor/dsgn');
   mkdirSync(dir, { recursive: true });
-  for (const f of ['dsgn.css', 'dsgn.js']) copyFileSync(new URL(`../dist/${f}`, import.meta.url), join(dir, f));
+  for (const f of ['dsgn.css', 'dsgn.js']) copyFileSync(new URL(`../dist/${readable ? f : f.replace(/\.(css|js)$/, '.min.$1')}`, import.meta.url), join(dir, f));
   writeFileSync(join(dir, 'VERSION'), pkg.version + '\n');
-  console.log(`✓ dsgn.systems ${pkg.version}: dsgn.css and dsgn.js copied to ${relative(process.cwd(), dir) || '.'}`);
+  console.log(`✓ dsgn.systems ${pkg.version}: dsgn.css and dsgn.js (${readable ? 'readable' : 'minified'}) copied to ${relative(process.cwd(), dir) || '.'}`);
 } else if (cmd === 'serve') {
   // Local preview of a static site. Only files under the folder are served.
   const { createServer } = await import('node:http');
@@ -108,7 +112,7 @@ Usage
   dsgn tokens                    list every --dsgn-* token
   dsgn theme --init              write a starter dsgn.theme.mjs
   dsgn theme [config] [--out d]  generate dsgn.theme.css from it (checks contrast)
-  dsgn copy [dir]                copy dsgn.css + dsgn.js into a static site (default vendor/dsgn)
+  dsgn copy [dir] [--readable]   copy dsgn.css + dsgn.js, minified, into a static site (default vendor/dsgn)
   dsgn serve [dir] [--port n]    preview a static site locally (default port 4173)
   dsgn --version
 
@@ -116,5 +120,6 @@ Files
   dsgn.systems/css               everything (tokens + all components)
   dsgn.systems/tokens.css        tokens only
   dsgn.systems/components/*.css  one component (needs tokens.css)
+  dsgn.systems/min.css, min.js   the same, minified (for production)
   dsgn.systems/js                behaviour for tabs, menus, tooltips, toasts, slider, number, search, chips`);
 }

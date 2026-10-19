@@ -417,6 +417,21 @@ out('dsgn.css', `/* dsgn ${JSON.parse(readFileSync(new URL('../package.json', im
 copyFileSync(new URL('../src/js/dsgn.js', import.meta.url), new URL('../dist/dsgn.js', import.meta.url));
 console.log(`components: ${comps.length} files, lint clean · dsgn.js copied`);
 
+// Minified copies for production (static sites, CDN): comments and whitespace go, the cascade
+// stays. a11y test compares every computed style of the preview with both files.
+{
+  const { transformSync } = await import('esbuild');
+  const version = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8')).version;
+  const min = (file, loader) => {
+    const src = readFileSync(new URL(`../dist/${file}`, import.meta.url), 'utf8');
+    const { code } = transformSync(src, { loader, minify: true, legalComments: 'none', target: 'esnext', charset: 'utf8' });
+    const outName = file.replace(/\.(css|js)$/, '.min.$1');
+    writeFileSync(new URL(`../dist/${outName}`, import.meta.url), `/* dsgn ${version} · MIT · https://novamastudio.github.io/dsgn.systems/ */\n${code}`);
+    return `${outName} ${(code.length / 1024).toFixed(0)} kB`;
+  };
+  console.log(`minified: ${min('dsgn.css', 'css')} · ${min('dsgn.js', 'js')}`);
+}
+
 // The skill and the README pin the CDN to the current minor version; a release must update them.
 {
   const ver = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8')).version.split('.').slice(0, 2).join('.');
