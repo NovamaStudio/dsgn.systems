@@ -2,7 +2,7 @@
 
 One version for the npm package and the Figma library. [Semantic versioning](https://semver.org): patch = fix, minor = addition, major = rename or removal (with migration notes).
 
-## 0.13.0 — unreleased
+## 0.13.0 — 2026-10-19
 
 ### Added
 - `npx dsgn copy [dir]`: copies `dsgn.css` and `dsgn.js` (plus a `VERSION` file) into a static site, `vendor/dsgn` by default. Run it as `"postinstall"` so an update never leaves a stale copy behind.

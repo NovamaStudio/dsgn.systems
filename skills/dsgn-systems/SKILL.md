@@ -72,8 +72,8 @@ npx dsgn copy            # → vendor/dsgn/dsgn.css, dsgn.js, VERSION
 Pin the minor version:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dsgn.systems@0.12/dist/dsgn.css">
-<script src="https://cdn.jsdelivr.net/npm/dsgn.systems@0.12/dist/dsgn.js" defer></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dsgn.systems@0.13/dist/dsgn.css">
+<script src="https://cdn.jsdelivr.net/npm/dsgn.systems@0.13/dist/dsgn.js" defer></script>
 ```
 
 ### Fonts (not bundled)
