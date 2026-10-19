@@ -133,9 +133,12 @@ defaultFirst(T.elevation).forEach(([m, i]) => {
 const dimLine = (snap) => ([k, n]) => `${v(k)}: ${n >= 9999 ? px(n) : snap ? r(k, n) : u(n)};`;
 css.push('/* ── dimensions: space, type, density, radius (multiples of --dsgn-unit) ── */\n');
 for (const b of dimBlocks) block(b.sel, [...b.dims.map(dimLine(false)), ...(b.extra || [])]);
+// A mode block (data-density / data-radius) repeats every value here, also the ones that are not
+// rounded (0, 9999px): an incomplete block would let the default block (:root, …), which comes first
+// but has the same specificity, win on <html data-radius="pill"> — pill buttons got 4 px corners.
 css.push(`/* ── grid snapping: rounds every dimension to ${T.snap.step}px when the unit is fractional ── */\n`);
 css.push(`@supports (width: round(1px, 1px)) {\n${dimBlocks.map((b) =>
-  `  ${b.sel.replace(/\n/g, '\n  ')} {\n${b.dims.filter(([k, n]) => n < 9999 && n !== 0 && snapMode(k)).map(dimLine(true)).map((l) => `    ${l}`).join('\n')}\n  }`).join('\n')}\n}\n`);
+  `  ${b.sel.replace(/\n/g, '\n  ')} {\n${b.dims.filter(([k, n]) => b.sel.includes('[data-') || (n < 9999 && n !== 0 && snapMode(k))).map(dimLine(true)).map((l) => `    ${l}`).join('\n')}\n  }`).join('\n')}\n}\n`);
 
 // ── density on touch screens ──────────────────────────────────────────────────
 if (T.density.touch && T.density.touch !== T.density.default) {
@@ -413,3 +416,12 @@ out('dsgn.components.css', `/* dsgn components — bundled from src/components. 
 out('dsgn.css', `/* dsgn ${JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8')).version} — tokens + components. Everything is in @layer dsgn.*; your own CSS always wins. */\n${tokensLayered}${compsLayered}`);
 copyFileSync(new URL('../src/js/dsgn.js', import.meta.url), new URL('../dist/dsgn.js', import.meta.url));
 console.log(`components: ${comps.length} files, lint clean · dsgn.js copied`);
+
+// The skill and the README pin the CDN to the current minor version; a release must update them.
+{
+  const ver = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8')).version.split('.').slice(0, 2).join('.');
+  for (const f of ['../skills/dsgn-systems/SKILL.md', '../README.md']) {
+    const stale = [...readFileSync(new URL(f, import.meta.url), 'utf8').matchAll(/dsgn\.systems@(\d+\.\d+)/g)].map((m) => m[1]).filter((v) => v !== ver);
+    if (stale.length) { console.error(`✗ ${f.slice(3)} pins the CDN to dsgn.systems@${stale[0]}; the package is ${ver}`); process.exit(1); }
+  }
+}

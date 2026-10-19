@@ -22,6 +22,8 @@ npm i dsgn.systems
 
 With a bundler: `import 'dsgn.systems/css'` and `import 'dsgn.systems/js'`.
 
+Static site without a build (where `node_modules` is not deployed): `npx dsgn copy` puts `dsgn.css` and `dsgn.js` into `vendor/dsgn/` (add `"postinstall": "dsgn copy"` so updates refresh the copy), and `npx dsgn serve` previews the folder locally (Node only).
+
 Fonts are not bundled. Load Inter and Material Symbols Rounded (outline + fill axis), e.g. from Google Fonts:
 
 ```html

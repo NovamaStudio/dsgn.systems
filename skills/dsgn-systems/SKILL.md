@@ -45,13 +45,35 @@ Bundler: `import 'dsgn.systems/css'` and `import 'dsgn.systems/js'`.
 | `dsgn.systems/tokens.json` | tokens in W3C DTCG format |
 | `dsgn.systems/theme` | `resolveTheme`, `themeCss`, `checkContrast`, `hexToOklch` for build tools |
 
-### CDN (static pages, prototypes, Claude artifacts)
+### Static site on your own hosting (no build)
+
+Copy the two files next to the page instead of linking `node_modules` (which is not deployed). Keep the copy in step with the installed version by running it on every install:
+
+```bash
+npm i dsgn.systems
+npx dsgn copy            # → vendor/dsgn/dsgn.css, dsgn.js, VERSION
+```
+
+```json
+"scripts": { "postinstall": "dsgn copy", "theme": "dsgn theme", "lint": "dsgn lint styles.css", "serve": "dsgn serve" }
+```
+
+```html
+<link rel="stylesheet" href="vendor/dsgn/dsgn.css">
+<link rel="stylesheet" href="dsgn.theme.css">   <!-- project theme, right after dsgn.css -->
+<link rel="stylesheet" href="styles.css">       <!-- project styles last -->
+<script src="vendor/dsgn/dsgn.js" defer></script>
+```
+
+**Local preview**: `npx dsgn serve` (Node only, port 4173; `--port n`, optional folder). Do not reach for Python or write your own server; a preview tool that needs a launch command gets `npx dsgn serve`.
+
+### CDN (prototypes, Claude artifacts)
 
 Pin the minor version:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dsgn.systems@0.11/dist/dsgn.css">
-<script src="https://cdn.jsdelivr.net/npm/dsgn.systems@0.11/dist/dsgn.js" defer></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dsgn.systems@0.12/dist/dsgn.css">
+<script src="https://cdn.jsdelivr.net/npm/dsgn.systems@0.12/dist/dsgn.js" defer></script>
 ```
 
 ### Fonts (not bundled)
@@ -119,6 +141,8 @@ With Tailwind: keep Tailwind for layout utilities only if the project already us
 | `data-lines` | `on` · `minimal` (no outlines on cards, table/list frames, chrome edges; row separators stay) · `none` (no separators either) | `on` |
 
 Put them on `<html>` for the whole page, or on any element for a section: `<section class="dsgn-section" data-theme="dark">` makes a dark band. Density S suits dense admin tables, L suits touch kiosks and marketing pages. Leave `data-density` off `<html>` unless you mean it: without it, touch screens (`pointer: coarse`) get L automatically (44 px controls, WCAG 2.5.5 AAA / Apple HIG), mouse users M. Setting it on `<html>` fixes one density for every device.
+
+The project's own defaults (brand corners, density, elevation) go into `dsgn.theme.mjs` (`radius: 'pill'`, `density: 'l'` …), not onto `<html>`: the theme keeps touch screens' automatic L and the Figma mode in step. Attributes are for deliberate overrides (a page, a section).
 
 A user theme toggle sets `data-theme` on `<html>` and stores the choice (localStorage, wrapped in try/catch). Without a stored choice, leave the attribute off so the OS decides.
 

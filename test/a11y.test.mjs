@@ -11,7 +11,9 @@
 //      1.4.11 — a regression guard: a private variable set on .dsgn-icon once overrode it)
 //   7. layout gaps: a Stack / Cluster / Grid / Split without data-gap has its own default gap, wherever it
 //      is nested (a regression guard: --_gap used to leak from a parent with data-gap)
-//   8. forced colours: screenshots for manual review → dist/a11y/
+//   8. modes on <html>: data-radius / data-density set on the root element win over the defaults
+//      (a regression guard: the snapped default block used to override pill and sharp)
+//   9. forced colours: screenshots for manual review → dist/a11y/
 // Fonts are served from node_modules so the audit runs offline.
 import { chromium } from 'playwright';
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
@@ -32,7 +34,7 @@ async function open(file, width = 1440, opts = {}) {
   return { ctx, page };
 }
 
-const report = { axe: [], keyboard: [], reflow: [], spacing: [], motion: [], icons: [], gaps: [] };
+const report = { axe: [], keyboard: [], reflow: [], spacing: [], motion: [], icons: [], gaps: [], modes: [] };
 const TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa', 'best-practice'];
 
 // ── 1. axe ───────────────────────────────────────────────────────────────────
@@ -186,7 +188,24 @@ for (const file of ['layout-demo.html', 'docs.html']) for (const width of [390, 
   await ctx.close();
 }
 
-// ── 8. forced colours (screenshots for review) ───────────────────────────────
+// ── 8. modes on <html> win over the defaults ─────────────────────────────────
+{
+  const { ctx, page } = await open('preview.html', 1200);
+  const want = { 'data-radius=pill': { '--dsgn-radius-m': '9999px' }, 'data-radius=sharp': { '--dsgn-radius-s': '0px', '--dsgn-radius-m': '0px', '--dsgn-radius-l': '0px' },
+    'data-radius=rounded': { '--dsgn-radius-m': '8px' }, 'data-density=s': { '--dsgn-control-pad-y': '4px' }, 'data-density=l': { '--dsgn-control-pad-y': '10px' } };
+  for (const [attr, props] of Object.entries(want)) {
+    const got = await page.evaluate(({ attr, props }) => {
+      const [a, v] = attr.split('='); const el = document.documentElement; const old = el.getAttribute(a); el.setAttribute(a, v);
+      const probe = document.createElement('div'); document.body.appendChild(probe);
+      const out = Object.fromEntries(Object.keys(props).map((p) => { probe.style.width = `var(${p})`; return [p, getComputedStyle(probe).width]; }));
+      probe.remove(); old === null ? el.removeAttribute(a) : el.setAttribute(a, old); return out;
+    }, { attr, props });
+    for (const [p, v] of Object.entries(props)) if (got[p] !== v) report.modes.push({ file: 'preview.html', problem: `<html ${attr}>: ${p} is ${got[p]}, expected ${v}` });
+  }
+  await ctx.close();
+}
+
+// ── 9. forced colours (screenshots for review) ───────────────────────────────
 {
   const { ctx, page } = await open('preview.html', 1200, { forcedColors: 'active' });
   const panel = page.locator('.panel').first();
@@ -211,20 +230,21 @@ const md = ['# Accessibility audit', '', `axe-core ${JSON.parse(readFileSync(new
   `| Reduced motion | ${report.motion.length ? report.motion.length + ' problems' : 'pass'} |`,
   `| Status icon colours (Alert, Banner) | ${report.icons.length ? report.icons.length + ' problems' : 'pass'} |`,
   `| Layout gaps not inherited | ${report.gaps.length ? report.gaps.length + ' problems' : 'pass'} |`,
+  `| Modes on <html> (radius, density) | ${report.modes.length ? report.modes.length + ' problems' : 'pass'} |`,
   '| Forced colours | screenshots in dist/a11y/ for manual review |', '', `axe could not decide colour contrast for ${report.incomplete || 0} elements (text over gradients, pseudo-elements); the build-time contrast contract covers every token pair instead.`, ''];
 if (axeU.length) { md.push('## axe', '', '| Rule | Impact | Where | Element | Seen |', '|---|---|---|---|---|'); for (const v of axeU) md.push(`| ${v.rule} | ${v.impact} | ${v.where} | \`${v.target}\` | ${v.count}× |`); md.push(''); }
-for (const [k, list] of [['Keyboard', kb], ['Reflow', report.reflow], ['Text spacing', report.spacing], ['Reduced motion', report.motion], ['Status icons', report.icons], ['Layout gaps', report.gaps]])
+for (const [k, list] of [['Keyboard', kb], ['Reflow', report.reflow], ['Text spacing', report.spacing], ['Reduced motion', report.motion], ['Status icons', report.icons], ['Layout gaps', report.gaps], ['Modes', report.modes]])
   if (list.length) { md.push('## ' + k, '', ...list.map((x) => '- ' + Object.values(x).join(' · ')), ''); }
 writeFileSync(new URL('../dist/a11y-report.md', import.meta.url), md.join('\n'));
 writeFileSync(new URL('../dist/a11y/report.json', import.meta.url), JSON.stringify({ ...report, axe: axeU }, null, 1));
-const total = axeU.length + kb.length + report.reflow.length + report.spacing.length + report.motion.length + report.icons.length + report.gaps.length;
+const total = axeU.length + kb.length + report.reflow.length + report.spacing.length + report.motion.length + report.icons.length + report.gaps.length + report.modes.length;
 console.log(total ? `a11y: ${total} issues → dist/a11y-report.md` : 'a11y: no issues ✓ (forced-colours screenshots in dist/a11y/)');
 // on GitHub Actions: every issue becomes an annotation on the run, the report goes to the job summary
 if (process.env.GITHUB_ACTIONS) {
   const esc = (t) => String(t).replace(/%/g, '%25').replace(/\r/g, '%0D').replace(/\n/g, '%0A');
   const issues = [...axeU.map((v) => `axe ${v.rule} (${v.impact}) · ${v.where} · ${v.target} · ${v.count}×`),
     ...kb.map((x) => `keyboard · ${x.width} · ${x.element} · ${x.problem}`),
-    ...[...report.reflow, ...report.spacing, ...report.motion, ...report.icons, ...report.gaps].map((x) => `${x.file || ''} ${x.problem} ${x.element || x.culprits || ''}`)];
+    ...[...report.reflow, ...report.spacing, ...report.motion, ...report.icons, ...report.gaps, ...report.modes].map((x) => `${x.file || ''} ${x.problem} ${x.element || x.culprits || ''}`)];
   for (const i of issues.slice(0, 40)) console.log(`::error title=a11y::${esc(i)}`);
   if (process.env.GITHUB_STEP_SUMMARY) writeFileSync(process.env.GITHUB_STEP_SUMMARY, md.join('\n') + '\n', { flag: 'a' });
 }

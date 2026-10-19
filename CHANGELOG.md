@@ -2,6 +2,16 @@
 
 One version for the npm package and the Figma library. [Semantic versioning](https://semver.org): patch = fix, minor = addition, major = rename or removal (with migration notes).
 
+## 0.13.0 — unreleased
+
+### Added
+- `npx dsgn copy [dir]`: copies `dsgn.css` and `dsgn.js` (plus a `VERSION` file) into a static site, `vendor/dsgn` by default. Run it as `"postinstall"` so an update never leaves a stale copy behind.
+- `npx dsgn serve [dir] [--port n]`: a local preview server for static sites (Node only, port 4173, serves only files under the folder). The skill now tells agents to use it instead of Python or a hand-written server.
+- The build fails when the skill or the README pins the CDN to an older minor version (the skill still said `@0.11`).
+
+### Fixed
+- `data-radius="pill"` or `"sharp"` on `<html>` was ignored in browsers that support `round()`: buttons got 4 px corners instead of pill or square. The snapped copy of each mode block left out the values that are not rounded (0, 9999px), so the default block, same specificity and set on `:root`, won on the root element. Every mode block is now complete; sections with the attribute were never affected. Guarded by a new check in the a11y test (modes on `<html>`).
+
 ## 0.12.0 — 2026-10-19
 
 ### Added
