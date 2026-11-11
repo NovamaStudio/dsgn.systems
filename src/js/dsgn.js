@@ -258,26 +258,31 @@
     var body = el('div', 'dsgn-toast-body');
     if (opts.title) body.appendChild(el('p', 'dsgn-toast-title', opts.title));
     if (opts.text) body.appendChild(el('p', null, opts.text));
+    var list = opts.actions || (opts.action ? [opts.action] : []);
+    var stack = opts.layout ? opts.layout === 'stack' : (list.length > 1 || (!!opts.title && list.length > 0));
+    t.setAttribute('data-layout', stack ? 'stack' : 'inline');
     var actions = el('div', 'dsgn-toast-actions');
-    if (opts.action) {
-      var a = el('button', 'dsgn-button', opts.action.label);
-      a.type = 'button'; a.setAttribute('data-variant', 'ghost');
-      a.addEventListener('click', function () { if (opts.action.onClick) opts.action.onClick(); close(); });
+    list.forEach(function (act, i) {
+      var a = el('button', 'dsgn-button', act.label);
+      a.type = 'button';
+      // stack: the first action is subtle, the rest ghost neutral; inline: ghost
+      a.setAttribute('data-variant', stack && i === 0 ? 'subtle' : 'ghost');
+      if (i > 0) a.setAttribute('data-intent', 'neutral');
+      a.addEventListener('click', function () { if (act.onClick) act.onClick(); close(); });
       actions.appendChild(a);
-    }
-    var x = el('button', 'dsgn-icon-button');
+    });
+    var x = el('button', 'dsgn-icon-button dsgn-toast-close');
     x.type = 'button'; x.setAttribute('data-variant', 'ghost'); x.setAttribute('data-intent', 'neutral'); x.setAttribute('aria-label', opts.closeLabel || 'Dismiss');
     var xi = el('span', 'dsgn-icon', 'close'); xi.setAttribute('aria-hidden', 'true'); x.appendChild(xi);
     x.addEventListener('click', close);
-    actions.appendChild(x);
-    t.appendChild(icon); t.appendChild(body); t.appendChild(actions);
+    t.appendChild(icon); t.appendChild(body); t.appendChild(actions); t.appendChild(x);
 
     if (intent === 'danger') t.setAttribute('role', 'alert');
     var r = region();
     r.appendChild(t);
     while (r.children.length > MAX_TOASTS) r.firstElementChild.remove();
 
-    var duration = opts.duration != null ? opts.duration : (opts.action ? 10000 : 6000);
+    var duration = opts.duration != null ? opts.duration : (list.length ? 10000 : 6000);
     var timer = null, remaining = duration, started = 0;
     function start() { if (!duration || timer) return; started = Date.now(); timer = setTimeout(close, remaining); }
     function pause() { if (!timer) return; clearTimeout(timer); timer = null; remaining -= Date.now() - started; }

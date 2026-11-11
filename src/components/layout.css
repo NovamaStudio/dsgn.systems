@@ -90,6 +90,9 @@
   .dsgn-grid > [data-span-desktop="1"] { grid-column: auto; }
 }
 
+/* a scrolling table in a cluster takes a whole row (it has no width of its own, see table.css) */
+.dsgn-cluster > :is(.dsgn-table-wrap, :has(.dsgn-table-wrap)) { flex: 1 1 100%; min-inline-size: 0; }
+
 /* ── Split ───────────────────────────────────────────────────────────────── */
 .dsgn-split {
   display: grid;

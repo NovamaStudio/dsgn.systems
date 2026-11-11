@@ -5,4 +5,5 @@ import { readFileSync } from 'node:fs';
 import { writeFigmaScript, checkSync } from './figma-run.mjs';
 const lint = writeFigmaScript('lint', readFileSync(new URL('../figma/figma-lint.js', import.meta.url), 'utf8'));
 console.log(`figma-lint.js written (${(lint.length / 1024).toFixed(1)} kB) — run it in Figma, save the result as figma/lint-report.json`);
+await import('./check-plugin.mjs');   // the "dsgn sync check" plugin bundles all four scripts, so it is written after the last one
 checkSync();

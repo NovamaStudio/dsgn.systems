@@ -1,0 +1,11 @@
+<style>body{font:13px system-ui,sans-serif;margin:12px}textarea{width:100%;height:250px;font:11px ui-monospace,monospace;box-sizing:border-box}button{margin-top:8px;padding:6px 12px}#s{margin:0 0 8px}</style>
+<p id="s">Running…</p>
+<textarea id="t" readonly></textarea>
+<button id="c">Copy result</button>
+<script>
+onmessage = (e) => { const m = e.data.pluginMessage; const s = document.getElementById('s');
+  if (m.step) { s.textContent = 'Running ' + m.step + '…'; return; }
+  s.textContent = m.ok ? 'Done — all checks passed. Copy the result and send it to Claude.' : 'Done with problems — copy the result and send it to Claude.';
+  document.getElementById('t').value = m.text; };
+document.getElementById('c').onclick = () => { const t = document.getElementById('t'); t.select(); document.execCommand('copy'); document.getElementById('c').textContent = 'Copied ✓'; };
+</script>

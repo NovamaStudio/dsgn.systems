@@ -3,10 +3,23 @@
  * dsgn.toast({ text: 'Invoice sent', intent: 'success' })
  * dsgn.toast({ text: 'Invoice deleted', action: { label: 'Undo', onClick: restore } })
  * dsgn.toast({ title: 'Upload failed', text: 'The file is larger than 10 MB.', intent: 'danger' })
+ * dsgn.toast({ title: 'New version', text: 'Reload to get the latest invoices.', layout: 'stack',
+ *              actions: [{ label: 'Reload', onClick: reload }, { label: 'Later' }] })
+ *
+ * Markup (dsgn.js writes it):
+ * <div class="dsgn-toast" data-intent="success" data-layout="inline|stack">
+ *   <span class="dsgn-icon" aria-hidden="true">check_circle</span>
+ *   <div class="dsgn-toast-body"><p class="dsgn-toast-title">…</p><p>…</p></div>
+ *   <div class="dsgn-toast-actions"><button class="dsgn-button" data-variant="ghost">Undo</button></div>
+ *   <button class="dsgn-icon-button dsgn-toast-close" data-variant="ghost" data-intent="neutral" aria-label="Dismiss">…</button>
+ * </div>
  *
  * Short, non-blocking confirmation of something the user just did. Raised surface with the
- * overlay shadow, intent icon, optional action and a dismiss button. Stacks at the bottom
- * end of the viewport (safe-area aware), newest last, at most 3 at a time.
+ * overlay shadow, intent icon, optional actions and a dismiss button, 448 px wide.
+ * Layout inline (default for one action without a title): the action sits beside the text.
+ * Layout stack (default with a title or more actions; on phones always): the buttons sit under the
+ * text, the first one subtle, the others ghost. Stacks at the bottom end of the viewport (safe-area
+ * aware), newest last, at most 3 at a time.
  * Announced by one polite live region; danger toasts carry role="alert" (assertive). Auto-hides after 6 s (10 s with an
  * action); the timer pauses while the pointer is over the toast or focus is inside it.
  * Never put the only way to do something in a toast.
@@ -25,11 +38,12 @@
 .dsgn-toast {
   box-sizing: border-box;
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  grid-template-areas: "icon body actions close";
   align-items: start;
   column-gap: var(--dsgn-control-gap);
-  inline-size: calc(9 * var(--dsgn-space-40));
-  max-inline-size: 100%;
+  /* 448 px: a sentence and a button fit on one line; never wider than the screen minus its margins */
+  inline-size: min(calc(7 * var(--dsgn-space-64)), calc(100vw - 2 * var(--dsgn-space-16)));
   padding: var(--dsgn-control-pad-y) var(--dsgn-control-pad-y) var(--dsgn-control-pad-y) var(--dsgn-control-pad-x);
   border-radius: var(--dsgn-radius-l);
   background: var(--dsgn-surface-chrome);
@@ -43,12 +57,13 @@
   pointer-events: auto;
 }
 /* icon and text sit on the first line of the controls (control height), not above them */
-.dsgn-toast > .dsgn-icon { --_fill: 1; margin-block: calc((var(--dsgn-control-height) - var(--dsgn-line-height-body-s)) / 2); color: var(--dsgn-accent-text); }
+.dsgn-toast > .dsgn-icon { grid-area: icon; --_fill: 1; margin-block: calc((var(--dsgn-control-height) - var(--dsgn-line-height-body-s)) / 2); color: var(--dsgn-accent-text); }
 .dsgn-toast[data-intent="success"] > .dsgn-icon { color: var(--dsgn-success-text); }
 .dsgn-toast[data-intent="warning"] > .dsgn-icon { color: var(--dsgn-warning-text); }
 .dsgn-toast[data-intent="danger"]  > .dsgn-icon { color: var(--dsgn-danger-text); }
 .dsgn-toast[data-intent="neutral"] > .dsgn-icon { color: var(--dsgn-neutral-text); }
 .dsgn-toast-body {
+  grid-area: body;
   display: grid;
   gap: var(--dsgn-space-2);
   padding-block: calc((var(--dsgn-control-height) - var(--dsgn-line-height-body-s)) / 2);
@@ -56,7 +71,20 @@
 }
 .dsgn-toast-body > * { margin: 0; }
 .dsgn-toast-title { font-weight: var(--dsgn-font-weight-semibold); }
-.dsgn-toast-actions { display: flex; align-items: center; gap: var(--dsgn-space-4); }
+.dsgn-toast-actions { grid-area: actions; display: flex; flex-wrap: wrap; align-items: center; gap: var(--dsgn-space-4); }
+.dsgn-toast-actions:empty { display: none; }
+.dsgn-toast-close { grid-area: close; }
+/* stack: buttons under the text, starting where the text starts */
+.dsgn-toast[data-layout="stack"] {
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-areas: "icon body close" ". actions actions";
+}
+.dsgn-toast[data-layout="stack"] { padding-block-end: var(--dsgn-control-pad-x); }
+.dsgn-toast[data-layout="stack"] > .dsgn-toast-actions { gap: var(--dsgn-space-8); }
+@media (width < 30rem) {   /* phones: never squeeze the text beside a button */
+  .dsgn-toast { grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: "icon body close" ". actions actions"; }
+  .dsgn-toast:has(> .dsgn-toast-actions:not(:empty)) { padding-block-end: var(--dsgn-control-pad-x); }
+}
 
 @media (prefers-reduced-motion: no-preference) {
   .dsgn-toast {

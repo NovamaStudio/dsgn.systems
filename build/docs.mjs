@@ -386,6 +386,7 @@ ${js}
       if (k === 'success') dsgn.toast({ text: 'Invoice 2026-114 sent to the client.', intent: 'success' });
       if (k === 'undo') dsgn.toast({ text: 'Invoice 2026-117 deleted.', intent: 'neutral', icon: 'delete', action: { label: 'Undo', onClick: function () { dsgn.toast({ text: 'Invoice restored.', intent: 'success' }); } } });
       if (k === 'danger') dsgn.toast({ title: 'Upload failed', text: 'The file is larger than 10 MB.', intent: 'danger' });
+      if (k === 'stack') dsgn.toast({ title: 'New version available', text: 'Reload the page to get the latest invoices and settings.', actions: [{ label: 'Reload' }, { label: 'Later' }] });
     }
   });
 })();

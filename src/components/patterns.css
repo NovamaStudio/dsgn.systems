@@ -163,7 +163,13 @@ html:has(.dsgn-header:not([data-sticky="false"])) { scroll-padding-block-start: 
   font-size: var(--dsgn-font-size-body-s);
   line-height: var(--dsgn-line-height-body-s);
 }
-.dsgn-footer-title { color: var(--dsgn-text); font-weight: var(--dsgn-font-weight-semibold); margin-block-end: var(--dsgn-space-8); }
+.dsgn-footer-title {   /* also on an <h2>: the footer's text size, not the browser's heading size */
+  margin-block: 0 var(--dsgn-space-8);
+  color: var(--dsgn-text);
+  font-size: inherit;
+  line-height: inherit;
+  font-weight: var(--dsgn-font-weight-semibold);
+}
 .dsgn-footer-links { display: grid; gap: var(--dsgn-space-8); margin: 0; padding: 0; list-style: none; }
 .dsgn-footer a:not([class]) { color: var(--dsgn-text-muted); text-decoration: none; border-radius: var(--dsgn-radius-s); }
 @media (hover: hover) { .dsgn-footer a:not([class]):hover { color: var(--dsgn-text); text-decoration: underline; text-underline-offset: 0.2em; } }

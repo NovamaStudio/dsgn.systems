@@ -81,8 +81,8 @@
    The text is a bare text node, so :first-child / :last-child cannot tell icon-before-text from
    text-before-icon (with one icon the icon is both). A leading icon is the default; a trailing icon
    is marked data-end. */
-.dsgn-button:has(> .dsgn-icon:not([data-end])) { padding-inline-start: calc(var(--dsgn-control-pad-x) - var(--dsgn-space-4) - var(--dsgn-space-2)); }
-.dsgn-button:has(> .dsgn-icon[data-end]) { padding-inline-end: calc(var(--dsgn-control-pad-x) - var(--dsgn-space-4) - var(--dsgn-space-2)); }
+.dsgn-button:has(> .dsgn-icon:not([data-end])) { padding-inline-start: calc(var(--dsgn-control-pad-x) - var(--dsgn-space-6)); }
+.dsgn-button:has(> .dsgn-icon[data-end]) { padding-inline-end: calc(var(--dsgn-control-pad-x) - var(--dsgn-space-6)); }
 
 /* ── intents ─────────────────────────────────────────────────────────────── */
 :is(.dsgn-button, .dsgn-icon-button)[data-intent="neutral"] {

@@ -433,7 +433,8 @@ function navBlock(t) {
       '<a class="dsgn-icon-button" data-variant="ghost" data-intent="neutral" href="#h-b" aria-label="Next page">' + ic('chevron_right') + '</a></nav>' +
     '<div class="row"><button class="dsgn-button" data-variant="subtle" data-intent="neutral" data-toast="success">' + ic('check_circle') + 'Toast</button>' +
       '<button class="dsgn-button" data-variant="subtle" data-intent="neutral" data-toast="undo">Toast with Undo</button>' +
-      '<button class="dsgn-button" data-variant="subtle" data-intent="neutral" data-toast="danger">Error toast</button></div>';
+      '<button class="dsgn-button" data-variant="subtle" data-intent="neutral" data-toast="danger">Error toast</button>' +
+      '<button class="dsgn-button" data-variant="subtle" data-intent="neutral" data-toast="stack">Buttons under the text</button></div>';
 }
 function loadingBlock(t) {
   const prog = (id, label, value, intent, hint) => '<div class="dsgn-field"><span class="dsgn-label" id="' + id + t + '">' + label + '</span>' +
@@ -587,6 +588,7 @@ document.addEventListener('click', e => {
   if (k === 'success') dsgn.toast({ text: 'Invoice 2026-114 sent to the client.', intent: 'success' });
   if (k === 'undo') dsgn.toast({ text: 'Invoice 2026-117 deleted.', intent: 'neutral', icon: 'delete', action: { label: 'Undo', onClick: () => dsgn.toast({ text: 'Invoice restored.', intent: 'success' }) } });
   if (k === 'danger') dsgn.toast({ title: 'Upload failed', text: 'The file is larger than 10 MB.', intent: 'danger' });
+  if (k === 'stack') dsgn.toast({ title: 'New version available', text: 'Reload the page to get the latest invoices and settings.', actions: [{ label: 'Reload' }, { label: 'Later' }] });
 });
 ${dsgnjs}
 

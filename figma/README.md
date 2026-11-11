@@ -22,6 +22,15 @@ fingerprint changes → run all three again. CI enforces the same on every push.
 Not checkable through the Plugin API: the FILL axis of the icon text styles (set by hand in
 the style panel: icon/outline = 0, icon/fill and icon/fill-display = 1).
 
+**All four in one go: the "dsgn sync check" plugin.** `npm run build` also writes
+`figma-check-plugin/` (committed). Import it once in the Figma desktop app (Plugins → Development →
+Import plugin from manifest… → `figma-check-plugin/manifest.json`); with the repository pulled it always
+holds the current scripts. Run it in the library file: it runs `figma-sync.js` → `figma-parity.js` →
+`figma-handoff.js` → `figma-lint.js` unchanged, in this order, and shows all results as one JSON. Save
+it with `node build/save-reports.mjs <file>` (writes the three reports), then `npm run build`. Use it
+when the scripts cannot run through the Figma MCP. Running the sync when no token changed is harmless:
+it writes the same values.
+
 With a Figma Enterprise plan both checks can run in CI against the REST API instead.
 
 ## Responsive frames (one frame, three breakpoints)

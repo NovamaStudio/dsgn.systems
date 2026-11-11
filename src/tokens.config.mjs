@@ -220,9 +220,9 @@ export const typeScale = {
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 6. SPACE — primitive scale (px). 2 is the only sub-4 step.
+// 6. SPACE — primitive scale (px), on the 2 px grid. 2 and 6 are the steps off the 4 px grid.
 // ─────────────────────────────────────────────────────────────────────────────
-export const space = [0, 2, 4, 8, 12, 16, 20, 24, 32, 40, 48, 64];
+export const space = [0, 2, 4, 6, 8, 12, 16, 20, 24, 32, 40, 48, 64];
 
 // ─────────────────────────────────────────────────────────────────────────────
 // 7. MODE AXES — density and radius. Control height = line-height + 2 × pad-y.

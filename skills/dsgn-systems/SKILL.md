@@ -94,8 +94,8 @@ node_modules/, .claude/, .vercel/, .DS_Store   ← neither: listed in .gitignore
 Pin the minor version:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dsgn.systems@0.14/dist/dsgn.min.css">
-<script src="https://cdn.jsdelivr.net/npm/dsgn.systems@0.14/dist/dsgn.min.js" defer></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dsgn.systems@0.15/dist/dsgn.min.css">
+<script src="https://cdn.jsdelivr.net/npm/dsgn.systems@0.15/dist/dsgn.min.js" defer></script>
 ```
 
 ### Fonts (not bundled)
@@ -181,7 +181,7 @@ Options include `accentFill: 'default' | 'strong' | 'stronger' | 'auto'` and `mo
 
 | Need | Tokens |
 |---|---|
-| Space (2 px grid) | `--dsgn-space-0 2 4 8 12 16 20 24 32 40 48 64` |
+| Space (2 px grid) | `--dsgn-space-0 2 4 6 8 12 16 20 24 32 40 48 64` |
 | Rhythm | `--dsgn-stack` (gap in a group), `--dsgn-inset` (padding of a box), `--dsgn-section-pad-y`, `--dsgn-page-margin`, `--dsgn-grid-gap` |
 | Controls | `--dsgn-control-height`, `-pad-x`, `-pad-y`, `-gap`, `-line-height`, `-font-size` |
 | Corners | `--dsgn-radius-s` (small bits), `-m` (controls), `-l` (containers), `-full` |
@@ -247,7 +247,7 @@ Header options (all combinable; dsgn.js drives the scroll states):
 
 <footer class="dsgn-footer"><div class="dsgn-container dsgn-stack" data-gap="xl">   <!-- reflows by its own width: brand 16rem beside or above the columns, columns min 8rem -->
   <div class="dsgn-footer-top"><div class="dsgn-footer-brand">brand · tagline</div>
-    <div class="dsgn-footer-columns">.dsgn-footer-title / .dsgn-footer-links columns</div></div>
+    <div class="dsgn-footer-columns">.dsgn-footer-title (a <p>, or an <h2> when the columns should be headings) / .dsgn-footer-links columns</div></div>
   <div class="dsgn-cluster dsgn-footer-legal" data-justify="between">© · legal links</div>
 </div></footer>
 
@@ -335,7 +335,7 @@ Every component documents its full markup at the top of `dist/components/<name>.
 **Feedback and overlays**
 - **Alert** (in content): `.dsgn-alert[data-intent]` with icon + `.dsgn-alert-body` (`.dsgn-alert-title`). `role="alert"` only for urgent messages that appear after an action; otherwise `role="status"` or none.
 - **Banner** (page-wide, at the top edge): `.dsgn-banner` > `.dsgn-container.dsgn-banner-inner` > icon + `.dsgn-banner-text`. One at a time.
-- **Toast** (dsgn.js): `dsgn.toast({ text, intent, title, action: { label, onClick } })`. Only for confirmations of something the user just did, never the only path to an action.
+- **Toast** (dsgn.js): `dsgn.toast({ text, intent, title, action: { label, onClick } })` or `actions: [{ label, onClick }, …]`, `layout: 'inline' | 'stack'`. 448 px wide. Inline (default with one action and no title): the action beside the text. Stack (default with a title or several actions, always on phones): buttons under the text, the first subtle, the others ghost. Only for confirmations of something the user just did, never the only path to an action.
 - **Dialog**: native `<dialog class="dsgn-dialog" aria-labelledby="…" closedby="any">` with `.dsgn-dialog-header` / `-title` / `-body` / `-footer`; open with `command="show-modal" commandfor="id"`; `data-size="s|m|l"`. Prefer a page or inline editing over a dialog for long forms.
 - **Drawer / sheet**: the same dialog docked to an edge: `<dialog class="dsgn-dialog" data-placement="start|end|bottom" …>`. `start`/`end` = full-height side panel (mobile menu, filters, detail), `bottom` = sheet on mobile. Header, body and footer work as in Dialog; the body scrolls. Use `.dsgn-list[data-variant="plain"]` or a vertical `.dsgn-nav` inside. It slides in from its edge and back out; dsgn.js closes it when a link to a section of the page (`href="#…"`) inside it is picked, so a mobile menu needs no script of its own.
 - **Tooltip** (dsgn.js): `div.dsgn-tooltip[role=tooltip][popover=manual]` referenced by `aria-describedby`. Short supplementary text only, never essential information.

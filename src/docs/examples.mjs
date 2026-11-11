@@ -208,7 +208,8 @@ export const components = {
   <button class="dsgn-button" data-variant="subtle" data-intent="neutral" data-demo-toast="success">Show a toast</button>
   <button class="dsgn-button" data-variant="subtle" data-intent="neutral" data-demo-toast="undo">Toast with Undo</button>
   <button class="dsgn-button" data-variant="subtle" data-intent="neutral" data-demo-toast="danger">Error toast</button>
-</div>` }],
+  <button class="dsgn-button" data-variant="subtle" data-intent="neutral" data-demo-toast="stack">Buttons under the text</button>
+</div>`, note: 'One action without a title sits beside the text (layout inline). With a title or several actions the buttons go under the text (layout stack), as they always do on phones.' }],
   },
   progress: {
     name: 'Progress, Spinner', group: 'Status', figma: ['Progress', 'Spinner'],
@@ -468,8 +469,8 @@ export const components = {
   <div class="dsgn-cluster" data-justify="between"><p class="dsgn-page-header-title">Invoices</p><div class="dsgn-cluster">${btn(`${ic('add')}New invoice`)}</div></div></div></div>
 <footer class="dsgn-footer" style="--dsgn-section-pad-y: var(--dsgn-space-32)"><div class="dsgn-container dsgn-stack" data-gap="l">
   <div class="dsgn-footer-top"><div class="dsgn-footer-brand"><a class="dsgn-brand" href="#patterns"><span class="dsgn-brand-mark">N</span>Novama</a><p>Invoicing for small studios.</p></div>
-  <div class="dsgn-footer-columns"><div><p class="dsgn-footer-title">Product</p><ul class="dsgn-footer-links"><li><a href="#patterns">Features</a></li><li><a href="#patterns">Pricing</a></li></ul></div>
-  <div><p class="dsgn-footer-title">Company</p><ul class="dsgn-footer-links"><li><a href="#patterns">About</a></li><li><a href="#patterns">Contact</a></li></ul></div></div></div>
+  <div class="dsgn-footer-columns"><div><h2 class="dsgn-footer-title">Product</h2><ul class="dsgn-footer-links"><li><a href="#patterns">Features</a></li><li><a href="#patterns">Pricing</a></li></ul></div>
+  <div><h2 class="dsgn-footer-title">Company</h2><ul class="dsgn-footer-links"><li><a href="#patterns">About</a></li><li><a href="#patterns">Contact</a></li></ul></div></div></div>
   <div class="dsgn-footer-legal dsgn-cluster" data-justify="between"><span>© 2026 Novama s.r.o.</span><span>IČO 12345678</span></div></div></footer>` },
       { title: 'Header layouts and navigation styles', wide: true, note: 'data-layout="start" (brand and nav left, actions right) with data-variant="underline" navigation; data-layout="middle" (nav centred) with data-variant="text"; data-layout="center" (brand centred, nav and actions below; below desktop: menu left, brand centred, actions right). The actions sit in .dsgn-header-actions and the menu button is .dsgn-header-menu.', html: `<header class="dsgn-header" data-sticky="false" data-layout="start"><div class="dsgn-container dsgn-cluster" data-justify="between" data-nowrap>
   <a class="dsgn-brand" href="#patterns"><span class="dsgn-brand-mark">N</span>Novama</a>

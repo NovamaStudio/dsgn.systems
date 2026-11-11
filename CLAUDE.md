@@ -24,6 +24,8 @@ finished, and do not push, before this list passes. If a step cannot be done, sa
    result verbatim as `figma/<name>-report.json`:
    `dist/figma-sync.js` (only if tokens changed) → `dist/figma-parity.js` → `dist/figma-handoff.js` → `dist/figma-lint.js`.
    Run the generated files exactly; never a hand-picked subset, never a hand-written report.
+   If use_figma fails or is cut off, hand Martin the "dsgn sync check" plugin (`figma-check-plugin/`, zipped)
+   that runs all four unchanged, and save its output with `node build/save-reports.mjs`.
 8. **Build + tests** — `npm run build` must print `sync: … ✓` (it fails when a report is missing, not ok,
    built from older code, or the three reports ran on different Figma states — so any later edit in
    Figma means running all three again). Then `CHROMIUM=/opt/pw-browsers/chromium npm test`.

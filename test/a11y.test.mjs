@@ -14,7 +14,9 @@
 //   8. modes on <html>: data-radius / data-density set on the root element win over the defaults
 //      (a regression guard: the snapped default block used to override pill and sharp)
 //   9. minified build: dsgn.min.css gives every element the same computed style as dsgn.css
-//  10. forced colours: screenshots for manual review → dist/a11y/
+//  10. robustness: a wide table never widens the page (in split, grid, cluster, card), a footer title
+//      on an <h2> keeps the footer's text size
+//  11. forced colours: screenshots for manual review → dist/a11y/
 // Fonts are served from node_modules so the audit runs offline.
 import { chromium } from 'playwright';
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
@@ -35,7 +37,7 @@ async function open(file, width = 1440, opts = {}) {
   return { ctx, page };
 }
 
-const report = { axe: [], keyboard: [], reflow: [], spacing: [], motion: [], icons: [], gaps: [], modes: [], min: [] };
+const report = { axe: [], keyboard: [], reflow: [], spacing: [], motion: [], icons: [], gaps: [], modes: [], min: [], robust: [] };
 const TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa', 'best-practice'];
 
 // ── 1. axe ───────────────────────────────────────────────────────────────────
@@ -227,7 +229,33 @@ for (const width of [390, 1440]) {
   await ctx.close();
 }
 
-// ── 10. forced colours (screenshots for review) ───────────────────────────────
+// ── 10. robustness ─────────────────────────────────────────────────────────────
+{
+  const row = '<tr>' + Array.from({ length: 10 }, (_, i) => `<td>Column value ${i}</td>`).join('') + '</tr>';
+  const tbl = `<div class="dsgn-table-wrap" tabindex="0" role="region" aria-label="Wide table"><table class="dsgn-table"><tbody>${row}${row}</tbody></table></div>`;
+  const cases = {
+    'split': `<div class="dsgn-split" data-side="end"><div class="dsgn-stack"><h2>Invoices</h2>${tbl}</div><aside>Side</aside></div>`,
+    'split half': `<div class="dsgn-split" data-side="half"><section>${tbl}</section><p>Text</p></div>`,
+    'grid auto': `<div class="dsgn-grid" data-cols="auto"><div>${tbl}</div><div>Text</div></div>`,
+    'cluster': `<div class="dsgn-cluster"><div>${tbl}</div><button class="dsgn-button">Export</button></div>`,
+    'card in split': `<div class="dsgn-split" data-side="end"><article class="dsgn-card">${tbl}</article><aside>Side</aside></div>`,
+  };
+  const page = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>robustness</title><link rel="stylesheet" href="dsgn.css"></head>
+<body class="dsgn-page"><main class="dsgn-container dsgn-stack">${Object.entries(cases).map(([k, v]) => `<div data-case="${k}">${v}</div>`).join('')}
+<footer class="dsgn-footer"><div class="dsgn-container"><h2 class="dsgn-footer-title">Product</h2><p class="dsgn-footer-title">Company</p></div></footer></main></body></html>`;
+  writeFileSync(new URL('../dist/_robustness.html', import.meta.url), page);
+  for (const width of [390, 1440]) {
+    const { ctx, page: p } = await open('_robustness.html', width);
+    const r = await p.evaluate(() => ({ sw: document.documentElement.scrollWidth, vw: innerWidth,
+      wide: [...document.querySelectorAll('[data-case]')].filter((c) => c.querySelector('.dsgn-table-wrap').getBoundingClientRect().right > innerWidth + 1).map((c) => c.dataset.case),
+      h2: getComputedStyle(document.querySelector('h2.dsgn-footer-title')).fontSize, p: getComputedStyle(document.querySelector('p.dsgn-footer-title')).fontSize }));
+    if (r.sw > r.vw) report.robust.push({ file: `robustness @${width}`, problem: `page scrolls sideways (${r.sw} > ${r.vw}): ${r.wide.join(', ')}` });
+    if (r.h2 !== r.p) report.robust.push({ file: `robustness @${width}`, problem: `h2.dsgn-footer-title is ${r.h2}, p is ${r.p}` });
+    await ctx.close();
+  }
+}
+
+// ── 11. forced colours (screenshots for review) ───────────────────────────────
 {
   const { ctx, page } = await open('preview.html', 1200, { forcedColors: 'active' });
   const panel = page.locator('.panel').first();
@@ -254,20 +282,21 @@ const md = ['# Accessibility audit', '', `axe-core ${JSON.parse(readFileSync(new
   `| Layout gaps not inherited | ${report.gaps.length ? report.gaps.length + ' problems' : 'pass'} |`,
   `| Modes on <html> (radius, density) | ${report.modes.length ? report.modes.length + ' problems' : 'pass'} |`,
   `| Minified CSS renders the same | ${report.min.length ? report.min.length + ' problems' : 'pass'} |`,
+  `| Wide tables never widen the page; footer title on h2 | ${report.robust.length ? report.robust.length + ' problems' : 'pass'} |`,
   '| Forced colours | screenshots in dist/a11y/ for manual review |', '', `axe could not decide colour contrast for ${report.incomplete || 0} elements (text over gradients, pseudo-elements); the build-time contrast contract covers every token pair instead.`, ''];
 if (axeU.length) { md.push('## axe', '', '| Rule | Impact | Where | Element | Seen |', '|---|---|---|---|---|'); for (const v of axeU) md.push(`| ${v.rule} | ${v.impact} | ${v.where} | \`${v.target}\` | ${v.count}× |`); md.push(''); }
-for (const [k, list] of [['Keyboard', kb], ['Reflow', report.reflow], ['Text spacing', report.spacing], ['Reduced motion', report.motion], ['Status icons', report.icons], ['Layout gaps', report.gaps], ['Modes', report.modes], ['Minified', report.min]])
+for (const [k, list] of [['Keyboard', kb], ['Reflow', report.reflow], ['Text spacing', report.spacing], ['Reduced motion', report.motion], ['Status icons', report.icons], ['Layout gaps', report.gaps], ['Modes', report.modes], ['Minified', report.min], ['Robustness', report.robust]])
   if (list.length) { md.push('## ' + k, '', ...list.map((x) => '- ' + Object.values(x).join(' · ')), ''); }
 writeFileSync(new URL('../dist/a11y-report.md', import.meta.url), md.join('\n'));
 writeFileSync(new URL('../dist/a11y/report.json', import.meta.url), JSON.stringify({ ...report, axe: axeU }, null, 1));
-const total = axeU.length + kb.length + report.reflow.length + report.spacing.length + report.motion.length + report.icons.length + report.gaps.length + report.modes.length + report.min.length;
+const total = axeU.length + kb.length + report.reflow.length + report.spacing.length + report.motion.length + report.icons.length + report.gaps.length + report.modes.length + report.min.length + report.robust.length;
 console.log(total ? `a11y: ${total} issues → dist/a11y-report.md` : 'a11y: no issues ✓ (forced-colours screenshots in dist/a11y/)');
 // on GitHub Actions: every issue becomes an annotation on the run, the report goes to the job summary
 if (process.env.GITHUB_ACTIONS) {
   const esc = (t) => String(t).replace(/%/g, '%25').replace(/\r/g, '%0D').replace(/\n/g, '%0A');
   const issues = [...axeU.map((v) => `axe ${v.rule} (${v.impact}) · ${v.where} · ${v.target} · ${v.count}×`),
     ...kb.map((x) => `keyboard · ${x.width} · ${x.element} · ${x.problem}`),
-    ...[...report.reflow, ...report.spacing, ...report.motion, ...report.icons, ...report.gaps, ...report.modes, ...report.min].map((x) => `${x.file || ''} ${x.problem} ${x.element || x.culprits || ''}`)];
+    ...[...report.reflow, ...report.spacing, ...report.motion, ...report.icons, ...report.gaps, ...report.modes, ...report.min, ...report.robust].map((x) => `${x.file || ''} ${x.problem} ${x.element || x.culprits || ''}`)];
   for (const i of issues.slice(0, 40)) console.log(`::error title=a11y::${esc(i)}`);
   if (process.env.GITHUB_STEP_SUMMARY) writeFileSync(process.env.GITHUB_STEP_SUMMARY, md.join('\n') + '\n', { flag: 'a' });
 }

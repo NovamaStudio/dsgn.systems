@@ -22,7 +22,7 @@
   align-content: start;
   min-inline-size: calc(3 * var(--dsgn-space-64));
   max-block-size: min(60vh, calc(10 * var(--dsgn-space-40)));
-  --_pad: calc(var(--dsgn-space-4) + var(--dsgn-space-2));   /* 6 px around the items */
+  --_pad: var(--dsgn-space-6);   /* 6 px around the items */
   margin: 0;
   padding: var(--_pad);
   overflow: auto;
@@ -121,7 +121,7 @@
     box-sizing: border-box;
     min-inline-size: anchor-size(self-inline);
     max-block-size: min(60vh, calc(10 * var(--dsgn-space-40)));
-    --_pad: calc(var(--dsgn-space-4) + var(--dsgn-space-2));
+    --_pad: var(--dsgn-space-6);
     margin-block: var(--dsgn-space-4);
     padding: var(--_pad);
     border: 0;

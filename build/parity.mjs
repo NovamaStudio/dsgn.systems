@@ -136,7 +136,7 @@ for (const ec of C.c) {
   const col = colOf[ec.n];
   for (const [name, t, sc, w, vals] of ec.v) {
     const v = vars.find((x) => x.variableCollectionId === col.id && x.name === name);
-    v.scopes = sc ? sc.split(',') : [];
+    if (sc || t !== 'B') v.scopes = sc ? sc.split(',') : [];   // Figma refuses an empty scope list on a boolean (it stays All)
     if (w) v.setVariableCodeSyntax('WEB', web(w));
     ec.m.forEach((m, i) => {
       const modeId = col.modes.find((x) => x.name === m).modeId; const x = vals[i];

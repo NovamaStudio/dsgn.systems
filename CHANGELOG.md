@@ -2,6 +2,20 @@
 
 One version for the npm package and the Figma library. [Semantic versioning](https://semver.org): patch = fix, minor = addition, major = rename or removal (with migration notes).
 
+## 0.15.0 — 2026-11-11
+
+### Added
+- **`--dsgn-space-6`** (Figma `space/6`): the space scale is now 0 · 2 · 4 · 6 · 8 · 12 · 16 · 20 · 24 · 32 · 40 · 48 · 64, so it covers the dsgn.systems logo's row heights (2 · 4 · 6 · 8 · 12 · 16 · 24 · 32). Places that wrote 6 px as `space-4 + space-2` now use it: menu and select padding (`menu/pad`), the icon side of a button (`control/pad-x-icon`) and the menu item radius (`radius/item`); the values are unchanged.
+- **Toast, layout stack**: `dsgn.toast({ …, actions: [{ label, onClick }, …], layout: 'stack' })` puts the buttons under the text (the first subtle, the others ghost neutral). It is the default with a title or several actions and always applies on phones (< 30rem), so the text is never squeezed beside a button. `actions` takes several buttons; `action` still works. Figma: Toast has `Layout = Inline | Stack` and `Show second action`.
+- Figma plugin **"dsgn sync check"** (`figma-check-plugin/`, generated and committed): runs `figma-sync.js` → `figma-parity.js` → `figma-handoff.js` → `figma-lint.js` unchanged in the library file and shows all results as one JSON; `node build/save-reports.mjs` saves the three reports. A fallback for when the scripts cannot run through the Figma MCP.
+
+### Changed
+- **Toast** is 448 px wide (was 360) and never wider than the screen minus its margins (it ran 2 px off a 390 px phone). The dismiss button is its own grid cell (`.dsgn-toast-close`), next to the actions instead of inside them.
+
+### Fixed
+- A wide table (`.dsgn-table-wrap`) inside a `.dsgn-cluster` widened the page instead of scrolling inside: the item holding it now takes a whole row and may shrink. In Split, Grid and Card it already scrolled inside; the a11y test now guards all of these.
+- `.dsgn-footer-title` on an `<h2>` got the browser's heading size and margins; it now keeps the footer's text size, so the column titles can be headings.
+
 ## 0.14.0 — 2026-10-19
 
 ### Added
