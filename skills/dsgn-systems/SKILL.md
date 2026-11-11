@@ -172,7 +172,7 @@ A user theme toggle sets `data-theme` on `<html>` and stores the choice (localSt
 
 ```bash
 npx dsgn theme --init   # writes dsgn.theme.mjs; edit brand hex or hue + chroma
-npx dsgn theme          # checks contrast, writes dsgn.theme.css (+ Figma files)
+npx dsgn theme          # checks contrast, writes dsgn.theme.css (--out public for a static site; Figma files stay next to the config)
 ```
 
 Options include `accentFill: 'default' | 'strong' | 'stronger' | 'auto'` and `monochrome: true` (no accent colour at all). Lightness per step is fixed, so contrast holds for any hue. Never redefine colour tokens by hand; that bypasses the contrast guarantee. `--dsgn-brand` is the exact brand colour for logos and illustrations only.
@@ -437,7 +437,7 @@ Client-side checks are for the user's convenience only. **Every rule is enforced
 ## 10. Performance
 
 - Targets (Core Web Vitals, 75th percentile on mobile): LCP < 2.5 s, INP < 200 ms, CLS < 0.1.
-- CSS: one `dsgn.css` (≈ 165 kB, ≈ 31 kB gzipped) in `<head>`; or only the components you use from `dsgn.systems/components/`. Load `dsgn.js` with `defer`, only when needed.
+- CSS: one stylesheet in `<head>`: in production the minified `dsgn.min.css` (≈ 19 kB gzipped; `npx dsgn copy` and the CDN links above use it), or only the components you use from `dsgn.systems/components/`. Load `dsgn.js` (minified ≈ 5 kB gzipped) with `defer`, only when needed.
 - Fonts: preconnect, `display=swap` for Inter, subset the icon font with `icon_names`, or self-host WOFF2 with `font-display: swap` and preload the main weight.
 - Images: always `width` and `height` (or a `.dsgn-media` frame with a ratio) to prevent layout shift; AVIF/WebP with `srcset`/`sizes`; `loading="lazy"` and `decoding="async"` below the fold; the LCP hero image `fetchpriority="high"` and never lazy.
 - Skeletons at the exact final size for async content; no spinners for content that loads under 300 ms.
