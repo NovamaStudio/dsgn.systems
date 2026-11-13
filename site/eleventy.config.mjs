@@ -2,10 +2,6 @@
 // (`npm run site:build`, after `npm run build`). Static files live in site/public and are copied to the
 // site root unchanged; dsgn itself comes straight from this repository (dist/, src/), never from npm.
 
-// Icons dsgn's CSS inserts by itself (checkbox, pagination, chips, alerts, toasts),
-// so they are not visible in the page markup but must be in the font subset.
-const CSS_ICONS = ["check", "check_circle", "chevron_left", "chevron_right", "close", "error", "info", "play_arrow", "remove", "warning"];
-
 import { RenderPlugin } from "@11ty/eleventy";
 
 export default function (eleventyConfig) {
@@ -19,14 +15,6 @@ export default function (eleventyConfig) {
   // The readable tokens CSS (as .txt, so `dsgn lint` never checks dsgn itself): themeCss() reads the
   // density / corner blocks from it (the minified copy drops the quotes it matches).
   eleventyConfig.addPassthroughCopy({ "dist/dsgn.tokens.css": "vendor/dsgn/theme/dsgn.tokens.txt" });
-
-  // Fill the Material Symbols subset with exactly the icons this page uses.
-  eleventyConfig.addTransform("icon-subset", function (content) {
-    if (!this.page.outputPath?.endsWith(".html") || !content.includes("@ICONS")) return content;
-    const used = [...content.matchAll(/class="dsgn-icon"[^>]*>([a-z0-9_]+)</g)].map((m) => m[1]);
-    const names = [...new Set([...used, ...CSS_ICONS])].sort();
-    return content.replace("@ICONS", names.join(","));
-  });
 
   // Give Markdown headings an id from their text ("Make it yours" → #make-it-yours), so sections
   // can be linked. Duplicates on one page get -2, -3.

@@ -84,7 +84,8 @@
     "site:build": "npm run site:theme && eleventy --config=site/eleventy.config.mjs",
     "site:dev": "npm run site:theme && eleventy --config=site/eleventy.config.mjs --serve --port=4174",
     "site:lint": "node bin/dsgn.mjs lint site/public",
-    "site:check": "npm run site:build && npm run site:lint && node site/scripts/check-links.mjs"
+    "site:check": "npm run site:build && npm run site:lint && node site/scripts/check-links.mjs",
+    "site:browsers": "node site/scripts/browsers.mjs"
   },
   "devDependencies": {
     "@11ty/eleventy": "^3.1.8",

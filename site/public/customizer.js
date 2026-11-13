@@ -86,10 +86,12 @@ function render() {
   const pairs = checkContrast(theme.palettes, theme.roles);
   const failed = pairs.filter((p) => !p.pass);
   report.dataset.intent = failed.length ? 'danger' : 'success';
-  report.innerHTML = '';
   const head = document.createElement('p');
   head.className = 'sc-contrast';
-  head.innerHTML = `<span class="dsgn-icon" aria-hidden="true">${failed.length ? 'error' : 'check_circle'}</span><span></span>`;
+  const icon = Object.assign(document.createElement('span'), { className: 'dsgn-icon', textContent: failed.length ? 'error' : 'check_circle' });
+  icon.setAttribute('aria-hidden', 'true');
+  head.append(icon, document.createElement('span'));
+  report.replaceChildren(head);
   head.lastChild.textContent = failed.length
     ? `${failed.length} of ${pairs.length} colour pairs fail WCAG`
     : `All ${pairs.length} colour pairs pass WCAG, light and dark`;

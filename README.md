@@ -115,8 +115,13 @@ foundations from `dist/`, the changelog from `CHANGELOG.md`. Vercel deploys it f
 
 ```bash
 npm run build && npm run site:dev     # http://localhost:4174, rebuilds on change
-npm run site:check                    # build, CSS lint, links and ids (also runs in CI)
+npm run site:check                    # build, CSS lint, links, ids and icon font (also runs in CI)
+npm run site:browsers                 # Chromium, Firefox and WebKit at 375 and 1280 px, with the production headers
 ```
+
+Fonts are self-hosted in `site/public/fonts/` (no requests to Google). When a page starts using a new
+icon, `site:check` fails until you run `node site/scripts/fonts.mjs`. Security headers (CSP, HSTS …) are
+in `vercel.json`. The social image is rendered by `node site/scripts/og.mjs`.
 
 ## Licence
 

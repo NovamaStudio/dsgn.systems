@@ -6,6 +6,9 @@
   <title>{{ metaTitle or title }}</title>
   <meta name="description" content="{{ description }}">
   <link rel="canonical" href="{{ site.url }}{{ page.url }}">
+  {%- if noindex %}
+  <meta name="robots" content="noindex">
+  {%- endif %}
   <meta name="theme-color" content="{{ site.themeColor }}">
 
   <meta property="og:type" content="website">
@@ -19,11 +22,10 @@
 
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap">
-  {#- icon_names is filled in after rendering with every icon the page uses (see eleventy.config.mjs). #}
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=@ICONS&display=block">
+  {#- Fonts are self-hosted (site/scripts/fonts.mjs): no requests to Google from visitors' browsers. #}
+  <link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/material-symbols-all.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/fonts/fonts.css">
 
   <link rel="stylesheet" href="/vendor/dsgn/dsgn.css">
   <link rel="stylesheet" href="/dsgn.theme.css">

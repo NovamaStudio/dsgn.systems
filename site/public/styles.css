@@ -811,3 +811,6 @@ code {
 .docs-component-list a { font-weight: var(--dsgn-font-weight-semibold); }
 .docs-component-list span { color: var(--dsgn-text-muted); font-size: var(--dsgn-font-size-body-s); line-height: var(--dsgn-line-height-body-s); }
 .docs-details dd { display: flex; flex-wrap: wrap; gap: var(--dsgn-space-4); }
+
+/* 404 page */
+.not-found { padding-block: var(--dsgn-space-64); }

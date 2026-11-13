@@ -26,6 +26,14 @@ for (const [url, html] of pages) {
     else if (frag && !ids.get(target).includes(frag)) problems.push(`${url}: missing anchor ${href}`);
   }
 }
+// Every icon on the site must be in the self-hosted icon font subset (site/public/fonts/icons.json),
+// or it renders as its plain name. Fix: node site/scripts/fonts.mjs && npm run site:build
+const subset = new Set(JSON.parse(readFileSync("site/public/fonts/icons.json", "utf8")));
+const allHtml = new Map(walk(site).filter((f) => f.endsWith(".html")).map((f) => [`/${relative(site, f)}`, readFileSync(f, "utf8")]));
+for (const [url, html] of allHtml) {
+  const missing = [...new Set([...html.matchAll(/class="dsgn-icon"[^>]*>([a-z0-9_]+)</g)].map((m) => m[1]))].filter((i) => !subset.has(i));
+  if (missing.length) problems.push(`${url}: icons not in the font subset: ${missing.join(", ")} (run node site/scripts/fonts.mjs)`);
+}
 for (const p of problems) console.error(`✗ ${p}`);
 console.log(problems.length ? `site: ${problems.length} problems in ${pages.size} pages` : `site: ${pages.size} pages, links and ids ✓`);
 process.exit(problems.length ? 1 : 0);
