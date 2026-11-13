@@ -9,6 +9,7 @@ import * as T from '../src/tokens.config.mjs';
 import { components, groups, leads } from '../src/docs/examples.mjs';
 import { buildPrimitives, resolveSemantic } from './palette.mjs';
 import { customizerPage } from './customizer.mjs';
+import { parseHeader } from './component-header.mjs';
 
 const read = (p) => readFileSync(new URL(p, import.meta.url), 'utf8');
 const pkg = JSON.parse(read('../package.json'));
@@ -52,28 +53,6 @@ function md(src, { skipTitle = true } = {}) {
 }
 
 // header comment of a component file → { title, prose[], api[], code[] }
-function parseHeader(src) {
-  const m = src.match(/^\/\*([\s\S]*?)\*\//); if (!m) return { prose: [], api: [], code: [] };
-  const lines = m[1].split('\n').map((l) => l.replace(/^\s*\* ?/, '')).slice(1);
-  const prose = [], api = [], code = []; let para = [], block = [];
-  const flushP = () => { if (para.length) prose.push(para.join(' ')); para = []; };
-  const flushC = () => { if (block.length) code.push(block.join('\n')); block = []; };
-  for (const raw of lines) {
-    const l = raw.replace(/\s+$/, '');
-    const apiLine = l.match(/^((?:data|aria)-[\w-]+|disabled[^ ]*|role="?\w+"?)\s{2,}(.+)$/);
-    const bareApi = !apiLine && l.match(/^((?:disabled|(?:data|aria)-[\w-]+)(?:[ =/"\w-]*)?)$/);
-    if (/^\s{8,}\S/.test(l) && api.length && !block.length) { api[api.length - 1][1] += ' ' + l.trim(); continue; }
-    if (/^\s*</.test(l) || /^\s{2,}\S/.test(l) && block.length || /^dsgn\.\w+\(/.test(l)) { flushP(); block.push(l); continue; }
-    flushC();
-    if (apiLine) { flushP(); api.push([apiLine[1], apiLine[2]]); continue; }
-    if (bareApi) { flushP(); api.push([bareApi[1].trim(), '']); continue; }
-    if (!l.trim()) { flushP(); continue; }
-    para.push(l.trim());
-  }
-  flushP(); flushC();
-  return { prose, api, code };
-}
-
 // ── component pages ──────────────────────────────────────────────────────────
 const compFiles = readdirSync(new URL('../src/components/', import.meta.url)).filter((f) => f.endsWith('.css')).map((f) => f.replace('.css', ''));
 const missing = compFiles.filter((f) => !components[f]);

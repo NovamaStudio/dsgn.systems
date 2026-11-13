@@ -79,9 +79,15 @@
     "test:grid": "node test/grid.test.mjs",
     "test:a11y": "node test/a11y.test.mjs",
     "parity:report": "node build/parity.mjs --report figma/parity-report.json",
-    "prepublishOnly": "npm test"
+    "prepublishOnly": "npm test",
+    "site:theme": "node bin/dsgn.mjs theme site/dsgn.theme.mjs --out site/public",
+    "site:build": "npm run site:theme && eleventy --config=site/eleventy.config.mjs",
+    "site:dev": "npm run site:theme && eleventy --config=site/eleventy.config.mjs --serve --port=4174",
+    "site:lint": "node bin/dsgn.mjs lint site/public",
+    "site:check": "npm run site:build && npm run site:lint && node site/scripts/check-links.mjs"
   },
   "devDependencies": {
+    "@11ty/eleventy": "^3.1.8",
     "@fontsource-variable/inter": "^5.3.0",
     "axe-core": "^4.13.0",
     "esbuild": "^0.25.12",

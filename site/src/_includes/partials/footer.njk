@@ -1,0 +1,36 @@
+  <footer class="dsgn-footer">
+    <div class="dsgn-container dsgn-stack" data-gap="xl">
+      <div class="dsgn-footer-top">
+        <div class="dsgn-footer-brand dsgn-stack" data-gap="s">
+          <a class="dsgn-brand site-brand" href="/" aria-label="dsgn.systems, home">
+            <svg class="site-wordmark" aria-hidden="true" focusable="false"><use href="#dsgn-wordmark"></use></svg>
+          </a>
+          <p class="dsgn-body-s dsgn-muted">Token-driven CSS design system, mirrored 1:1 in Figma.</p>
+        </div>
+        <div class="dsgn-footer-columns">
+          <div>
+            <h2 class="dsgn-footer-title">Learn</h2>
+            <ul class="dsgn-footer-links">
+              <li><a href="{{ site.links.docs }}">Documentation</a></li>
+              <li><a href="{{ site.links.themeCustomizer }}">Theme customizer</a></li>
+              <li><a href="{{ site.links.showcase }}">Showcase</a></li>
+              <li><a href="{{ site.links.changelog }}">Changelog</a></li>
+            </ul>
+          </div>
+          <div>
+            <h2 class="dsgn-footer-title">Code</h2>
+            <ul class="dsgn-footer-links">
+              <li><a href="{{ site.links.repo }}">GitHub</a></li>
+              <li><a href="{{ site.links.npm }}">npm</a></li>
+              <li><a href="{{ site.links.figmaPlugin }}">Figma theme plugin</a></li>
+              <li><a href="{{ site.links.skill }}">Skill for AI agents</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="dsgn-cluster dsgn-footer-legal" data-justify="between">
+        <p>© {{ site.year }} {{ site.org }}</p>
+        <p>Released under the <a href="{{ site.links.license }}">MIT licence</a></p>
+      </div>
+    </div>
+  </footer>

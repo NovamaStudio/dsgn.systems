@@ -1,0 +1,72 @@
+---
+layout: layouts/base.njk
+head: partials/showcase-head.njk
+---
+{#- A showcase demo: the page content is the demo itself; front matter `demo` names it and sets the
+    starting brand colour and modes. The Customise panel recolours it with the dsgn theme engine. #}
+{%- macro segmented(name, label, options, current) -%}
+<div class="dsgn-field">
+  <span class="dsgn-label" id="sc-{{ name }}-label">{{ label }}</span>
+  <div class="dsgn-segmented" data-width="full" role="radiogroup" aria-labelledby="sc-{{ name }}-label">
+    {%- for o in options %}
+    <label class="dsgn-segment"><input type="radio" name="{{ name }}" value="{{ o[0] }}"{% if o[0] == current %} checked{% endif %}>{{ o[1] }}</label>
+    {%- endfor %}
+  </div>
+</div>
+{%- endmacro %}
+    <div class="dsgn-container showcase" data-width="full">
+      <header class="showcase-head dsgn-stack" data-gap="s">
+        <p class="dsgn-eyebrow"><a href="/showcase/">Showcase</a></p>
+        <h1 class="dsgn-heading">{{ title }}</h1>
+        <p class="dsgn-lead">{{ lead | safe }}</p>
+      </header>
+
+      <div class="showcase-layout">
+        <div class="showcase-stage">
+          <div class="demo" id="demo" data-theme="{{ demo.theme }}" data-density="{{ demo.density }}" data-radius="{{ demo.radius }}" data-elevation="{{ demo.elevation }}" data-material="{{ demo.material }}" data-lines="{{ demo.lines }}">
+{{ content | safe }}
+          </div>
+        </div>
+
+        <aside class="showcase-panel" aria-labelledby="sc-title">
+          <form class="dsgn-stack" data-gap="l" id="customise" data-name="{{ demo.name }}">
+            <h2 class="dsgn-title" id="sc-title">Customise</h2>
+
+            <div class="dsgn-field">
+              <label class="dsgn-label" for="sc-brand">Brand colour</label>
+              <div class="dsgn-cluster" data-nowrap>
+                <input class="sc-color" id="sc-brand" name="brand" type="color" value="{{ demo.brand }}">
+                <output class="sc-hex" for="sc-brand" id="sc-hex">{{ demo.brand }}</output>
+              </div>
+              <div class="dsgn-cluster sc-presets" role="group" aria-label="Brand colour presets">
+                {%- for c in [["#2f6fed", "Blue"], ["#ff4400", "dsgn orange"], ["#0f8a5f", "Green"], ["#7a3fd1", "Violet"], ["#d6336c", "Pink"], ["#1b1d1f", "Ink"]] %}
+                <button class="sc-preset" type="button" data-brand="{{ c[0] }}" style="--swatch: {{ c[0] }}" aria-label="{{ c[1] }}"></button>
+                {%- endfor %}
+              </div>
+            </div>
+
+            <label class="dsgn-choice"><input type="checkbox" class="dsgn-switch" role="switch" name="tint"{% if demo.tint %} checked{% endif %}> Tint the greys with the brand colour</label>
+
+            {{ segmented("theme", "Theme", [["light", "Light"], ["dark", "Dark"]], demo.theme) }}
+            {{ segmented("density", "Density", [["s", "S"], ["m", "M"], ["l", "L"]], demo.density) }}
+            {{ segmented("radius", "Corners", [["sharp", "Sharp"], ["default", "Default"], ["rounded", "Rounded"], ["pill", "Pill"]], demo.radius) }}
+            {{ segmented("elevation", "Shadows", [["flat", "Flat"], ["soft", "Soft"]], demo.elevation) }}
+            {{ segmented("material", "Material", [["solid", "Solid"], ["glass", "Glass"]], demo.material) }}
+            {{ segmented("lines", "Lines", [["on", "On"], ["minimal", "Minimal"], ["none", "None"]], demo.lines) }}
+
+            <p class="sc-contrast" id="sc-contrast" role="status"><span class="dsgn-icon" aria-hidden="true">check_circle</span><span>Checking contrast…</span></p>
+
+            <div class="dsgn-field">
+              <span class="dsgn-label" id="sc-code-label">dsgn.theme.mjs</span>
+              <div class="sc-code">
+                <pre class="code" aria-labelledby="sc-code-label"><code id="sc-code"></code></pre>
+                <button class="dsgn-icon-button sc-copy" data-variant="ghost" data-intent="neutral" type="button" data-copy="" id="sc-copy" aria-label="Copy theme config">
+                  <span class="dsgn-icon" aria-hidden="true">content_copy</span>
+                </button>
+              </div>
+              <p class="dsgn-hint">Save it next to your project and run <code>npx dsgn theme</code>. Theme, material and lines are attributes on your page.</p>
+            </div>
+          </form>
+        </aside>
+      </div>
+    </div>

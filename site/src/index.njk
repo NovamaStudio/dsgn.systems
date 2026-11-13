@@ -1,0 +1,383 @@
+---
+layout: layouts/base.njk
+headerSurface: transparent
+head: partials/home-head.njk
+title: dsgn.systems — CSS design system with guaranteed contrast
+description: "Token-driven CSS design system: plain HTML classes, OKLCH colours with guaranteed contrast, light and dark, density and corner modes, mirrored 1:1 in Figma."
+ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode one attribute away, mirrored 1:1 in Figma.
+---
+    <!-- Hero: the first fold, with the massive wordmark behind it, cropped by the page edges -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="dsgn-container hero-inner">
+        <div class="hero-head">
+          <p class="dsgn-eyebrow">CSS design system · v{{ dsgn.minor }} · MIT</p>
+          <h1 class="hero-title" id="hero-title">Accessible UI from plain&nbsp;HTML.</h1>
+        </div>
+        <div class="hero-body dsgn-stack" data-gap="l">
+          <p class="dsgn-lead">dsgn.systems is a token-driven CSS design system. Write semantic HTML with dsgn classes and data attributes: contrast, focus, spacing and dark mode are already solved, and every component exists 1:1 in&nbsp;Figma.</p>
+          <div class="dsgn-cluster">
+            <a class="dsgn-button" href="#start">Get started<span class="dsgn-icon" data-end aria-hidden="true">arrow_forward</span></a>
+            <a class="dsgn-button" data-variant="subtle" data-intent="neutral" href="{{ site.links.docs }}">Read the docs</a>
+          </div>
+          <div class="install">
+            <code class="install-command" id="install-command"><span class="install-prompt" aria-hidden="true">$</span> npm i dsgn.systems</code>
+            <button class="dsgn-icon-button" data-variant="ghost" data-intent="neutral" type="button" data-copy="npm i dsgn.systems" aria-label="Copy install command">
+              <span class="dsgn-icon" aria-hidden="true">content_copy</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <figure class="hero-mark">
+        {% include "svg/hero-logo.svg" %}
+        <figcaption class="dsgn-visually-hidden">The dsgn logo: eight rows whose thickness follows the spacing scale 2 to 32.</figcaption>
+      </figure>
+
+      <button class="dsgn-icon-button hero-control" data-variant="ghost" data-intent="neutral" type="button" aria-pressed="false" data-motion-toggle aria-label="Pause logo animation">
+        <span class="dsgn-icon" aria-hidden="true">pause</span>
+      </button>
+    </section>
+
+    <!-- Numbers -->
+    <section class="dsgn-section" data-tone="sunken" aria-label="dsgn in numbers">
+      <div class="dsgn-container">
+        <div class="dsgn-grid" data-cols="1" data-cols-tablet="2" data-cols-desktop="4">
+          <div class="dsgn-stat">
+            <p class="dsgn-stat-label">Colour pairs that pass WCAG</p>
+            <p class="dsgn-stat-value">{{ dsgn.contrast.pass }} / {{ dsgn.contrast.pairs }}</p>
+            <p class="dsgn-stat-meta">checked for every hue on every build</p>
+          </div>
+          <div class="dsgn-stat">
+            <p class="dsgn-stat-label">CSS, minified and gzipped</p>
+            <p class="dsgn-stat-value">{{ dsgn.size.css }} kB</p>
+            <p class="dsgn-stat-meta">plus {{ dsgn.size.js }} kB of optional JavaScript</p>
+          </div>
+          <div class="dsgn-stat">
+            <p class="dsgn-stat-label">Figma variables</p>
+            <p class="dsgn-stat-value">{{ dsgn.figma.variables }}</p>
+            <p class="dsgn-stat-meta">in {{ dsgn.figma.collections | length }} collections with modes</p>
+          </div>
+          <div class="dsgn-stat">
+            <p class="dsgn-stat-label">Build steps in your project</p>
+            <p class="dsgn-stat-value">0</p>
+            <p class="dsgn-stat-meta">plain HTML, CSS and data attributes</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why -->
+    <section class="dsgn-section" id="why" aria-labelledby="why-title">
+      <div class="dsgn-container dsgn-stack" data-gap="xl">
+        <div class="dsgn-stack section-intro" data-gap="s">
+          <p class="dsgn-eyebrow">Why dsgn</p>
+          <h2 class="dsgn-heading" id="why-title">The hard parts are already in the stylesheet.</h2>
+          <p class="dsgn-lead">You compose pages from components and layout primitives. dsgn takes care of what usually goes wrong late in a project.</p>
+        </div>
+        <div class="dsgn-grid" data-cols="1" data-cols-tablet="2" data-cols-desktop="3">
+          <div class="dsgn-feature" data-layout="stack">
+            <span class="dsgn-icon" data-variant="subtle" aria-hidden="true">contrast</span>
+            <div class="dsgn-feature-body">
+              <h3 class="dsgn-feature-title">Contrast is guaranteed</h3>
+              <p class="dsgn-feature-text">OKLCH palettes keep lightness fixed per step and change only hue and chroma. Pick any brand colour and every text, border and focus pair still passes.</p>
+            </div>
+          </div>
+          <div class="dsgn-feature" data-layout="stack">
+            <span class="dsgn-icon" data-variant="subtle" aria-hidden="true">code</span>
+            <div class="dsgn-feature-body">
+              <h3 class="dsgn-feature-title">Plain HTML, any stack</h3>
+              <p class="dsgn-feature-text">dsgn styles native elements with classes and data attributes. It works in React, a CMS template or a static page, with no build step in your project.</p>
+            </div>
+          </div>
+          <div class="dsgn-feature" data-layout="stack">
+            <span class="dsgn-icon" data-variant="subtle" aria-hidden="true">layers</span>
+            <div class="dsgn-feature-body">
+              <h3 class="dsgn-feature-title">Your CSS always wins</h3>
+              <p class="dsgn-feature-text">Everything ships in cascade layers, so one plain rule in your stylesheet overrides it. No <code>!important</code>, no specificity fights.</p>
+            </div>
+          </div>
+          <div class="dsgn-feature" data-layout="stack">
+            <span class="dsgn-icon" data-variant="subtle" aria-hidden="true">accessibility_new</span>
+            <div class="dsgn-feature-body">
+              <h3 class="dsgn-feature-title">Accessible by default</h3>
+              <p class="dsgn-feature-text">WCAG 2.2 AA is checked with axe, keyboard and forced-colours tests on every build. Focus rings, target sizes and reduced motion come built in.</p>
+            </div>
+          </div>
+          <div class="dsgn-feature" data-layout="stack">
+            <span class="dsgn-icon" data-variant="subtle" aria-hidden="true">design_services</span>
+            <div class="dsgn-feature-body">
+              <h3 class="dsgn-feature-title">Mirrored 1:1 in Figma</h3>
+              <p class="dsgn-feature-text">The same tokens, components and version number in code and in the Figma library. Each component carries its markup in the description.</p>
+            </div>
+          </div>
+          <div class="dsgn-feature" data-layout="stack">
+            <span class="dsgn-icon" data-variant="subtle" aria-hidden="true">smart_toy</span>
+            <div class="dsgn-feature-body">
+              <h3 class="dsgn-feature-title">Ready for AI agents</h3>
+              <p class="dsgn-feature-text">The package ships a skill that teaches coding agents to build with dsgn, including accessibility, SEO, form security and a definition of done.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Scale -->
+    <section class="dsgn-section" data-tone="raised" id="scale" aria-labelledby="scale-title">
+      <div class="dsgn-container dsgn-split" data-side="half" data-gap="xl">
+        <div class="dsgn-stack" data-gap="l">
+          <div class="dsgn-stack" data-gap="s">
+            <p class="dsgn-eyebrow">The scale</p>
+            <h2 class="dsgn-heading" id="scale-title">One scale, from a hairline to a block.</h2>
+          </div>
+          <p class="dsgn-body">The logo is drawn from the same spacing tokens as every gap and padding in dsgn: 2, 4, 6, 8, 12, 16, 24 and 32. Thin lines at the top, solid mass at the bottom, all from one unit.</p>
+          <ul class="dsgn-list" data-variant="plain">
+            <li><div class="dsgn-list-item"><span class="dsgn-icon" aria-hidden="true">grid_4x4</span><div class="dsgn-list-item-content"><p class="dsgn-list-item-title">Every size on a 2&nbsp;px grid</p><p class="dsgn-list-item-text">Snapped at any browser font size, so nothing lands on half pixels.</p></div></div></li>
+            <li><div class="dsgn-list-item"><span class="dsgn-icon" aria-hidden="true">format_size</span><div class="dsgn-list-item-content"><p class="dsgn-list-item-title">Sizes come from type</p><p class="dsgn-list-item-text">Control height = line height + 2 × padding, in every density.</p></div></div></li>
+            <li><div class="dsgn-list-item"><span class="dsgn-icon" aria-hidden="true">touch_app</span><div class="dsgn-list-item-content"><p class="dsgn-list-item-title">Touch screens get room</p><p class="dsgn-list-item-text">Without a density set, touch devices switch to L with 44&nbsp;px controls.</p></div></div></li>
+          </ul>
+        </div>
+        <figure class="frame scale-frame">
+          <span class="frame-label" aria-hidden="true">--dsgn-space-*</span>
+          <ol class="scale" aria-label="Spacing tokens from 2 to 32 pixels">
+            <li class="scale-row"><span class="scale-name">2</span><span class="scale-bar"></span></li>
+            <li class="scale-row"><span class="scale-name">4</span><span class="scale-bar"></span></li>
+            <li class="scale-row"><span class="scale-name">6</span><span class="scale-bar"></span></li>
+            <li class="scale-row"><span class="scale-name">8</span><span class="scale-bar"></span></li>
+            <li class="scale-row"><span class="scale-name">12</span><span class="scale-bar"></span></li>
+            <li class="scale-row"><span class="scale-name">16</span><span class="scale-bar"></span></li>
+            <li class="scale-row"><span class="scale-name">24</span><span class="scale-bar"></span></li>
+            <li class="scale-row"><span class="scale-name">32</span><span class="scale-bar"></span></li>
+          </ol>
+          <figcaption class="dsgn-visually-hidden">Eight bars, each as tall as its spacing token: 2, 4, 6, 8, 12, 16, 24 and 32 pixels, the rows the logo is drawn from.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Modes -->
+    <section class="dsgn-section" id="modes" aria-labelledby="modes-title">
+      <div class="dsgn-container dsgn-stack" data-gap="xl">
+        <div class="dsgn-stack section-intro" data-gap="s">
+          <p class="dsgn-eyebrow">Modes</p>
+          <h2 class="dsgn-heading" id="modes-title">Every mode is one attribute.</h2>
+          <p class="dsgn-lead">Light or dark, dense or roomy, square or pill. Set it on <code>&lt;html&gt;</code> for the whole page or on any section. Try it on the panel below.</p>
+        </div>
+
+        <div class="modes">
+          <form class="modes-controls" aria-label="Preview modes">
+            <div class="dsgn-field">
+              <span class="dsgn-label" id="mode-theme-label">Theme</span>
+              <div class="dsgn-segmented" data-width="full" role="radiogroup" aria-labelledby="mode-theme-label">
+                <label class="dsgn-segment"><input type="radio" name="theme" value="light" checked><span class="dsgn-icon" aria-hidden="true">light_mode</span>Light</label>
+                <label class="dsgn-segment"><input type="radio" name="theme" value="dark"><span class="dsgn-icon" aria-hidden="true">dark_mode</span>Dark</label>
+              </div>
+            </div>
+            <div class="dsgn-field">
+              <span class="dsgn-label" id="mode-density-label">Density</span>
+              <div class="dsgn-segmented" data-width="full" role="radiogroup" aria-labelledby="mode-density-label">
+                <label class="dsgn-segment"><input type="radio" name="density" value="s">S</label>
+                <label class="dsgn-segment"><input type="radio" name="density" value="m" checked>M</label>
+                <label class="dsgn-segment"><input type="radio" name="density" value="l">L</label>
+              </div>
+            </div>
+            <div class="dsgn-field">
+              <span class="dsgn-label" id="mode-radius-label">Corners</span>
+              <div class="dsgn-segmented" data-width="full" role="radiogroup" aria-labelledby="mode-radius-label">
+                <label class="dsgn-segment"><input type="radio" name="radius" value="sharp" checked>Sharp</label>
+                <label class="dsgn-segment"><input type="radio" name="radius" value="default">Default</label>
+                <label class="dsgn-segment"><input type="radio" name="radius" value="rounded">Rounded</label>
+                <label class="dsgn-segment"><input type="radio" name="radius" value="pill">Pill</label>
+              </div>
+            </div>
+            <div class="dsgn-field">
+              <span class="dsgn-label" id="mode-elevation-label">Shadows</span>
+              <div class="dsgn-segmented" data-width="full" role="radiogroup" aria-labelledby="mode-elevation-label">
+                <label class="dsgn-segment"><input type="radio" name="elevation" value="flat" checked>Flat</label>
+                <label class="dsgn-segment"><input type="radio" name="elevation" value="soft">Soft</label>
+              </div>
+            </div>
+          </form>
+
+          <div class="modes-stage">
+            <pre class="code modes-code"><code id="modes-code">&lt;section data-theme="light" data-density="m" data-radius="sharp" data-elevation="flat"&gt;</code></pre>
+            <div class="preview" id="preview" data-theme="light" data-density="m" data-radius="sharp" data-elevation="flat">
+              <div class="dsgn-grid" data-cols="1" data-cols-tablet="2">
+                <article class="dsgn-card">
+                  <div class="dsgn-cluster" data-justify="between" data-nowrap>
+                    <h3 class="dsgn-card-title">Invoice 2026-114</h3>
+                    <span class="dsgn-badge" data-intent="success">Paid</span>
+                  </div>
+                  <dl class="dsgn-dl">
+                    <div><dt>Client</dt><dd>Studio Kolo s.r.o.</dd></div>
+                    <div><dt>Issued</dt><dd>28 Oct 2026</dd></div>
+                    <div><dt>Total</dt><dd>CZK 24&nbsp;200</dd></div>
+                  </dl>
+                  <div class="dsgn-card-actions">
+                    <button class="dsgn-button" data-variant="subtle" data-intent="neutral" type="button"><span class="dsgn-icon" aria-hidden="true">download</span>PDF</button>
+                    <button class="dsgn-button" type="button">Send reminder</button>
+                  </div>
+                </article>
+                <article class="dsgn-card">
+                  <h3 class="dsgn-card-title">Notifications</h3>
+                  <div class="dsgn-field">
+                    <label class="dsgn-label" for="preview-email">E-mail for receipts</label>
+                    <input class="dsgn-input" id="preview-email" type="email" autocomplete="off" value="jana@studiokolo.cz">
+                  </div>
+                  <label class="dsgn-choice"><input type="checkbox" class="dsgn-switch" role="switch" checked> Overdue reminders</label>
+                  <div class="dsgn-chip-group" role="group" aria-label="Send on">
+                    <button class="dsgn-chip" type="button" aria-pressed="true">Mon</button>
+                    <button class="dsgn-chip" type="button" aria-pressed="false">Wed</button>
+                    <button class="dsgn-chip" type="button" aria-pressed="true">Fri</button>
+                  </div>
+                </article>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Figma -->
+    <section class="dsgn-section" data-tone="sunken" id="figma" aria-labelledby="figma-title">
+      <div class="dsgn-container dsgn-split" data-side="half" data-gap="xl">
+        <div class="dsgn-stack" data-gap="l">
+          <div class="dsgn-stack" data-gap="s">
+            <p class="dsgn-eyebrow">Figma</p>
+            <h2 class="dsgn-heading" id="figma-title">The same system on the canvas.</h2>
+          </div>
+          <p class="dsgn-body">Designers switch the same modes as developers do, through Figma variable modes. One version number covers the npm package and the library, so a design never points at a component that the code does not have.</p>
+          <ul class="dsgn-list" data-variant="plain">
+            <li><div class="dsgn-list-item"><span class="dsgn-icon" aria-hidden="true">integration_instructions</span><div class="dsgn-list-item-content"><p class="dsgn-list-item-title">Code in every component</p><p class="dsgn-list-item-text">Dev Mode shows the markup and how each property maps to an attribute.</p></div></div></li>
+            <li><div class="dsgn-list-item"><span class="dsgn-icon" aria-hidden="true">palette</span><div class="dsgn-list-item-content"><p class="dsgn-list-item-title">Your brand as a mode</p><p class="dsgn-list-item-text"><code>npx dsgn theme</code> writes the CSS and the Figma mode from one config.</p></div></div></li>
+            <li><div class="dsgn-list-item"><span class="dsgn-icon" aria-hidden="true">devices</span><div class="dsgn-list-item-content"><p class="dsgn-list-item-title">Responsive frames</p><p class="dsgn-list-item-text">Switch the Layout mode and a page reflows to mobile, tablet or desktop.</p></div></div></li>
+          </ul>
+          <div class="dsgn-cluster">
+            <a class="dsgn-button" data-variant="subtle" data-intent="neutral" href="{{ site.links.figmaPlugin }}">Figma theme plugin<span class="dsgn-icon" data-end aria-hidden="true">arrow_outward</span></a>
+          </div>
+        </div>
+        <div class="dsgn-table-wrap" tabindex="0" role="region" aria-labelledby="figma-table-caption">
+          <table class="dsgn-table">
+            <caption id="figma-table-caption" class="dsgn-visually-hidden">Figma variable collections in dsgn {{ dsgn.minor }}</caption>
+            <thead>
+              <tr><th scope="col">Collection</th><th scope="col">Modes</th><th scope="col" data-numeric>Variables</th></tr>
+            </thead>
+            <tbody>
+              {%- for c in dsgn.figma.collections %}
+              <tr><th scope="row">{{ c.name }}</th><td>{{ c.modes | join(", ") if c.modes | length else "—" }}</td><td data-numeric>{{ c.variables }}</td></tr>
+              {%- endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Showcase -->
+    <section class="dsgn-section" id="showcase" aria-labelledby="showcase-title">
+      <div class="dsgn-container dsgn-stack" data-gap="xl">
+        <div class="dsgn-cluster" data-justify="between">
+          <div class="dsgn-stack section-intro" data-gap="s">
+            <p class="dsgn-eyebrow">Showcase</p>
+            <h2 class="dsgn-heading" id="showcase-title">One system, any brand.</h2>
+            <p class="dsgn-lead">Real screens built only from dsgn components. Give them your colour, corners and density, and copy the theme when it looks right.</p>
+          </div>
+          <a class="dsgn-button" data-variant="subtle" data-intent="neutral" href="{{ site.links.showcase }}">All demos<span class="dsgn-icon" data-end aria-hidden="true">arrow_forward</span></a>
+        </div>
+        <div class="dsgn-grid" data-cols="1" data-cols-tablet="2">
+          <article class="dsgn-card">
+            <div class="dsgn-media dsgn-card-media"><img src="/img/docs/card-sample.svg" alt="" width="640" height="360"></div>
+            <h3 class="dsgn-card-title"><a class="dsgn-card-link" href="/showcase/billing/">Billing app</a></h3>
+            <p class="dsgn-card-text">App shell, stats, tabs and a table of invoices with statuses.</p>
+          </article>
+          <article class="dsgn-card">
+            <div class="dsgn-media dsgn-card-media" data-glaze="brand">{% include "svg/mug.svg" %}</div>
+            <h3 class="dsgn-card-title"><a class="dsgn-card-link" href="/showcase/shop/">Shop product page</a></h3>
+            <p class="dsgn-card-text">Gallery, ratings, option cards, a cart toast and reviews.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Get started -->
+    <section class="dsgn-section" id="start" aria-labelledby="start-title">
+      <div class="dsgn-container dsgn-stack" data-gap="xl">
+        <div class="dsgn-stack section-intro" data-gap="s">
+          <p class="dsgn-eyebrow">Get started</p>
+          <h2 class="dsgn-heading" id="start-title">Three steps to your first page.</h2>
+        </div>
+        <ol class="dsgn-grid start-steps" data-cols="1" data-cols-desktop="3">
+          <li class="dsgn-card">
+            <p class="step-number" aria-hidden="true">01</p>
+            <h3 class="dsgn-card-title">Install</h3>
+            <p class="dsgn-card-text">Add the package. It brings the CSS, the optional script and the <code>dsgn</code> command line tool.</p>
+            <pre class="code"><code>npm i dsgn.systems</code></pre>
+          </li>
+          <li class="dsgn-card">
+            <p class="step-number" aria-hidden="true">02</p>
+            <h3 class="dsgn-card-title">Link it</h3>
+            <p class="dsgn-card-text">On a static site, copy the minified files into the folder you deploy and link them.</p>
+            <pre class="code"><code>npx dsgn copy public/vendor/dsgn
+
+&lt;link rel="stylesheet" href="vendor/dsgn/dsgn.css"&gt;
+&lt;script src="vendor/dsgn/dsgn.js" defer&gt;&lt;/script&gt;</code></pre>
+          </li>
+          <li class="dsgn-card">
+            <p class="step-number" aria-hidden="true">03</p>
+            <h3 class="dsgn-card-title">Make it yours</h3>
+            <p class="dsgn-card-text">Set your brand colour, corners and density. The contrast check runs before anything is written.</p>
+            <pre class="code"><code>npx dsgn theme --init
+npx dsgn theme</code></pre>
+            <p class="dsgn-card-text"><a class="dsgn-link" href="{{ site.links.themeCustomizer }}">Or try colours in the theme customizer</a> first.</p>
+          </li>
+        </ol>
+        <div class="dsgn-alert" data-intent="neutral">
+          <span class="dsgn-icon" aria-hidden="true">bolt</span>
+          <div class="dsgn-alert-body">
+            <p class="dsgn-alert-title">Prototyping? Use the CDN.</p>
+            <p>Link <code>https://cdn.jsdelivr.net/npm/dsgn.systems@{{ dsgn.minor }}/dist/dsgn.min.css</code> and you are done. Pin the minor version.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="dsgn-section" data-tone="raised" aria-labelledby="faq-title">
+      <div class="dsgn-container dsgn-stack" data-gap="xl" data-width="narrow">
+        <h2 class="dsgn-heading" id="faq-title">Questions</h2>
+        <div class="dsgn-accordion">
+          <details name="faq">
+            <summary>Do I need React, Vue or Tailwind?<span class="dsgn-icon" aria-hidden="true">expand_more</span></summary>
+            <div class="dsgn-accordion-content"><p>No. dsgn is CSS with an optional small script, and it styles semantic HTML, so it works in any framework, CMS template or static page. If a project already uses Tailwind, keep it for layout utilities and put its preflight in a cascade layer below dsgn.</p></div>
+          </details>
+          <details name="faq">
+            <summary>How do I use my brand colour?<span class="dsgn-icon" aria-hidden="true">expand_more</span></summary>
+            <div class="dsgn-accordion-content"><p>Run <code>npx dsgn theme --init</code>, set your brand hex in <code>dsgn.theme.mjs</code> and run <code>npx dsgn theme</code>. It checks every colour pair and writes <code>dsgn.theme.css</code> plus a matching Figma mode. The <a class="dsgn-link" href="{{ site.links.themeCustomizer }}">theme customizer</a> does the same in the browser.</p></div>
+          </details>
+          <details name="faq">
+            <summary>What does dsgn.js do?<span class="dsgn-icon" aria-hidden="true">expand_more</span></summary>
+            <div class="dsgn-accordion-content"><p>It adds keyboard support and behaviour that CSS cannot provide: tabs, menus, combobox, tooltips, toasts, drag-and-drop upload, slider and number steps, and the header scroll states. Everything else is CSS only, so you load the script only when a page needs it.</p></div>
+          </details>
+          <details name="faq">
+            <summary>How do I change a component?<span class="dsgn-icon" aria-hidden="true">expand_more</span></summary>
+            <div class="dsgn-accordion-content"><p>Use its attributes first (<code>data-variant</code>, <code>data-intent</code>, <code>data-size</code>), then a project theme. For anything else, write a plain rule with dsgn tokens: it wins over the cascade layers without <code>!important</code>. <code>npx dsgn lint</code> checks that your CSS sticks to the tokens.</p></div>
+          </details>
+          <details name="faq">
+            <summary>Is it free to use?<span class="dsgn-icon" aria-hidden="true">expand_more</span></summary>
+            <div class="dsgn-accordion-content"><p>Yes. The package is released under the MIT licence by Novama, for personal and commercial projects.</p></div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="dsgn-section cta" data-theme="dark" data-tone="base" aria-labelledby="cta-title">
+      <div class="dsgn-container cta-inner">
+        {% include "svg/cta-mark.svg" %}
+        <div class="dsgn-stack" data-gap="l">
+          <h2 class="dsgn-heading" id="cta-title">Start with one stylesheet.</h2>
+          <p class="dsgn-lead">Install the package, link the CSS and build your first page with real components today.</p>
+          <div class="dsgn-cluster">
+            <a class="dsgn-button" href="#start">Get started<span class="dsgn-icon" data-end aria-hidden="true">arrow_forward</span></a>
+            <a class="dsgn-button" data-variant="subtle" data-intent="neutral" href="{{ site.links.docs }}">Read the docs</a>
+          </div>
+        </div>
+      </div>
+    </section>

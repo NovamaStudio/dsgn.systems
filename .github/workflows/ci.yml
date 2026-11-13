@@ -1,5 +1,6 @@
 # Build and test on every push and pull request.
 # Every push to main deploys the docs to GitHub Pages; a version tag (v1.2.3, must match package.json) publishes to npm.
+# The website in site/ (dsgn.systems) is built and deployed by Vercel from main; CI only checks that it builds.
 # npm publishing uses trusted publishing (OIDC): no token or secret. One-time setup on npmjs.com →
 # package dsgn.systems → Settings → Trusted Publisher: GitHub Actions, NovamaStudio / dsgn.systems / ci.yml.
 # GitHub: Settings → Pages → Source: GitHub Actions.
@@ -21,6 +22,7 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - run: npm test                      # build + contrast + lint + 2 px grid + accessibility
       - run: git diff --exit-code -- figma-plugin/   # the committed Figma plugin must match the build
+      - run: npm run site:check            # website: build, CSS lint, links and ids (deployed by Vercel)
       - uses: actions/upload-artifact@v5
         if: always()
         with:

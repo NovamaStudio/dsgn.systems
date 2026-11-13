@@ -1,0 +1,38 @@
+  <header class="dsgn-header" data-layout="start" data-surface="{{ headerSurface or 'glass' }}">
+    <div class="dsgn-container dsgn-cluster" data-justify="between" data-nowrap>
+      <a class="dsgn-brand site-brand" href="/" aria-label="dsgn.systems, home">
+        <svg class="site-wordmark" aria-hidden="true" focusable="false"><use href="#dsgn-wordmark"></use></svg>
+      </a>
+      <nav class="dsgn-nav" data-variant="text" aria-label="Main" data-hide-below="desktop">
+        {%- for item in site.nav %}
+        <a class="dsgn-nav-link" href="{{ item.href }}"{% if page.url == item.href %} aria-current="page"{% endif %}>{{ item.label }}</a>
+        {%- endfor %}
+      </nav>
+      <div class="dsgn-cluster dsgn-header-actions" data-nowrap>
+        <a class="dsgn-button" data-variant="ghost" data-intent="neutral" href="{{ site.links.repo }}" data-hide-below="tablet">GitHub</a>
+        <a class="dsgn-button" data-variant="subtle" data-intent="neutral" href="{{ site.links.docs }}" data-hide-below="tablet"{% if page.url.startsWith("/docs/") %} aria-current="page"{% endif %}>Docs</a>
+        <a class="dsgn-button" href="/#start">Get started</a>
+      </div>
+      <button class="dsgn-icon-button dsgn-header-menu" data-variant="ghost" data-intent="neutral" data-hide-above="tablet" aria-label="Menu" command="show-modal" commandfor="menu">
+        <span class="dsgn-icon" aria-hidden="true">menu</span>
+      </button>
+    </div>
+  </header>
+
+  <dialog class="dsgn-dialog" id="menu" data-placement="end" aria-labelledby="menu-title" closedby="any">
+    <header class="dsgn-dialog-header">
+      <h2 class="dsgn-dialog-title" id="menu-title">Menu</h2>
+      <button class="dsgn-icon-button" data-variant="ghost" data-intent="neutral" command="close" commandfor="menu" aria-label="Close menu">
+        <span class="dsgn-icon" aria-hidden="true">close</span>
+      </button>
+    </header>
+    <div class="dsgn-dialog-body">
+      <nav class="dsgn-nav" data-orientation="vertical" aria-label="Main, mobile">
+        {%- for item in site.nav %}
+        <a class="dsgn-nav-link" href="{{ item.href }}"{% if page.url == item.href %} aria-current="page"{% endif %}>{{ item.label }}</a>
+        {%- endfor %}
+        <a class="dsgn-nav-link" href="{{ site.links.docs }}">Documentation</a>
+        <a class="dsgn-nav-link" href="{{ site.links.repo }}">GitHub</a>
+      </nav>
+    </div>
+  </dialog>

@@ -107,6 +107,17 @@ npm test             # build + 2 px grid test + accessibility audit (needs Chrom
 
 Source of truth: `src/tokens.config.mjs` (tokens) and `src/components/*.css`. Never edit `dist/`.
 
+### Website
+
+The website (dsgn.systems: home, docs, theme customizer, showcase) lives in `site/` and is built with
+Eleventy from this repository: component pages from `src/docs/examples.mjs` and the CSS header comments,
+foundations from `dist/`, the changelog from `CHANGELOG.md`. Vercel deploys it from `main`.
+
+```bash
+npm run build && npm run site:dev     # http://localhost:4174, rebuilds on change
+npm run site:check                    # build, CSS lint, links and ids (also runs in CI)
+```
+
 ## Licence
 
 MIT © Novama. See [LICENSE](LICENSE).

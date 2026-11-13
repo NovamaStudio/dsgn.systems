@@ -1,0 +1,40 @@
+---
+title: "Colour"
+eyebrow: "Foundations"
+lead: "Five OKLCH palettes with fixed lightness per step, and semantic colours on top of them. Pick any brand hue: every text, border and focus pair still passes WCAG."
+description: "dsgn colour: OKLCH palettes with fixed lightness steps, semantic colour tokens for light and dark, and the contrast guarantee behind them."
+---
+<h2 id="how-it-works">How it works</h2>
+<p>Every palette has 16 steps, named after their lightness in OKLCH: step <code>54</code> is 54 % light in every palette. Only hue and chroma change between palettes, so two steps always have the same contrast, whatever the hue. That is why your brand colour can be anything: the steps it lands on were already checked.</p>
+<p>On every build, {{ dsgn.contrast.pairs }} colour pairs are checked twice: with the current palettes, and across every hue in 5° steps. All {{ dsgn.contrast.pass }} pass.</p>
+
+<h2 id="palettes">Palettes</h2>
+<p>The swatches below use the live CSS variables, so they show this site's theme: the accent is the dsgn orange. Use palette steps to build a theme, not in components: components use the semantic colours further down.</p>
+{%- for palette in tokens.palettes %}
+<h3>{{ palette.name | capitalize }}</h3>
+<ol class="swatches" aria-label="{{ palette.name | capitalize }} palette, 16 steps">
+  {%- for s in palette.steps %}
+  <li class="swatch" style="--swatch: var(--dsgn-{{ palette.name }}-{{ s.step }})"{% if s.lightness < 0.6 %} data-dark{% endif %}><span>{{ s.step }}</span></li>
+  {%- endfor %}
+</ol>
+{%- endfor %}
+<p>In CSS each step is <code>--dsgn-&lt;palette&gt;-&lt;step&gt;</code>, for example <code>--dsgn-accent-54</code>.</p>
+
+<h2 id="semantic">Semantic colours</h2>
+<p>Components use {{ tokens.semanticCount }} semantic colours named by their job: <code>--dsgn-text</code>, <code>--dsgn-surface-raised</code>, <code>--dsgn-accent-solid</code>. Each points at a palette step in light mode and another in dark mode, so the same CSS works in both. Use these in your own CSS too; <code>npx dsgn lint</code> warns about hard-coded colours.</p>
+{%- for group in tokens.semanticGroups %}
+<h3>{{ group.title }}</h3>
+<div class="dsgn-table-wrap" tabindex="0" role="region" aria-label="{{ group.title }} colours">
+  <table class="dsgn-table">
+    <thead><tr><th scope="col"><span class="dsgn-visually-hidden">Swatch</span></th><th scope="col">Token</th><th scope="col">Light</th><th scope="col">Dark</th></tr></thead>
+    <tbody>
+      {%- for t in group.tokens %}
+      <tr><td class="token-swatch" style="--swatch: var(--dsgn-{{ t.name }})"><span></span></td><th scope="row"><code>--dsgn-{{ t.name }}</code></th><td>{{ t.light }}</td><td>{{ t.dark }}</td></tr>
+      {%- endfor %}
+    </tbody>
+  </table>
+</div>
+{%- endfor %}
+
+<h2 id="brand">Your brand colour</h2>
+<p>A project theme moves the accent palette to your hue and, if you like, tints the greys with it. Lightness per step stays fixed, so the contrast guarantee holds. Chroma is capped to what the guarantee covers: 0.30 for colours, 0.04 for greys. Try it in the <a href="/theme/">theme customizer</a>, or see <a href="/docs/#make-it-yours">Make it yours</a>.</p>

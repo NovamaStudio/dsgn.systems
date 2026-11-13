@@ -1,0 +1,15 @@
+---
+title: "Components"
+eyebrow: "Components"
+lead: "Every dsgn component, by group. Each page has live examples, the markup to copy, the attributes and the tokens it uses."
+description: "All dsgn.systems components by group: actions, forms, status, content, navigation, overlays and layout."
+---
+<p>{{ components.list | length }} components. Each is one CSS file you can also load alone; the ones marked <em>needs dsgn.js</em> get keyboard support and behaviour from the optional script.</p>
+{%- for g in components.byGroup %}
+<h2 id="{{ g.title | lower }}">{{ g.title }}</h2>
+<ul class="docs-component-list">
+  {%- for c in g.items %}
+  <li><a href="{{ c.href }}">{{ c.name }}</a><span>{{ c.lead }}</span></li>
+  {%- endfor %}
+</ul>
+{%- endfor %}

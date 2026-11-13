@@ -1,0 +1,124 @@
+---
+layout: layouts/base.njk
+title: "Theme customizer"
+metaTitle: "Theme customizer — dsgn.systems"
+description: "Make a dsgn theme in the browser: brand colour, greys, status colours, font, corners and density, with a live preview, a contrast check and the files to download."
+head: partials/customizer-head.njk
+permalink: /theme/
+---
+{%- from "partials/theme-preview.njk" import sheet -%}
+{%- macro segmented(name, label, options, current) -%}
+<div class="dsgn-field">
+  <span class="dsgn-label" id="tc-{{ name }}-label">{{ label }}</span>
+  <div class="dsgn-segmented" data-width="full" role="radiogroup" aria-labelledby="tc-{{ name }}-label">
+    {%- for o in options %}
+    <label class="dsgn-segment"><input type="radio" name="{{ name }}" value="{{ o[0] }}"{% if o[0] == current %} checked{% endif %}>{{ o[1] }}</label>
+    {%- endfor %}
+  </div>
+</div>
+{%- endmacro %}
+    <div class="dsgn-container showcase" data-width="full">
+      <header class="showcase-head dsgn-stack" data-gap="s">
+        <p class="dsgn-eyebrow">Tools</p>
+        <h1 class="dsgn-heading">Theme customizer</h1>
+        <p class="dsgn-lead">Your brand on dsgn, with the contrast checked as you go. It runs the same theme engine as <code>npx dsgn theme</code>: download the files, or copy the config into your project and run the command there.</p>
+      </header>
+
+      <div class="tc-layout">
+        <form class="tc-controls showcase-panel dsgn-stack" data-gap="l" id="tc-form" aria-label="Theme settings">
+          <div class="dsgn-field">
+            <label class="dsgn-label" for="tc-name">Theme name</label>
+            <input class="dsgn-input" id="tc-name" name="name" value="Project" autocomplete="off">
+            <p class="dsgn-hint">Also the mode name in Figma.</p>
+          </div>
+
+          <div class="dsgn-field">
+            <label class="dsgn-label" for="tc-brand">Brand colour</label>
+            <div class="dsgn-cluster" data-nowrap>
+              <input class="sc-color" id="tc-brand" name="brand" type="color" value="#2f6fed">
+              <input class="dsgn-input tc-hex" name="brandHex" value="#2f6fed" aria-label="Brand colour as hex" spellcheck="false" autocomplete="off">
+            </div>
+            <div class="dsgn-cluster sc-presets" role="group" aria-label="Brand colour presets">
+              {%- for c in [["#2f6fed", "Blue"], ["#ff4400", "dsgn orange"], ["#0f8a5f", "Green"], ["#7a3fd1", "Violet"], ["#d6336c", "Pink"], ["#b4532a", "Brick"], ["#1b1d1f", "Ink"]] %}
+              <button class="sc-preset" type="button" data-brand="{{ c[0] }}" style="--swatch: {{ c[0] }}" aria-label="{{ c[1] }}"></button>
+              {%- endfor %}
+            </div>
+          </div>
+
+          {{ segmented("accentFill", "Button fill", [["default", "Default"], ["strong", "Strong"], ["stronger", "Stronger"], ["auto", "Auto"]], "default") }}
+          <label class="dsgn-choice"><input type="checkbox" class="dsgn-switch" role="switch" name="monochrome"> Monochrome: no accent colour, greys only</label>
+
+          <fieldset class="tc-group">
+            <legend class="dsgn-label">Greys</legend>
+            <label class="dsgn-choice"><input type="checkbox" class="dsgn-switch" role="switch" name="tint" checked> Tint them towards the brand colour</label>
+            <div class="dsgn-field">
+              <div class="dsgn-slider-label"><label class="dsgn-label" for="tc-neutral-c">Tint strength</label><output class="dsgn-slider-value" for="tc-neutral-c" id="tc-neutral-c-out">0.012</output></div>
+              <input type="range" class="dsgn-slider" id="tc-neutral-c" name="neutralC" min="0" max="0.04" step="0.002" value="0.012">
+            </div>
+          </fieldset>
+
+          <details class="tc-group tc-details">
+            <summary class="dsgn-label">Status colours<span class="dsgn-icon" aria-hidden="true">expand_more</span></summary>
+            {%- for s in [["danger", "Danger hue", 25], ["success", "Success hue", 150], ["warning", "Warning hue", 70]] %}
+            <div class="dsgn-field">
+              <div class="dsgn-slider-label"><label class="dsgn-label" for="tc-{{ s[0] }}">{{ s[1] }}</label><output class="dsgn-slider-value" for="tc-{{ s[0] }}" data-suffix="°">{{ s[2] }}°</output></div>
+              <input type="range" class="dsgn-slider" id="tc-{{ s[0] }}" name="{{ s[0] }}" min="0" max="359" value="{{ s[2] }}" data-default="{{ s[2] }}">
+            </div>
+            {%- endfor %}
+          </details>
+
+          <div class="dsgn-field">
+            <label class="dsgn-label" for="tc-font">Font family</label>
+            <input class="dsgn-input" id="tc-font" name="font" placeholder="Inter (default)" autocomplete="off" spellcheck="false" aria-describedby="tc-font-hint">
+            <p class="dsgn-hint" id="tc-font-hint">A CSS font-family list, e.g. <code>'IBM Plex Sans', sans-serif</code>. Load the font yourself.</p>
+          </div>
+
+          {{ segmented("radius", "Corners", [["sharp", "Sharp"], ["default", "Default"], ["rounded", "Rounded"], ["pill", "Pill"]], "default") }}
+          {{ segmented("density", "Density", [["s", "S"], ["m", "M"], ["l", "L"]], "m") }}
+          {{ segmented("elevation", "Shadows", [["flat", "Flat"], ["soft", "Soft"]], "flat") }}
+
+          <details class="tc-group tc-details">
+            <summary class="dsgn-label">Load an existing theme<span class="dsgn-icon" aria-hidden="true">expand_more</span></summary>
+            <div class="dsgn-field">
+              <label class="dsgn-label" for="tc-import">Paste dsgn.theme.mjs</label>
+              <textarea class="dsgn-input tc-import" id="tc-import" rows="6" spellcheck="false"></textarea>
+              <p class="dsgn-hint" id="tc-import-msg" role="status"></p>
+            </div>
+            <button class="dsgn-button" data-variant="subtle" data-intent="neutral" type="button" id="tc-load">Load theme</button>
+          </details>
+        </form>
+
+        <div class="tc-output dsgn-stack" data-gap="l">
+          <div class="tc-previews">
+            <section class="tc-preview" data-theme="light" aria-label="Preview, light">{{ sheet("tcl") }}</section>
+            <section class="tc-preview" data-theme="dark" aria-label="Preview, dark">{{ sheet("tcd") }}</section>
+          </div>
+
+          <div class="tc-report" id="tc-report" role="status"></div>
+          <ul class="tc-notes dsgn-body-s dsgn-muted" id="tc-notes"></ul>
+
+          <div class="dsgn-tabs">
+            <div role="tablist" aria-label="Theme files">
+              <button role="tab" class="dsgn-tab" aria-selected="true" aria-controls="tc-p-config" id="tc-t-config">dsgn.theme.mjs</button>
+              <button role="tab" class="dsgn-tab" aria-selected="false" aria-controls="tc-p-css" id="tc-t-css" tabindex="-1">dsgn.theme.css</button>
+            </div>
+            <div role="tabpanel" id="tc-p-config" aria-labelledby="tc-t-config" class="dsgn-tabpanel">
+              <p class="dsgn-body-s dsgn-muted">The source. Keep it in your project and run <code>npx dsgn theme</code> after every change; it also writes the Figma files.</p>
+              <div class="sc-code"><pre class="code"><code id="tc-config"></code></pre></div>
+              <div class="dsgn-cluster">
+                <button class="dsgn-button" data-variant="subtle" data-intent="neutral" type="button" data-copy="" id="tc-copy-config"><span class="dsgn-icon" aria-hidden="true">content_copy</span>Copy</button>
+                <button class="dsgn-button" data-variant="subtle" data-intent="neutral" type="button" data-download="dsgn.theme.mjs"><span class="dsgn-icon" aria-hidden="true">download</span>Download</button>
+              </div>
+            </div>
+            <div role="tabpanel" id="tc-p-css" aria-labelledby="tc-t-css" class="dsgn-tabpanel" hidden>
+              <p class="dsgn-body-s dsgn-muted">The result. Link it right after <code>dsgn.css</code>.</p>
+              <div class="sc-code"><pre class="code"><code id="tc-css"></code></pre></div>
+              <div class="dsgn-cluster">
+                <button class="dsgn-button" data-variant="subtle" data-intent="neutral" type="button" data-copy="" id="tc-copy-css"><span class="dsgn-icon" aria-hidden="true">content_copy</span>Copy</button>
+                <button class="dsgn-button" data-variant="subtle" data-intent="neutral" type="button" data-download="dsgn.theme.css"><span class="dsgn-icon" aria-hidden="true">download</span>Download</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>

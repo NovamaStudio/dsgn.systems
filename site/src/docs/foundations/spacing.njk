@@ -1,0 +1,69 @@
+---
+title: "Spacing and size"
+eyebrow: "Foundations"
+lead: "One spacing scale for every gap and padding, density tokens that size the controls, and three corner radii. Everything is snapped to a 2 px grid."
+description: "dsgn spacing scale from 0 to 64, density tokens for S, M and L, how control height is calculated, and the corner radius modes."
+---
+<h2 id="scale">The spacing scale</h2>
+<p>{{ tokens.space | length }} steps from 0 to 64 px, as <code>--dsgn-space-&lt;px&gt;</code>. Use them for every margin, gap and padding in your own CSS too: <code>npx dsgn lint</code> flags hard-coded pixel values. The steps are multiples of a quarter rem, rounded to 2 px, so they grow with the reader's font size and never land on half pixels.</p>
+<ol class="space-scale" aria-label="Spacing tokens">
+  {%- for s in tokens.space %}
+  <li><code>--dsgn-space-{{ s.name }}</code><span class="space-bar" style="--size: var(--dsgn-space-{{ s.name }})"></span><span class="space-px">{{ s.px }} px</span></li>
+  {%- endfor %}
+</ol>
+
+<h2 id="density">Density</h2>
+<p>Density sizes the controls and the space inside containers. Set <code>data-density="s"</code>, <code>"m"</code> (default) or <code>"l"</code> on the page or on any section. Touch screens without a density set get L.</p>
+<div class="dsgn-table-wrap" tabindex="0" role="region" aria-label="Density tokens">
+  <table class="dsgn-table">
+    <thead><tr><th scope="col">Token</th>{% for m in tokens.densityModes %}<th scope="col" data-numeric>{{ m | upper }}</th>{% endfor %}</tr></thead>
+    <tbody>
+      {%- for t in tokens.density %}
+      <tr><th scope="row"><code>--dsgn-{{ t.name }}</code></th>{% for v in t.values %}<td data-numeric>{{ v }}</td>{% endfor %}</tr>
+      {%- endfor %}
+    </tbody>
+  </table>
+</div>
+
+<h3 id="control-height">Sizes come from type</h3>
+<p>No control has a fixed height. A button, an input or a select is its line height plus twice the vertical padding, so controls in a row always line up, and text never gets clipped when it grows.</p>
+<div class="dsgn-table-wrap" tabindex="0" role="region" aria-label="Control height per density">
+  <table class="dsgn-table">
+    <thead><tr><th scope="col">Density</th><th scope="col" data-numeric>Line height</th><th scope="col" data-numeric>+ 2 × padding</th><th scope="col" data-numeric>= Control height</th></tr></thead>
+    <tbody>
+      {%- for c in tokens.controlHeight %}
+      <tr><th scope="row">{{ c.mode | upper }}</th><td data-numeric>{{ c.lineHeight }}</td><td data-numeric>2 × {{ c.padY }}</td><td data-numeric>{{ c.height }} px</td></tr>
+      {%- endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% example "The same row in three densities" %}
+<div class="dsgn-stack" data-gap="m">
+  <div class="dsgn-cluster" data-density="s"><input class="dsgn-input" aria-label="Search, density S" placeholder="Density S"><button class="dsgn-button" type="button">Search</button></div>
+  <div class="dsgn-cluster" data-density="m"><input class="dsgn-input" aria-label="Search, density M" placeholder="Density M"><button class="dsgn-button" type="button">Search</button></div>
+  <div class="dsgn-cluster" data-density="l"><input class="dsgn-input" aria-label="Search, density L" placeholder="Density L"><button class="dsgn-button" type="button">Search</button></div>
+</div>
+{% endexample %}
+
+<h2 id="radius">Corner radius</h2>
+<p>Three radii: <code>--dsgn-radius-s</code> for small parts (chips, checkboxes), <code>-m</code> for controls and <code>-l</code> for containers (cards, dialogs). <code>data-radius</code> switches all three at once.</p>
+<div class="dsgn-table-wrap" tabindex="0" role="region" aria-label="Radius per mode">
+  <table class="dsgn-table">
+    <thead><tr><th scope="col">Token</th>{% for m in tokens.radiusModes %}<th scope="col" data-numeric>{{ m | capitalize }}</th>{% endfor %}</tr></thead>
+    <tbody>
+      {%- for t in tokens.radius %}
+      <tr><th scope="row"><code>--dsgn-{{ t.name }}</code></th>{% for v in t.values %}<td data-numeric>{{ "full" if v > 999 else v }}</td>{% endfor %}</tr>
+      {%- endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% example "A button and a card in each radius mode" %}
+<div class="dsgn-grid" data-cols="1" data-cols-tablet="2" data-cols-desktop="4">
+  <div class="dsgn-card" data-radius="sharp"><p class="dsgn-card-title">Sharp</p><button class="dsgn-button" type="button">Save</button></div>
+  <div class="dsgn-card" data-radius="default"><p class="dsgn-card-title">Default</p><button class="dsgn-button" type="button">Save</button></div>
+  <div class="dsgn-card" data-radius="rounded"><p class="dsgn-card-title">Rounded</p><button class="dsgn-button" type="button">Save</button></div>
+  <div class="dsgn-card" data-radius="pill"><p class="dsgn-card-title">Pill</p><button class="dsgn-button" type="button">Save</button></div>
+</div>
+{% endexample %}

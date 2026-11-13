@@ -1,0 +1,37 @@
+{#- One sheet of components for the theme customizer. `p` prefixes the ids so the sheet can appear twice. #}
+{%- macro sheet(p) -%}
+<div class="dsgn-stack" data-gap="l">
+  <div class="dsgn-cluster">
+    <button class="dsgn-button" type="button">Save</button>
+    <button class="dsgn-button" data-variant="subtle" type="button">Preview</button>
+    <button class="dsgn-button" data-variant="subtle" data-intent="neutral" type="button">Cancel</button>
+    <button class="dsgn-button" data-variant="ghost" data-intent="danger" type="button"><span class="dsgn-icon" aria-hidden="true">delete</span>Delete</button>
+  </div>
+  <div class="dsgn-field">
+    <label class="dsgn-label" for="{{ p }}-email">E-mail</label>
+    <input class="dsgn-input" id="{{ p }}-email" type="email" value="jana@studiokolo.cz" aria-describedby="{{ p }}-email-hint">
+    <p class="dsgn-hint" id="{{ p }}-email-hint">We only use it for invoices.</p>
+  </div>
+  <div class="dsgn-cluster">
+    <label class="dsgn-choice"><input type="checkbox" class="dsgn-checkbox" checked> Reminders</label>
+    <label class="dsgn-choice"><input type="radio" class="dsgn-radio" name="{{ p }}-plan" checked> Monthly</label>
+    <label class="dsgn-choice"><input type="checkbox" class="dsgn-switch" role="switch" checked> Dark PDF</label>
+  </div>
+  <div class="dsgn-cluster">
+    <span class="dsgn-badge" data-intent="accent">Sent</span>
+    <span class="dsgn-badge" data-intent="success">Paid</span>
+    <span class="dsgn-badge" data-intent="warning">Due soon</span>
+    <span class="dsgn-badge" data-intent="danger" data-variant="solid">Overdue</span>
+    <span class="dsgn-badge">Draft</span>
+  </div>
+  <div class="dsgn-alert" data-intent="accent">
+    <span class="dsgn-icon" aria-hidden="true">info</span>
+    <div class="dsgn-alert-body"><p class="dsgn-alert-title">Reminders go out at 9:00</p><p>In each client's time zone. <a class="dsgn-link" href="#{{ p }}-email">Change it</a></p></div>
+  </div>
+  <article class="dsgn-card">
+    <div class="dsgn-cluster" data-justify="between" data-nowrap><h3 class="dsgn-card-title">Invoice 2026-114</h3><span class="dsgn-badge" data-intent="success">Paid</span></div>
+    <progress class="dsgn-progress" value="64" max="100" aria-label="Paid share">64 %</progress>
+    <div class="dsgn-card-actions"><button class="dsgn-button" data-variant="subtle" data-intent="neutral" type="button">PDF</button><button class="dsgn-button" type="button">Send</button></div>
+  </article>
+</div>
+{%- endmacro -%}

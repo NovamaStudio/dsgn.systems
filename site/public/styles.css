@@ -1,0 +1,813 @@
+/* dsgn.systems landing page — project styles.
+   Only what dsgn does not ship; dsgn tokens only (checked with `npm run lint`). */
+
+:root {
+  --site-font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  --site-frame: var(--dsgn-space-2) solid var(--dsgn-text);
+}
+
+code,
+pre {
+  font-family: var(--site-font-mono);
+  font-size: 0.92em;
+}
+
+code {
+  overflow-wrap: anywhere;
+}
+
+/* Inline code in running text: a small framed chip, like a key on a keyboard.
+   Code inside <pre> and classed code (the install command) keep their own look.
+   Upstream candidate for dsgn, together with .docs-prose. */
+:not(pre) > code:not([class]) {
+  padding: 0.1em var(--dsgn-space-4);
+  border: var(--dsgn-border-width) solid var(--dsgn-border);
+  border-radius: var(--dsgn-radius-s);
+  background: var(--dsgn-surface-sunken);
+  font-size: 0.875em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+/* ── Brand ─────────────────────────────────────────────────────────────── */
+
+.site-wordmark {
+  display: block;
+  block-size: var(--dsgn-space-24);
+  inline-size: calc(var(--dsgn-space-24) * 3.56);
+  fill: currentColor;
+}
+
+/* A frame like the boards the logo was drawn on: 2 px ink outline, mono labels in the corners. */
+.frame {
+  position: relative;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  padding: var(--dsgn-space-64) var(--dsgn-space-24);
+  border: var(--site-frame);
+  background: var(--dsgn-surface-base);
+  color: var(--dsgn-text);
+}
+
+.frame-label {
+  position: absolute;
+  inset-block-start: var(--dsgn-space-8);
+  inset-inline-start: var(--dsgn-space-12);
+  font-family: var(--site-font-mono);
+  font-size: var(--dsgn-font-size-caption);
+  line-height: var(--dsgn-line-height-caption);
+  font-weight: var(--dsgn-font-weight-semibold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.frame-label[data-end] {
+  inset-inline: auto var(--dsgn-space-12);
+  font-weight: var(--dsgn-font-weight-regular);
+}
+
+.frame-control {
+  position: absolute;
+  inset-block-end: var(--dsgn-space-8);
+  inset-inline-end: var(--dsgn-space-8);
+}
+
+/* ── Hero ──────────────────────────────────────────────────────────────── */
+
+/* Board: a framed block with a hard brand shadow and a mono tag hanging off its top edge.
+   Kept for reuse outside the hero. <div class="board"><p class="board-tag">…</p>…</div> */
+
+.board {
+  position: relative;
+  padding: var(--dsgn-space-24);
+  border: var(--site-frame);
+  background: var(--dsgn-surface-base);
+  box-shadow: var(--dsgn-space-8) var(--dsgn-space-8) 0 var(--dsgn-brand);
+}
+
+@media (min-width: 64rem) {
+  .board { padding: var(--dsgn-space-40); }
+}
+
+.board-tag {
+  position: absolute;
+  inset-block-end: 100%;
+  inset-inline-start: calc(var(--dsgn-space-2) * -1);
+  margin: 0;
+  padding: var(--dsgn-space-2) var(--dsgn-space-8);
+  background: var(--dsgn-text);
+  color: var(--dsgn-surface-base);
+  font-family: var(--site-font-mono);
+  font-size: var(--dsgn-font-size-caption);
+  line-height: var(--dsgn-line-height-caption);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* Hero: the whole first fold. Copy at the top, the massive wordmark pinned to the bottom of the
+   fold and cropped by the right and bottom edges of the page. */
+
+.hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-block-size: 100svh;
+  overflow: clip;
+  padding-block-start: calc(var(--dsgn-header-height, 4rem) + var(--dsgn-space-48));
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: var(--dsgn-space-32);
+  align-items: end;
+}
+
+@media (min-width: 64rem) {
+  .hero-inner { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: var(--dsgn-space-64); }
+}
+
+.hero-head {
+  display: grid;
+  gap: var(--dsgn-space-16);
+}
+
+.hero-title {
+  margin: 0;
+  font-size: calc(var(--dsgn-font-size-display) * 1.25);
+  line-height: 1;
+  font-weight: var(--dsgn-font-weight-semibold);
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+
+@media (min-width: 48rem) {
+  .hero-title { font-size: calc(var(--dsgn-font-size-display) * 1.75); }
+}
+
+@media (min-width: 64rem) {
+  .hero-title { font-size: calc(var(--dsgn-font-size-display) * 2.25); }
+}
+
+/* Narrow screens: D and S in full, G cut by the edge. Wide: N cut by the edge. */
+.hero-mark {
+  margin: auto 0 0;
+  padding-block-start: var(--dsgn-space-48);
+  padding-inline-start: 4vw;
+}
+
+.hero-logo {
+  display: block;
+  inline-size: 150vw;
+  max-inline-size: none;
+  block-size: auto;
+  margin-block-end: -2vw;
+  overflow: visible;
+  fill: currentColor;
+  color: var(--dsgn-text);
+}
+
+@media (min-width: 48rem) {
+  .hero-mark { padding-inline-start: 10vw; }
+  .hero-logo { inline-size: 105vw; }
+}
+
+.hero-control {
+  position: absolute;
+  z-index: 2;
+  inset-block-end: var(--dsgn-space-16);
+  inset-inline-end: var(--dsgn-space-16);
+  background: var(--dsgn-surface-base);
+}
+
+/* A slow drift to the left while the hero scrolls away. */
+@keyframes hero-drift {
+  to { transform: translateX(-6vw); }
+}
+
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-logo {
+      animation: hero-drift linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 100svh;
+    }
+  }
+}
+
+.install {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--dsgn-space-8);
+  max-inline-size: calc(var(--dsgn-space-64) * 5);
+  padding-inline: var(--dsgn-space-16) var(--dsgn-space-4);
+  border: var(--site-frame);
+  background: var(--dsgn-surface-raised);
+}
+
+.install-command {
+  font-size: var(--dsgn-font-size-body-s);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.install-prompt {
+  color: var(--dsgn-accent-text);
+}
+
+/* ── Sections ──────────────────────────────────────────────────────────── */
+
+.section-intro {
+  max-inline-size: 48rem;
+}
+
+.code {
+  margin: 0;
+  padding: var(--dsgn-space-12) var(--dsgn-space-16);
+  overflow-x: auto;
+  border: var(--dsgn-border-width) solid var(--dsgn-border);
+  border-radius: var(--dsgn-radius-m);
+  background: var(--dsgn-surface-sunken);
+  color: var(--dsgn-text);
+  font-size: var(--dsgn-font-size-body-s);
+  line-height: var(--dsgn-line-height-body-s);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.code code {
+  font-size: inherit;
+}
+
+/* ── Scale ─────────────────────────────────────────────────────────────── */
+
+.scale {
+  display: grid;
+  gap: var(--dsgn-space-12);
+  inline-size: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.scale-row {
+  display: grid;
+  grid-template-columns: var(--dsgn-space-32) minmax(0, 1fr);
+  align-items: center;
+  gap: var(--dsgn-space-16);
+}
+
+.scale-name {
+  font-family: var(--site-font-mono);
+  font-size: var(--dsgn-font-size-caption);
+  line-height: var(--dsgn-line-height-caption);
+  color: var(--dsgn-text-muted);
+  text-align: end;
+}
+
+.scale-bar {
+  display: block;
+  background: var(--dsgn-text);
+}
+
+.scale-row:nth-child(1) .scale-bar { block-size: var(--dsgn-space-2); }
+.scale-row:nth-child(2) .scale-bar { block-size: var(--dsgn-space-4); }
+.scale-row:nth-child(3) .scale-bar { block-size: var(--dsgn-space-6); }
+.scale-row:nth-child(4) .scale-bar { block-size: var(--dsgn-space-8); }
+.scale-row:nth-child(5) .scale-bar { block-size: var(--dsgn-space-12); }
+.scale-row:nth-child(6) .scale-bar { block-size: var(--dsgn-space-16); }
+.scale-row:nth-child(7) .scale-bar { block-size: var(--dsgn-space-24); }
+.scale-row:nth-child(8) .scale-bar { block-size: var(--dsgn-space-32); background: var(--dsgn-brand); }
+
+/* ── Modes ─────────────────────────────────────────────────────────────── */
+
+.modes {
+  display: grid;
+  gap: var(--dsgn-space-32);
+}
+
+@media (min-width: 64rem) {
+  .modes { grid-template-columns: 18rem minmax(0, 1fr); align-items: start; }
+}
+
+.modes-controls {
+  display: grid;
+  gap: var(--dsgn-space-20);
+  align-content: start;
+}
+
+.modes-stage {
+  display: grid;
+  gap: var(--dsgn-space-12);
+  min-inline-size: 0;
+}
+
+.preview {
+  padding: var(--dsgn-space-24);
+  border: var(--site-frame);
+  background: var(--dsgn-surface-sunken);
+  color: var(--dsgn-text);
+  transition: background-color var(--dsgn-duration) var(--dsgn-ease);
+}
+
+/* ── Get started ───────────────────────────────────────────────────────── */
+
+.start-steps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.start-steps > li {
+  align-content: start;
+}
+
+.step-number {
+  margin: 0;
+  font-family: var(--site-font-mono);
+  font-size: var(--dsgn-font-size-caption);
+  line-height: var(--dsgn-line-height-caption);
+  font-weight: var(--dsgn-font-weight-semibold);
+  color: var(--dsgn-accent-text);
+}
+
+/* ── CTA band ──────────────────────────────────────────────────────────── */
+
+.cta-inner {
+  display: grid;
+  gap: var(--dsgn-space-32);
+  align-items: center;
+}
+
+@media (min-width: 40rem) {
+  .cta-inner { grid-template-columns: auto minmax(0, 1fr); gap: var(--dsgn-space-48); }
+}
+
+.cta-mark {
+  display: block;
+  inline-size: calc(var(--dsgn-space-64) * 2.5);
+  block-size: auto;
+}
+
+.cta-mark .mark-bg { fill: var(--dsgn-brand); }
+.cta-mark g { fill: var(--dsgn-neutral-14); }
+
+/* ── Docs ──────────────────────────────────────────────────────────────── */
+
+.docs {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--dsgn-space-48);
+  padding-block: var(--dsgn-space-32) var(--dsgn-space-64);
+}
+
+@media (min-width: 64rem) {
+  .docs { grid-template-columns: 15rem minmax(0, 1fr); }
+}
+
+.docs-sidebar {
+  position: sticky;
+  inset-block-start: calc(var(--dsgn-header-height, 4rem) + var(--dsgn-space-24));
+  align-self: start;
+  max-block-size: calc(100dvh - var(--dsgn-header-height, 4rem) - var(--dsgn-space-48));
+  overflow-y: auto;
+}
+
+.docs-main {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--dsgn-space-32);
+  max-inline-size: 48rem;
+  min-inline-size: 0;
+}
+
+.docs-mobile-nav {
+  border: var(--dsgn-border-width) solid var(--dsgn-border);
+  border-radius: var(--dsgn-radius-m);
+  background: var(--dsgn-surface-raised);
+}
+
+.docs-mobile-nav > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--dsgn-space-12) var(--dsgn-space-16);
+  cursor: pointer;
+  font-weight: var(--dsgn-font-weight-semibold);
+  list-style: none;
+}
+
+.docs-mobile-nav > summary::-webkit-details-marker { display: none; }
+.docs-mobile-nav[open] > summary .dsgn-icon { rotate: 180deg; }
+.docs-mobile-nav > .dsgn-nav { padding: 0 var(--dsgn-space-8) var(--dsgn-space-8); }
+
+/* Long-form text. dsgn has text styles as classes but no style for plain Markdown output. */
+.docs-prose {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--dsgn-space-16);
+  font-size: var(--dsgn-font-size-body);
+  line-height: var(--dsgn-line-height-body);
+}
+
+.docs-prose > * { margin: 0; }
+.docs-prose > :is(ul, ol) { padding-inline-start: var(--dsgn-space-24); }
+.docs-prose li + li { margin-block-start: var(--dsgn-space-4); }
+
+.docs-prose h2 {
+  margin-block-start: var(--dsgn-space-32);
+  font-size: var(--dsgn-font-size-heading-s);
+  line-height: var(--dsgn-line-height-heading-s);
+  font-weight: var(--dsgn-font-weight-semibold);
+}
+
+.docs-prose h3 {
+  margin-block-start: var(--dsgn-space-16);
+  font-size: var(--dsgn-font-size-title);
+  line-height: var(--dsgn-line-height-title);
+  font-weight: var(--dsgn-font-weight-semibold);
+}
+
+.docs-prose > pre {
+  padding: var(--dsgn-space-12) var(--dsgn-space-16);
+  overflow-x: auto;
+  border: var(--dsgn-border-width) solid var(--dsgn-border);
+  border-radius: var(--dsgn-radius-m);
+  background: var(--dsgn-surface-sunken);
+  font-size: var(--dsgn-font-size-body-s);
+  line-height: var(--dsgn-line-height-body-s);
+}
+
+.docs-prose > table {
+  display: block;
+  overflow-x: auto;
+  border-collapse: collapse;
+  font-size: var(--dsgn-font-size-body-s);
+  line-height: var(--dsgn-line-height-body-s);
+}
+
+.docs-prose th,
+.docs-prose td {
+  padding: var(--dsgn-space-8) var(--dsgn-space-12);
+  border-block-end: var(--dsgn-border-width) solid var(--dsgn-border);
+  text-align: start;
+  vertical-align: top;
+}
+
+.docs-prose th { font-weight: var(--dsgn-font-weight-semibold); }
+
+/* Live example: the rendered markup on top, the same markup as code below. */
+.docs-example {
+  margin: 0;
+  border: var(--dsgn-border-width) solid var(--dsgn-border);
+  border-radius: var(--dsgn-radius-m);
+  overflow: hidden;
+}
+
+.docs-example-preview {
+  padding: var(--dsgn-space-32) var(--dsgn-space-24);
+  overflow-x: auto;
+  background: var(--dsgn-surface-base);
+}
+
+.docs-example-code {
+  position: relative;
+  border-block-start: var(--dsgn-border-width) solid var(--dsgn-border);
+}
+
+.docs-example-code .code {
+  border: 0;
+  border-radius: 0;
+  padding-inline-end: var(--dsgn-space-48);
+  white-space: pre;
+  overflow-wrap: normal;
+}
+
+.docs-example-copy {
+  position: absolute;
+  inset-block-start: var(--dsgn-space-4);
+  inset-inline-end: var(--dsgn-space-4);
+}
+
+.docs-pager {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--dsgn-space-12);
+  padding-block-start: var(--dsgn-space-24);
+  border-block-start: var(--dsgn-border-width) solid var(--dsgn-border);
+}
+
+.docs-pager [rel="next"] { margin-inline-start: auto; }
+
+/* Colour swatches (Foundations › Colour). The colour comes from --swatch, set per item. */
+.swatches {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: var(--dsgn-space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 40rem) {
+  .swatches { grid-template-columns: repeat(16, minmax(0, 1fr)); }
+}
+
+.swatch {
+  display: grid;
+  align-items: end;
+  aspect-ratio: 1;
+  padding: var(--dsgn-space-4);
+  background: var(--swatch);
+  color: var(--dsgn-neutral-14);
+  font-family: var(--site-font-mono);
+  font-size: var(--dsgn-font-size-caption);
+  line-height: var(--dsgn-line-height-caption);
+}
+
+.swatch[data-dark] { color: var(--dsgn-neutral-99); }
+
+.token-swatch { inline-size: var(--dsgn-space-32); }
+
+.token-swatch > span {
+  display: block;
+  inline-size: var(--dsgn-space-24);
+  block-size: var(--dsgn-space-24);
+  border-radius: var(--dsgn-radius-s);
+  background: var(--swatch);
+  box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border);
+}
+
+/* Type specimens (Foundations › Typography). */
+.type-specimens {
+  display: grid;
+  border-block-start: var(--dsgn-border-width) solid var(--dsgn-border);
+}
+
+.type-specimen {
+  display: grid;
+  gap: var(--dsgn-space-4);
+  padding-block: var(--dsgn-space-16);
+  border-block-end: var(--dsgn-border-width) solid var(--dsgn-border);
+}
+
+.type-specimen > p { margin: 0; }
+
+.type-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--dsgn-space-8);
+  color: var(--dsgn-text-muted);
+  font-size: var(--dsgn-font-size-caption);
+  line-height: var(--dsgn-line-height-caption);
+}
+
+/* Spacing scale (Foundations › Spacing): one bar per token, as wide as its value. */
+.space-scale {
+  display: grid;
+  gap: var(--dsgn-space-8);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.space-scale > li {
+  display: grid;
+  grid-template-columns: 10rem var(--dsgn-space-64) auto;
+  align-items: center;
+  gap: var(--dsgn-space-16);
+}
+
+.space-bar {
+  inline-size: var(--size);
+  block-size: var(--dsgn-space-16);
+  background: var(--dsgn-accent-solid);
+}
+
+.space-px {
+  color: var(--dsgn-text-muted);
+  font-size: var(--dsgn-font-size-body-s);
+}
+
+/* A panel that carries a mode attribute in the Modes examples: its own surface, so the theme shows. */
+.mode-panel {
+  padding: var(--dsgn-space-16);
+  background: var(--dsgn-surface-sunken);
+  color: var(--dsgn-text);
+}
+
+/* ── Showcase ──────────────────────────────────────────────────────────── */
+
+.showcase {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--dsgn-space-32);
+  padding-block: var(--dsgn-space-32) var(--dsgn-space-64);
+}
+
+.showcase-head { max-inline-size: 48rem; }
+.showcase-head a { color: inherit; text-decoration: none; }
+
+.showcase-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--dsgn-space-32);
+  align-items: start;
+}
+
+@media (min-width: 64rem) {
+  .showcase-layout { grid-template-columns: minmax(0, 1fr) 20rem; }
+  .showcase-panel {
+    position: sticky;
+    inset-block-start: calc(var(--dsgn-header-height, 4rem) + var(--dsgn-space-16));
+    max-block-size: calc(100dvh - var(--dsgn-header-height, 4rem) - var(--dsgn-space-32));
+    overflow-y: auto;
+  }
+}
+
+.showcase-stage {
+  min-inline-size: 0;
+  border: var(--site-frame);
+  overflow: hidden;
+}
+
+/* The demo carries its own theme and modes; it paints its own background. */
+.demo {
+  background: var(--dsgn-surface-base);
+  color: var(--dsgn-text);
+}
+
+/* App shell inside a frame: no full-height columns. */
+.demo .dsgn-app { min-block-size: 0; }
+.demo .dsgn-app-sidebar { position: static; block-size: auto; }
+.demo .dsgn-app-topbar { position: static; }
+.demo-search { flex: 1; max-inline-size: 24rem; }
+.demo .dsgn-app-topbar > .dsgn-icon-button { margin-inline-start: auto; }
+
+.showcase-panel {
+  min-inline-size: 0;
+  padding: var(--dsgn-space-24);
+  border: var(--dsgn-border-width) solid var(--dsgn-border);
+  border-radius: var(--dsgn-radius-l);
+  background: var(--dsgn-surface-raised);
+}
+
+.sc-color {
+  inline-size: var(--dsgn-space-48);
+  block-size: var(--dsgn-control-height);
+  padding: 0;
+  border: var(--dsgn-border-width) solid var(--dsgn-border-control);
+  border-radius: var(--dsgn-radius-m);
+  background: none;
+  cursor: pointer;
+}
+
+.sc-hex {
+  font-family: var(--site-font-mono);
+  font-size: var(--dsgn-font-size-body-s);
+  text-transform: uppercase;
+}
+
+.sc-presets { gap: var(--dsgn-space-8); }
+
+.sc-preset {
+  inline-size: var(--dsgn-space-24);
+  block-size: var(--dsgn-space-24);
+  padding: 0;
+  border: 0;
+  border-radius: var(--dsgn-radius-s);
+  background: var(--swatch);
+  box-shadow: inset 0 0 0 var(--dsgn-border-width) var(--dsgn-border);
+  cursor: pointer;
+}
+
+.sc-preset:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: var(--dsgn-focus-offset); }
+
+.sc-contrast {
+  display: flex;
+  align-items: center;
+  gap: var(--dsgn-space-8);
+  margin: 0;
+  font-size: var(--dsgn-font-size-body-s);
+  line-height: var(--dsgn-line-height-body-s);
+}
+
+.sc-contrast[data-intent="success"] { color: var(--dsgn-success-text); }
+.sc-contrast[data-intent="danger"] { color: var(--dsgn-danger-text); }
+
+.sc-code { position: relative; display: grid; grid-template-columns: minmax(0, 1fr); }
+.sc-code .code { max-block-size: 16rem; padding-inline-end: var(--dsgn-space-48); white-space: pre; overflow-wrap: normal; }
+.sc-copy { position: absolute; inset-block-start: var(--dsgn-space-4); inset-inline-end: var(--dsgn-space-4); }
+
+/* Shop demo: the mug is drawn from palette steps, so it follows the theme; --glaze picks the colour. */
+.shop-header { position: relative; }
+.shop-page { padding-block: var(--dsgn-space-24) var(--dsgn-space-48); }
+.shop-price { margin: 0; font-variant-numeric: tabular-nums; }
+
+.dsgn-media > .shop-mug { display: block; inline-size: 100%; block-size: 100%; }
+.shop-mug-bg { fill: var(--dsgn-neutral-94); }
+.shop-mug-shadow { fill: var(--dsgn-neutral-85); }
+.shop-mug-body { fill: var(--dsgn-warning-90); }
+.shop-mug-glaze { fill: var(--glaze); }
+.shop-mug-rim { fill: var(--glaze-rim); }
+.shop-mug-handle { stroke: var(--glaze); }
+
+[data-glaze="brand"] { --glaze: var(--dsgn-accent-54); --glaze-rim: var(--dsgn-accent-38); }
+[data-glaze="sand"] { --glaze: var(--dsgn-warning-76); --glaze-rim: var(--dsgn-warning-64); }
+[data-glaze="charcoal"] { --glaze: var(--dsgn-neutral-30); --glaze-rim: var(--dsgn-neutral-22); }
+
+/* ── Theme customizer ──────────────────────────────────────────────────── */
+
+.tc-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--dsgn-space-32);
+  align-items: start;
+}
+
+@media (min-width: 64rem) {
+  .tc-layout { grid-template-columns: 22rem minmax(0, 1fr); }
+  .tc-controls {
+    position: sticky;
+    inset-block-start: calc(var(--dsgn-header-height, 4rem) + var(--dsgn-space-16));
+    max-block-size: calc(100dvh - var(--dsgn-header-height, 4rem) - var(--dsgn-space-32));
+    overflow-y: auto;
+  }
+}
+
+.tc-hex { font-family: var(--site-font-mono); text-transform: uppercase; }
+
+.tc-group {
+  display: grid;
+  gap: var(--dsgn-space-12);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-inline-size: 0;
+}
+
+.tc-details > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  list-style: none;
+}
+
+.tc-details > summary::-webkit-details-marker { display: none; }
+.tc-details[open] > summary .dsgn-icon { rotate: 180deg; }
+
+.tc-import { font-family: var(--site-font-mono); font-size: var(--dsgn-font-size-body-s); }
+
+.tc-output { min-inline-size: 0; }
+
+.tc-previews {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  border: var(--site-frame);
+}
+
+@media (min-width: 48rem) {
+  .tc-previews { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+.tc-preview {
+  min-inline-size: 0;
+  padding: var(--dsgn-space-24);
+  background: var(--dsgn-surface-base);
+  color: var(--dsgn-text);
+  font-family: var(--dsgn-font-sans);
+}
+
+.tc-report { display: grid; gap: var(--dsgn-space-4); }
+.tc-report[data-intent="success"] .sc-contrast { color: var(--dsgn-success-text); }
+.tc-report[data-intent="danger"] .sc-contrast { color: var(--dsgn-danger-text); }
+.tc-notes { margin: 0; padding-inline-start: var(--dsgn-space-16); }
+.tc-notes:empty { display: none; }
+.dsgn-hint[data-intent="danger"]:empty { display: none; }
+
+/* Component overview and details (Docs › Components). */
+.docs-component-list {
+  display: grid;
+  gap: var(--dsgn-space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.docs-component-list > li {
+  display: grid;
+  gap: var(--dsgn-space-2);
+  padding-block: var(--dsgn-space-8);
+  border-block-end: var(--dsgn-border-width) solid var(--dsgn-border);
+}
+
+.docs-component-list a { font-weight: var(--dsgn-font-weight-semibold); }
+.docs-component-list span { color: var(--dsgn-text-muted); font-size: var(--dsgn-font-size-body-s); line-height: var(--dsgn-line-height-body-s); }
+.docs-details dd { display: flex; flex-wrap: wrap; gap: var(--dsgn-space-4); }

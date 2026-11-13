@@ -1,0 +1,26 @@
+---
+layout: layouts/base.njk
+title: "Showcase"
+metaTitle: "Showcase — dsgn.systems"
+description: "Demos built with dsgn that you can make your own: change the brand colour and every mode, and copy the theme config."
+---
+    <div class="dsgn-container showcase">
+      <header class="showcase-head dsgn-stack" data-gap="s">
+        <p class="dsgn-eyebrow">Showcase</p>
+        <h1 class="dsgn-heading">Make it yours, live.</h1>
+        <p class="dsgn-lead">Each demo is a real interface built only from dsgn components. Change the brand colour, theme, density, corners and more, and copy the theme config when it looks right.</p>
+      </header>
+
+      <div class="dsgn-grid" data-cols="1" data-cols-tablet="2" data-cols-desktop="3">
+        <article class="dsgn-card">
+          <div class="dsgn-media dsgn-card-media"><img src="/img/docs/card-sample.svg" alt="" width="640" height="360"></div>
+          <h2 class="dsgn-card-title"><a class="dsgn-card-link" href="/showcase/billing/">Billing app</a></h2>
+          <p class="dsgn-card-text">An invoicing tool: app shell, stats, tabs, a table with statuses, an alert and a progress bar.</p>
+        </article>
+        <article class="dsgn-card">
+          <div class="dsgn-media dsgn-card-media" data-glaze="brand">{% include "svg/mug.svg" %}</div>
+          <h2 class="dsgn-card-title"><a class="dsgn-card-link" href="/showcase/shop/">Shop product page</a></h2>
+          <p class="dsgn-card-text">A ceramics shop: header, breadcrumbs, gallery, rating, option cards, quantity, a cart toast, accordion and reviews.</p>
+        </article>
+      </div>
+    </div>

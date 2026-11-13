@@ -1,0 +1,101 @@
+---
+layout: layouts/showcase.njk
+title: "Billing app"
+metaTitle: "Billing app — dsgn.systems showcase"
+description: "A billing app built with dsgn. Change the brand colour, theme, density, corners, shadows, material and lines, and copy the theme config."
+lead: "One app, any brand. Change the colour and the modes on the right: the demo is recoloured by the same theme engine that <code>npx dsgn theme</code> runs, and every colour pair is checked as you go."
+demo: { name: "Ledger", brand: "#2f6fed", theme: "light", density: "m", radius: "default", elevation: "flat", material: "solid", lines: "on" }
+---
+            <div class="dsgn-app demo-app">
+              <aside class="dsgn-app-sidebar">
+                <a class="dsgn-brand" href="#demo"><span class="dsgn-brand-mark" aria-hidden="true">L</span>Ledger</a>
+                <nav class="dsgn-nav" data-orientation="vertical" aria-label="Ledger">
+                  <a class="dsgn-nav-link" href="#demo"><span class="dsgn-icon" aria-hidden="true">space_dashboard</span>Overview</a>
+                  <a class="dsgn-nav-link" href="#demo" aria-current="page"><span class="dsgn-icon" aria-hidden="true">receipt_long</span>Invoices</a>
+                  <a class="dsgn-nav-link" href="#demo"><span class="dsgn-icon" aria-hidden="true">group</span>Clients</a>
+                  <a class="dsgn-nav-link" href="#demo"><span class="dsgn-icon" aria-hidden="true">bar_chart</span>Reports</a>
+                  <a class="dsgn-nav-link" href="#demo"><span class="dsgn-icon" aria-hidden="true">settings</span>Settings</a>
+                </nav>
+                <div class="dsgn-app-sidebar-footer dsgn-cluster" data-nowrap>
+                  <span class="dsgn-avatar" data-intent="accent" role="img" aria-label="Jana Dvořáková">JD</span>
+                  <span class="dsgn-body-s">Jana Dvořáková</span>
+                </div>
+              </aside>
+
+              <div class="dsgn-app-main">
+                <div class="dsgn-app-topbar">
+                  <div class="dsgn-input demo-search">
+                    <span class="dsgn-icon" aria-hidden="true">search</span>
+                    <input type="search" aria-label="Search invoices" placeholder="Search invoices">
+                  </div>
+                  <button class="dsgn-icon-button" data-variant="ghost" data-intent="neutral" type="button" aria-label="Notifications">
+                    <span class="dsgn-icon" aria-hidden="true">notifications</span>
+                  </button>
+                </div>
+
+                <div class="dsgn-app-content dsgn-stack" data-gap="l">
+                  <div class="dsgn-cluster" data-justify="between">
+                    <h2 class="dsgn-heading">Invoices</h2>
+                    <div class="dsgn-cluster">
+                      <button class="dsgn-button" data-variant="subtle" data-intent="neutral" type="button"><span class="dsgn-icon" aria-hidden="true">download</span>Export</button>
+                      <button class="dsgn-button" type="button"><span class="dsgn-icon" aria-hidden="true">add</span>New invoice</button>
+                    </div>
+                  </div>
+
+                  <div class="dsgn-grid" data-cols="1" data-cols-tablet="3">
+                    <div class="dsgn-stat">
+                      <p class="dsgn-stat-label">Outstanding</p>
+                      <p class="dsgn-stat-value">CZK 164 850</p>
+                      <p class="dsgn-stat-meta"><span class="dsgn-stat-delta" data-intent="danger"><span class="dsgn-icon" aria-hidden="true">trending_up</span>+12 %</span> vs last month</p>
+                    </div>
+                    <div class="dsgn-stat">
+                      <p class="dsgn-stat-label">Paid this month</p>
+                      <p class="dsgn-stat-value">CZK 286 400</p>
+                      <p class="dsgn-stat-meta"><span class="dsgn-stat-delta" data-intent="success"><span class="dsgn-icon" aria-hidden="true">trending_up</span>+8 %</span> vs last month</p>
+                    </div>
+                    <div class="dsgn-stat">
+                      <p class="dsgn-stat-label">Average days to pay</p>
+                      <p class="dsgn-stat-value">11</p>
+                      <p class="dsgn-stat-meta"><span class="dsgn-stat-delta" data-intent="success"><span class="dsgn-icon" aria-hidden="true">trending_down</span>−2 days</span> vs last month</p>
+                    </div>
+                  </div>
+
+                  <div class="dsgn-alert" data-intent="warning">
+                    <span class="dsgn-icon" aria-hidden="true">warning</span>
+                    <div class="dsgn-alert-body">
+                      <p class="dsgn-alert-title">2 invoices are overdue</p>
+                      <p>Novák Architects and Pekárna u Mlýna have not paid yet. Send a reminder?</p>
+                    </div>
+                  </div>
+
+                  <div class="dsgn-tabs">
+                    <div role="tablist" aria-label="Invoices">
+                      <button role="tab" class="dsgn-tab" aria-selected="true" aria-controls="demo-all" id="demo-tab-all">All</button>
+                      <button role="tab" class="dsgn-tab" aria-selected="false" aria-controls="demo-drafts" id="demo-tab-drafts" tabindex="-1">Drafts</button>
+                    </div>
+                    <div role="tabpanel" id="demo-all" aria-labelledby="demo-tab-all" class="dsgn-tabpanel">
+                      <div class="dsgn-table-wrap" tabindex="0" role="region" aria-label="All invoices">
+                        <table class="dsgn-table">
+                          <thead><tr><th scope="col">Number</th><th scope="col">Client</th><th scope="col">Due</th><th scope="col">Status</th><th scope="col" data-numeric>Amount (CZK)</th></tr></thead>
+                          <tbody>
+                            <tr><td>2026-118</td><td>Studio Kolo s.r.o.</td><td>28 Nov 2026</td><td><span class="dsgn-badge" data-intent="accent">Sent</span></td><td data-numeric>24 200</td></tr>
+                            <tr><td>2026-117</td><td>Novák Architects</td><td>2 Nov 2026</td><td><span class="dsgn-badge" data-intent="danger" data-variant="solid">Overdue</span></td><td data-numeric>132 000</td></tr>
+                            <tr><td>2026-116</td><td>Pekárna u Mlýna</td><td>5 Nov 2026</td><td><span class="dsgn-badge" data-intent="danger" data-variant="solid">Overdue</span></td><td data-numeric>8 650</td></tr>
+                            <tr><td>2026-115</td><td>Kavárna Lípa</td><td>30 Oct 2026</td><td><span class="dsgn-badge" data-intent="success">Paid</span></td><td data-numeric>12 900</td></tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                    <div role="tabpanel" id="demo-drafts" aria-labelledby="demo-tab-drafts" class="dsgn-tabpanel" hidden>
+                      <p class="dsgn-muted">One draft: invoice 2026-119 for Studio Kolo, not sent yet.</p>
+                    </div>
+                  </div>
+
+                  <article class="dsgn-card">
+                    <h3 class="dsgn-card-title" id="demo-goal">Monthly goal</h3>
+                    <progress class="dsgn-progress" value="72" max="100" aria-labelledby="demo-goal">72 %</progress>
+                    <p class="dsgn-card-text">CZK 286 400 of CZK 400 000 invoiced in November.</p>
+                  </article>
+                </div>
+              </div>
+            </div>

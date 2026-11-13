@@ -1,0 +1,44 @@
+---
+layout: layouts/base.njk
+---
+{%- set pager = docsNav | docsPager(page.url) -%}
+{%- set prev = pager.prev -%}{%- set next = pager.next -%}
+{%- macro docsLinks(label) -%}
+<nav class="dsgn-nav" data-orientation="vertical" aria-label="{{ label }}">
+  {%- for group in docsNav %}
+  <p class="dsgn-nav-label">{{ group.title }}</p>
+  {%- for item in group.items %}
+  <a class="dsgn-nav-link" href="{{ item.href }}"{% if item.href == page.url %} aria-current="page"{% endif %}>{{ item.label }}</a>
+  {%- endfor %}
+  {%- endfor %}
+</nav>
+{%- endmacro %}
+    <div class="dsgn-container docs">
+      <aside class="docs-sidebar" data-hide-below="desktop">
+        {{ docsLinks("Documentation") }}
+      </aside>
+
+      <article class="docs-main">
+        <details class="docs-mobile-nav" data-hide-above="tablet">
+          <summary>Documentation<span class="dsgn-icon" aria-hidden="true">expand_more</span></summary>
+          {{ docsLinks("Documentation, mobile") }}
+        </details>
+
+        <header class="docs-header dsgn-stack" data-gap="s">
+          {%- if eyebrow %}<p class="dsgn-eyebrow">{{ eyebrow }}</p>{% endif %}
+          <h1 class="dsgn-heading">{{ heading or title }}</h1>
+          {%- if lead %}<p class="dsgn-lead">{{ lead }}</p>{% endif %}
+        </header>
+
+        <div class="docs-prose">
+{{ content | safe }}
+        </div>
+
+        {%- if prev or next %}
+        <nav class="docs-pager" aria-label="Previous and next page">
+          {%- if prev %}<a class="dsgn-button" data-variant="subtle" data-intent="neutral" href="{{ prev.href }}" rel="prev"><span class="dsgn-icon" aria-hidden="true">arrow_back</span>{{ prev.label }}</a>{% endif %}
+          {%- if next %}<a class="dsgn-button" data-variant="subtle" data-intent="neutral" href="{{ next.href }}" rel="next">{{ next.label }}<span class="dsgn-icon" data-end aria-hidden="true">arrow_forward</span></a>{% endif %}
+        </nav>
+        {%- endif %}
+      </article>
+    </div>

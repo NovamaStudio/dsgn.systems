@@ -15,7 +15,10 @@ finished, and do not push, before this list passes. If a step cannot be done, sa
    description above the `— Code —` marker. Check instances on all pages (Templates included) keep their overrides.
 3. **Docs** — `src/docs/examples.mjs` (examples, notes, `figma: [...]` list), the skill
    `skills/dsgn-systems/SKILL.md` (component reference and the Figma → code table), `README.md`,
-   `figma/README.md` when the workflow changes.
+   `figma/README.md` when the workflow changes. The website (`site/`, dsgn.systems) builds its component
+   pages from the same `examples.mjs` and CSS header comments, so they follow by themselves; a component
+   with a hand-written guide in `site/src/_guides/<key>.md` needs that guide updated too. Foundations,
+   changelog and numbers on the site come from `dist/` and `CHANGELOG.md`.
 4. **Handoff map** — `src/docs/figma-map.mjs`: every Figma variant value and boolean mapped to code.
 5. **Preview** — `build/preview.mjs` shows every class (the build fails otherwise); republish the
    "dsgn tokens" artifact (https://claude.ai/artifact/WSv2wxrzLBYBcWULwM2FgZ) from `dist/preview.html`.
@@ -28,8 +31,9 @@ finished, and do not push, before this list passes. If a step cannot be done, sa
    that runs all four unchanged, and save its output with `node build/save-reports.mjs`.
 8. **Build + tests** — `npm run build` must print `sync: … ✓` (it fails when a report is missing, not ok,
    built from older code, or the three reports ran on different Figma states — so any later edit in
-   Figma means running all three again). Then `CHROMIUM=/opt/pw-browsers/chromium npm test`.
-9. **Sweep for leftovers** — grep code, docs, built `dist/docs.html`, Figma descriptions and page texts
+   Figma means running all three again). Then `CHROMIUM=/opt/pw-browsers/chromium npm test`, then
+   `npm run site:check` (website build, CSS lint, links and ids).
+9. **Sweep for leftovers** — grep code, docs, built `dist/docs.html`, `site/`, Figma descriptions and page texts
    for the old names of anything renamed or removed.
 10. **Commit and push**, then tell the user what changed in each place (code, Figma, docs, handoff).
 

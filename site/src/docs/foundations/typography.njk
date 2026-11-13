@@ -1,0 +1,51 @@
+---
+title: "Typography"
+eyebrow: "Foundations"
+lead: "Seven text styles, each a class with the same name as its Figma text style. Every line height sits on the 4 px grid, so text and controls line up."
+description: "dsgn typography: seven text styles from caption to display, their sizes and line heights, and the helper classes for leads, muted text and eyebrows."
+---
+<h2 id="text-styles">Text styles</h2>
+<p>Put the class on any element: the style says how text looks, the element says what it is. A section title can be an <code>&lt;h2&gt;</code> with <code>dsgn-heading</code> on one page and <code>dsgn-heading-s</code> on another.</p>
+<div class="type-specimens">
+  {%- for t in tokens.type | reverse %}
+  <div class="type-specimen">
+    <p class="type-meta"><code>.dsgn-{{ t.name }}</code><span>{{ t.size }} / {{ t.lineHeight }} px · {{ "semibold" if t.weight >= 600 else "regular" }}</span></p>
+    <p class="dsgn-{{ t.name }}">Invoices paid on time</p>
+  </div>
+  {%- endfor %}
+</div>
+
+<div class="dsgn-table-wrap" tabindex="0" role="region" aria-label="Text styles">
+  <table class="dsgn-table">
+    <thead><tr><th scope="col">Class</th><th scope="col" data-numeric>Size</th><th scope="col" data-numeric>Line height</th><th scope="col" data-numeric>Weight</th><th scope="col">Use for</th></tr></thead>
+    <tbody>
+      {%- set uses = {
+        "display": "The one big title of a landing page or an empty state.",
+        "heading": "Page titles.",
+        "heading-s": "Section titles inside a page.",
+        "title": "Card, dialog and panel titles.",
+        "body": "Running text.",
+        "body-s": "Dense UI text, table cells, secondary text.",
+        "caption": "Labels under images, timestamps, legal lines."
+      } %}
+      {%- for t in tokens.type | reverse %}
+      <tr><th scope="row"><code>.dsgn-{{ t.name }}</code></th><td data-numeric>{{ t.size }} px</td><td data-numeric>{{ t.lineHeight }} px</td><td data-numeric>{{ t.weight }}</td><td>{{ uses[t.name] }}</td></tr>
+      {%- endfor %}
+    </tbody>
+  </table>
+</div>
+
+<h2 id="helpers">Helpers</h2>
+<p>Three classes cover the rest: <code>dsgn-lead</code> for intro paragraphs, <code>dsgn-muted</code> for secondary text and <code>dsgn-eyebrow</code> for the small label above a heading.</p>
+{% example "An eyebrow, a heading and a lead" %}
+<div class="dsgn-stack" data-gap="s">
+  <p class="dsgn-eyebrow">Billing</p>
+  <h2 class="dsgn-heading">Invoices</h2>
+  <p class="dsgn-lead">Everything you sent this year, newest first.</p>
+  <p class="dsgn-body-s dsgn-muted">Updated 5 minutes ago.</p>
+</div>
+{% endexample %}
+
+<h2 id="font">The font</h2>
+<p>dsgn sets text in Inter. Fonts are not bundled, so load it yourself (see <a href="/docs/#load-the-fonts">Load the fonts</a>). A project theme can switch to another family; the sizes and line heights stay, so a different font never shifts the layout grid.</p>
+<p>Sizes are in <code>rem</code>-based units: when a reader sets a larger default font size in the browser, all text grows with it, and the 2 px grid snapping keeps it sharp.</p>

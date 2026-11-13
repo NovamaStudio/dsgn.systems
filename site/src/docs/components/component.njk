@@ -1,0 +1,56 @@
+---
+pagination:
+  data: components.list
+  size: 1
+  alias: c
+permalink: "{{ c.href }}"
+eleventyComputed:
+  title: "{{ c.name }}"
+  eyebrow: "{{ c.group }}"
+  lead: "{{ c.lead }}"
+  description: "{{ c.name }} in dsgn.systems: {{ c.lead }}"
+---
+{#- One page per component, generated from src/components/<key>.css and src/docs/examples.mjs. #}
+<div class="dsgn-cluster">
+  {%- if c.needsJs %}<span class="dsgn-badge" data-intent="accent">Needs dsgn.js</span>{% else %}<span class="dsgn-badge">CSS only</span>{% endif %}
+  <span class="dsgn-badge"><code>components/{{ c.key }}.css</code></span>
+</div>
+
+{%- if c.guide %}
+{% renderFile c.guide, {}, "njk,md" %}
+{%- else %}
+{%- for e in c.examples %}
+<h2 id="example-{{ loop.index }}">{{ e.title }}</h2>
+{%- if e.note %}<p>{{ e.note }}</p>{% endif %}
+{{ e | example | safe }}
+{%- endfor %}
+{%- endif %}
+
+{%- if c.prose.length %}
+<h2 id="usage">Usage</h2>
+{%- for para in c.prose %}
+<p>{{ para }}</p>
+{%- endfor %}
+{%- endif %}
+
+{%- if c.api.length %}
+<h2 id="attributes">Attributes</h2>
+<div class="dsgn-table-wrap" tabindex="0" role="region" aria-label="{{ c.name }} attributes">
+  <table class="dsgn-table">
+    <thead><tr><th scope="col">Attribute</th><th scope="col">Values and notes</th></tr></thead>
+    <tbody>
+      {%- for a in c.api %}
+      <tr><th scope="row"><code>{{ a[0] }}</code></th><td>{{ a[1] or "—" }}</td></tr>
+      {%- endfor %}
+    </tbody>
+  </table>
+</div>
+{%- endif %}
+
+<h2 id="details">Details</h2>
+<dl class="dsgn-dl docs-details">
+  <div><dt>Classes</dt><dd>{% for x in c.classes %}<code>.{{ x }}</code> {% endfor %}</dd></div>
+  <div><dt>Tokens used</dt><dd>{% for t in c.tokens %}<code>{{ t }}</code> {% else %}—{% endfor %}</dd></div>
+  <div><dt>In Figma</dt><dd>{{ c.figma | join(" · ") }}</dd></div>
+  <div><dt>Import alone</dt><dd><code>dsgn.systems/components/{{ c.key }}.css</code></dd></div>
+</dl>

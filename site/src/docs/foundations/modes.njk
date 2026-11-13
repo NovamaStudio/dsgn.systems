@@ -1,0 +1,67 @@
+---
+title: "Modes"
+eyebrow: "Foundations"
+lead: "Six switches change how the whole system looks: theme, density, corners, shadows, material and lines. Each one is a data attribute on the page or on any section."
+description: "dsgn modes: data-theme, data-density, data-radius, data-elevation, data-material and data-lines — what each changes and how to scope it to a section."
+---
+<h2 id="how-modes-work">How modes work</h2>
+<p>A mode is a data attribute. On <code>&lt;html&gt;</code> it sets the whole page; on any element it sets that part only, and modes nest. Components read tokens, the attribute swaps the tokens, so nothing else in your markup changes. In Figma the same switches are variable modes with the same names.</p>
+<pre class="code"><code>&lt;html data-theme="dark" data-density="s" data-radius="rounded"&gt;
+  …
+  &lt;section data-theme="light"&gt;a light band on a dark page&lt;/section&gt;</code></pre>
+
+<div class="dsgn-table-wrap" tabindex="0" role="region" aria-label="Modes">
+  <table class="dsgn-table">
+    <thead><tr><th scope="col">Attribute</th><th scope="col">Values</th><th scope="col">Changes</th></tr></thead>
+    <tbody>
+      <tr><th scope="row"><code>data-theme</code></th><td><code>light</code>, <code>dark</code></td><td>Every colour. Without it, the page follows the system setting.</td></tr>
+      <tr><th scope="row"><code>data-density</code></th><td><code>s</code>, <code>m</code>, <code>l</code></td><td>Control size, padding inside containers, table rows. Touch screens default to <code>l</code>.</td></tr>
+      <tr><th scope="row"><code>data-radius</code></th><td><code>sharp</code>, <code>default</code>, <code>rounded</code>, <code>pill</code></td><td>All three corner radii.</td></tr>
+      <tr><th scope="row"><code>data-elevation</code></th><td><code>flat</code>, <code>soft</code></td><td>Shadows under controls and raised surfaces. Overlays always keep theirs.</td></tr>
+      <tr><th scope="row"><code>data-material</code></th><td><code>solid</code>, <code>glass</code></td><td>Header, top bar and other chrome: opaque, or frosted with background blur.</td></tr>
+      <tr><th scope="row"><code>data-lines</code></th><td><code>on</code>, <code>minimal</code>, <code>none</code></td><td>Container outlines and separators between rows.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h2 id="theme">Theme</h2>
+<p>Light and dark use the same palettes at different steps, so contrast holds in both. Without <code>data-theme</code>, the page follows the reader's system setting; set <code>data-theme="light"</code> to opt out. A dark band on a light page is one attribute on the section.</p>
+{% example "The same card in light and dark" %}
+<div class="dsgn-grid" data-cols="1" data-cols-tablet="2">
+  <div class="mode-panel" data-theme="light"><article class="dsgn-card"><h3 class="dsgn-card-title">Light</h3><p class="dsgn-card-text">Invoice 2026-114 is due in 14 days.</p><div class="dsgn-card-actions"><button class="dsgn-button" type="button">Pay now</button></div></article></div>
+  <div class="mode-panel" data-theme="dark"><article class="dsgn-card"><h3 class="dsgn-card-title">Dark</h3><p class="dsgn-card-text">Invoice 2026-114 is due in 14 days.</p><div class="dsgn-card-actions"><button class="dsgn-button" type="button">Pay now</button></div></article></div>
+</div>
+{% endexample %}
+
+<h2 id="density">Density</h2>
+<p>S suits data-heavy tools, M is the default, L suits touch and public kiosks. See <a href="/docs/foundations/spacing/#density">Spacing and size</a> for every value.</p>
+
+<h2 id="radius">Corners</h2>
+<p>From square to fully round buttons. See <a href="/docs/foundations/spacing/#radius">Corner radius</a> for the values and a live comparison.</p>
+
+<h2 id="elevation">Shadows</h2>
+<p><code>flat</code> (the default) separates surfaces with borders only; <code>soft</code> adds a light shadow under controls and raised surfaces. Dialogs, menus and toasts always keep their shadow, because they float above the page.</p>
+{% example "Flat and soft elevation" %}
+<div class="dsgn-grid" data-cols="1" data-cols-tablet="2">
+  <div class="mode-panel" data-elevation="flat"><article class="dsgn-card"><h3 class="dsgn-card-title">Flat</h3><p class="dsgn-card-text">Borders only.</p><div class="dsgn-card-actions"><button class="dsgn-button" data-variant="subtle" data-intent="neutral" type="button">Details</button></div></article></div>
+  <div class="mode-panel" data-elevation="soft"><article class="dsgn-card"><h3 class="dsgn-card-title">Soft</h3><p class="dsgn-card-text">A light shadow underneath.</p><div class="dsgn-card-actions"><button class="dsgn-button" data-variant="subtle" data-intent="neutral" type="button">Details</button></div></article></div>
+</div>
+{% endexample %}
+
+<h2 id="material">Material</h2>
+<p><code>glass</code> makes the page chrome frosted: the header and the app top bar let the content behind show through, blurred. Where the browser has no blur, or the reader asks for less transparency, it falls back to solid. A header can also be frosted on its own with <code>data-surface="glass"</code>, as on this site: scroll and watch the content pass under it.</p>
+
+<h2 id="lines">Lines</h2>
+<p><code>on</code> draws container outlines and separators. <code>minimal</code> drops the outlines around cards and alerts but keeps separators between rows. <code>none</code> removes both, for layouts that separate by space and surface colour alone.</p>
+{% example "Lines on, minimal and none" %}
+<div class="dsgn-grid" data-cols="1" data-cols-desktop="3">
+  {%- for mode in ["on", "minimal", "none"] %}
+  <div class="mode-panel" data-lines="{{ mode }}">
+    <article class="dsgn-card">
+      <h3 class="dsgn-card-title">{{ mode | capitalize }}</h3>
+      <dl class="dsgn-dl"><div><dt>Client</dt><dd>Studio Kolo</dd></div><div><dt>Total</dt><dd>CZK 24 200</dd></div></dl>
+    </article>
+  </div>
+  {%- endfor %}
+</div>
+{% endexample %}

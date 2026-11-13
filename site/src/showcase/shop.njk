@@ -1,0 +1,119 @@
+---
+layout: layouts/showcase.njk
+title: "Shop product page"
+metaTitle: "Shop product page — dsgn.systems showcase"
+description: "A product page for a ceramics shop built with dsgn. Change the brand colour and every mode, and copy the theme config."
+lead: "A shop, not an app: a product page with a gallery, ratings, options, a cart toast and reviews. Even the product picture is drawn from the theme, so it recolours with the brand."
+demo: { name: "Hlína", brand: "#b4532a", theme: "light", density: "m", radius: "rounded", elevation: "soft", material: "solid", lines: "minimal", tint: true }
+---
+            <header class="dsgn-header shop-header" data-layout="start" data-sticky="false">
+              <div class="dsgn-container dsgn-cluster" data-justify="between" data-nowrap>
+                <a class="dsgn-brand" href="#demo"><span class="dsgn-brand-mark" aria-hidden="true">H</span>Hlína</a>
+                <nav class="dsgn-nav" data-variant="text" aria-label="Hlína shop" data-hide-below="tablet">
+                  <a class="dsgn-nav-link" href="#demo" aria-current="page">Shop</a>
+                  <a class="dsgn-nav-link" href="#demo">Workshops</a>
+                  <a class="dsgn-nav-link" href="#demo">Studio</a>
+                </nav>
+                <div class="dsgn-cluster dsgn-header-actions" data-nowrap>
+                  <button class="dsgn-icon-button" data-variant="ghost" data-intent="neutral" type="button" aria-label="Search the shop"><span class="dsgn-icon" aria-hidden="true">search</span></button>
+                  <button class="dsgn-button" data-variant="subtle" data-intent="neutral" type="button"><span class="dsgn-icon" aria-hidden="true">shopping_bag</span>Cart<span class="dsgn-badge" data-intent="accent" data-variant="solid" id="shop-cart-count">2</span></button>
+                </div>
+              </div>
+            </header>
+
+            <div class="dsgn-container shop-page dsgn-stack" data-gap="xl">
+              <nav class="dsgn-breadcrumbs" aria-label="Breadcrumb">
+                <ol>
+                  <li><a href="#demo">Shop</a></li>
+                  <li><a href="#demo">Mugs</a></li>
+                  <li><a aria-current="page">Stoneware mug</a></li>
+                </ol>
+              </nav>
+
+              <div class="dsgn-split shop-product" data-side="half" data-gap="xl" data-glaze="brand">
+                <div class="dsgn-stack" data-gap="s">
+                  <div class="dsgn-media" data-ratio="1:1">{% include "svg/mug.svg" %}</div>
+                  <div class="dsgn-grid" data-cols="3">
+                    <div class="dsgn-media" data-ratio="1:1" data-glaze="brand">{% include "svg/mug.svg" %}</div>
+                    <div class="dsgn-media" data-ratio="1:1" data-glaze="sand">{% include "svg/mug.svg" %}</div>
+                    <div class="dsgn-media" data-ratio="1:1" data-glaze="charcoal">{% include "svg/mug.svg" %}</div>
+                  </div>
+                </div>
+
+                <form class="dsgn-stack" data-gap="l" id="shop-form">
+                  <div class="dsgn-stack" data-gap="s">
+                    <p class="dsgn-eyebrow">Handmade in Brno</p>
+                    <h2 class="dsgn-heading">Stoneware mug, 350 ml</h2>
+                    <div class="dsgn-cluster">
+                      <span class="dsgn-rating" role="img" aria-label="4 out of 5 stars">
+                        <span class="dsgn-icon" data-fill aria-hidden="true">star</span><span class="dsgn-icon" data-fill aria-hidden="true">star</span><span class="dsgn-icon" data-fill aria-hidden="true">star</span><span class="dsgn-icon" data-fill aria-hidden="true">star</span><span class="dsgn-icon" aria-hidden="true">star</span>
+                      </span>
+                      <a class="dsgn-link dsgn-body-s" href="#shop-reviews">48 reviews</a>
+                    </div>
+                  </div>
+                  <p class="dsgn-heading-s shop-price">CZK 690</p>
+                  <p class="dsgn-body">Thrown on the wheel and fired twice, so it keeps coffee hot and goes in the dishwasher. Every mug comes out a little different.</p>
+
+                  <div class="dsgn-field">
+                    <span class="dsgn-label" id="shop-glaze-label">Glaze</span>
+                    <div class="dsgn-option-cards" role="radiogroup" aria-labelledby="shop-glaze-label">
+                      <label class="dsgn-option-card"><input type="radio" class="dsgn-radio" name="glaze" value="brand" checked><span class="dsgn-option-card-body"><span class="dsgn-option-card-title">Kiln red</span><span class="dsgn-option-card-text">Our signature glaze.</span></span></label>
+                      <label class="dsgn-option-card"><input type="radio" class="dsgn-radio" name="glaze" value="sand"><span class="dsgn-option-card-body"><span class="dsgn-option-card-title">Sand</span><span class="dsgn-option-card-text">Matte, warm and quiet.</span></span></label>
+                      <label class="dsgn-option-card"><input type="radio" class="dsgn-radio" name="glaze" value="charcoal"><span class="dsgn-option-card-body"><span class="dsgn-option-card-title">Charcoal</span><span class="dsgn-option-card-text">Deep grey with a speckle.</span></span><span class="dsgn-option-card-meta">+ CZK 60</span></label>
+                    </div>
+                  </div>
+
+                  <div class="dsgn-field">
+                    <label class="dsgn-label" for="shop-qty">Quantity</label>
+                    <div class="dsgn-input dsgn-number">
+                      <button type="button" class="dsgn-field-button" data-step="down" aria-label="One less"><span class="dsgn-icon" aria-hidden="true">remove</span></button>
+                      <input type="number" id="shop-qty" value="1" min="1" max="12" inputmode="numeric">
+                      <button type="button" class="dsgn-field-button" data-step="up" aria-label="One more"><span class="dsgn-icon" aria-hidden="true">add</span></button>
+                    </div>
+                  </div>
+
+                  <div class="dsgn-cluster">
+                    <button class="dsgn-button" type="submit"><span class="dsgn-icon" aria-hidden="true">shopping_bag</span>Add to cart</button>
+                    <button class="dsgn-icon-button" data-variant="ghost" data-intent="neutral" type="button" aria-pressed="false" aria-label="Save to favourites" data-toggle-pressed><span class="dsgn-icon" aria-hidden="true">favorite</span></button>
+                  </div>
+
+                  <ul class="dsgn-list" data-variant="plain">
+                    <li><div class="dsgn-list-item"><span class="dsgn-icon" aria-hidden="true">local_shipping</span><div class="dsgn-list-item-content"><p class="dsgn-list-item-title">Ships in 2 days</p><p class="dsgn-list-item-text">Free delivery over CZK 1 500.</p></div></div></li>
+                    <li><div class="dsgn-list-item"><span class="dsgn-icon" aria-hidden="true">autorenew</span><div class="dsgn-list-item-content"><p class="dsgn-list-item-title">30 days to return</p><p class="dsgn-list-item-text">Unused and in the original box.</p></div></div></li>
+                  </ul>
+                </form>
+              </div>
+
+              <div class="dsgn-accordion">
+                <details name="shop-info" open>
+                  <summary>Details<span class="dsgn-icon" aria-hidden="true">expand_more</span></summary>
+                  <div class="dsgn-accordion-content"><p>Stoneware clay, 350 ml, 9 cm tall. Glazed inside and out, unglazed foot.</p></div>
+                </details>
+                <details name="shop-info">
+                  <summary>Care<span class="dsgn-icon" aria-hidden="true">expand_more</span></summary>
+                  <div class="dsgn-accordion-content"><p>Dishwasher and microwave safe. Avoid sudden jumps from the freezer to boiling water.</p></div>
+                </details>
+                <details name="shop-info">
+                  <summary>Shipping<span class="dsgn-icon" aria-hidden="true">expand_more</span></summary>
+                  <div class="dsgn-accordion-content"><p>Packed in recycled paper. Czechia in 2 days, the rest of the EU in 4 to 6.</p></div>
+                </details>
+              </div>
+
+              <section class="dsgn-stack" data-gap="l" id="shop-reviews" aria-labelledby="shop-reviews-title">
+                <h2 class="dsgn-heading-s" id="shop-reviews-title">What buyers say</h2>
+                <div class="dsgn-grid" data-cols="1" data-cols-tablet="3">
+                  {%- for r in [["EK", "Eva Kratochvílová", "Bought 4 mugs", "Heavier than it looks, in a good way. The glaze is even nicer in person.", 5], ["TS", "Tomáš Svoboda", "Bought a gift", "Arrived in two days, wrapped without plastic. My mum uses it every morning.", 5], ["LP", "Lucie Procházková", "Bought 2 mugs", "Lovely shape. One handle is a bit smaller than the other, which I actually like.", 4]] %}
+                  <figure class="dsgn-card dsgn-testimonial">
+                    <figcaption class="dsgn-testimonial-author">
+                      <span class="dsgn-avatar" aria-hidden="true">{{ r[0] }}</span>
+                      <span class="dsgn-testimonial-person"><span class="dsgn-testimonial-name">{{ r[1] }}</span><span class="dsgn-testimonial-role">{{ r[2] }}</span></span>
+                    </figcaption>
+                    <blockquote class="dsgn-testimonial-quote"><p>{{ r[3] }}</p></blockquote>
+                    <span class="dsgn-rating" data-size="s" role="img" aria-label="{{ r[4] }} out of 5 stars">
+                      {%- for i in range(5) %}<span class="dsgn-icon"{% if i < r[4] %} data-fill{% endif %} aria-hidden="true">star</span>{% endfor -%}
+                    </span>
+                  </figure>
+                  {%- endfor %}
+                </div>
+              </section>
+            </div>
