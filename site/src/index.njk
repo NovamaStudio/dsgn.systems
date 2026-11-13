@@ -7,9 +7,15 @@ title: dsgn.systems — CSS design system with guaranteed contrast
 description: "Token-driven CSS design system: plain HTML classes, OKLCH colours with guaranteed contrast, light and dark, density and corner modes, mirrored 1:1 in Figma."
 ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode one attribute away, mirrored 1:1 in Figma.
 ---
-    <!-- Hero: the first fold, always dark. Copy at the top, four animated symbols pinned to the
-         bottom of the fold and cropped by the right and bottom edges. The CTAs live in the header. -->
+    <!-- Hero: the first fold, always dark. One large symbol (square, circle, triangle, diamond in
+         turn) sits behind the copy in a dark grey, cropped by the right and bottom edges.
+         The CTAs live in the header. -->
     <section class="hero" data-theme="dark" aria-labelledby="hero-title">
+      <figure class="hero-mark">
+        {% include "svg/hero-symbol.svg" %}
+        <figcaption class="dsgn-visually-hidden">The dsgn symbol, turning from a square into a circle, a triangle and a diamond, drawn from eight rows whose thickness follows the spacing scale 2 to 32.</figcaption>
+      </figure>
+
       <div class="dsgn-container hero-inner">
         <p class="dsgn-eyebrow hero-eyebrow">CSS design system · v{{ dsgn.minor }} · MIT</p>
         <h1 class="hero-title" id="hero-title">Accessible UI from plain&nbsp;HTML.</h1>
@@ -24,15 +30,9 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
         </div>
       </div>
 
-      <div class="hero-stage">
-        <button class="dsgn-icon-button hero-control" data-variant="ghost" data-intent="neutral" type="button" aria-pressed="false" data-motion-toggle aria-label="Pause logo animation">
-          <span class="dsgn-icon" aria-hidden="true">pause</span>
-        </button>
-        <figure class="hero-mark">
-          {% include "svg/hero-symbols.svg" %}
-          <figcaption class="dsgn-visually-hidden">The dsgn symbols, a square, circle, triangle and diamond, drawn from eight rows whose thickness follows the spacing scale 2 to 32.</figcaption>
-        </figure>
-      </div>
+      <button class="dsgn-icon-button hero-control" data-variant="ghost" data-intent="neutral" type="button" aria-pressed="false" data-motion-toggle aria-label="Pause logo animation">
+        <span class="dsgn-icon" aria-hidden="true">pause</span>
+      </button>
     </section>
 
     <!-- Numbers -->

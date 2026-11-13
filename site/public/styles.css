@@ -107,16 +107,17 @@ code {
 }
 
 /* Hero: the whole first fold, always dark (data-theme="dark"; the header follows it with
-   data-top-theme="dark" while at the top). Copy at the top, the four symbols pinned to the bottom
-   of the fold and cropped by the right and bottom edges of the page. */
+   data-top-theme="dark" while at the top). The copy is centred in the fold; one large symbol sits
+   behind it in a dark grey that keeps the copy above 4.5:1, cropped by the right and bottom edges. */
 
 .hero {
+  --site-hero-symbol: var(--dsgn-neutral-26);
   position: relative;
   display: flex;
   flex-direction: column;
   min-block-size: 100svh;
   overflow: clip;
-  padding-block-start: calc(var(--dsgn-header-height, 4rem) + var(--dsgn-space-48));
+  padding-block: calc(var(--dsgn-header-height, 4rem) + var(--dsgn-space-48)) var(--dsgn-space-64);
   background: var(--dsgn-surface-base);
   color: var(--dsgn-text);
 }
@@ -125,8 +126,8 @@ code {
   position: relative;
   z-index: 1;
   display: grid;
-  margin-block: auto;
   gap: var(--dsgn-space-24) var(--dsgn-space-64);
+  margin-block: auto;
 }
 
 .hero-eyebrow { margin: 0; }
@@ -142,8 +143,8 @@ code {
 
 .hero-body { max-inline-size: 34rem; }
 
-/* Tablet: the title on its own, copy below it in a narrower column. Desktop: title in 8 of 12
-   columns, the copy in the last 4, its bottom on the title's last line. */
+/* Tablet: the title on its own, copy below it. Desktop: title in 8 of 12 columns, the copy in the
+   last 4, its bottom on the title's last line. */
 @media (min-width: 48rem) {
   .hero-title { font-size: min(9vw, calc(var(--dsgn-font-size-display) * 3)); }
 }
@@ -155,43 +156,36 @@ code {
   .hero-body { grid-column: 9 / -1; padding-block-end: var(--dsgn-space-8); }
 }
 
-/* The symbols start a little in from the left edge and run off the right one: phones and portrait
-   tablets show two and a half, landscape screens three and half of the fourth. The bottom row is
-   cut by the fold. The pause button sits in the band above them. */
-.hero-stage {
-  position: relative;
-  padding-block-start: var(--dsgn-space-64);
-}
-
+/* The symbol box is the board's 200 units; the shape fills 41..159 of it (0.59 of the box).
+   It is placed by its box so that 15 % of the shape runs off the right edge and 30 % off the
+   bottom: as tall as the fold on landscape screens, as wide as the screen on portrait ones. */
 .hero-mark {
+  --site-hero-size: 165vw;
+  position: absolute;
+  inset: 0;
   margin: 0;
-  padding-inline-start: 4vw;
+  pointer-events: none;
 }
 
-.hero-symbols {
-  display: block;
-  inline-size: 150vw;
+@media (min-aspect-ratio: 1) {
+  .hero-mark { --site-hero-size: min(170svh, 115vw); }
+}
+
+.hero-symbol {
+  position: absolute;
+  inline-size: var(--site-hero-size);
+  block-size: var(--site-hero-size);
   max-inline-size: none;
-  block-size: auto;
-  margin-block-end: -3vw;
+  inset-block-end: calc(var(--site-hero-size) * -0.382);
+  inset-inline-end: calc(var(--site-hero-size) * -0.2935);
   overflow: visible;
-  fill: currentColor;
+  fill: var(--site-hero-symbol);
 }
-
-@media (min-width: 48rem) and (min-aspect-ratio: 1) {
-  .hero-mark { padding-inline-start: 10vw; }
-  .hero-symbols { inline-size: 105vw; margin-block-end: -2vw; }
-}
-
-/* Four copies of one loop, each 2 s further on, so the row always shows four different shapes. */
-.hero-symbols > svg:nth-of-type(2) path { animation-delay: -2s; }
-.hero-symbols > svg:nth-of-type(3) path { animation-delay: -4s; }
-.hero-symbols > svg:nth-of-type(4) path { animation-delay: -6s; }
 
 .hero-control {
   position: absolute;
   z-index: 2;
-  inset-block-start: var(--dsgn-space-12);
+  inset-block-end: var(--dsgn-space-16);
   inset-inline-end: var(--dsgn-page-margin, var(--dsgn-space-16));
 }
 
@@ -202,7 +196,7 @@ code {
 
 @supports (animation-timeline: scroll()) {
   @media (prefers-reduced-motion: no-preference) {
-    .hero-symbols {
+    .hero-symbol {
       animation: hero-drift linear both;
       animation-timeline: scroll(root);
       animation-range: 0 100svh;
