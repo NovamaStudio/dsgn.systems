@@ -46,8 +46,23 @@
     });
   });
 
-  // Logo animation: pause and resume (WCAG 2.2.2). The choice is remembered per visitor.
   var root = document.documentElement;
+
+  // Header wordmark: the rows draw in once on load; hovering the brand draws them again.
+  // Re-adding the class restarts the CSS animations (logo-motion.css).
+  document.querySelectorAll('.site-brand .logo-letters').forEach(function (mark) {
+    var busy = false;
+    mark.closest('.site-brand').addEventListener('pointerenter', function () {
+      if (busy || root.getAttribute('data-motion') === 'off') return;
+      busy = true;
+      mark.classList.remove('logo-letters');
+      void mark.getBoundingClientRect();
+      mark.classList.add('logo-letters');
+      window.setTimeout(function () { busy = false; }, 1600);
+    });
+  });
+
+  // Logo animation: pause and resume (WCAG 2.2.2). The choice is remembered per visitor.
   var KEY = 'dsgn-landing-motion';
 
   function setMotion(off) {

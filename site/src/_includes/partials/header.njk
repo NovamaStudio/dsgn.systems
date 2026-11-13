@@ -1,7 +1,7 @@
-  <header class="dsgn-header" data-layout="start" data-surface="{{ headerSurface or 'glass' }}">
+  <header class="dsgn-header" data-layout="start" data-surface="{{ headerSurface or 'glass' }}"{% if headerTopTheme %} data-top-theme="{{ headerTopTheme }}"{% endif %}>
     <div class="dsgn-container dsgn-cluster" data-justify="between" data-nowrap>
       <a class="dsgn-brand site-brand" href="/" aria-label="dsgn.systems, home">
-        <svg class="site-wordmark" aria-hidden="true" focusable="false"><use href="#dsgn-wordmark"></use></svg>
+        {% include "svg/wordmark.svg" %}
       </a>
       <nav class="dsgn-nav" data-variant="text" aria-label="Main" data-hide-below="desktop">
         {%- for item in site.nav %}
