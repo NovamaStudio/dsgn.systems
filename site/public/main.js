@@ -62,6 +62,35 @@
     });
   });
 
+  // Hero lines: the glow follows a fine pointer, easing behind it and fading in and out.
+  // Listens on the document because the header sits over the top of the hero.
+  var hero = document.querySelector('.hero');
+  if (hero && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    var still = window.matchMedia('(prefers-reduced-motion: reduce)');
+    var tx = 0, ty = 0, x = 0, y = 0, on = 0, target = 0, frame = 0;
+    var paint = function () {
+      var k = still.matches ? 1 : 0.18;
+      x += (tx - x) * k; y += (ty - y) * k; on += (target - on) * (still.matches ? 1 : 0.12);
+      hero.style.setProperty('--hero-x', x.toFixed(1) + 'px');
+      hero.style.setProperty('--hero-y', y.toFixed(1) + 'px');
+      hero.style.setProperty('--hero-on', on.toFixed(3));
+      var settled = Math.abs(tx - x) < 0.5 && Math.abs(ty - y) < 0.5 && Math.abs(target - on) < 0.005;
+      frame = settled ? 0 : window.requestAnimationFrame(paint);
+    };
+    document.addEventListener('pointermove', function (event) {
+      var box = hero.getBoundingClientRect();
+      var inside = event.clientY >= box.top && event.clientY <= box.bottom;
+      tx = event.clientX - box.left; ty = event.clientY - box.top;
+      if (inside && target === 0 && on < 0.01) { x = tx; y = ty; }
+      target = inside ? 1 : 0;
+      if (!frame) frame = window.requestAnimationFrame(paint);
+    }, { passive: true });
+    document.documentElement.addEventListener('pointerleave', function () {
+      target = 0;
+      if (!frame) frame = window.requestAnimationFrame(paint);
+    });
+  }
+
   // Logo animation: pause and resume (WCAG 2.2.2). The choice is remembered per visitor.
   var KEY = 'dsgn-landing-motion';
 

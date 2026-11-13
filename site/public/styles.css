@@ -107,11 +107,12 @@ code {
 }
 
 /* Hero: the whole first fold, always dark (data-theme="dark"; the header follows it with
-   data-top-theme="dark" while at the top). The copy is centred in the fold; one large symbol sits
-   behind it in a dark grey that keeps the copy above 4.5:1, cropped by the right and bottom edges. */
+   data-top-theme="dark" while at the top). Copy aligned left, centred in the fold. Behind it a
+   field of fine dark lines; around the pointer they light up and turn orange. */
 
 .hero {
-  --site-hero-symbol: var(--dsgn-neutral-26);
+  --site-hero-line: var(--dsgn-neutral-22);
+  --site-hero-glow: calc(var(--dsgn-space-64) * 6);
   position: relative;
   display: flex;
   flex-direction: column;
@@ -122,17 +123,38 @@ code {
   color: var(--dsgn-text);
 }
 
+/* The lines are a mask of 1 px rows every 12 px over a radial gradient that follows the pointer:
+   orange at the pointer, light grey around it, the dark line colour everywhere else.
+   main.js sets --hero-x, --hero-y (px in the hero) and --hero-on (0 to 1, fades in and out).
+   Without a fine pointer the gradient stays off and only the dark lines show. */
+.hero-lines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    circle calc(var(--site-hero-glow) * var(--hero-on, 0)) at var(--hero-x, 50%) var(--hero-y, 50%),
+    var(--dsgn-brand) 0%,
+    var(--dsgn-brand) 25%,
+    var(--dsgn-neutral-64) 55%,
+    var(--site-hero-line) 100%
+  ) var(--site-hero-line);
+  -webkit-mask-image: repeating-linear-gradient(to bottom, var(--dsgn-neutral-14) 0 1px, transparent 1px var(--dsgn-space-12));
+  mask-image: repeating-linear-gradient(to bottom, var(--dsgn-neutral-14) 0 1px, transparent 1px var(--dsgn-space-12));
+}
+
 .hero-inner {
   position: relative;
   z-index: 1;
   display: grid;
-  gap: var(--dsgn-space-24) var(--dsgn-space-64);
+  justify-items: start;
+  gap: var(--dsgn-space-24);
   margin-block: auto;
 }
 
 .hero-eyebrow { margin: 0; }
 
 .hero-title {
+  max-inline-size: 16ch;
   margin: 0;
   font-size: max(calc(var(--dsgn-font-size-display) * 1.25), 11.5vw);
   line-height: 0.95;
@@ -141,67 +163,14 @@ code {
   text-wrap: balance;
 }
 
-.hero-body { max-inline-size: 34rem; }
+.hero-body { max-inline-size: 36rem; padding-block-start: var(--dsgn-space-8); }
 
-/* Tablet: the title on its own, copy below it. Desktop: title in 8 of 12 columns, the copy in the
-   last 4, its bottom on the title's last line. */
 @media (min-width: 48rem) {
-  .hero-title { font-size: min(9vw, calc(var(--dsgn-font-size-display) * 3)); }
+  .hero-title { font-size: min(9vw, calc(var(--dsgn-font-size-display) * 3.5)); }
 }
 
 @media (min-width: 64rem) {
-  .hero-inner { grid-template-columns: repeat(12, minmax(0, 1fr)); align-items: end; }
-  .hero-eyebrow { grid-column: 1 / -1; }
-  .hero-title { grid-column: 1 / span 8; font-size: min(6.5vw, calc(var(--dsgn-font-size-display) * 3)); }
-  .hero-body { grid-column: 9 / -1; padding-block-end: var(--dsgn-space-8); }
-}
-
-/* The symbol box is the board's 200 units; the shape fills 41..159 of it (0.59 of the box).
-   It is placed by its box so that 15 % of the shape runs off the right edge and 30 % off the
-   bottom: as tall as the fold on landscape screens, as wide as the screen on portrait ones. */
-.hero-mark {
-  --site-hero-size: 165vw;
-  position: absolute;
-  inset: 0;
-  margin: 0;
-  pointer-events: none;
-}
-
-@media (min-aspect-ratio: 1) {
-  .hero-mark { --site-hero-size: min(170svh, 115vw); }
-}
-
-.hero-symbol {
-  position: absolute;
-  inline-size: var(--site-hero-size);
-  block-size: var(--site-hero-size);
-  max-inline-size: none;
-  inset-block-end: calc(var(--site-hero-size) * -0.382);
-  inset-inline-end: calc(var(--site-hero-size) * -0.2935);
-  overflow: visible;
-  fill: var(--site-hero-symbol);
-}
-
-.hero-control {
-  position: absolute;
-  z-index: 2;
-  inset-block-end: var(--dsgn-space-16);
-  inset-inline-end: var(--dsgn-page-margin, var(--dsgn-space-16));
-}
-
-/* A slow drift to the left while the hero scrolls away. */
-@keyframes hero-drift {
-  to { transform: translateX(-6vw); }
-}
-
-@supports (animation-timeline: scroll()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .hero-symbol {
-      animation: hero-drift linear both;
-      animation-timeline: scroll(root);
-      animation-range: 0 100svh;
-    }
-  }
+  .hero-title { font-size: min(7.5vw, calc(var(--dsgn-font-size-display) * 3.5)); }
 }
 
 .install {
@@ -361,6 +330,15 @@ code {
 }
 
 .cta-mark .mark-bg { fill: var(--dsgn-brand); }
+
+/* Pauses the looping mark (WCAG 2.2.2), and the header wordmark with it. */
+.cta { position: relative; }
+
+.cta-control {
+  position: absolute;
+  inset-block-end: var(--dsgn-space-16);
+  inset-inline-end: var(--dsgn-page-margin, var(--dsgn-space-16));
+}
 .cta-mark g { fill: var(--dsgn-neutral-14); }
 
 /* ── Docs ──────────────────────────────────────────────────────────────── */
