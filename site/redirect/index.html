@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>dsgn.systems has moved</title>
+  <meta name="robots" content="noindex">
+  <link rel="canonical" href="https://dsgn.systems/docs/">
+  <meta http-equiv="refresh" content="3; url=https://dsgn.systems/docs/">
+  <script>
+    // The old one-page docs used hash routes (#button, #colour, #theme …), also linked from the Figma
+    // library. Send each one to its page on dsgn.systems.
+    (function () {
+      var map = {
+        '': '/docs/', start: '/docs/', components: '/docs/components/', customise: '/docs/#make-it-yours',
+        theme: '/theme/', changelog: '/docs/changelog/', colour: '/docs/foundations/colour/',
+        typography: '/docs/foundations/typography/', spacing: '/docs/foundations/spacing/',
+        radius: '/docs/foundations/spacing/#radius', 'layout-tokens': '/docs/foundations/spacing/',
+        icons: '/docs/components/icon/', figma: '/#figma', quality: '/docs/'
+      };
+      var hash = location.hash.replace(/^#/, '').split(/[?&]/)[0];
+      var path = Object.prototype.hasOwnProperty.call(map, hash) ? map[hash]
+        : /^[a-z][a-z0-9-]*$/.test(hash) ? '/docs/components/' + hash + '/' : '/docs/';
+      location.replace('https://dsgn.systems' + path);
+    })();
+  </script>
+</head>
+<body>
+  <p>dsgn.systems has moved to <a href="https://dsgn.systems/docs/">dsgn.systems</a>.</p>
+</body>
+</html>

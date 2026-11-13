@@ -426,7 +426,7 @@ console.log(`components: ${comps.length} files, lint clean · dsgn.js copied`);
     const src = readFileSync(new URL(`../dist/${file}`, import.meta.url), 'utf8');
     const { code } = transformSync(src, { loader, minify: true, legalComments: 'none', target: 'esnext', charset: 'utf8' });
     const outName = file.replace(/\.(css|js)$/, '.min.$1');
-    writeFileSync(new URL(`../dist/${outName}`, import.meta.url), `/* dsgn ${version} · MIT · https://novamastudio.github.io/dsgn.systems/ */\n${code}`);
+    writeFileSync(new URL(`../dist/${outName}`, import.meta.url), `/* dsgn ${version} · MIT · https://dsgn.systems/ */\n${code}`);
     return `${outName} ${(code.length / 1024).toFixed(0)} kB`;
   };
   console.log(`minified: ${min('dsgn.css', 'css')} · ${min('dsgn.js', 'js')}`);
