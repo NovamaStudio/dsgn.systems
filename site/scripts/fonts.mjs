@@ -22,7 +22,7 @@ for (const file of walk(site).filter((f) => f.endsWith(".html"))) {
 const icons = [...used].sort();
 
 const families = [
-  { id: "inter", css: "family=Inter:wght@400;500;600&display=swap", subsets: ["latin", "latin-ext"] },
+  { id: "inter", css: "family=Inter:wght@400;500;600;800&display=swap", subsets: ["latin", "latin-ext"] },
   { id: "jetbrains-mono", css: "family=JetBrains+Mono:wght@500;700&display=swap", subsets: ["latin", "latin-ext"] },
   { id: "material-symbols", css: `family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=${icons.join(",")}&display=block`, subsets: null },
 ];

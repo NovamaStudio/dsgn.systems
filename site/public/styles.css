@@ -4,6 +4,9 @@
 :root {
   --site-font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
   --site-frame: var(--dsgn-space-2) solid var(--dsgn-text);
+  /* Neobrutalist hard shadows (site-only for now; candidate for a dsgn elevation mode). */
+  --site-shadow: var(--dsgn-space-8) var(--dsgn-space-8) 0 var(--dsgn-text);
+  --site-shadow-s: var(--dsgn-space-4) var(--dsgn-space-4) 0 var(--dsgn-text);
 }
 
 code,
@@ -106,95 +109,121 @@ code {
   text-transform: uppercase;
 }
 
-/* Hero: the whole first fold, in the site's theme. Copy aligned left, centred in the fold.
-   Behind it the token scale in ASCII (main.js), quiet in the border colour, fading out to the
-   left under the copy and under the header. */
+/* Hero, neobrutalist: a .board (2 px frame, hard brand shadow, mono tag on the top edge) holding
+   the copy and a window with the token scale in ASCII. Ink frames and hard ink shadows; the
+   orange is used as solid blocks (the highlight, the window bar). */
 
 .hero {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  min-block-size: 100svh;
-  overflow: clip;
   padding-block: calc(var(--dsgn-header-height, 4rem) + var(--dsgn-space-48)) var(--dsgn-space-64);
   background: var(--dsgn-surface-base);
   color: var(--dsgn-text);
 }
 
-.hero-ascii {
-  --site-hero-fade-x: linear-gradient(to right, transparent 15%, var(--dsgn-neutral-14) 70%);
-  --site-hero-fade-y: linear-gradient(to bottom,
-    transparent var(--dsgn-header-height, 4rem),
-    var(--dsgn-neutral-14) calc(var(--dsgn-header-height, 4rem) + var(--dsgn-space-64) * 2));
-  position: absolute;
-  inset: 0;
+.hero-board {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr); /* the window bar's nowrap line must not widen the column */
+  gap: var(--dsgn-space-40);
+}
+
+@media (min-width: 64rem) {
+  .hero-board { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: var(--dsgn-space-48); }
+}
+
+.hero-copy {
+  display: grid;
+  justify-items: start;
+  align-content: center;
+  gap: var(--dsgn-space-24);
+}
+
+.hero-copy .dsgn-lead { max-inline-size: 36rem; margin: 0; }
+
+.hero-title {
   margin: 0;
+  font-size: max(calc(var(--dsgn-font-size-display) * 1.25), 10vw);
+  line-height: 0.95;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  text-wrap: balance;
+}
+
+@media (min-width: 48rem) {
+  .hero-title { font-size: min(8vw, calc(var(--dsgn-font-size-display) * 3)); }
+}
+
+@media (min-width: 64rem) {
+  .hero-title { font-size: min(5.5vw, calc(var(--dsgn-font-size-display) * 2.75)); }
+}
+
+/* "plain HTML." on a solid orange block, dark ink in both themes (about 5:1 on the brand orange). */
+.hero-highlight {
+  padding-inline: 0.08em;
+  background: var(--dsgn-brand);
+  color: var(--dsgn-neutral-14);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+/* The ASCII window: frame, hard shadow, an orange title bar with the pause button. The <pre> is
+   size-contained, so the text main.js writes never grows the window (it reads the box size). */
+.hero-window {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
+  block-size: calc(var(--dsgn-space-64) * 4.5);
+  border: var(--site-frame);
+  background: var(--dsgn-surface-base);
+  box-shadow: var(--site-shadow);
+}
+
+@media (min-width: 64rem) {
+  .hero-window { block-size: auto; min-block-size: calc(var(--dsgn-space-64) * 6); }
+}
+
+.hero-window-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--dsgn-space-12);
+  padding-inline-start: var(--dsgn-space-12);
+  border-block-end: var(--site-frame);
+  background: var(--dsgn-brand);
+  color: var(--dsgn-neutral-14);
+  font-family: var(--site-font-mono);
+  font-size: var(--dsgn-font-size-caption);
+  line-height: var(--dsgn-line-height-caption);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.hero-window-name { font-weight: 700; }
+.hero-window-meta { flex: 1; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.hero-control { color: var(--dsgn-neutral-14); }
+
+.hero-ascii {
+  contain: size;
+  margin: 0;
+  padding: var(--dsgn-space-12);
   overflow: hidden;
   pointer-events: none;
   user-select: none;
-  color: var(--dsgn-border);
+  color: var(--dsgn-text);
   font-family: var(--site-font-mono);
   font-size: var(--dsgn-font-size-caption);
   line-height: 1;
   white-space: pre;
-  -webkit-mask-image: var(--site-hero-fade-x), var(--site-hero-fade-y);
-  -webkit-mask-composite: source-in;
-  mask-image: var(--site-hero-fade-x), var(--site-hero-fade-y);
-  mask-composite: intersect;
 }
 
-/* Phones: the copy spans the width, so the field stays faint everywhere. */
-@media (max-width: 47.99rem) {
-  .hero-ascii { --site-hero-fade-x: linear-gradient(to right, transparent, var(--dsgn-neutral-14) 140%); }
-}
-
-.hero-control {
-  position: absolute;
-  z-index: 2;
-  inset-block-end: var(--dsgn-space-16);
-  inset-inline-end: var(--dsgn-page-margin, var(--dsgn-space-16));
-}
-
-.hero-inner {
-  position: relative;
-  z-index: 1;
-  display: grid;
-  justify-items: start;
-  gap: var(--dsgn-space-24);
-  margin-block: auto;
-}
-
-.hero-eyebrow { margin: 0; }
-
-.hero-title {
-  max-inline-size: 16ch;
-  margin: 0;
-  font-size: max(calc(var(--dsgn-font-size-display) * 1.25), 11.5vw);
-  line-height: 0.95;
-  font-weight: var(--dsgn-font-weight-semibold);
-  letter-spacing: -0.035em;
-  text-wrap: balance;
-}
-
-.hero-body { max-inline-size: 36rem; padding-block-start: var(--dsgn-space-8); }
-
-@media (min-width: 48rem) {
-  .hero-title { font-size: min(9vw, calc(var(--dsgn-font-size-display) * 3.5)); }
-}
-
-@media (min-width: 64rem) {
-  .hero-title { font-size: min(7.5vw, calc(var(--dsgn-font-size-display) * 3.5)); }
-}
-
+/* Install command: a block with a hard shadow that presses in when its copy button is used. */
 .install {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--dsgn-space-8);
-  max-inline-size: calc(var(--dsgn-space-64) * 5);
+  inline-size: min(100%, calc(var(--dsgn-space-64) * 5));
   padding-inline: var(--dsgn-space-16) var(--dsgn-space-4);
   border: var(--site-frame);
-  background: var(--dsgn-surface-raised);
+  background: var(--dsgn-surface-base);
+  box-shadow: var(--site-shadow);
 }
 
 .install-command {
@@ -206,6 +235,47 @@ code {
 
 .install-prompt {
   color: var(--dsgn-accent-text);
+}
+
+/* Press: hover moves the block half way into its shadow, pressing all the way. */
+.install,
+.dsgn-header-actions .dsgn-button {
+  transition: transform var(--dsgn-duration-fast) var(--dsgn-ease), box-shadow var(--dsgn-duration-fast) var(--dsgn-ease);
+}
+
+.install:has(.dsgn-icon-button:hover) { transform: translate(var(--dsgn-space-4), var(--dsgn-space-4)); box-shadow: var(--site-shadow-s); }
+.install:has(.dsgn-icon-button:active) { transform: translate(var(--dsgn-space-8), var(--dsgn-space-8)); box-shadow: none; }
+
+/* Header buttons (not the ghost GitHub link): ink outline and a small hard shadow. */
+.dsgn-header-actions .dsgn-button:not([data-variant="ghost"]) {
+  box-shadow: inset 0 0 0 var(--dsgn-space-2) var(--dsgn-text), var(--site-shadow-s);
+}
+
+.dsgn-header-actions .dsgn-button:not([data-variant="ghost"]):hover {
+  transform: translate(var(--dsgn-space-2), var(--dsgn-space-2));
+  box-shadow: inset 0 0 0 var(--dsgn-space-2) var(--dsgn-text), var(--dsgn-space-2) var(--dsgn-space-2) 0 var(--dsgn-text);
+}
+
+.dsgn-header-actions .dsgn-button:not([data-variant="ghost"]):active {
+  transform: translate(var(--dsgn-space-4), var(--dsgn-space-4));
+  box-shadow: inset 0 0 0 var(--dsgn-space-2) var(--dsgn-text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .install,
+  .dsgn-header-actions .dsgn-button { transition: none; }
+}
+
+/* Cells sharing 2 px ink borders, like a table (the numbers under the hero). */
+.site-cells {
+  gap: var(--dsgn-space-2);
+  border: var(--site-frame);
+  background: var(--dsgn-text);
+}
+
+.site-cells > * {
+  padding: var(--dsgn-space-24);
+  background: var(--dsgn-surface-base);
 }
 
 /* ── Sections ──────────────────────────────────────────────────────────── */
