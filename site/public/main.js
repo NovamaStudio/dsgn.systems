@@ -48,101 +48,88 @@
 
   var root = document.documentElement;
 
-  // Header wordmark: the rows draw in once on load; hovering the brand draws them again.
-  // Re-adding the class restarts the CSS animations (logo-motion.css).
-  document.querySelectorAll('.site-brand .logo-letters').forEach(function (mark) {
-    var busy = false;
-    mark.closest('.site-brand').addEventListener('pointerenter', function () {
-      if (busy || root.getAttribute('data-motion') === 'off') return;
-      busy = true;
-      mark.classList.remove('logo-letters');
-      void mark.getBoundingClientRect();
-      mark.classList.add('logo-letters');
-      window.setTimeout(function () { busy = false; }, 1600);
+  // Hero: the token scale in ASCII. Each band is as many rows as its spacing step / 4
+  // (2 4 6 8 12 16 24 32 -> 1 1 2 2 3 4 6 8), one blank row between bands; the glyph gets
+  // heavier with the step, from a hairline of dots to a block of @. The field rolls down one row
+  // every 700 ms like a CRT, a few cells flicker, and every 2 to 5 s one band jolts sideways in
+  // two steps, like the logo's glitch. Still with reduced motion or the pause button.
+  var ascii = document.querySelector('.hero-ascii');
+  if (ascii) {
+    var SCALE = [2, 4, 6, 8, 12, 16, 24, 32];
+    var GLYPH = ['.', ':', '-', '=', '+', '*', '#', '@'];
+    var ROLL = 700, FPS = 12, FLICKER = 0.012, HOLE = 0.05;
+    var pattern = [];
+    SCALE.forEach(function (step, i) {
+      for (var n = Math.max(1, Math.round(step / 4)); n > 0; n--) pattern.push(i);
+      pattern.push(-1);
     });
-  });
-
-  // Hero lines: the glow follows a fine pointer, easing behind it and fading in and out.
-  // Near the copy it weakens and shrinks (--hero-k), so it never competes with the text.
-  // Listens on the document because the header sits over the top of the hero.
-  var hero = document.querySelector('.hero');
-  if (hero && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
     var still = window.matchMedia('(prefers-reduced-motion: reduce)');
-    var texts = [].slice.call(hero.querySelectorAll('.hero-eyebrow, .hero-title, .hero-body .dsgn-lead, .install'));
-    var NEAR = 160, FLOOR = 0.25; // px over which the glow recovers; strength right on the text
-    var tx = 0, ty = 0, x = 0, y = 0, on = 0, target = 0, k = 1, tk = 1, frame = 0;
+    var cols = 0, rows = 0, frame = 0, last = 0, visible = true;
+    var glitch = { band: -1, shift: 0, start: 0 }, nextGlitch = 0;
 
-    // Life in the light: a slow pulse of size and strength, and now and then a CRT glitch, a
-    // short sideways jolt with a flicker (two steps, like the logo's row redraw). Off with
-    // reduced motion.
-    var PULSE = 1600, nextGlitch = 0, glitchStart = -1, jolt = 0;
-    var life = function (now) {
-      if (still.matches) return { k: 1, dx: 0 };
-      var pulse = 1 + 0.08 * Math.sin(now / PULSE * 2 * Math.PI);
-      if (!nextGlitch) nextGlitch = now + 1500 + Math.random() * 2500;
-      if (now >= nextGlitch && glitchStart < 0) {
-        glitchStart = now;
-        jolt = (Math.random() < 0.5 ? -1 : 1) * (8 + Math.random() * 14);
-      }
-      var flick = 1, dx = 0;
-      if (glitchStart >= 0) {
-        var t = now - glitchStart;
-        if (t < 60) { flick = 0.45; dx = jolt; }
-        else if (t < 110) { flick = 1.25; dx = -jolt * 0.5; }
-        else { glitchStart = -1; nextGlitch = now + 1500 + Math.random() * 2500; }
-      }
-      return { k: pulse * flick, dx: dx };
+    // A fixed scatter of holes so the bands read as type, not as solid bars.
+    var hole = function (c, r) {
+      var h = Math.sin(c * 12.9898 + r * 78.233) * 43758.5453;
+      return h - Math.floor(h) < HOLE;
     };
 
-    // Distance from the pointer to the nearest text line (line boxes, not the whole blocks;
-    // the install command counts as one box).
-    var distance = function (px, py) {
-      var best = Infinity;
-      texts.forEach(function (el) {
-        var rects;
-        if (el.classList.contains('install')) rects = [el.getBoundingClientRect()];
-        else { var range = document.createRange(); range.selectNodeContents(el); rects = range.getClientRects(); }
-        for (var i = 0; i < rects.length; i++) {
-          var r = rects[i];
-          var dx = Math.max(r.left - px, 0, px - r.right);
-          var dy = Math.max(r.top - py, 0, py - r.bottom);
-          best = Math.min(best, Math.sqrt(dx * dx + dy * dy));
+    var measure = function () {
+      var probe = document.createElement('span');
+      probe.textContent = 'MMMMMMMMMM';
+      ascii.appendChild(probe);
+      var box = probe.getBoundingClientRect();
+      ascii.removeChild(probe);
+      var cw = box.width / 10 || 8, lh = box.height || 12;
+      cols = Math.ceil(ascii.clientWidth / cw) + 1;
+      rows = Math.ceil(ascii.clientHeight / lh) + 1;
+    };
+
+    var draw = function (now, moving) {
+      var roll = moving ? Math.floor(now / ROLL) : 0;
+      var shift = 0, out = [];
+      if (moving && glitch.band >= 0) {
+        var t = now - glitch.start;
+        if (t < 160) shift = glitch.shift;
+        else if (t < 240) shift = -Math.round(glitch.shift / 2);
+        else { glitch.band = -1; nextGlitch = now + 2000 + Math.random() * 3000; }
+      } else if (moving && now >= nextGlitch) {
+        if (nextGlitch) glitch = { band: Math.floor(Math.random() * SCALE.length), shift: (Math.random() < 0.5 ? -1 : 1) * (2 + Math.floor(Math.random() * 5)), start: now };
+        else nextGlitch = now + 2000 + Math.random() * 3000;
+      }
+      for (var r = 0; r < rows; r++) {
+        var p = ((r - roll) % pattern.length + pattern.length) % pattern.length;
+        var band = pattern[p];
+        if (band < 0) { out.push(''); continue; }
+        var line = '';
+        for (var c = 0; c < cols; c++) {
+          var src = band === glitch.band ? c - shift : c;
+          if (src < 0 || hole(src, p)) line += ' ';
+          else if (moving && Math.random() < FLICKER) line += GLYPH[Math.floor(Math.random() * GLYPH.length)];
+          else line += GLYPH[band];
         }
-      });
-      return best;
+        out.push(line);
+      }
+      ascii.textContent = out.join('\n');
     };
 
-    var paint = function (now) {
-      var ease = still.matches ? 1 : 0.18;
-      x += (tx - x) * ease; y += (ty - y) * ease;
-      on += (target - on) * (still.matches ? 1 : 0.12);
-      k += (tk - k) * (still.matches ? 1 : 0.12);
-      var fx = life(now || performance.now());
-      hero.style.setProperty('--hero-x', (x + fx.dx).toFixed(1) + 'px');
-      hero.style.setProperty('--hero-y', y.toFixed(1) + 'px');
-      hero.style.setProperty('--hero-on', on.toFixed(3));
-      hero.style.setProperty('--hero-k', Math.min(k * fx.k, 1.2).toFixed(3));
-      // Keeps running while the light is on (it pulses); stops once it has faded out,
-      // or as soon as it is still under reduced motion.
-      var settled = Math.abs(tx - x) < 0.5 && Math.abs(ty - y) < 0.5 &&
-        Math.abs(target - on) < 0.005 && Math.abs(tk - k) < 0.005 &&
-        (still.matches || on < 0.005);
-      frame = settled ? 0 : window.requestAnimationFrame(paint);
+    var paused = function () { return still.matches || root.getAttribute('data-motion') === 'off'; };
+    var tick = function (now) {
+      frame = 0;
+      if (!visible || paused()) { draw(0, false); return; }
+      if (now - last >= 1000 / FPS) { last = now; draw(now, true); }
+      frame = window.requestAnimationFrame(tick);
     };
-    document.addEventListener('pointermove', function (event) {
-      var box = hero.getBoundingClientRect();
-      var inside = event.clientY >= box.top && event.clientY <= box.bottom;
-      tx = event.clientX - box.left; ty = event.clientY - box.top;
-      var t = Math.min(distance(event.clientX, event.clientY) / NEAR, 1);
-      tk = FLOOR + (1 - FLOOR) * t * t * (3 - 2 * t);
-      if (inside && target === 0 && on < 0.01) { x = tx; y = ty; k = tk; }
-      target = inside ? 1 : 0;
-      if (!frame) frame = window.requestAnimationFrame(paint);
-    }, { passive: true });
-    document.documentElement.addEventListener('pointerleave', function () {
-      target = 0;
-      if (!frame) frame = window.requestAnimationFrame(paint);
-    });
+    var start = function () { if (!frame) frame = window.requestAnimationFrame(tick); };
+
+    measure();
+    draw(0, false);
+    start();
+    if ('ResizeObserver' in window) new ResizeObserver(function () { measure(); draw(0, false); start(); }).observe(ascii);
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) { visible = entries[0].isIntersecting; start(); }).observe(ascii);
+    }
+    new MutationObserver(start).observe(root, { attributes: true, attributeFilter: ['data-motion'] });
+    still.addEventListener('change', start);
   }
 
   // Logo animation: pause and resume (WCAG 2.2.2). The choice is remembered per visitor.

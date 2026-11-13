@@ -106,13 +106,11 @@ code {
   text-transform: uppercase;
 }
 
-/* Hero: the whole first fold, always dark (data-theme="dark"; the header follows it with
-   data-top-theme="dark" while at the top). Copy aligned left, centred in the fold. Behind it a
-   field of fine dark lines; around the pointer they warm up to a dim orange. */
+/* Hero: the whole first fold, in the site's theme. Copy aligned left, centred in the fold.
+   Behind it the token scale in ASCII (main.js), quiet in the border colour, fading out to the
+   left under the copy and under the header. */
 
 .hero {
-  --site-hero-line: var(--dsgn-neutral-22);
-  --site-hero-glow: calc(var(--dsgn-space-64) * 3.5);
   position: relative;
   display: flex;
   flex-direction: column;
@@ -123,31 +121,38 @@ code {
   color: var(--dsgn-text);
 }
 
-/* The lines are a mask of 1 px rows every 12 px over a radial gradient that follows the pointer:
-   a dimmed orange at the pointer fading straight into the dark line colour (no grey ring).
-   main.js sets --hero-x, --hero-y (px in the hero), --hero-on (0 to 1, fades in and out) and
-   --hero-k (0.25 on the copy to 1 away from it: the glow weakens and shrinks near the text).
-   Without a fine pointer the gradient stays off and only the dark lines show. */
-.hero-lines {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(
-    circle calc(var(--site-hero-glow) * var(--hero-on, 0) * (0.4 + 0.6 * var(--hero-k, 1))) at var(--hero-x, 50%) var(--hero-y, 50%),
-    color-mix(in oklch, var(--dsgn-brand) calc(75% * var(--hero-k, 1)), var(--site-hero-line)) 0%,
-    color-mix(in oklch, var(--dsgn-brand) calc(35% * var(--hero-k, 1)), var(--site-hero-line)) 45%,
-    var(--site-hero-line) 100%
-  ) var(--site-hero-line);
-  /* Two masks, intersected: the 1 px rows, and a fade that hides lines and glow under the header
-     and lets them come in over the next 128 px. */
-  --site-hero-fade: linear-gradient(to bottom,
+.hero-ascii {
+  --site-hero-fade-x: linear-gradient(to right, transparent 15%, var(--dsgn-neutral-14) 70%);
+  --site-hero-fade-y: linear-gradient(to bottom,
     transparent var(--dsgn-header-height, 4rem),
     var(--dsgn-neutral-14) calc(var(--dsgn-header-height, 4rem) + var(--dsgn-space-64) * 2));
-  --site-hero-rows: repeating-linear-gradient(to bottom, var(--dsgn-neutral-14) 0 1px, transparent 1px var(--dsgn-space-12));
-  -webkit-mask-image: var(--site-hero-rows), var(--site-hero-fade);
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  overflow: hidden;
+  pointer-events: none;
+  user-select: none;
+  color: var(--dsgn-border);
+  font-family: var(--site-font-mono);
+  font-size: var(--dsgn-font-size-caption);
+  line-height: 1;
+  white-space: pre;
+  -webkit-mask-image: var(--site-hero-fade-x), var(--site-hero-fade-y);
   -webkit-mask-composite: source-in;
-  mask-image: var(--site-hero-rows), var(--site-hero-fade);
+  mask-image: var(--site-hero-fade-x), var(--site-hero-fade-y);
   mask-composite: intersect;
+}
+
+/* Phones: the copy spans the width, so the field stays faint everywhere. */
+@media (max-width: 47.99rem) {
+  .hero-ascii { --site-hero-fade-x: linear-gradient(to right, transparent, var(--dsgn-neutral-14) 140%); }
+}
+
+.hero-control {
+  position: absolute;
+  z-index: 2;
+  inset-block-end: var(--dsgn-space-16);
+  inset-inline-end: var(--dsgn-page-margin, var(--dsgn-space-16));
 }
 
 .hero-inner {

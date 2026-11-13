@@ -1,17 +1,17 @@
 ---
 layout: layouts/base.njk
 headerSurface: transparent
-headerTopTheme: dark
 head: partials/home-head.njk
 title: dsgn.systems — CSS design system with guaranteed contrast
 description: "Token-driven CSS design system: plain HTML classes, OKLCH colours with guaranteed contrast, light and dark, density and corner modes, mirrored 1:1 in Figma."
 ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode one attribute away, mirrored 1:1 in Figma.
 ---
-    <!-- Hero: the first fold, always dark, copy aligned left. Behind it a field of fine dark lines
-         that light up and turn orange around the pointer (main.js sets --hero-x / --hero-y).
+    <!-- Hero: the first fold in the site's theme, copy aligned left. Behind it the token scale in
+         ASCII (main.js draws it): bands as thick as the spacing steps 2 to 32, light glyphs for the
+         hairlines, heavy ones for the blocks, rolling slowly like a CRT with the logo's glitches.
          The CTAs live in the header. -->
-    <section class="hero" data-theme="dark" aria-labelledby="hero-title">
-      <div class="hero-lines" aria-hidden="true"></div>
+    <section class="hero" aria-labelledby="hero-title">
+      <pre class="hero-ascii" aria-hidden="true"></pre>
       <div class="dsgn-container hero-inner">
         <p class="dsgn-eyebrow hero-eyebrow">CSS design system · v{{ dsgn.minor }} · MIT</p>
         <h1 class="hero-title" id="hero-title">Accessible UI from plain&nbsp;HTML.</h1>
@@ -26,6 +26,9 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
         </div>
       </div>
 
+      <button class="dsgn-icon-button hero-control" data-variant="ghost" data-intent="neutral" type="button" aria-pressed="false" data-motion-toggle aria-label="Pause logo animation">
+        <span class="dsgn-icon" aria-hidden="true">pause</span>
+      </button>
     </section>
 
     <!-- Numbers -->
