@@ -108,11 +108,11 @@ code {
 
 /* Hero: the whole first fold, always dark (data-theme="dark"; the header follows it with
    data-top-theme="dark" while at the top). Copy aligned left, centred in the fold. Behind it a
-   field of fine dark lines; around the pointer they light up and turn orange. */
+   field of fine dark lines; around the pointer they warm up to a dim orange. */
 
 .hero {
   --site-hero-line: var(--dsgn-neutral-22);
-  --site-hero-glow: calc(var(--dsgn-space-64) * 6);
+  --site-hero-glow: calc(var(--dsgn-space-64) * 3.5);
   position: relative;
   display: flex;
   flex-direction: column;
@@ -124,7 +124,7 @@ code {
 }
 
 /* The lines are a mask of 1 px rows every 12 px over a radial gradient that follows the pointer:
-   orange at the pointer, light grey around it, the dark line colour everywhere else.
+   a dimmed orange at the pointer fading straight into the dark line colour (no grey ring).
    main.js sets --hero-x, --hero-y (px in the hero) and --hero-on (0 to 1, fades in and out).
    Without a fine pointer the gradient stays off and only the dark lines show. */
 .hero-lines {
@@ -133,9 +133,8 @@ code {
   pointer-events: none;
   background: radial-gradient(
     circle calc(var(--site-hero-glow) * var(--hero-on, 0)) at var(--hero-x, 50%) var(--hero-y, 50%),
-    var(--dsgn-brand) 0%,
-    var(--dsgn-brand) 25%,
-    var(--dsgn-neutral-64) 55%,
+    color-mix(in oklch, var(--dsgn-brand) 75%, var(--site-hero-line)) 0%,
+    color-mix(in oklch, var(--dsgn-brand) 35%, var(--site-hero-line)) 45%,
     var(--site-hero-line) 100%
   ) var(--site-hero-line);
   -webkit-mask-image: repeating-linear-gradient(to bottom, var(--dsgn-neutral-14) 0 1px, transparent 1px var(--dsgn-space-12));
