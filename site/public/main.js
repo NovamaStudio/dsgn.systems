@@ -72,6 +72,28 @@
     var NEAR = 160, FLOOR = 0.25; // px over which the glow recovers; strength right on the text
     var tx = 0, ty = 0, x = 0, y = 0, on = 0, target = 0, k = 1, tk = 1, frame = 0;
 
+    // Life in the light: a slow pulse of size and strength, and now and then a CRT glitch, a
+    // short sideways jolt with a flicker (two steps, like the logo's row redraw). Off with
+    // reduced motion.
+    var PULSE = 1600, nextGlitch = 0, glitchStart = -1, jolt = 0;
+    var life = function (now) {
+      if (still.matches) return { k: 1, dx: 0 };
+      var pulse = 1 + 0.08 * Math.sin(now / PULSE * 2 * Math.PI);
+      if (!nextGlitch) nextGlitch = now + 1500 + Math.random() * 2500;
+      if (now >= nextGlitch && glitchStart < 0) {
+        glitchStart = now;
+        jolt = (Math.random() < 0.5 ? -1 : 1) * (8 + Math.random() * 14);
+      }
+      var flick = 1, dx = 0;
+      if (glitchStart >= 0) {
+        var t = now - glitchStart;
+        if (t < 60) { flick = 0.45; dx = jolt; }
+        else if (t < 110) { flick = 1.25; dx = -jolt * 0.5; }
+        else { glitchStart = -1; nextGlitch = now + 1500 + Math.random() * 2500; }
+      }
+      return { k: pulse * flick, dx: dx };
+    };
+
     // Distance from the pointer to the nearest text line (line boxes, not the whole blocks;
     // the install command counts as one box).
     var distance = function (px, py) {
@@ -90,17 +112,21 @@
       return best;
     };
 
-    var paint = function () {
+    var paint = function (now) {
       var ease = still.matches ? 1 : 0.18;
       x += (tx - x) * ease; y += (ty - y) * ease;
       on += (target - on) * (still.matches ? 1 : 0.12);
       k += (tk - k) * (still.matches ? 1 : 0.12);
-      hero.style.setProperty('--hero-x', x.toFixed(1) + 'px');
+      var fx = life(now || performance.now());
+      hero.style.setProperty('--hero-x', (x + fx.dx).toFixed(1) + 'px');
       hero.style.setProperty('--hero-y', y.toFixed(1) + 'px');
       hero.style.setProperty('--hero-on', on.toFixed(3));
-      hero.style.setProperty('--hero-k', k.toFixed(3));
+      hero.style.setProperty('--hero-k', Math.min(k * fx.k, 1.2).toFixed(3));
+      // Keeps running while the light is on (it pulses); stops once it has faded out,
+      // or as soon as it is still under reduced motion.
       var settled = Math.abs(tx - x) < 0.5 && Math.abs(ty - y) < 0.5 &&
-        Math.abs(target - on) < 0.005 && Math.abs(tk - k) < 0.005;
+        Math.abs(target - on) < 0.005 && Math.abs(tk - k) < 0.005 &&
+        (still.matches || on < 0.005);
       frame = settled ? 0 : window.requestAnimationFrame(paint);
     };
     document.addEventListener('pointermove', function (event) {

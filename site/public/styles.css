@@ -138,8 +138,16 @@ code {
     color-mix(in oklch, var(--dsgn-brand) calc(35% * var(--hero-k, 1)), var(--site-hero-line)) 45%,
     var(--site-hero-line) 100%
   ) var(--site-hero-line);
-  -webkit-mask-image: repeating-linear-gradient(to bottom, var(--dsgn-neutral-14) 0 1px, transparent 1px var(--dsgn-space-12));
-  mask-image: repeating-linear-gradient(to bottom, var(--dsgn-neutral-14) 0 1px, transparent 1px var(--dsgn-space-12));
+  /* Two masks, intersected: the 1 px rows, and a fade that hides lines and glow under the header
+     and lets them come in over the next 128 px. */
+  --site-hero-fade: linear-gradient(to bottom,
+    transparent var(--dsgn-header-height, 4rem),
+    var(--dsgn-neutral-14) calc(var(--dsgn-header-height, 4rem) + var(--dsgn-space-64) * 2));
+  --site-hero-rows: repeating-linear-gradient(to bottom, var(--dsgn-neutral-14) 0 1px, transparent 1px var(--dsgn-space-12));
+  -webkit-mask-image: var(--site-hero-rows), var(--site-hero-fade);
+  -webkit-mask-composite: source-in;
+  mask-image: var(--site-hero-rows), var(--site-hero-fade);
+  mask-composite: intersect;
 }
 
 .hero-inner {
