@@ -125,16 +125,17 @@ code {
 
 /* The lines are a mask of 1 px rows every 12 px over a radial gradient that follows the pointer:
    a dimmed orange at the pointer fading straight into the dark line colour (no grey ring).
-   main.js sets --hero-x, --hero-y (px in the hero) and --hero-on (0 to 1, fades in and out).
+   main.js sets --hero-x, --hero-y (px in the hero), --hero-on (0 to 1, fades in and out) and
+   --hero-k (0.25 on the copy to 1 away from it: the glow weakens and shrinks near the text).
    Without a fine pointer the gradient stays off and only the dark lines show. */
 .hero-lines {
   position: absolute;
   inset: 0;
   pointer-events: none;
   background: radial-gradient(
-    circle calc(var(--site-hero-glow) * var(--hero-on, 0)) at var(--hero-x, 50%) var(--hero-y, 50%),
-    color-mix(in oklch, var(--dsgn-brand) 75%, var(--site-hero-line)) 0%,
-    color-mix(in oklch, var(--dsgn-brand) 35%, var(--site-hero-line)) 45%,
+    circle calc(var(--site-hero-glow) * var(--hero-on, 0) * (0.4 + 0.6 * var(--hero-k, 1))) at var(--hero-x, 50%) var(--hero-y, 50%),
+    color-mix(in oklch, var(--dsgn-brand) calc(75% * var(--hero-k, 1)), var(--site-hero-line)) 0%,
+    color-mix(in oklch, var(--dsgn-brand) calc(35% * var(--hero-k, 1)), var(--site-hero-line)) 45%,
     var(--site-hero-line) 100%
   ) var(--site-hero-line);
   -webkit-mask-image: repeating-linear-gradient(to bottom, var(--dsgn-neutral-14) 0 1px, transparent 1px var(--dsgn-space-12));

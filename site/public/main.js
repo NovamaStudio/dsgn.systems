@@ -63,25 +63,53 @@
   });
 
   // Hero lines: the glow follows a fine pointer, easing behind it and fading in and out.
+  // Near the copy it weakens and shrinks (--hero-k), so it never competes with the text.
   // Listens on the document because the header sits over the top of the hero.
   var hero = document.querySelector('.hero');
   if (hero && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
     var still = window.matchMedia('(prefers-reduced-motion: reduce)');
-    var tx = 0, ty = 0, x = 0, y = 0, on = 0, target = 0, frame = 0;
+    var texts = [].slice.call(hero.querySelectorAll('.hero-eyebrow, .hero-title, .hero-body .dsgn-lead, .install'));
+    var NEAR = 160, FLOOR = 0.25; // px over which the glow recovers; strength right on the text
+    var tx = 0, ty = 0, x = 0, y = 0, on = 0, target = 0, k = 1, tk = 1, frame = 0;
+
+    // Distance from the pointer to the nearest text line (line boxes, not the whole blocks;
+    // the install command counts as one box).
+    var distance = function (px, py) {
+      var best = Infinity;
+      texts.forEach(function (el) {
+        var rects;
+        if (el.classList.contains('install')) rects = [el.getBoundingClientRect()];
+        else { var range = document.createRange(); range.selectNodeContents(el); rects = range.getClientRects(); }
+        for (var i = 0; i < rects.length; i++) {
+          var r = rects[i];
+          var dx = Math.max(r.left - px, 0, px - r.right);
+          var dy = Math.max(r.top - py, 0, py - r.bottom);
+          best = Math.min(best, Math.sqrt(dx * dx + dy * dy));
+        }
+      });
+      return best;
+    };
+
     var paint = function () {
-      var k = still.matches ? 1 : 0.18;
-      x += (tx - x) * k; y += (ty - y) * k; on += (target - on) * (still.matches ? 1 : 0.12);
+      var ease = still.matches ? 1 : 0.18;
+      x += (tx - x) * ease; y += (ty - y) * ease;
+      on += (target - on) * (still.matches ? 1 : 0.12);
+      k += (tk - k) * (still.matches ? 1 : 0.12);
       hero.style.setProperty('--hero-x', x.toFixed(1) + 'px');
       hero.style.setProperty('--hero-y', y.toFixed(1) + 'px');
       hero.style.setProperty('--hero-on', on.toFixed(3));
-      var settled = Math.abs(tx - x) < 0.5 && Math.abs(ty - y) < 0.5 && Math.abs(target - on) < 0.005;
+      hero.style.setProperty('--hero-k', k.toFixed(3));
+      var settled = Math.abs(tx - x) < 0.5 && Math.abs(ty - y) < 0.5 &&
+        Math.abs(target - on) < 0.005 && Math.abs(tk - k) < 0.005;
       frame = settled ? 0 : window.requestAnimationFrame(paint);
     };
     document.addEventListener('pointermove', function (event) {
       var box = hero.getBoundingClientRect();
       var inside = event.clientY >= box.top && event.clientY <= box.bottom;
       tx = event.clientX - box.left; ty = event.clientY - box.top;
-      if (inside && target === 0 && on < 0.01) { x = tx; y = ty; }
+      var t = Math.min(distance(event.clientX, event.clientY) / NEAR, 1);
+      tk = FLOOR + (1 - FLOOR) * t * t * (3 - 2 * t);
+      if (inside && target === 0 && on < 0.01) { x = tx; y = ty; k = tk; }
       target = inside ? 1 : 0;
       if (!frame) frame = window.requestAnimationFrame(paint);
     }, { passive: true });
