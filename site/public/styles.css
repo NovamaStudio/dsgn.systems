@@ -106,16 +106,17 @@ code {
   text-transform: uppercase;
 }
 
-/* Sheet: a technical sheet (Swiss, data-log). Cells divided by 1 px ink rules: the sheet is ink,
-   the gaps are the rules, every cell sits on the page colour. .sheet-meta is the mono micro type
-   for labels; .sheet-index an orange number or code, .sheet-key a muted key. */
+/* Sheet: a technical sheet (Swiss, data-log). Cells divided by 1 px ink rules: the sheet draws
+   the top and left rule, every cell its right and bottom one, so cells may be translucent.
+   Cells hold information only. .sheet-meta is the mono micro type for labels, .sheet-key a
+   muted key in front of its value. */
 
 .sheet {
+  --site-rule: var(--dsgn-border-width) solid var(--dsgn-text);
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: var(--dsgn-border-width);
-  border: var(--dsgn-border-width) solid var(--dsgn-text);
-  background: var(--dsgn-text);
+  border-block-start: var(--site-rule);
+  border-inline-start: var(--site-rule);
 }
 
 @media (min-width: 64rem) {
@@ -125,6 +126,8 @@ code {
 .sheet-cell {
   grid-column: span 6;
   margin: 0;
+  border-block-end: var(--site-rule);
+  border-inline-end: var(--site-rule);
   background: var(--dsgn-surface-base);
 }
 
@@ -138,22 +141,57 @@ code {
 }
 
 .sheet-cell.sheet-meta { padding: var(--dsgn-space-8) var(--dsgn-space-12); }
-.sheet-index { margin-inline-end: var(--dsgn-space-8); color: var(--dsgn-accent-text); font-weight: 700; }
 .sheet-key { margin-inline-end: var(--dsgn-space-8); color: var(--dsgn-text-muted); }
 
-/* Hero sheet. Phones and tablets: metadata on two rows, then title, figure, lead, install.
-   Desktop (12 columns): metadata 6 + 2 + 2 + 2; title 8 with the figure 4 beside it over two
-   rows; lead 4 and install 4 under the title. */
+/* Hero. Behind the sheet the token scale in ASCII (main.js) in the accent colour, faded out under
+   the header; the hero's cells are glass (dsgn's surface-glass and its 16 px blur), so it shows
+   through them blurred. Solid cells where blur is unsupported or reduced transparency is asked. */
 
 .hero {
-  padding-block: calc(var(--dsgn-header-height, 4rem) + var(--dsgn-space-32)) var(--dsgn-space-64);
+  position: relative;
+  overflow: clip;
+  padding-block: calc(var(--dsgn-header-height, 4rem) + var(--dsgn-space-48)) calc(var(--dsgn-space-48) * 2);
   background: var(--dsgn-surface-base);
   color: var(--dsgn-text);
 }
 
+.hero-ascii {
+  --site-hero-fade: linear-gradient(to bottom,
+    transparent var(--dsgn-header-height, 4rem),
+    var(--dsgn-neutral-14) calc(var(--dsgn-header-height, 4rem) + var(--dsgn-space-48)));
+  contain: size;
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  overflow: hidden;
+  pointer-events: none;
+  user-select: none;
+  color: var(--dsgn-accent-solid);
+  font-family: var(--site-font-mono);
+  font-size: var(--dsgn-font-size-caption);
+  line-height: 1;
+  white-space: pre;
+  -webkit-mask-image: var(--site-hero-fade);
+  mask-image: var(--site-hero-fade);
+}
+
+.hero-content { position: relative; z-index: 1; }
+
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  @media (prefers-reduced-transparency: no-preference) {
+    .hero-sheet > .sheet-cell {
+      background: var(--dsgn-surface-glass);
+      -webkit-backdrop-filter: blur(var(--dsgn-space-16));
+      backdrop-filter: blur(var(--dsgn-space-16));
+    }
+  }
+}
+
+/* Phones and tablets: the system on its own row, version, licence and Figma under it (key above
+   value), then title, lead, install. Desktop (12 columns): metadata 6 + 2 + 2 + 2, the title across
+   the sheet, lead 7 and install 5. */
 .hero-sheet > .sheet-meta:not(.hero-meta-main) { grid-column: span 2; }
 
-/* Narrow: key above value in the three small metadata cells, so they read the same. */
 @media (max-width: 63.99rem) {
   .hero-sheet > .sheet-meta:not(.hero-meta-main) .sheet-key { display: block; }
 }
@@ -186,44 +224,7 @@ code {
   box-decoration-break: clone;
 }
 
-/* Figure 01: the token scale in ASCII. The <pre> is size-contained, so the text main.js writes
-   never grows the cell (main.js reads the box size). */
-.hero-figure {
-  display: grid;
-  grid-template-rows: auto minmax(0, 1fr) auto;
-  grid-template-columns: minmax(0, 1fr);
-  block-size: calc(var(--dsgn-space-64) * 4.5);
-}
-
-.hero-figure-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-inline-start: var(--dsgn-space-12);
-  border-block-end: var(--dsgn-border-width) solid var(--dsgn-text);
-}
-
-.hero-figure-foot {
-  padding: var(--dsgn-space-8) var(--dsgn-space-12);
-  border-block-start: var(--dsgn-border-width) solid var(--dsgn-text);
-  color: var(--dsgn-text-muted);
-}
-
-.hero-ascii {
-  contain: size;
-  margin: 0;
-  padding: var(--dsgn-space-12);
-  overflow: hidden;
-  pointer-events: none;
-  user-select: none;
-  color: var(--dsgn-text);
-  font-family: var(--site-font-mono);
-  font-size: var(--dsgn-font-size-caption);
-  line-height: 1;
-  white-space: pre;
-}
-
-.hero-lead-cell .dsgn-lead { max-inline-size: 36rem; margin: 0; }
+.hero-lead-cell .dsgn-lead { max-inline-size: 40rem; margin: 0; }
 
 .hero-install-cell {
   display: grid;
@@ -233,11 +234,17 @@ code {
 
 @media (min-width: 64rem) {
   .hero-meta-main { grid-column: span 6; }
-  .hero-title-cell { grid-column: 1 / span 8; grid-row: 2; padding: var(--dsgn-space-64) var(--dsgn-space-32) var(--dsgn-space-40); }
-  .hero-title { font-size: min(6.25vw, calc(var(--dsgn-font-size-display) * 3.25)); }
-  .hero-figure { grid-column: 9 / span 4; grid-row: 2 / span 2; block-size: auto; min-block-size: calc(var(--dsgn-space-64) * 6); }
-  .hero-lead-cell { grid-column: 1 / span 4; grid-row: 3; padding: var(--dsgn-space-24) var(--dsgn-space-32); }
-  .hero-install-cell { grid-column: 5 / span 4; grid-row: 3; }
+  .hero-title-cell { grid-column: span 12; padding: var(--dsgn-space-64) var(--dsgn-space-32) var(--dsgn-space-48); }
+  .hero-title { font-size: min(7vw, calc(var(--dsgn-font-size-display) * 3.5)); }
+  .hero-lead-cell { grid-column: span 7; padding: var(--dsgn-space-24) var(--dsgn-space-32); }
+  .hero-install-cell { grid-column: span 5; padding: var(--dsgn-space-24) var(--dsgn-space-32); }
+}
+
+.hero-control {
+  position: absolute;
+  z-index: 2;
+  inset-block-end: var(--dsgn-space-16);
+  inset-inline-end: var(--dsgn-page-margin, var(--dsgn-space-16));
 }
 
 /* Install command: a mono field in a 1 px rule. */
@@ -263,30 +270,16 @@ code {
   color: var(--dsgn-accent-text);
 }
 
-/* The numbers under the hero: the same 1 px rules, each cell numbered 01, 02 … like the sheet. */
+/* The numbers under the hero: the same 1 px rules. */
 .site-cells {
   gap: var(--dsgn-border-width);
   border: var(--dsgn-border-width) solid var(--dsgn-text);
   background: var(--dsgn-text);
-  counter-reset: site-cell;
 }
 
 .site-cells > * {
   padding: var(--dsgn-space-24);
   background: var(--dsgn-surface-base);
-  counter-increment: site-cell;
-}
-
-.site-cells > *::before {
-  content: counter(site-cell, decimal-leading-zero);
-  display: block;
-  margin-block-end: var(--dsgn-space-16);
-  color: var(--dsgn-accent-text);
-  font-family: var(--site-font-mono);
-  font-size: var(--dsgn-font-size-caption);
-  line-height: var(--dsgn-line-height-caption);
-  font-weight: 700;
-  letter-spacing: 0.04em;
 }
 
 /* ── Sections ──────────────────────────────────────────────────────────── */

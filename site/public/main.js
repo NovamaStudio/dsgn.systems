@@ -140,7 +140,7 @@
     else root.removeAttribute('data-motion');
     document.querySelectorAll('[data-motion-toggle]').forEach(function (button) {
       button.setAttribute('aria-pressed', String(off));
-      button.setAttribute('aria-label', off ? 'Play logo animation' : 'Pause logo animation');
+      button.setAttribute('aria-label', (off ? 'Play ' : 'Pause ') + (button.getAttribute('data-motion-toggle') || 'logo animation'));
       var icon = button.querySelector('.dsgn-icon');
       if (icon) icon.textContent = off ? 'play_arrow' : 'pause';
     });
