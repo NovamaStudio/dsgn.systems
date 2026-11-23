@@ -175,7 +175,7 @@ npx dsgn theme --init   # writes dsgn.theme.mjs; edit brand hex or hue + chroma
 npx dsgn theme          # checks contrast, writes dsgn.theme.css (--out public for a static site; Figma files stay next to the config)
 ```
 
-Options include `accentFill: 'default' | 'strong' | 'stronger' | 'auto'` and `monochrome: true` (no accent colour at all). Lightness per step is fixed, so contrast holds for any hue. Never redefine colour tokens by hand; that bypasses the contrast guarantee. `--dsgn-brand` is the exact brand colour for logos and illustrations only.
+Options include `accentFill: 'default' | 'strong' | 'stronger' | 'vivid' | 'auto'` and `monochrome: true` (no accent colour at all). Lightness per step is fixed, so contrast holds for any hue. **`vivid`** keeps a bright brand fill (step 64, lighter on hover) in both themes with near-black text on it (`--dsgn-accent-solid-text` follows); it is for fills behind text (buttons, solid badges and icons, highlights) while checkboxes, switches, sliders, progress and other controls keep the default fill; `auto` never picks it. To show the brand colour as a field behind text, use `--dsgn-accent-solid` with `--dsgn-accent-solid-text`, not `--dsgn-brand`. Never redefine colour tokens by hand; that bypasses the contrast guarantee. `--dsgn-brand` is the exact brand colour for logos and illustrations only.
 
 ## 3. Tokens: the only values you may use
 
@@ -193,7 +193,7 @@ Options include `accentFill: 'default' | 'strong' | 'stronger' | 'auto'` and `mo
 | Type | `--dsgn-font-size-{display,heading,heading-s,title,body,body-s,caption}` with matching `--dsgn-line-height-*` and `--dsgn-font-weight-*` |
 | Shadow / motion | `--dsgn-shadow-control`, `-raised`, `-overlay`; `--dsgn-duration`, `-fast`, `--dsgn-ease` |
 
-Pair colours by role: text on surfaces uses `text` / `text-muted`; text on a `*-subtle` fill uses the matching `*-text`; text on a `*-solid` fill uses `*-solid-text`. Those are the pairs the contrast check guarantees.
+Pair colours by role: text on surfaces uses `text` / `text-muted`; text on a `*-subtle` fill uses the matching `*-text`; text on a `*-solid` fill uses `*-solid-text`. Those are the pairs the contrast check guarantees. `--dsgn-accent-solid` is a fill behind text only (with the vivid fill it is not 3:1 on a light surface); an accent mark that stands alone (a selected underline, a filled star, a bar) uses `--dsgn-control-solid`, which always is.
 
 Run `npx dsgn lint src/styles` on project CSS. It flags hard-coded px (except 0/1/2 px hairlines), literal colours, unknown and private properties.
 

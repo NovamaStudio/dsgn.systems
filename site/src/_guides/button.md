@@ -13,7 +13,7 @@
 
 ## Intents
 
-`data-intent` sets the colour. **Accent** (the default) follows your brand, **neutral** is grey and suits secondary actions, **danger** is for actions that delete or cannot be undone.
+`data-intent` sets the colour. **Accent** (the default) follows your brand, **neutral** is grey and suits secondary actions, **danger** is for actions that delete or cannot be undone. A theme with `accentFill: 'vivid'` keeps a bright brand colour on solid buttons with dark text on it in both themes; the contrast is still checked for any hue.
 
 {% example "Accent, neutral and danger buttons" %}
 <div class="dsgn-cluster">

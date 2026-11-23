@@ -2,6 +2,17 @@
 
 One version for the npm package and the Figma library. [Semantic versioning](https://semver.org): patch = fix, minor = addition, major = rename or removal (with migration notes).
 
+## Unreleased
+
+### Added
+- **`accentFill: 'vivid'`** theme option: the bright brand fill (accent step 64, 70 on hover, 76 pressed) in both themes with near-black text on it, so a bright brand colour such as #FF4400 can sit on solid buttons, solid badges and icons, the brand mark and highlights. Controls (checkbox, radio, switch, slider, progress, selection, option card) keep the default fill, because a bright fill alone does not reach 3:1 on a light surface for every hue. The build checks vivid across the whole hue envelope like the other fill strengths; `auto` never picks it. Customizer, dsgn theme plugin and the token preview offer it.
+- **`--dsgn-accent-solid-text`** goes through a new role slot `--dsgn-accent-fill-text-{light,dark}` (Figma Accent `accent/fill-text-light` / `-dark`), so a fill choice can flip the text on the fill. Values are unchanged for every existing option.
+- Figma: **Accent** collection has a **Vivid** mode next to Strong and Stronger.
+
+### Changed
+- **Nav** `data-variant="underline"`: the current-page line uses `--dsgn-control-solid` instead of `--dsgn-accent-solid`. **Rating**: filled stars use `--dsgn-control-solid`. Same colour as before in every existing theme; with the vivid fill they stay at 3:1 on the surface.
+- Contrast contract: `accent-solid` is checked as a fill behind its text, no longer as a mark on surfaces, tracks or tints (no component used it that way; those marks are `control-solid`, which is checked). Danger, success and warning solids are still checked on surfaces and tracks.
+
 ## 0.15.0 — 2026-11-11
 
 ### Added

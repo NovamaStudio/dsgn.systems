@@ -64,7 +64,7 @@ export function customizerPage({ ic, esc }) {
           <div class="docs-theme-brand"><input type="color" id="th-brand-pick" value="#2f6fed" aria-label="Pick brand colour"><input class="dsgn-input" id="th-brand" value="" placeholder="#2f6fed" aria-describedby="th-brand-h" autocomplete="off" spellcheck="false"></div>
           <p class="dsgn-hint" id="th-brand-h">Sets the accent hue and chroma. Kept exactly as <code>--dsgn-brand</code> for logos.</p></div>
         ${hueChroma('accent', guarantee.intentMaxChroma)}
-        ${segL('fill', 'Button fill', [['default', 'Default'], ['strong', 'Strong'], ['stronger', 'Stronger'], ['auto', 'Match brand']], 'default', 'How dark solid buttons are (lighter in dark mode). Every option keeps the contrast.')}
+        ${segL('fill', 'Button fill', [['default', 'Default'], ['strong', 'Strong'], ['stronger', 'Stronger'], ['vivid', 'Vivid'], ['auto', 'Match brand']], 'default', 'How dark solid buttons are (lighter in dark mode). Vivid keeps the bright brand fill with dark text on it in both themes; checkboxes and other controls stay at the default. Every option keeps the contrast.')}
       </fieldset>
       <fieldset class="docs-theme-group"><legend class="dsgn-title">Accent or monochrome</legend>
         ${segL('controls', 'Colour', [['accent', 'Accent'], ['neutral', 'Monochrome']], 'accent', 'Monochrome leaves out the accent colour completely: greys everywhere, buttons and checkboxes near-black (light) or near-white (dark). Status colours stay.')}

@@ -8,6 +8,9 @@ export default {
     neutral: { h: 'accent', c: 0.004 },
   },
 
+  // the logo's bright orange on buttons, solid icons and highlights, with ink text on it (both themes)
+  accentFill: 'vivid',
+
   radius: 'sharp',
   density: 'm',
 };

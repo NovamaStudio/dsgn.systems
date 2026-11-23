@@ -33,7 +33,7 @@ for (let h = 0; h < 360; h += 10) for (const name of PALETTES) {
 for (const hex of ['#e8590c', '#ffd400', '#00a86b', '#7b2ff7', '#ff1493', '#101820', '#c0c0c0']) {
   const t = resolveTheme({ colors: { accent: hex, neutral: { h: 'accent', c: 0.04 }, danger: { h: 0, c: 0.3 }, success: { h: 140, c: 0.3 }, warning: { h: 90, c: 0.3 } } });
   expect(!t.errors.length, `${hex}: ${t.errors}`);
-  for (const accentFill of ['default', 'strong', 'stronger']) for (const controls of ['accent', 'neutral']) {
+  for (const accentFill of ['default', 'strong', 'stronger', 'vivid']) for (const controls of ['accent', 'neutral']) {
     const tt = resolveTheme({ colors: { accent: hex, neutral: { h: 'accent', c: 0.04 }, danger: { h: 0, c: 0.3 } }, accentFill, monochrome: controls === 'neutral' });
     expect(checkContrast(tt.palettes, tt.roles).every((r) => r.pass), `${hex} ${accentFill} ${controls}: contrast fails`); checked++;
   }
@@ -67,7 +67,13 @@ expect(!plain.includes(':root {') && !plain.includes(':not('), 'default config w
 // 5. Figma payload
 const f = themeFigma(t);
 expect(f.mode === 'Acme' && Object.keys(f.primitives).length === PALETTES.length * ladder.length + 2, 'Figma: every palette step + the two glass colours for the mode (raw colours only)');
-expect(Object.keys(f.roles).length === 22 && Object.values(f.roles).every((a) => /^color\/[a-z]+\/\d+$/.test(a)), 'Figma: 22 Accent role slots alias palette steps');
+expect(Object.keys(f.roles).length === 24 && Object.values(f.roles).every((a) => /^color\/[a-z]+\/\d+$/.test(a)), 'Figma: 24 Accent role slots alias palette steps');
+// vivid: bright fill and near-black text in both themes, controls at the default, never chosen by auto
+const vv = resolveTheme({ colors: { accent: '#ff4400' }, accentFill: 'vivid' });
+expect(vv.roles.light['accent-fill'][1] === 64 && vv.roles.light['accent-fill-text'][1] === 14 && vv.roles.dark['accent-fill-text'][1] === 14, 'vivid: fill 64, text 14 in both themes');
+expect(vv.roles.light['control-fill'][1] === 54, 'vivid: controls keep the default fill');
+expect(resolveTheme({ colors: { accent: '#ff4400' }, accentFill: 'auto' }).accentFill !== 'vivid', 'auto never picks vivid');
+expect(themeCss(vv, { tokensCss }).includes('--dsgn-accent-fill-text-light: var(--dsgn-neutral-14);'), 'vivid: theme CSS re-points the text on the fill');
 expect(Object.values(f.primitives).every((h) => /^#[0-9a-f]{6}([0-9a-f]{2})?$/.test(h)) && f.typography['family/sans'] === 'Söhne', 'Figma: hex values and font family');
 
 if (errors.length) { for (const e of errors) console.error('✗', e); console.error(`theme: ${errors.length} errors`); process.exit(1); }

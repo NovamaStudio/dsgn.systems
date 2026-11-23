@@ -109,6 +109,8 @@ export const semanticColor = {
   }),
   // accent fills go through role slots (see below) so a project theme can make them stronger or neutral
   ...intentTokens('accent', interactiveKeys, {}, { 'solid': 'accent-fill', 'solid-hover': 'accent-fill-hover', 'solid-pressed': 'accent-fill-pressed' }),
+  // text on the accent fill is a role too: near-white in light by default, near-black with the vivid fill
+  'accent-solid-text': { light: ['neutral', 99], dark: ['neutral', 14], role: 'accent-fill-text' },
   ...intentTokens('danger', interactiveKeys),
   // controls and selection (checkbox, radio, switch, slider, progress, tabs, steps, selected option card /
   // chip / row / page): accent by default, neutral when a project theme sets controls: 'neutral'.
@@ -134,7 +136,13 @@ export const roleChoices = {
     default:  { light: [54, 46, 38], dark: [64, 70, 76] },
     strong:   { light: [46, 38, 30], dark: [70, 76, 85] },
     stronger: { light: [38, 30, 26], dark: [76, 85, 90] },
+    // vivid: the brand's own bright fill in both themes (64, lighter on hover) with near-black text on it.
+    // Only for fills behind text (buttons, solid badges and icons, highlights): controls keep the default
+    // fill, because a bright fill alone does not reach 3:1 on a light surface for every hue.
+    vivid:    { light: [64, 70, 76], dark: [64, 70, 76], onFill: { light: 14, dark: 14 }, controls: 'default' },
   },
+  // text on the accent fill (neutral step) unless a fill choice sets onFill
+  accentOnFill: { light: 99, dark: 14 },
   // controls: 'neutral' makes checkboxes, switches, sliders, selection and the focus ring near-black / near-white
   // (and their tints grey); buttons keep the accent
   neutralControls: { fill: { light: [22, 30, 38], dark: [90, 85, 76] }, tint: { light: [94, 90, 85], dark: [26, 30, 38] }, text: { light: 38, dark: 85 }, focus: { light: 38, dark: 85 } },
@@ -166,8 +174,11 @@ export function contrastPairs() {
       add(`${i}-solid-text`, `${i}-${b}`, TEXT, 'solid states');
     add('text', `${i}-subtle`, TEXT, 'body text inside tinted container');
   }
-  for (const i of ['accent', 'danger', 'success', 'warning']) {
-    for (const s of surfaces) add(`${i}-solid`, s, UI, 'checkbox fill / invalid border / indicator');
+  // a solid fill standing on its own (invalid border, indicator) must reach 3:1 on the surface. The accent fill is
+  // only ever a background behind text (the vivid fill does not reach 3:1 on light surfaces); accent indicators
+  // (checkbox, nav underline, rating stars) use control-solid, checked below.
+  for (const i of ['danger', 'success', 'warning']) {
+    for (const s of surfaces) add(`${i}-solid`, s, UI, 'invalid border / indicator');
   }
   // focus ring drawn inside an element (menu item, nav link, list row, segment, tab): it must also hold on that element's own fill
   for (const b of ['neutral-subtle', 'neutral-subtle-hover', 'control-subtle', 'control-subtle-hover', 'control-track', 'control-selected', 'accent-subtle'])
@@ -176,12 +187,12 @@ export function contrastPairs() {
   add('border-strong', 'neutral-subtle', UI, 'switch track (off)');
   add('neutral-text', 'neutral-subtle', UI, 'switch thumb (off)');
   add('text-muted', 'neutral-subtle', TEXT, 'tab / placeholder on tinted row');
-  for (const i of ['accent', 'success', 'warning', 'danger']) add(`${i}-solid`, 'neutral-subtle', UI, 'progress bar on its track');
+  // progress bar on its track: the accent bar is control-solid (below); intents use their own solid
+  for (const i of ['success', 'warning', 'danger']) add(`${i}-solid`, 'neutral-subtle', UI, 'progress bar on its track');
   for (const b of ['accent-subtle', 'accent-subtle-hover']) {
     add('text', b, TEXT, 'selected table row');
     add('text-muted', b, TEXT, 'muted cell in selected row');
   }
-  add('accent-solid', 'accent-subtle', UI, 'selected option card / chip ring');
   for (const s of ['surface-base', 'surface-raised']) add('border-control', s, UI, 'field / selectable outline (1.4.11)');
   // controls and selection
   for (const s of surfaces) { add('control-solid', s, UI, 'checkbox / radio / switch / slider'); add('control-text', s, TEXT, 'selected text'); }

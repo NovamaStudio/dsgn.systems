@@ -36,7 +36,7 @@ const data = {
   semantic: T.semanticColor, pairs: T.contrastPairs(), worst,
   density: T.density, radius: T.radius, elevation: T.elevation, material: T.material, lines: T.lines,
   roleNames: ROLES,
-  roles: { default: roleRefs({ accentFill: 'default' }), strong: roleRefs({ accentFill: 'strong' }), stronger: roleRefs({ accentFill: 'stronger' }), mono: roleRefs({ controls: 'neutral' }) },
+  roles: { default: roleRefs({ accentFill: 'default' }), strong: roleRefs({ accentFill: 'strong' }), stronger: roleRefs({ accentFill: 'stronger' }), vivid: roleRefs({ accentFill: 'vivid' }), mono: roleRefs({ controls: 'neutral' }) },
 };
 
 const html = `<title>dsgn tokens</title>
@@ -667,7 +667,7 @@ function optSeg(id, opts, def, on) {
     on(b.dataset.v); applyTheme();
   });
 }
-optSeg('seg-fill', [['default', 'Default'], ['strong', 'Strong'], ['stronger', 'Stronger']], 'default', v => { fillOpt = v; });
+optSeg('seg-fill', [['default', 'Default'], ['strong', 'Strong'], ['stronger', 'Stronger'], ['vivid', 'Vivid']], 'default', v => { fillOpt = v; });
 optSeg('seg-colour', [['accent', 'Accent'], ['mono', 'Monochrome']], 'accent', v => { mono = v === 'mono'; });
 seg('seg-root', 'font-size', ['16', '18', '20', '24'], '16');
 document.querySelectorAll('#seg-root button').forEach(b => b.textContent = b.dataset.v + ' px');

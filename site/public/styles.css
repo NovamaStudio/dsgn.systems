@@ -182,11 +182,12 @@ code {
   .hero-title { font-size: min(8vw, calc(var(--dsgn-font-size-display) * 3)); }
 }
 
-/* "plain HTML." on a solid orange field, dark ink in both themes (about 5:1 on the brand orange). */
+/* "plain HTML." on the accent fill: the theme's vivid fill (the logo orange) with the text dsgn pairs
+   with it, so the contrast is the build's guarantee, not a hand-picked pair. */
 .hero-highlight {
   padding-inline: 0.08em;
-  background: var(--dsgn-brand);
-  color: var(--dsgn-neutral-14);
+  background: var(--dsgn-accent-solid);
+  color: var(--dsgn-accent-solid-text);
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
 }
@@ -376,7 +377,7 @@ code {
 .scale-row:nth-child(5) .scale-bar { block-size: var(--dsgn-space-12); }
 .scale-row:nth-child(6) .scale-bar { block-size: var(--dsgn-space-16); }
 .scale-row:nth-child(7) .scale-bar { block-size: var(--dsgn-space-24); }
-.scale-row:nth-child(8) .scale-bar { block-size: var(--dsgn-space-32); background: var(--dsgn-brand); }
+.scale-row:nth-child(8) .scale-bar { block-size: var(--dsgn-space-32); background: var(--dsgn-accent-solid); }
 
 /* ── Modes ─────────────────────────────────────────────────────────────── */
 

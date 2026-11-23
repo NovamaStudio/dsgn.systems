@@ -215,13 +215,13 @@ figma.collections.push(primitives);
 // flips them per frame). Every value is an alias to a Primitives palette step, so Primitives hold only raw
 // palettes and a theme mode there recolours everything. Default = the package choice; the dsgn theme plugin
 // re-points Default when a theme sets accentFill or monochrome. Semantic colours go through this collection.
-const accentModes = [['Default', null], ['Strong', { accentFill: 'strong' }], ['Stronger', { accentFill: 'stronger' }], ['Monochrome', { controls: 'neutral' }]];
+const accentModes = [['Default', null], ['Strong', { accentFill: 'strong' }], ['Stronger', { accentFill: 'stronger' }], ['Monochrome', { controls: 'neutral' }], ['Vivid', { accentFill: 'vivid' }]];   // Vivid came later: Figma appends new modes
 const accentRoles = Object.fromEntries(accentModes.filter(([, o]) => o).map(([m, o]) => [m, roleRefs(o)]));
 const accentName = (role, theme) => roleFigma(role, theme).replace(/^color\//, '');
 const accent = { name: 'Accent', modes: accentModes.map(([m]) => m), variables: [] };
 for (const theme of ['light', 'dark']) for (const role of ROLES)
   accent.variables.push({ name: accentName(role, theme), type: 'COLOR', scopes: [], codeSyntax: code(roleVar(role, theme)),
-    description: `Role slot (${theme}): the palette step this role uses. Default = the package / theme choice, Strong / Stronger darken (light) or lighten (dark) the fill, Monochrome uses neutral.`,
+    description: `Role slot (${theme}): the palette step this role uses. Default = the package / theme choice, Strong / Stronger darken (light) or lighten (dark) the fill, Vivid keeps the bright fill in both themes with near-black text on it (controls stay at the default), Monochrome uses neutral.`,
     values: Object.fromEntries(accentModes.map(([m]) => [m, { alias: `Primitives::color/${(m === 'Default' ? roles : accentRoles[m])[theme][role].join('/')}` }])) });
 for (const s of T.ladder)
   accent.variables.push({ name: `palette/${s.step}`, type: 'COLOR', scopes: [], codeSyntax: code(`accent-${s.step}`),

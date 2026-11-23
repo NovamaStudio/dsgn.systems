@@ -40,24 +40,29 @@ export function buildPrimitives(pals = basePalettes) {
   for (const [name, p] of Object.entries(pals)) out[name] = buildPalette(p);
   return out;
 }
-/** Role slots (accent-fill, accent-fill-hover, accent-fill-pressed, accent-focus) → [palette, step] per theme. */
-export const ROLES = ['accent-fill', 'accent-fill-hover', 'accent-fill-pressed', 'control-fill', 'control-fill-hover', 'control-fill-pressed', 'control-tint', 'control-tint-hover', 'control-tint-pressed', 'control-text', 'control-focus'];
+/** Role slots (accent-fill, its hover / pressed and the text on it, control-fill …) → [palette, step] per theme. */
+export const ROLES = ['accent-fill', 'accent-fill-hover', 'accent-fill-pressed', 'accent-fill-text', 'control-fill', 'control-fill-hover', 'control-fill-pressed', 'control-tint', 'control-tint-hover', 'control-tint-pressed', 'control-text', 'control-focus'];
 export function roleRefs({ accentFill = 'default', controls = 'accent' } = {}) {
   const out = { light: {}, dark: {} };
   const N = roleChoices.neutralControls;
   for (const theme of ['light', 'dark']) {
-    const fill = (roleChoices.accentFill[accentFill] || roleChoices.accentFill.default)[theme];
+    const choice = roleChoices.accentFill[accentFill] || roleChoices.accentFill.default;
+    const fill = choice[theme];
     const r = out[theme];
     // buttons: accent, strength from accentFill; monochrome: near-black / near-white like every other control
     if (controls === 'neutral') [r['accent-fill'], r['accent-fill-hover'], r['accent-fill-pressed']] = N.fill[theme].map((st) => ['neutral', st]);
     else { r['accent-fill'] = ['accent', fill[0]]; r['accent-fill-hover'] = ['accent', fill[1]]; r['accent-fill-pressed'] = ['accent', fill[2]]; }
+    // text on the fill: near-white / near-black, or what the fill choice sets (vivid: near-black in both themes)
+    r['accent-fill-text'] = ['neutral', (controls !== 'neutral' && choice.onFill ? choice.onFill : roleChoices.accentOnFill)[theme]];
+    // controls match the button fill, unless the fill choice keeps them at the default (vivid)
+    const cfill = choice.controls === 'default' ? roleChoices.accentFill.default[theme] : fill;
     if (controls === 'neutral') {
       [r['control-fill'], r['control-fill-hover'], r['control-fill-pressed']] = N.fill[theme].map((st) => ['neutral', st]);
       [r['control-tint'], r['control-tint-hover'], r['control-tint-pressed']] = N.tint[theme].map((st) => ['neutral', st]);
       r['control-text'] = ['neutral', N.text[theme]];
       r['control-focus'] = ['neutral', N.focus[theme]];
     } else {
-      [r['control-fill'], r['control-fill-hover'], r['control-fill-pressed']] = fill.map((st) => ['accent', st]);   // controls match the button fill
+      [r['control-fill'], r['control-fill-hover'], r['control-fill-pressed']] = cfill.map((st) => ['accent', st]);
       r['control-tint'] = semanticColor['control-subtle'][theme]; r['control-tint-hover'] = semanticColor['control-subtle-hover'][theme];
       r['control-tint-pressed'] = semanticColor['control-subtle-pressed'][theme]; r['control-text'] = semanticColor['control-text'][theme];
       r['control-focus'] = semanticColor.focus[theme];
@@ -138,8 +143,8 @@ export function resolveTheme(config = {}) {
   if (cfg.controls === 'neutral') { pals.accent = { ...pals.neutral }; notes.push('monochrome: the accent colour is replaced by the greys everywhere (buttons, links, focus, selection, info)'); }
   let accentFill = cfg.accentFill;
   if (accentFill === 'auto') {                     // the fill strength whose light step is closest to the brand colour
-    const ref = brand ? hexToOklch(brand).L : null;
-    const opts = Object.entries(roleChoices.accentFill);
+    const ref = brand ? hexToOklch(brand).L : null;  // (vivid, which also flips the text on the fill, is never picked automatically)
+    const opts = Object.entries(roleChoices.accentFill).filter(([, o]) => !o.onFill);
     accentFill = ref === null ? 'default' : opts.reduce((a, o) => (Math.abs(o[1].light[0] / 100 - ref) < Math.abs(a[1].light[0] / 100 - ref) ? o : a))[0];
     notes.push(`accent fill: ${accentFill} (closest to the brand colour)`);
   }
@@ -354,7 +359,7 @@ export function themeCode(cfg) {
   L.push('  },');
   if (cfg.brand) L.push(`  brand: ${q(cfg.brand)},`);
   if (cfg.font && cfg.font.sans) L.push(`  font: { sans: ${q(cfg.font.sans)}${cfg.font.import ? `, import: ${q(cfg.font.import)}` : ''} },`);
-  if (cfg.accentFill && cfg.accentFill !== 'default') L.push(`  accentFill: ${q(cfg.accentFill)},          // default | strong | stronger | auto (closest to the brand colour)`);
+  if (cfg.accentFill && cfg.accentFill !== 'default') L.push(`  accentFill: ${q(cfg.accentFill)},          // default | strong | stronger | vivid | auto (closest to the brand colour)`);
   if (cfg.monochrome) L.push(`  monochrome: true,                    // no accent colour: greys everywhere, near-black / near-white fills`);
   if (false) L.push(`  controls: ${q(cfg.controls)},             // accent | neutral (grey checkboxes, switches, selection, focus; buttons stay accent)`);
   L.push(`  radius: ${q(cfg.radius || radius.default)},`, `  density: ${q(cfg.density || density.default)},`);

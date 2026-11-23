@@ -110,7 +110,7 @@ ${dsgnCss}
       <div class="dsgn-field"><label class="dsgn-label" for="brand">Brand colour</label>
         <div class="brand"><input type="color" id="brand-pick" value="#2f6fed" aria-label="Pick brand colour"><input class="dsgn-input" id="brand" placeholder="#2f6fed" autocomplete="off" spellcheck="false"></div></div>
       ${hc('accent', guarantee.intentMaxChroma)}
-      ${radios('fill', 'Button fill', [['default', 'Default'], ['strong', 'Strong'], ['stronger', 'Stronger'], ['auto', 'Brand']])}
+      ${radios('fill', 'Button fill', [['default', 'Default'], ['strong', 'Strong'], ['stronger', 'Stronger'], ['vivid', 'Vivid'], ['auto', 'Brand']])}
     </fieldset>
     <fieldset><legend>Accent or monochrome</legend>
       ${radios('controls', 'Colour', [['accent', 'Accent'], ['neutral', 'Monochrome']])}

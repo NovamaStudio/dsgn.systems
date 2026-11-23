@@ -95,6 +95,7 @@
   --dsgn-accent-fill-light: var(--dsgn-accent-54);
   --dsgn-accent-fill-hover-light: var(--dsgn-accent-46);
   --dsgn-accent-fill-pressed-light: var(--dsgn-accent-38);
+  --dsgn-accent-fill-text-light: var(--dsgn-neutral-99);
   --dsgn-control-fill-light: var(--dsgn-accent-54);
   --dsgn-control-fill-hover-light: var(--dsgn-accent-46);
   --dsgn-control-fill-pressed-light: var(--dsgn-accent-38);
@@ -106,6 +107,7 @@
   --dsgn-accent-fill-dark: var(--dsgn-accent-64);
   --dsgn-accent-fill-hover-dark: var(--dsgn-accent-70);
   --dsgn-accent-fill-pressed-dark: var(--dsgn-accent-76);
+  --dsgn-accent-fill-text-dark: var(--dsgn-neutral-14);
   --dsgn-control-fill-dark: var(--dsgn-accent-64);
   --dsgn-control-fill-hover-dark: var(--dsgn-accent-70);
   --dsgn-control-fill-pressed-dark: var(--dsgn-accent-76);
@@ -182,7 +184,7 @@
   --dsgn-accent-subtle-pressed: var(--dsgn-accent-85);
   --dsgn-accent-text: var(--dsgn-accent-38);
   --dsgn-accent-border: var(--dsgn-accent-76);
-  --dsgn-accent-solid-text: var(--dsgn-neutral-99);
+  --dsgn-accent-solid-text: var(--dsgn-accent-fill-text-light);
   --dsgn-danger-solid: var(--dsgn-danger-54);
   --dsgn-danger-solid-hover: var(--dsgn-danger-46);
   --dsgn-danger-solid-pressed: var(--dsgn-danger-38);
@@ -254,7 +256,7 @@
   --dsgn-accent-subtle-pressed: var(--dsgn-accent-38);
   --dsgn-accent-text: var(--dsgn-accent-85);
   --dsgn-accent-border: var(--dsgn-accent-38);
-  --dsgn-accent-solid-text: var(--dsgn-neutral-14);
+  --dsgn-accent-solid-text: var(--dsgn-accent-fill-text-dark);
   --dsgn-danger-solid: var(--dsgn-danger-64);
   --dsgn-danger-solid-hover: var(--dsgn-danger-70);
   --dsgn-danger-solid-pressed: var(--dsgn-danger-76);
@@ -327,7 +329,7 @@
     --dsgn-accent-subtle-pressed: var(--dsgn-accent-38);
     --dsgn-accent-text: var(--dsgn-accent-85);
     --dsgn-accent-border: var(--dsgn-accent-38);
-    --dsgn-accent-solid-text: var(--dsgn-neutral-14);
+    --dsgn-accent-solid-text: var(--dsgn-accent-fill-text-dark);
     --dsgn-danger-solid: var(--dsgn-danger-64);
     --dsgn-danger-solid-hover: var(--dsgn-danger-70);
     --dsgn-danger-solid-pressed: var(--dsgn-danger-76);
@@ -2908,7 +2910,8 @@ input.dsgn-input:disabled::-webkit-calendar-picker-indicator { background: var(-
  * hovered; the current page is base/text on neutral-subtle with a filled icon.
  * Vertical: full width, text starts at the left edge, optional group labels (.dsgn-nav-label).
  * text: no fill; muted links, the current one in full text colour and semibold.
- * underline: a 2 px line under the whole link (accent for the current page, neutral on hover,
+ * underline: a 2 px line under the whole link (control-solid for the current page: the accent at 3:1 on
+ * any surface, also with the vivid fill; neutral on hover,
  * sliding in); inside .dsgn-header it sits on the header's bottom edge.
  */
 .dsgn-nav {
@@ -2971,7 +2974,7 @@ input.dsgn-input:disabled::-webkit-calendar-picker-indicator { background: var(-
   scale: 0 1;
 }
 @media (hover: hover) { .dsgn-nav[data-variant="underline"] .dsgn-nav-link:hover::after { scale: 1 1; } }
-.dsgn-nav[data-variant="underline"] .dsgn-nav-link[aria-current="page"]::after { background: var(--dsgn-accent-solid); scale: 1 1; }
+.dsgn-nav[data-variant="underline"] .dsgn-nav-link[aria-current="page"]::after { background: var(--dsgn-control-solid); scale: 1 1; }
 
 @media (prefers-reduced-motion: no-preference) {
   .dsgn-nav-link { transition: background-color var(--dsgn-duration-fast) var(--dsgn-ease), color var(--dsgn-duration-fast) var(--dsgn-ease); }
@@ -3452,7 +3455,7 @@ html:has(.dsgn-header:not([data-sticky="false"])) { scroll-padding-block-start: 
  *   <span class="dsgn-icon" aria-hidden="true">star</span>             ×1
  * </span>
  *
- * Always five stars: filled ones (data-fill, accent colour) for the score, outline ones for the rest, so the score
+ * Always five stars: filled ones (data-fill, control-solid: the accent, 3:1 on any surface) for the score, outline ones for the rest, so the score
  * is readable without colour. The label carries the score for screen readers (role="img" + aria-label);
  * the stars are decorative. Read-only — a star picker for a form is a radio group, not this.
  * data-size  s (16 px stars, for lists and cards) · default 20 px
@@ -3468,7 +3471,7 @@ html:has(.dsgn-header:not([data-sticky="false"])) { scroll-padding-block-start: 
 }
 .dsgn-rating[data-size="s"] { --dsgn-icon-size: var(--dsgn-space-16); }
 .dsgn-rating > .dsgn-icon { color: var(--dsgn-border-control); }
-.dsgn-rating > .dsgn-icon[data-fill] { color: var(--dsgn-accent-solid); }
+.dsgn-rating > .dsgn-icon[data-fill] { color: var(--dsgn-control-solid); }
 @media (forced-colors: active) { .dsgn-rating > .dsgn-icon { color: CanvasText; } }
 
 /* ── search.css ── */
@@ -4422,7 +4425,7 @@ html:has(.dsgn-header:not([data-sticky="false"])) { scroll-padding-block-start: 
   <input type="range" class="dsgn-slider" id="p-accent-h" min="0" max="359" step="1" value="260"></div><div class="dsgn-field">
   <div class="dsgn-slider-label"><label class="dsgn-label" for="p-accent-c">Chroma</label><output class="dsgn-slider-value" id="p-accent-c-out">0.17</output></div>
   <input type="range" class="dsgn-slider" id="p-accent-c" min="0" max="0.3" step="0.002" value="0.17"></div>
-      <div class="dsgn-field"><span class="dsgn-label" id="r-fill">Button fill</span><div class="dsgn-segmented" data-width="full" role="radiogroup" aria-labelledby="r-fill"><label class="dsgn-segment"><input type="radio" name="fill" value="default" checked>Default</label><label class="dsgn-segment"><input type="radio" name="fill" value="strong">Strong</label><label class="dsgn-segment"><input type="radio" name="fill" value="stronger">Stronger</label><label class="dsgn-segment"><input type="radio" name="fill" value="auto">Brand</label></div></div>
+      <div class="dsgn-field"><span class="dsgn-label" id="r-fill">Button fill</span><div class="dsgn-segmented" data-width="full" role="radiogroup" aria-labelledby="r-fill"><label class="dsgn-segment"><input type="radio" name="fill" value="default" checked>Default</label><label class="dsgn-segment"><input type="radio" name="fill" value="strong">Strong</label><label class="dsgn-segment"><input type="radio" name="fill" value="stronger">Stronger</label><label class="dsgn-segment"><input type="radio" name="fill" value="vivid">Vivid</label><label class="dsgn-segment"><input type="radio" name="fill" value="auto">Brand</label></div></div>
     </fieldset>
     <fieldset><legend>Accent or monochrome</legend>
       <div class="dsgn-field"><span class="dsgn-label" id="r-controls">Colour</span><div class="dsgn-segmented" data-width="full" role="radiogroup" aria-labelledby="r-controls"><label class="dsgn-segment"><input type="radio" name="controls" value="accent" checked>Accent</label><label class="dsgn-segment"><input type="radio" name="controls" value="neutral">Monochrome</label></div></div>
@@ -4633,6 +4636,8 @@ const semanticColor = {
   }),
   // accent fills go through role slots (see below) so a project theme can make them stronger or neutral
   ...intentTokens('accent', interactiveKeys, {}, { 'solid': 'accent-fill', 'solid-hover': 'accent-fill-hover', 'solid-pressed': 'accent-fill-pressed' }),
+  // text on the accent fill is a role too: near-white in light by default, near-black with the vivid fill
+  'accent-solid-text': { light: ['neutral', 99], dark: ['neutral', 14], role: 'accent-fill-text' },
   ...intentTokens('danger', interactiveKeys),
   // controls and selection (checkbox, radio, switch, slider, progress, tabs, steps, selected option card /
   // chip / row / page): accent by default, neutral when a project theme sets controls: 'neutral'.
@@ -4658,7 +4663,13 @@ const roleChoices = {
     default:  { light: [54, 46, 38], dark: [64, 70, 76] },
     strong:   { light: [46, 38, 30], dark: [70, 76, 85] },
     stronger: { light: [38, 30, 26], dark: [76, 85, 90] },
+    // vivid: the brand's own bright fill in both themes (64, lighter on hover) with near-black text on it.
+    // Only for fills behind text (buttons, solid badges and icons, highlights): controls keep the default
+    // fill, because a bright fill alone does not reach 3:1 on a light surface for every hue.
+    vivid:    { light: [64, 70, 76], dark: [64, 70, 76], onFill: { light: 14, dark: 14 }, controls: 'default' },
   },
+  // text on the accent fill (neutral step) unless a fill choice sets onFill
+  accentOnFill: { light: 99, dark: 14 },
   // controls: 'neutral' makes checkboxes, switches, sliders, selection and the focus ring near-black / near-white
   // (and their tints grey); buttons keep the accent
   neutralControls: { fill: { light: [22, 30, 38], dark: [90, 85, 76] }, tint: { light: [94, 90, 85], dark: [26, 30, 38] }, text: { light: 38, dark: 85 }, focus: { light: 38, dark: 85 } },
@@ -4690,8 +4701,11 @@ function contrastPairs() {
       add(`${i}-solid-text`, `${i}-${b}`, TEXT, 'solid states');
     add('text', `${i}-subtle`, TEXT, 'body text inside tinted container');
   }
-  for (const i of ['accent', 'danger', 'success', 'warning']) {
-    for (const s of surfaces) add(`${i}-solid`, s, UI, 'checkbox fill / invalid border / indicator');
+  // a solid fill standing on its own (invalid border, indicator) must reach 3:1 on the surface. The accent fill is
+  // only ever a background behind text (the vivid fill does not reach 3:1 on light surfaces); accent indicators
+  // (checkbox, nav underline, rating stars) use control-solid, checked below.
+  for (const i of ['danger', 'success', 'warning']) {
+    for (const s of surfaces) add(`${i}-solid`, s, UI, 'invalid border / indicator');
   }
   // focus ring drawn inside an element (menu item, nav link, list row, segment, tab): it must also hold on that element's own fill
   for (const b of ['neutral-subtle', 'neutral-subtle-hover', 'control-subtle', 'control-subtle-hover', 'control-track', 'control-selected', 'accent-subtle'])
@@ -4700,12 +4714,12 @@ function contrastPairs() {
   add('border-strong', 'neutral-subtle', UI, 'switch track (off)');
   add('neutral-text', 'neutral-subtle', UI, 'switch thumb (off)');
   add('text-muted', 'neutral-subtle', TEXT, 'tab / placeholder on tinted row');
-  for (const i of ['accent', 'success', 'warning', 'danger']) add(`${i}-solid`, 'neutral-subtle', UI, 'progress bar on its track');
+  // progress bar on its track: the accent bar is control-solid (below); intents use their own solid
+  for (const i of ['success', 'warning', 'danger']) add(`${i}-solid`, 'neutral-subtle', UI, 'progress bar on its track');
   for (const b of ['accent-subtle', 'accent-subtle-hover']) {
     add('text', b, TEXT, 'selected table row');
     add('text-muted', b, TEXT, 'muted cell in selected row');
   }
-  add('accent-solid', 'accent-subtle', UI, 'selected option card / chip ring');
   for (const s of ['surface-base', 'surface-raised']) add('border-control', s, UI, 'field / selectable outline (1.4.11)');
   // controls and selection
   for (const s of surfaces) { add('control-solid', s, UI, 'checkbox / radio / switch / slider'); add('control-text', s, TEXT, 'selected text'); }
@@ -4919,24 +4933,29 @@ function buildPrimitives(pals = basePalettes) {
   for (const [name, p] of Object.entries(pals)) out[name] = buildPalette(p);
   return out;
 }
-/** Role slots (accent-fill, accent-fill-hover, accent-fill-pressed, accent-focus) → [palette, step] per theme. */
-const ROLES = ['accent-fill', 'accent-fill-hover', 'accent-fill-pressed', 'control-fill', 'control-fill-hover', 'control-fill-pressed', 'control-tint', 'control-tint-hover', 'control-tint-pressed', 'control-text', 'control-focus'];
+/** Role slots (accent-fill, its hover / pressed and the text on it, control-fill …) → [palette, step] per theme. */
+const ROLES = ['accent-fill', 'accent-fill-hover', 'accent-fill-pressed', 'accent-fill-text', 'control-fill', 'control-fill-hover', 'control-fill-pressed', 'control-tint', 'control-tint-hover', 'control-tint-pressed', 'control-text', 'control-focus'];
 function roleRefs({ accentFill = 'default', controls = 'accent' } = {}) {
   const out = { light: {}, dark: {} };
   const N = roleChoices.neutralControls;
   for (const theme of ['light', 'dark']) {
-    const fill = (roleChoices.accentFill[accentFill] || roleChoices.accentFill.default)[theme];
+    const choice = roleChoices.accentFill[accentFill] || roleChoices.accentFill.default;
+    const fill = choice[theme];
     const r = out[theme];
     // buttons: accent, strength from accentFill; monochrome: near-black / near-white like every other control
     if (controls === 'neutral') [r['accent-fill'], r['accent-fill-hover'], r['accent-fill-pressed']] = N.fill[theme].map((st) => ['neutral', st]);
     else { r['accent-fill'] = ['accent', fill[0]]; r['accent-fill-hover'] = ['accent', fill[1]]; r['accent-fill-pressed'] = ['accent', fill[2]]; }
+    // text on the fill: near-white / near-black, or what the fill choice sets (vivid: near-black in both themes)
+    r['accent-fill-text'] = ['neutral', (controls !== 'neutral' && choice.onFill ? choice.onFill : roleChoices.accentOnFill)[theme]];
+    // controls match the button fill, unless the fill choice keeps them at the default (vivid)
+    const cfill = choice.controls === 'default' ? roleChoices.accentFill.default[theme] : fill;
     if (controls === 'neutral') {
       [r['control-fill'], r['control-fill-hover'], r['control-fill-pressed']] = N.fill[theme].map((st) => ['neutral', st]);
       [r['control-tint'], r['control-tint-hover'], r['control-tint-pressed']] = N.tint[theme].map((st) => ['neutral', st]);
       r['control-text'] = ['neutral', N.text[theme]];
       r['control-focus'] = ['neutral', N.focus[theme]];
     } else {
-      [r['control-fill'], r['control-fill-hover'], r['control-fill-pressed']] = fill.map((st) => ['accent', st]);   // controls match the button fill
+      [r['control-fill'], r['control-fill-hover'], r['control-fill-pressed']] = cfill.map((st) => ['accent', st]);
       r['control-tint'] = semanticColor['control-subtle'][theme]; r['control-tint-hover'] = semanticColor['control-subtle-hover'][theme];
       r['control-tint-pressed'] = semanticColor['control-subtle-pressed'][theme]; r['control-text'] = semanticColor['control-text'][theme];
       r['control-focus'] = semanticColor.focus[theme];
@@ -5017,8 +5036,8 @@ function resolveTheme(config = {}) {
   if (cfg.controls === 'neutral') { pals.accent = { ...pals.neutral }; notes.push('monochrome: the accent colour is replaced by the greys everywhere (buttons, links, focus, selection, info)'); }
   let accentFill = cfg.accentFill;
   if (accentFill === 'auto') {                     // the fill strength whose light step is closest to the brand colour
-    const ref = brand ? hexToOklch(brand).L : null;
-    const opts = Object.entries(roleChoices.accentFill);
+    const ref = brand ? hexToOklch(brand).L : null;  // (vivid, which also flips the text on the fill, is never picked automatically)
+    const opts = Object.entries(roleChoices.accentFill).filter(([, o]) => !o.onFill);
     accentFill = ref === null ? 'default' : opts.reduce((a, o) => (Math.abs(o[1].light[0] / 100 - ref) < Math.abs(a[1].light[0] / 100 - ref) ? o : a))[0];
     notes.push(`accent fill: ${accentFill} (closest to the brand colour)`);
   }
@@ -5233,7 +5252,7 @@ function themeCode(cfg) {
   L.push('  },');
   if (cfg.brand) L.push(`  brand: ${q(cfg.brand)},`);
   if (cfg.font && cfg.font.sans) L.push(`  font: { sans: ${q(cfg.font.sans)}${cfg.font.import ? `, import: ${q(cfg.font.import)}` : ''} },`);
-  if (cfg.accentFill && cfg.accentFill !== 'default') L.push(`  accentFill: ${q(cfg.accentFill)},          // default | strong | stronger | auto (closest to the brand colour)`);
+  if (cfg.accentFill && cfg.accentFill !== 'default') L.push(`  accentFill: ${q(cfg.accentFill)},          // default | strong | stronger | vivid | auto (closest to the brand colour)`);
   if (cfg.monochrome) L.push(`  monochrome: true,                    // no accent colour: greys everywhere, near-black / near-white fills`);
   if (false) L.push(`  controls: ${q(cfg.controls)},             // accent | neutral (grey checkboxes, switches, selection, focus; buttons stay accent)`);
   L.push(`  radius: ${q(cfg.radius || radius.default)},`, `  density: ${q(cfg.density || density.default)},`);
