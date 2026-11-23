@@ -7,23 +7,23 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
 ---
     <!-- Hero as a technical sheet (Swiss, data-log): cells divided by 1 px ink rules on the 12-column
          grid, holding only information. It is the first band of one page-long sheet; the sections
-         below continue it with no gap, thematic groups on data-tone="sunken". The CTAs live in the header. -->
+         below continue it with no gap, thematic groups on. The CTAs live in the header. -->
     <section class="hero" aria-labelledby="hero-title">
       <div class="dsgn-container">
         <div class="sheet hero-sheet">
-          <p class="sheet-cell sheet-meta hero-meta-main">Token-driven CSS design system</p>
-          <p class="sheet-cell sheet-meta"><span class="sheet-key">Version</span> {{ dsgn.minor }}</p>
-          <p class="sheet-cell sheet-meta"><span class="sheet-key">Licence</span> MIT</p>
-          <p class="sheet-cell sheet-meta"><span class="sheet-key">Figma</span> 1:1 with code</p>
+          <p class="sheet-cell sheet-meta" data-span="quarter" data-tone="sunken">Token-driven CSS design system</p>
+          <p class="sheet-cell sheet-meta" data-span="quarter" data-tone="sunken"><span class="sheet-key">Version</span> {{ dsgn.minor }}</p>
+          <p class="sheet-cell sheet-meta" data-span="quarter" data-tone="sunken"><span class="sheet-key">Licence</span> MIT</p>
+          <p class="sheet-cell sheet-meta" data-span="quarter" data-tone="sunken"><span class="sheet-key">Figma</span> 1:1 with code</p>
 
           <div class="sheet-cell hero-title-cell">
             <h1 class="hero-title" id="hero-title">Accessible UI from <mark class="hero-highlight">plain&nbsp;HTML.</mark></h1>
           </div>
 
-          <div class="sheet-cell hero-lead-cell">
+          <div class="sheet-cell hero-lead-cell" data-span="half">
             <p class="dsgn-lead">Write semantic HTML with dsgn classes and data attributes: contrast, focus, spacing and dark mode are already solved, and every component exists 1:1 in&nbsp;Figma.</p>
           </div>
-          <div class="sheet-cell hero-install-cell">
+          <div class="sheet-cell hero-install-cell" data-span="half">
             <p class="sheet-meta"><span class="sheet-key">Install</span></p>
             <div class="install">
               <code class="install-command" id="install-command"><span class="install-prompt" aria-hidden="true">$</span> npm i dsgn.systems</code>
@@ -40,28 +40,28 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
     <section class="dsgn-section sheet-section" aria-label="dsgn in numbers">
       <div class="dsgn-container">
         <div class="sheet">
-          <div class="sheet-cell" data-span-tablet="3" data-span="3">
+          <div class="sheet-cell" data-span="quarter">
             <div class="dsgn-stat">
               <p class="dsgn-stat-label">Colour pairs that pass WCAG</p>
               <p class="dsgn-stat-value">{{ dsgn.contrast.pass }} / {{ dsgn.contrast.pairs }}</p>
               <p class="dsgn-stat-meta">checked for every hue on every build</p>
             </div>
           </div>
-          <div class="sheet-cell" data-span-tablet="3" data-span="3">
+          <div class="sheet-cell" data-span="quarter">
             <div class="dsgn-stat">
               <p class="dsgn-stat-label">CSS, minified and gzipped</p>
               <p class="dsgn-stat-value">{{ dsgn.size.css }} kB</p>
               <p class="dsgn-stat-meta">plus {{ dsgn.size.js }} kB of optional JavaScript</p>
             </div>
           </div>
-          <div class="sheet-cell" data-span-tablet="3" data-span="3">
+          <div class="sheet-cell" data-span="quarter">
             <div class="dsgn-stat">
               <p class="dsgn-stat-label">Figma variables</p>
               <p class="dsgn-stat-value">{{ dsgn.figma.variables }}</p>
               <p class="dsgn-stat-meta">in {{ dsgn.figma.collections | length }} collections with modes</p>
             </div>
           </div>
-          <div class="sheet-cell" data-span-tablet="3" data-span="3">
+          <div class="sheet-cell" data-span="quarter">
             <div class="dsgn-stat">
               <p class="dsgn-stat-label">Build steps in your project</p>
               <p class="dsgn-stat-value">0</p>
@@ -73,17 +73,17 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
     </section>
 
     <!-- Why -->
-    <section class="dsgn-section sheet-section" data-tone="sunken" id="why" aria-labelledby="why-title">
+    <section class="dsgn-section sheet-section" id="why" aria-labelledby="why-title">
       <div class="dsgn-container">
         <div class="sheet">
-          <div class="sheet-cell sheet-head">
+          <div class="sheet-cell sheet-head" data-tone="sunken">
             <div class="sheet-head-text">
               <p class="sheet-meta sheet-key">Why dsgn</p>
               <h2 class="dsgn-heading" id="why-title">The hard parts are already in the stylesheet.</h2>
               <p class="dsgn-lead">You compose pages from components and layout primitives. dsgn takes care of what usually goes wrong late in a project.</p>
             </div>
           </div>
-          <div class="sheet-cell" data-span-tablet="3" data-span="4">
+          <div class="sheet-cell" data-span="half">
             <div class="dsgn-feature" data-layout="stack">
               <span class="dsgn-icon" data-variant="subtle" aria-hidden="true">contrast</span>
               <div class="dsgn-feature-body">
@@ -92,7 +92,7 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
               </div>
             </div>
           </div>
-          <div class="sheet-cell" data-span-tablet="3" data-span="4">
+          <div class="sheet-cell" data-span="half">
             <div class="dsgn-feature" data-layout="stack">
               <span class="dsgn-icon" data-variant="subtle" aria-hidden="true">code</span>
               <div class="dsgn-feature-body">
@@ -101,7 +101,7 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
               </div>
             </div>
           </div>
-          <div class="sheet-cell" data-span-tablet="3" data-span="4">
+          <div class="sheet-cell" data-span="half">
             <div class="dsgn-feature" data-layout="stack">
               <span class="dsgn-icon" data-variant="subtle" aria-hidden="true">layers</span>
               <div class="dsgn-feature-body">
@@ -110,7 +110,7 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
               </div>
             </div>
           </div>
-          <div class="sheet-cell" data-span-tablet="3" data-span="4">
+          <div class="sheet-cell" data-span="half">
             <div class="dsgn-feature" data-layout="stack">
               <span class="dsgn-icon" data-variant="subtle" aria-hidden="true">accessibility_new</span>
               <div class="dsgn-feature-body">
@@ -119,7 +119,7 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
               </div>
             </div>
           </div>
-          <div class="sheet-cell" data-span-tablet="3" data-span="4">
+          <div class="sheet-cell" data-span="half">
             <div class="dsgn-feature" data-layout="stack">
               <span class="dsgn-icon" data-variant="subtle" aria-hidden="true">design_services</span>
               <div class="dsgn-feature-body">
@@ -128,7 +128,7 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
               </div>
             </div>
           </div>
-          <div class="sheet-cell" data-span-tablet="3" data-span="4">
+          <div class="sheet-cell" data-span="half">
             <div class="dsgn-feature" data-layout="stack">
               <span class="dsgn-icon" data-variant="subtle" aria-hidden="true">smart_toy</span>
               <div class="dsgn-feature-body">
@@ -142,24 +142,24 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
     </section>
 
     <!-- Scale -->
-    <section class="dsgn-section sheet-section" data-tone="sunken" id="scale" aria-labelledby="scale-title">
+    <section class="dsgn-section sheet-section" id="scale" aria-labelledby="scale-title">
       <div class="dsgn-container">
         <div class="sheet">
-          <div class="sheet-cell sheet-head">
+          <div class="sheet-cell sheet-head" data-tone="sunken">
             <div class="sheet-head-text">
               <p class="sheet-meta sheet-key">The scale</p>
               <h2 class="dsgn-heading" id="scale-title">One scale, from a hairline to a block.</h2>
               <p class="dsgn-body">The logo is drawn from the same spacing tokens as every gap and padding in dsgn: 2, 4, 6, 8, 12, 16, 24 and 32. Thin lines at the top, solid mass at the bottom, all from one unit.</p>
             </div>
           </div>
-          <div class="sheet-cell" data-span="6">
+          <div class="sheet-cell" data-span="half">
             <ul class="dsgn-list" data-variant="plain">
               <li><div class="dsgn-list-item"><span class="dsgn-icon" aria-hidden="true">grid_4x4</span><div class="dsgn-list-item-content"><p class="dsgn-list-item-title">Every size on a 2&nbsp;px grid</p><p class="dsgn-list-item-text">Snapped at any browser font size, so nothing lands on half pixels.</p></div></div></li>
               <li><div class="dsgn-list-item"><span class="dsgn-icon" aria-hidden="true">format_size</span><div class="dsgn-list-item-content"><p class="dsgn-list-item-title">Sizes come from type</p><p class="dsgn-list-item-text">Control height = line height + 2 × padding, in every density.</p></div></div></li>
               <li><div class="dsgn-list-item"><span class="dsgn-icon" aria-hidden="true">touch_app</span><div class="dsgn-list-item-content"><p class="dsgn-list-item-title">Touch screens get room</p><p class="dsgn-list-item-text">Without a density set, touch devices switch to L with 44&nbsp;px controls.</p></div></div></li>
             </ul>
           </div>
-          <figure class="sheet-cell scale-cell" data-span="6">
+          <figure class="sheet-cell scale-cell" data-span="half">
             <figcaption class="sheet-meta"><span class="sheet-key">Tokens</span> --dsgn-space-2 … --dsgn-space-32<span class="dsgn-visually-hidden">: eight bars, each as tall as its spacing token, 2, 4, 6, 8, 12, 16, 24 and 32 pixels, the rows the logo is drawn from.</span></figcaption>
             <ol class="scale" aria-label="Spacing tokens from 2 to 32 pixels">
               <li class="scale-row"><span class="scale-name">2</span><span class="scale-bar"></span></li>
@@ -177,17 +177,17 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
     </section>
 
     <!-- Modes -->
-    <section class="dsgn-section sheet-section" data-tone="sunken" id="modes" aria-labelledby="modes-title">
+    <section class="dsgn-section sheet-section" id="modes" aria-labelledby="modes-title">
       <div class="dsgn-container">
         <div class="sheet">
-          <div class="sheet-cell sheet-head">
+          <div class="sheet-cell sheet-head" data-tone="sunken">
             <div class="sheet-head-text">
               <p class="sheet-meta sheet-key">Modes</p>
               <h2 class="dsgn-heading" id="modes-title">Every mode is one attribute.</h2>
               <p class="dsgn-lead">Light or dark, dense or roomy, square or pill. Set it on <code>&lt;html&gt;</code> for the whole page or on any section. Try it on the panel below.</p>
             </div>
           </div>
-          <div class="sheet-cell" data-span="4">
+          <div class="sheet-cell" data-span="half">
             <form class="modes-controls" aria-label="Preview modes">
               <div class="dsgn-field">
                 <span class="dsgn-label" id="mode-theme-label">Theme</span>
@@ -222,7 +222,7 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
               </div>
             </form>
           </div>
-          <div class="sheet-cell modes-cell" data-span="8">
+          <div class="sheet-cell modes-cell" data-span="half">
             <div class="modes-stage">
               <pre class="code modes-code"><code id="modes-code">&lt;section data-theme="light" data-density="m" data-radius="sharp" data-elevation="flat"&gt;</code></pre>
               <div class="preview" id="preview" data-theme="light" data-density="m" data-radius="sharp" data-elevation="flat">
@@ -267,14 +267,14 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
     <section class="dsgn-section sheet-section" id="figma" aria-labelledby="figma-title">
       <div class="dsgn-container">
         <div class="sheet">
-          <div class="sheet-cell sheet-head">
+          <div class="sheet-cell sheet-head" data-tone="sunken">
             <div class="sheet-head-text">
               <p class="sheet-meta sheet-key">Figma</p>
               <h2 class="dsgn-heading" id="figma-title">The same system on the canvas.</h2>
               <p class="dsgn-body">Designers switch the same modes as developers do, through Figma variable modes. One version number covers the npm package and the library, so a design never points at a component that the code does not have.</p>
             </div>
           </div>
-          <div class="sheet-cell sheet-stack" data-span="6">
+          <div class="sheet-cell sheet-stack" data-span="half">
             <ul class="dsgn-list" data-variant="plain">
               <li><div class="dsgn-list-item"><span class="dsgn-icon" aria-hidden="true">integration_instructions</span><div class="dsgn-list-item-content"><p class="dsgn-list-item-title">Code in every component</p><p class="dsgn-list-item-text">Dev Mode shows the markup and how each property maps to an attribute.</p></div></div></li>
               <li><div class="dsgn-list-item"><span class="dsgn-icon" aria-hidden="true">palette</span><div class="dsgn-list-item-content"><p class="dsgn-list-item-title">Your brand as a mode</p><p class="dsgn-list-item-text"><code>npx dsgn theme</code> writes the CSS and the Figma mode from one config.</p></div></div></li>
@@ -284,7 +284,7 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
               <a class="dsgn-button" data-variant="subtle" data-intent="neutral" href="{{ site.links.figmaPlugin }}">Figma theme plugin<span class="dsgn-icon" data-end aria-hidden="true">arrow_outward</span></a>
             </div>
           </div>
-          <div class="sheet-cell sheet-flush" data-span="6">
+          <div class="sheet-cell sheet-flush" data-span="half">
             <div class="dsgn-table-wrap" tabindex="0" role="region" aria-labelledby="figma-table-caption">
               <table class="dsgn-table">
                 <caption id="figma-table-caption" class="dsgn-visually-hidden">Figma variable collections in dsgn {{ dsgn.minor }}</caption>
@@ -307,7 +307,7 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
     <section class="dsgn-section sheet-section" id="showcase" aria-labelledby="showcase-title">
       <div class="dsgn-container">
         <div class="sheet">
-          <div class="sheet-cell sheet-head">
+          <div class="sheet-cell sheet-head" data-tone="sunken">
             <div class="sheet-head-text">
               <p class="sheet-meta sheet-key">Showcase</p>
               <h2 class="dsgn-heading" id="showcase-title">One system, any brand.</h2>
@@ -315,13 +315,13 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
             </div>
             <a class="dsgn-button" data-variant="subtle" data-intent="neutral" href="{{ site.links.showcase }}">All demos<span class="dsgn-icon" data-end aria-hidden="true">arrow_forward</span></a>
           </div>
-          <article class="sheet-cell sheet-card" data-span="6">
+          <article class="sheet-cell sheet-card" data-span="half">
             <div class="dsgn-media dsgn-card-media"><img src="/img/docs/card-sample.svg" alt="" width="640" height="360"></div>
             <h3 class="dsgn-card-title"><a class="dsgn-card-link" href="/showcase/billing/">Billing app</a></h3>
             <p class="dsgn-card-text">App shell, stats, tabs and a table of invoices with statuses.</p>
 
           </article>
-          <article class="sheet-cell sheet-card" data-span="6">
+          <article class="sheet-cell sheet-card" data-span="half">
             <div class="dsgn-media dsgn-card-media" data-glaze="brand">{% include "svg/mug.svg" %}</div>
             <h3 class="dsgn-card-title"><a class="dsgn-card-link" href="/showcase/shop/">Shop product page</a></h3>
             <p class="dsgn-card-text">Gallery, ratings, option cards, a cart toast and reviews.</p>
@@ -332,24 +332,24 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
     </section>
 
     <!-- Get started -->
-    <section class="dsgn-section sheet-section" data-tone="sunken" id="start" aria-labelledby="start-title">
+    <section class="dsgn-section sheet-section" id="start" aria-labelledby="start-title">
       <div class="dsgn-container">
         <div class="sheet">
-          <div class="sheet-cell sheet-head">
+          <div class="sheet-cell sheet-head" data-tone="sunken">
             <div class="sheet-head-text">
               <p class="sheet-meta sheet-key">Get started</p>
               <h2 class="dsgn-heading" id="start-title">Three steps to your first page.</h2>
             </div>
           </div>
           <ol class="sheet-list">
-          <li class="sheet-cell sheet-stack" data-span="4">
+          <li class="sheet-cell sheet-stack" data-span="half">
             <p class="sheet-meta"><span class="sheet-key">Step</span> 1 of 3</p>
             <h3 class="dsgn-card-title">Install</h3>
             <p class="dsgn-card-text">Add the package. It brings the CSS, the optional script and the <code>dsgn</code> command line tool.</p>
             <pre class="code"><code>npm i dsgn.systems</code></pre>
 
           </li>
-          <li class="sheet-cell sheet-stack" data-span="4">
+          <li class="sheet-cell sheet-stack" data-span="half">
             <p class="sheet-meta"><span class="sheet-key">Step</span> 2 of 3</p>
             <h3 class="dsgn-card-title">Link it</h3>
                         <p class="dsgn-card-text">On a static site, copy the minified files into the folder you deploy and link them.</p>
@@ -359,7 +359,7 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
 &lt;script src="vendor/dsgn/dsgn.js" defer&gt;&lt;/script&gt;</code></pre>
 
           </li>
-          <li class="sheet-cell sheet-stack" data-span="4">
+          <li class="sheet-cell sheet-stack" data-span="half">
             <p class="sheet-meta"><span class="sheet-key">Step</span> 3 of 3</p>
             <h3 class="dsgn-card-title">Make it yours</h3>
                         <p class="dsgn-card-text">Set your brand colour, corners and density. The contrast check runs before anything is written.</p>
@@ -369,7 +369,7 @@ npx dsgn theme</code></pre>
 
           </li>
           </ol>
-          <div class="sheet-cell sheet-stack">
+          <div class="sheet-cell sheet-stack start-cdn" data-span="half">
             <p class="sheet-meta"><span class="sheet-key">Prototyping</span> Use the CDN</p>
             <p>Link <code>https://cdn.jsdelivr.net/npm/dsgn.systems@{{ dsgn.minor }}/dist/dsgn.min.css</code> and you are done. Pin the minor version.</p>
           </div>
@@ -378,16 +378,16 @@ npx dsgn theme</code></pre>
     </section>
 
     <!-- FAQ -->
-    <section class="dsgn-section sheet-section" data-tone="sunken" aria-labelledby="faq-title">
+    <section class="dsgn-section sheet-section" aria-labelledby="faq-title">
       <div class="dsgn-container">
         <div class="sheet">
-          <div class="sheet-cell sheet-head" data-span="4">
+          <div class="sheet-cell sheet-head" data-span="half" data-tone="sunken">
             <div class="sheet-head-text">
               <p class="sheet-meta sheet-key">FAQ</p>
               <h2 class="dsgn-heading" id="faq-title">Questions</h2>
             </div>
           </div>
-          <div class="sheet-cell" data-span="8">
+          <div class="sheet-cell" data-span="half">
             <div class="dsgn-accordion">
               <details name="faq">
                 <summary>Do I need React, Vue or Tailwind?<span class="dsgn-icon" aria-hidden="true">expand_more</span></summary>
@@ -419,13 +419,13 @@ npx dsgn theme</code></pre>
     <section class="dsgn-section sheet-section cta" aria-labelledby="cta-title">
       <div class="dsgn-container">
         <div class="sheet">
-          <div class="sheet-cell cta-mark-cell" data-span-tablet="2" data-span="3">
+          <div class="sheet-cell cta-mark-cell" data-span="half">
             {% include "svg/cta-mark.svg" %}
             <button class="dsgn-icon-button cta-control" data-variant="ghost" data-intent="neutral" type="button" aria-pressed="false" data-motion-toggle="animations" aria-label="Pause animations">
               <span class="dsgn-icon" aria-hidden="true">pause</span>
             </button>
           </div>
-          <div class="sheet-cell sheet-stack cta-text" data-span-tablet="4" data-span="9">
+          <div class="sheet-cell sheet-stack cta-text" data-span="half">
             <h2 class="dsgn-heading" id="cta-title">Start with one stylesheet.</h2>
             <p class="dsgn-lead">Install the package, link the CSS and build your first page with real components today.</p>
             <div class="dsgn-cluster">

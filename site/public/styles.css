@@ -122,17 +122,17 @@ code {
 .sheet {
   --site-rule: var(--dsgn-border-width) solid var(--dsgn-text);
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   border-block-start: var(--site-rule);
   border-inline-start: var(--site-rule);
 }
 
 @media (min-width: 64rem) {
-  .sheet { grid-template-columns: repeat(12, minmax(0, 1fr)); }
+  .sheet { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
 
 .sheet-cell {
-  grid-column: 1 / -1; /* a full row unless data-span / data-span-tablet say otherwise */
+  grid-column: 1 / -1; /* a full row unless data-span says otherwise */
   margin: 0;
   border-block-end: var(--site-rule);
   border-inline-end: var(--site-rule);
@@ -159,13 +159,9 @@ code {
   color: var(--dsgn-text);
 }
 
-/* Phones and tablets: the system on its own row, version, licence and Figma under it (key above
-   value), then title, lead, install. Desktop (12 columns): metadata 6 + 2 + 2 + 2, the title across
-   the sheet, lead 7 and install 5. */
-.hero-sheet > .sheet-meta:not(.hero-meta-main) { grid-column: span 2; }
-
+/* The metadata row is four quarters (two by two below 64rem, key above value). */
 @media (max-width: 63.99rem) {
-  .hero-sheet > .sheet-meta:not(.hero-meta-main) .sheet-key { display: block; }
+  .hero-sheet > .sheet-meta .sheet-key { display: block; }
 }
 
 .hero-title-cell,
@@ -205,11 +201,10 @@ code {
 }
 
 @media (min-width: 64rem) {
-  .hero-meta-main { grid-column: span 6; }
-  .hero-title-cell { grid-column: span 12; padding: var(--dsgn-space-64) var(--dsgn-space-32) var(--dsgn-space-48); }
+  .hero-title-cell { padding: var(--dsgn-space-64) var(--dsgn-space-32) var(--dsgn-space-48); }
   .hero-title { font-size: min(7vw, calc(var(--dsgn-font-size-display) * 3.5)); }
-  .hero-lead-cell { grid-column: span 7; padding: var(--dsgn-space-24) var(--dsgn-space-32); }
-  .hero-install-cell { grid-column: span 5; padding: var(--dsgn-space-24) var(--dsgn-space-32); }
+  .hero-lead-cell { padding: var(--dsgn-space-24) var(--dsgn-space-32); }
+  .hero-install-cell { padding: var(--dsgn-space-24) var(--dsgn-space-32); }
 }
 
 /* Install command: a mono line with its copy button; the cell is its frame. */
@@ -234,30 +229,28 @@ code {
 /* ── Sections ──────────────────────────────────────────────────────────── */
 
 /* The home page is one technical sheet: every section is a .sheet band (a head cell with section
-   name, heading, lead and optional action, then content cells on the 12-column grid), and the bands
-   follow each other with no gap, so only the hero draws the top rule. Thematic groups are told
-   apart by the cells' background: data-tone="sunken" on the section. */
+   name, heading, lead and optional action, then content cells), and the bands follow each other
+   with no gap, so only the hero draws the top rule.
+   Grid: 2 columns, 4 from 64rem. A cell is a full row unless data-span says
+   half (full on phones, 1 of 2, 2 of 4) or quarter (1 of 2, then 1 of 4).
+   Tone: data-tone="sunken" on a cell tints it (label rows, section heads). */
 
 .sheet-section { padding-block: 0; }
 .sheet-section:last-of-type { padding-block-end: calc(var(--dsgn-space-48) * 2); }
 .sheet-section .sheet { border-block-start: 0; }
-.sheet-section[data-tone="sunken"] .sheet-cell { background: var(--dsgn-surface-sunken); }
+.sheet .sheet-cell[data-tone="sunken"] { background: var(--dsgn-surface-sunken); }
 
 :where(.sheet .sheet-cell:not(.sheet-meta)) { padding: var(--dsgn-space-24); }
 
+.sheet-cell[data-span="quarter"] { grid-column: span 1; }
+
 @media (min-width: 40rem) {
-  .sheet-cell[data-span-tablet="2"] { grid-column: span 2; }
-  .sheet-cell[data-span-tablet="3"] { grid-column: span 3; }
-  .sheet-cell[data-span-tablet="4"] { grid-column: span 4; }
+  .sheet-cell[data-span="half"] { grid-column: span 1; }
 }
 
 @media (min-width: 64rem) {
   :where(.sheet .sheet-cell:not(.sheet-meta)) { padding: var(--dsgn-space-32); }
-  .sheet-cell[data-span="3"] { grid-column: span 3; }
-  .sheet-cell[data-span="4"] { grid-column: span 4; }
-  .sheet-cell[data-span="6"] { grid-column: span 6; }
-  .sheet-cell[data-span="8"] { grid-column: span 8; }
-  .sheet-cell[data-span="9"] { grid-column: span 9; }
+  .sheet-cell[data-span="half"] { grid-column: span 2; }
 }
 
 .sheet-head {
@@ -296,6 +289,17 @@ code {
   margin: 0;
   padding: 0;
   list-style: none;
+}
+
+/* Get started: three steps in halves leave the last row half empty; the CDN note (outside the
+   list, it is not a step) takes that half. The list spans two rows of the sheet's grid. */
+@media (min-width: 40rem) {
+  #start .sheet-list { grid-row: 2 / span 2; grid-template-rows: subgrid; }
+  .sheet-cell.start-cdn { grid-row: 3; grid-column: span 1 / -1; }
+}
+
+@media (min-width: 64rem) {
+  .sheet-cell.start-cdn { grid-column: span 2 / -1; }
 }
 
 /* A cell that is a link card: the title link covers the cell. */
