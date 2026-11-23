@@ -29,6 +29,14 @@ code {
   box-decoration-break: clone;
 }
 
+/* ── Header ───────────────────────────────────────────────────────────── */
+
+/* The header ends in a 1 px ink rule in every state, like the sheet's rules (dsgn draws its edge
+   as an inset shadow, transparent while a transparent header is at the top). */
+.dsgn-header {
+  box-shadow: inset 0 calc(-1 * var(--dsgn-border-width)) 0 var(--dsgn-text);
+}
+
 /* ── Brand ─────────────────────────────────────────────────────────────── */
 
 .site-wordmark {
@@ -143,8 +151,8 @@ code {
 .sheet-cell.sheet-meta { padding: var(--dsgn-space-8) var(--dsgn-space-12); }
 .sheet-key { margin-inline-end: var(--dsgn-space-8); color: var(--dsgn-text-muted); }
 
-/* Hero. Behind the sheet the token scale in ASCII (main.js) in the accent colour, faded out under
-   the header; the hero's cells are glass (dsgn's surface-glass and its 16 px blur), so it shows
+/* Hero. Behind the sheet the token scale in ASCII (main.js) in the accent colour, starting at the
+   header's bottom rule; the hero's cells are glass (dsgn's surface-glass and its 16 px blur), so it shows
    through them blurred. Solid cells where blur is unsupported or reduced transparency is asked. */
 
 .hero {
@@ -156,12 +164,9 @@ code {
 }
 
 .hero-ascii {
-  --site-hero-fade: linear-gradient(to bottom,
-    transparent var(--dsgn-header-height, 4rem),
-    var(--dsgn-neutral-14) calc(var(--dsgn-header-height, 4rem) + var(--dsgn-space-48)));
   contain: size;
   position: absolute;
-  inset: 0;
+  inset: var(--dsgn-header-height, 4rem) 0 0; /* starts at the header's bottom rule */
   margin: 0;
   overflow: hidden;
   pointer-events: none;
@@ -171,8 +176,6 @@ code {
   font-size: var(--dsgn-font-size-caption);
   line-height: 1;
   white-space: pre;
-  -webkit-mask-image: var(--site-hero-fade);
-  mask-image: var(--site-hero-fade);
 }
 
 .hero-content { position: relative; z-index: 1; }
@@ -238,13 +241,6 @@ code {
   .hero-title { font-size: min(7vw, calc(var(--dsgn-font-size-display) * 3.5)); }
   .hero-lead-cell { grid-column: span 7; padding: var(--dsgn-space-24) var(--dsgn-space-32); }
   .hero-install-cell { grid-column: span 5; padding: var(--dsgn-space-24) var(--dsgn-space-32); }
-}
-
-.hero-control {
-  position: absolute;
-  z-index: 2;
-  inset-block-end: var(--dsgn-space-16);
-  inset-inline-end: var(--dsgn-page-margin, var(--dsgn-space-16));
 }
 
 /* Install command: a mono field in a 1 px rule. */
@@ -418,7 +414,7 @@ code {
 
 .cta-mark .mark-bg { fill: var(--dsgn-brand); }
 
-/* Pauses the looping mark (WCAG 2.2.2), and the header wordmark with it. */
+/* Pauses every animation on the page (WCAG 2.2.2): this mark, the hero background, the header wordmark. */
 .cta { position: relative; }
 
 .cta-control {
