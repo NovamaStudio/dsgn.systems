@@ -151,45 +151,12 @@ code {
 .sheet-cell.sheet-meta { padding: var(--dsgn-space-8) var(--dsgn-space-12); }
 .sheet-key { margin-inline-end: var(--dsgn-space-8); color: var(--dsgn-text-muted); }
 
-/* Hero. Behind the sheet the token scale in ASCII (main.js) in the accent colour, running behind
-   the glass header too; the hero's cells are glass (dsgn's surface-glass and its 16 px blur), so it shows
-   through them blurred. Solid cells where blur is unsupported or reduced transparency is asked. */
+/* Hero: the first band of the page sheet. */
 
 .hero {
-  position: relative;
-  overflow: clip;
-  /* Pulled up under the sticky glass header, so the background runs behind it. */
-  margin-block-start: calc(-1 * var(--dsgn-header-height, 4rem));
-  padding-block: calc(var(--dsgn-header-height, 4rem) + var(--dsgn-space-48)) calc(var(--dsgn-space-48) * 2);
+  padding-block-start: var(--dsgn-space-48);
   background: var(--dsgn-surface-base);
   color: var(--dsgn-text);
-}
-
-.hero-ascii {
-  contain: size;
-  position: absolute;
-  inset: 0; /* runs behind the glass header too */
-  margin: 0;
-  overflow: hidden;
-  pointer-events: none;
-  user-select: none;
-  color: var(--dsgn-accent-solid);
-  font-family: var(--site-font-mono);
-  font-size: var(--dsgn-font-size-caption);
-  line-height: 1;
-  white-space: pre;
-}
-
-.hero-content { position: relative; z-index: 1; }
-
-@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  @media (prefers-reduced-transparency: no-preference) {
-    .hero-sheet > .sheet-cell {
-      background: var(--dsgn-surface-glass);
-      -webkit-backdrop-filter: blur(var(--dsgn-space-16));
-      backdrop-filter: blur(var(--dsgn-space-16));
-    }
-  }
 }
 
 /* Phones and tablets: the system on its own row, version, licence and Figma under it (key above
@@ -266,12 +233,15 @@ code {
 
 /* ── Sections ──────────────────────────────────────────────────────────── */
 
-/* Every home section is one .sheet: a head cell (section name, heading, lead, optional action)
-   and content cells on the 12-column grid. Sections sit 48 px apart on the base colour, so the
-   page reads as one long sheet. */
+/* The home page is one technical sheet: every section is a .sheet band (a head cell with section
+   name, heading, lead and optional action, then content cells on the 12-column grid), and the bands
+   follow each other with no gap, so only the hero draws the top rule. Thematic groups are told
+   apart by the cells' background: data-tone="sunken" on the section. */
 
-.sheet-section { padding-block: var(--dsgn-space-24); }
+.sheet-section { padding-block: 0; }
 .sheet-section:last-of-type { padding-block-end: calc(var(--dsgn-space-48) * 2); }
+.sheet-section .sheet { border-block-start: 0; }
+.sheet-section[data-tone="sunken"] .sheet-cell { background: var(--dsgn-surface-sunken); }
 
 :where(.sheet .sheet-cell:not(.sheet-meta)) { padding: var(--dsgn-space-24); }
 
@@ -446,7 +416,7 @@ code {
 
 .cta-text { align-content: center; }
 
-/* Pauses every animation on the page (WCAG 2.2.2): this mark, the hero background, the header wordmark. */
+/* Pauses every animation on the page (WCAG 2.2.2): this mark and the header wordmark. */
 .cta-control {
   position: absolute;
   inset-block-end: var(--dsgn-space-8);

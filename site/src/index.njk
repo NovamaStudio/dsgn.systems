@@ -6,13 +6,10 @@ description: "Token-driven CSS design system: plain HTML classes, OKLCH colours 
 ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode one attribute away, mirrored 1:1 in Figma.
 ---
     <!-- Hero as a technical sheet (Swiss, data-log): cells divided by 1 px ink rules on the 12-column
-         grid, holding only information. Behind them, in the accent colour, the token scale in ASCII
-         (main.js: bands as thick as the spacing steps, glyphs from . to @, rolling like a CRT with
-         the logo's glitches); the cells are glass, so it shows through them blurred.
-         The CTAs live in the header. -->
+         grid, holding only information. It is the first band of one page-long sheet; the sections
+         below continue it with no gap, thematic groups on data-tone="sunken". The CTAs live in the header. -->
     <section class="hero" aria-labelledby="hero-title">
-      <pre class="hero-ascii" aria-hidden="true"></pre>
-      <div class="dsgn-container hero-content">
+      <div class="dsgn-container">
         <div class="sheet hero-sheet">
           <p class="sheet-cell sheet-meta hero-meta-main">Token-driven CSS design system</p>
           <p class="sheet-cell sheet-meta"><span class="sheet-key">Version</span> {{ dsgn.minor }}</p>
@@ -76,7 +73,7 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
     </section>
 
     <!-- Why -->
-    <section class="dsgn-section sheet-section" id="why" aria-labelledby="why-title">
+    <section class="dsgn-section sheet-section" data-tone="sunken" id="why" aria-labelledby="why-title">
       <div class="dsgn-container">
         <div class="sheet">
           <div class="sheet-cell sheet-head">
@@ -145,7 +142,7 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
     </section>
 
     <!-- Scale -->
-    <section class="dsgn-section sheet-section" id="scale" aria-labelledby="scale-title">
+    <section class="dsgn-section sheet-section" data-tone="sunken" id="scale" aria-labelledby="scale-title">
       <div class="dsgn-container">
         <div class="sheet">
           <div class="sheet-cell sheet-head">
@@ -180,7 +177,7 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
     </section>
 
     <!-- Modes -->
-    <section class="dsgn-section sheet-section" id="modes" aria-labelledby="modes-title">
+    <section class="dsgn-section sheet-section" data-tone="sunken" id="modes" aria-labelledby="modes-title">
       <div class="dsgn-container">
         <div class="sheet">
           <div class="sheet-cell sheet-head">
@@ -335,7 +332,7 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
     </section>
 
     <!-- Get started -->
-    <section class="dsgn-section sheet-section" id="start" aria-labelledby="start-title">
+    <section class="dsgn-section sheet-section" data-tone="sunken" id="start" aria-labelledby="start-title">
       <div class="dsgn-container">
         <div class="sheet">
           <div class="sheet-cell sheet-head">
@@ -381,7 +378,7 @@ npx dsgn theme</code></pre>
     </section>
 
     <!-- FAQ -->
-    <section class="dsgn-section sheet-section" aria-labelledby="faq-title">
+    <section class="dsgn-section sheet-section" data-tone="sunken" aria-labelledby="faq-title">
       <div class="dsgn-container">
         <div class="sheet">
           <div class="sheet-cell sheet-head" data-span="4">
