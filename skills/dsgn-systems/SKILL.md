@@ -94,8 +94,8 @@ node_modules/, .claude/, .vercel/, .DS_Store   ← neither: listed in .gitignore
 Pin the minor version:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dsgn.systems@0.15/dist/dsgn.min.css">
-<script src="https://cdn.jsdelivr.net/npm/dsgn.systems@0.15/dist/dsgn.min.js" defer></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dsgn.systems@0.16/dist/dsgn.min.css">
+<script src="https://cdn.jsdelivr.net/npm/dsgn.systems@0.16/dist/dsgn.min.js" defer></script>
 ```
 
 ### Fonts (not bundled)

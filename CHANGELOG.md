@@ -2,7 +2,7 @@
 
 One version for the npm package and the Figma library. [Semantic versioning](https://semver.org): patch = fix, minor = addition, major = rename or removal (with migration notes).
 
-## Unreleased
+## 0.16.0 — 2026-11-23
 
 ### Added
 - **`accentFill: 'vivid'`** theme option: the bright brand fill (accent step 64, 70 on hover, 76 pressed) in both themes with near-black text on it, so a bright brand colour such as #FF4400 can sit on solid buttons, solid badges and icons, the brand mark and highlights. Controls (checkbox, radio, switch, slider, progress, selection, option card) keep the default fill, because a bright fill alone does not reach 3:1 on a light surface for every hue. The build checks vivid across the whole hue envelope like the other fill strengths; `auto` never picks it. Customizer, dsgn theme plugin and the token preview offer it.
