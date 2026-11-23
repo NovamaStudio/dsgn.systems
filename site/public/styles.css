@@ -4,9 +4,6 @@
 :root {
   --site-font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
   --site-frame: var(--dsgn-space-2) solid var(--dsgn-text);
-  /* Neobrutalist hard shadows (site-only for now; candidate for a dsgn elevation mode). */
-  --site-shadow: var(--dsgn-space-8) var(--dsgn-space-8) 0 var(--dsgn-text);
-  --site-shadow-s: var(--dsgn-space-4) var(--dsgn-space-4) 0 var(--dsgn-text);
 }
 
 code,
@@ -109,34 +106,63 @@ code {
   text-transform: uppercase;
 }
 
-/* Hero, neobrutalist: a .board (2 px frame, hard brand shadow, mono tag on the top edge) holding
-   the copy and a window with the token scale in ASCII. Ink frames and hard ink shadows; the
-   orange is used as solid blocks (the highlight, the window bar). */
+/* Sheet: a technical sheet (Swiss, data-log). Cells divided by 1 px ink rules: the sheet is ink,
+   the gaps are the rules, every cell sits on the page colour. .sheet-meta is the mono micro type
+   for labels; .sheet-index an orange number or code, .sheet-key a muted key. */
+
+.sheet {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: var(--dsgn-border-width);
+  border: var(--dsgn-border-width) solid var(--dsgn-text);
+  background: var(--dsgn-text);
+}
+
+@media (min-width: 64rem) {
+  .sheet { grid-template-columns: repeat(12, minmax(0, 1fr)); }
+}
+
+.sheet-cell {
+  grid-column: span 6;
+  margin: 0;
+  background: var(--dsgn-surface-base);
+}
+
+.sheet-meta {
+  margin: 0;
+  font-family: var(--site-font-mono);
+  font-size: var(--dsgn-font-size-caption);
+  line-height: var(--dsgn-line-height-caption);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.sheet-cell.sheet-meta { padding: var(--dsgn-space-8) var(--dsgn-space-12); }
+.sheet-index { margin-inline-end: var(--dsgn-space-8); color: var(--dsgn-accent-text); font-weight: 700; }
+.sheet-key { margin-inline-end: var(--dsgn-space-8); color: var(--dsgn-text-muted); }
+
+/* Hero sheet. Phones and tablets: metadata on two rows, then title, figure, lead, install.
+   Desktop (12 columns): metadata 6 + 2 + 2 + 2; title 8 with the figure 4 beside it over two
+   rows; lead 4 and install 4 under the title. */
 
 .hero {
-  padding-block: calc(var(--dsgn-header-height, 4rem) + var(--dsgn-space-48)) var(--dsgn-space-64);
+  padding-block: calc(var(--dsgn-header-height, 4rem) + var(--dsgn-space-32)) var(--dsgn-space-64);
   background: var(--dsgn-surface-base);
   color: var(--dsgn-text);
 }
 
-.hero-board {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr); /* the window bar's nowrap line must not widen the column */
-  gap: var(--dsgn-space-40);
+.hero-sheet > .sheet-meta:not(.hero-meta-main) { grid-column: span 2; }
+
+/* Narrow: key above value in the three small metadata cells, so they read the same. */
+@media (max-width: 63.99rem) {
+  .hero-sheet > .sheet-meta:not(.hero-meta-main) .sheet-key { display: block; }
 }
 
-@media (min-width: 64rem) {
-  .hero-board { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: var(--dsgn-space-48); }
-}
+.hero-title-cell,
+.hero-lead-cell,
+.hero-install-cell { padding: var(--dsgn-space-24); }
 
-.hero-copy {
-  display: grid;
-  justify-items: start;
-  align-content: center;
-  gap: var(--dsgn-space-24);
-}
-
-.hero-copy .dsgn-lead { max-inline-size: 36rem; margin: 0; }
+.hero-title-cell { padding-block: var(--dsgn-space-48) var(--dsgn-space-32); }
 
 .hero-title {
   margin: 0;
@@ -151,11 +177,7 @@ code {
   .hero-title { font-size: min(8vw, calc(var(--dsgn-font-size-display) * 3)); }
 }
 
-@media (min-width: 64rem) {
-  .hero-title { font-size: min(5.5vw, calc(var(--dsgn-font-size-display) * 2.75)); }
-}
-
-/* "plain HTML." on a solid orange block, dark ink in both themes (about 5:1 on the brand orange). */
+/* "plain HTML." on a solid orange field, dark ink in both themes (about 5:1 on the brand orange). */
 .hero-highlight {
   padding-inline: 0.08em;
   background: var(--dsgn-brand);
@@ -164,40 +186,28 @@ code {
   box-decoration-break: clone;
 }
 
-/* The ASCII window: frame, hard shadow, an orange title bar with the pause button. The <pre> is
-   size-contained, so the text main.js writes never grows the window (it reads the box size). */
-.hero-window {
+/* Figure 01: the token scale in ASCII. The <pre> is size-contained, so the text main.js writes
+   never grows the cell (main.js reads the box size). */
+.hero-figure {
   display: grid;
-  grid-template-rows: auto minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr) auto;
   grid-template-columns: minmax(0, 1fr);
   block-size: calc(var(--dsgn-space-64) * 4.5);
-  border: var(--site-frame);
-  background: var(--dsgn-surface-base);
-  box-shadow: var(--site-shadow);
 }
 
-@media (min-width: 64rem) {
-  .hero-window { block-size: auto; min-block-size: calc(var(--dsgn-space-64) * 6); }
-}
-
-.hero-window-bar {
+.hero-figure-head {
   display: flex;
   align-items: center;
-  gap: var(--dsgn-space-12);
+  justify-content: space-between;
   padding-inline-start: var(--dsgn-space-12);
-  border-block-end: var(--site-frame);
-  background: var(--dsgn-brand);
-  color: var(--dsgn-neutral-14);
-  font-family: var(--site-font-mono);
-  font-size: var(--dsgn-font-size-caption);
-  line-height: var(--dsgn-line-height-caption);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  border-block-end: var(--dsgn-border-width) solid var(--dsgn-text);
 }
 
-.hero-window-name { font-weight: 700; }
-.hero-window-meta { flex: 1; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-.hero-control { color: var(--dsgn-neutral-14); }
+.hero-figure-foot {
+  padding: var(--dsgn-space-8) var(--dsgn-space-12);
+  border-block-start: var(--dsgn-border-width) solid var(--dsgn-text);
+  color: var(--dsgn-text-muted);
+}
 
 .hero-ascii {
   contain: size;
@@ -213,17 +223,33 @@ code {
   white-space: pre;
 }
 
-/* Install command: a block with a hard shadow that presses in when its copy button is used. */
+.hero-lead-cell .dsgn-lead { max-inline-size: 36rem; margin: 0; }
+
+.hero-install-cell {
+  display: grid;
+  align-content: start;
+  gap: var(--dsgn-space-12);
+}
+
+@media (min-width: 64rem) {
+  .hero-meta-main { grid-column: span 6; }
+  .hero-title-cell { grid-column: 1 / span 8; grid-row: 2; padding: var(--dsgn-space-64) var(--dsgn-space-32) var(--dsgn-space-40); }
+  .hero-title { font-size: min(6.25vw, calc(var(--dsgn-font-size-display) * 3.25)); }
+  .hero-figure { grid-column: 9 / span 4; grid-row: 2 / span 2; block-size: auto; min-block-size: calc(var(--dsgn-space-64) * 6); }
+  .hero-lead-cell { grid-column: 1 / span 4; grid-row: 3; padding: var(--dsgn-space-24) var(--dsgn-space-32); }
+  .hero-install-cell { grid-column: 5 / span 4; grid-row: 3; }
+}
+
+/* Install command: a mono field in a 1 px rule. */
 .install {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--dsgn-space-8);
   inline-size: min(100%, calc(var(--dsgn-space-64) * 5));
-  padding-inline: var(--dsgn-space-16) var(--dsgn-space-4);
-  border: var(--site-frame);
+  padding-inline: var(--dsgn-space-12) var(--dsgn-space-4);
+  border: var(--dsgn-border-width) solid var(--dsgn-text);
   background: var(--dsgn-surface-base);
-  box-shadow: var(--site-shadow);
 }
 
 .install-command {
@@ -237,45 +263,30 @@ code {
   color: var(--dsgn-accent-text);
 }
 
-/* Press: hover moves the block half way into its shadow, pressing all the way. */
-.install,
-.dsgn-header-actions .dsgn-button {
-  transition: transform var(--dsgn-duration-fast) var(--dsgn-ease), box-shadow var(--dsgn-duration-fast) var(--dsgn-ease);
-}
-
-.install:has(.dsgn-icon-button:hover) { transform: translate(var(--dsgn-space-4), var(--dsgn-space-4)); box-shadow: var(--site-shadow-s); }
-.install:has(.dsgn-icon-button:active) { transform: translate(var(--dsgn-space-8), var(--dsgn-space-8)); box-shadow: none; }
-
-/* Header buttons (not the ghost GitHub link): ink outline and a small hard shadow. */
-.dsgn-header-actions .dsgn-button:not([data-variant="ghost"]) {
-  box-shadow: inset 0 0 0 var(--dsgn-space-2) var(--dsgn-text), var(--site-shadow-s);
-}
-
-.dsgn-header-actions .dsgn-button:not([data-variant="ghost"]):hover {
-  transform: translate(var(--dsgn-space-2), var(--dsgn-space-2));
-  box-shadow: inset 0 0 0 var(--dsgn-space-2) var(--dsgn-text), var(--dsgn-space-2) var(--dsgn-space-2) 0 var(--dsgn-text);
-}
-
-.dsgn-header-actions .dsgn-button:not([data-variant="ghost"]):active {
-  transform: translate(var(--dsgn-space-4), var(--dsgn-space-4));
-  box-shadow: inset 0 0 0 var(--dsgn-space-2) var(--dsgn-text);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .install,
-  .dsgn-header-actions .dsgn-button { transition: none; }
-}
-
-/* Cells sharing 2 px ink borders, like a table (the numbers under the hero). */
+/* The numbers under the hero: the same 1 px rules, each cell numbered 01, 02 … like the sheet. */
 .site-cells {
-  gap: var(--dsgn-space-2);
-  border: var(--site-frame);
+  gap: var(--dsgn-border-width);
+  border: var(--dsgn-border-width) solid var(--dsgn-text);
   background: var(--dsgn-text);
+  counter-reset: site-cell;
 }
 
 .site-cells > * {
   padding: var(--dsgn-space-24);
   background: var(--dsgn-surface-base);
+  counter-increment: site-cell;
+}
+
+.site-cells > *::before {
+  content: counter(site-cell, decimal-leading-zero);
+  display: block;
+  margin-block-end: var(--dsgn-space-16);
+  color: var(--dsgn-accent-text);
+  font-family: var(--site-font-mono);
+  font-size: var(--dsgn-font-size-caption);
+  line-height: var(--dsgn-line-height-caption);
+  font-weight: 700;
+  letter-spacing: 0.04em;
 }
 
 /* ── Sections ──────────────────────────────────────────────────────────── */

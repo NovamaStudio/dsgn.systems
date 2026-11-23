@@ -6,34 +6,45 @@ title: dsgn.systems — CSS design system with guaranteed contrast
 description: "Token-driven CSS design system: plain HTML classes, OKLCH colours with guaranteed contrast, light and dark, density and corner modes, mirrored 1:1 in Figma."
 ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode one attribute away, mirrored 1:1 in Figma.
 ---
-    <!-- Hero, neobrutalist (site-only prototype, may move into dsgn as a mode): a framed board with
-         the brand's hard shadow and a mono tag on its top edge. Left the copy, with "plain HTML"
-         on a solid orange block; right a window that shows the token scale in ASCII (main.js):
-         bands as thick as the spacing steps 2 to 32, glyphs from . to @, rolling like a CRT with
-         the logo's glitches. The CTAs live in the header. -->
+    <!-- Hero as a technical sheet (Swiss, data-log): cells divided by 1 px ink rules on the 12-column
+         grid. A row of mono metadata, one dominant title with "plain HTML" on a solid orange field,
+         the token scale in ASCII as figure 01 (main.js: bands as thick as the spacing steps 2 to 32,
+         glyphs from . to @, rolling like a CRT with the logo's glitches), then the lead and the
+         install command. The CTAs live in the header. -->
     <section class="hero" aria-labelledby="hero-title">
       <div class="dsgn-container">
-        <div class="board hero-board">
-          <p class="board-tag">CSS design system · v{{ dsgn.minor }} · MIT</p>
-          <div class="hero-copy">
+        <div class="sheet hero-sheet">
+          <p class="sheet-cell sheet-meta hero-meta-main"><span class="sheet-index">001</span> CSS design system</p>
+          <p class="sheet-cell sheet-meta"><span class="sheet-key">Version</span> {{ dsgn.minor }}</p>
+          <p class="sheet-cell sheet-meta"><span class="sheet-key">Licence</span> MIT</p>
+          <p class="sheet-cell sheet-meta"><span class="sheet-key">Figma</span> 1:1</p>
+
+          <div class="sheet-cell hero-title-cell">
             <h1 class="hero-title" id="hero-title">Accessible UI from <mark class="hero-highlight">plain&nbsp;HTML.</mark></h1>
+          </div>
+
+          <div class="sheet-cell hero-figure">
+            <div class="hero-figure-head">
+              <span class="sheet-meta" aria-hidden="true"><span class="sheet-index">Fig. 01</span> Spacing scale</span>
+              <button class="dsgn-icon-button hero-control" data-variant="ghost" data-intent="neutral" type="button" aria-pressed="false" data-motion-toggle aria-label="Pause logo animation">
+                <span class="dsgn-icon" aria-hidden="true">pause</span>
+              </button>
+            </div>
+            <pre class="hero-ascii" aria-hidden="true"></pre>
+            <p class="sheet-meta hero-figure-foot" aria-hidden="true">2 · 4 · 6 · 8 · 12 · 16 · 24 · 32</p>
+          </div>
+
+          <div class="sheet-cell hero-lead-cell">
             <p class="dsgn-lead">dsgn.systems is a token-driven CSS design system. Write semantic HTML with dsgn classes and data attributes: contrast, focus, spacing and dark mode are already solved, and every component exists 1:1 in&nbsp;Figma.</p>
+          </div>
+          <div class="sheet-cell hero-install-cell">
+            <p class="sheet-meta"><span class="sheet-key">Install</span></p>
             <div class="install">
               <code class="install-command" id="install-command"><span class="install-prompt" aria-hidden="true">$</span> npm i dsgn.systems</code>
               <button class="dsgn-icon-button" data-variant="ghost" data-intent="neutral" type="button" data-copy="npm i dsgn.systems" aria-label="Copy install command">
                 <span class="dsgn-icon" aria-hidden="true">content_copy</span>
               </button>
             </div>
-          </div>
-          <div class="hero-window">
-            <div class="hero-window-bar">
-              <span class="hero-window-name" aria-hidden="true">scale.txt</span>
-              <span class="hero-window-meta" aria-hidden="true">2 · 4 · 6 · 8 · 12 · 16 · 24 · 32</span>
-              <button class="dsgn-icon-button hero-control" data-variant="ghost" data-intent="neutral" type="button" aria-pressed="false" data-motion-toggle aria-label="Pause logo animation">
-                <span class="dsgn-icon" aria-hidden="true">pause</span>
-              </button>
-            </div>
-            <pre class="hero-ascii" aria-hidden="true"></pre>
           </div>
         </div>
       </div>
