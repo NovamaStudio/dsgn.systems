@@ -132,7 +132,7 @@ code {
 }
 
 .sheet-cell {
-  grid-column: span 6;
+  grid-column: 1 / -1; /* a full row unless data-span / data-span-tablet say otherwise */
   margin: 0;
   border-block-end: var(--site-rule);
   border-inline-end: var(--site-rule);
@@ -151,13 +151,15 @@ code {
 .sheet-cell.sheet-meta { padding: var(--dsgn-space-8) var(--dsgn-space-12); }
 .sheet-key { margin-inline-end: var(--dsgn-space-8); color: var(--dsgn-text-muted); }
 
-/* Hero. Behind the sheet the token scale in ASCII (main.js) in the accent colour, starting at the
-   header's bottom rule; the hero's cells are glass (dsgn's surface-glass and its 16 px blur), so it shows
+/* Hero. Behind the sheet the token scale in ASCII (main.js) in the accent colour, running behind
+   the glass header too; the hero's cells are glass (dsgn's surface-glass and its 16 px blur), so it shows
    through them blurred. Solid cells where blur is unsupported or reduced transparency is asked. */
 
 .hero {
   position: relative;
   overflow: clip;
+  /* Pulled up under the sticky glass header, so the background runs behind it. */
+  margin-block-start: calc(-1 * var(--dsgn-header-height, 4rem));
   padding-block: calc(var(--dsgn-header-height, 4rem) + var(--dsgn-space-48)) calc(var(--dsgn-space-48) * 2);
   background: var(--dsgn-surface-base);
   color: var(--dsgn-text);
@@ -166,7 +168,7 @@ code {
 .hero-ascii {
   contain: size;
   position: absolute;
-  inset: var(--dsgn-header-height, 4rem) 0 0; /* starts at the header's bottom rule */
+  inset: 0; /* runs behind the glass header too */
   margin: 0;
   overflow: hidden;
   pointer-events: none;
@@ -243,16 +245,12 @@ code {
   .hero-install-cell { grid-column: span 5; padding: var(--dsgn-space-24) var(--dsgn-space-32); }
 }
 
-/* Install command: a mono field in a 1 px rule. */
+/* Install command: a mono line with its copy button; the cell is its frame. */
 .install {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: var(--dsgn-space-8);
-  inline-size: min(100%, calc(var(--dsgn-space-64) * 5));
-  padding-inline: var(--dsgn-space-12) var(--dsgn-space-4);
-  border: var(--dsgn-border-width) solid var(--dsgn-text);
-  background: var(--dsgn-surface-base);
+  max-inline-size: 100%;
 }
 
 .install-command {
@@ -266,23 +264,86 @@ code {
   color: var(--dsgn-accent-text);
 }
 
-/* The numbers under the hero: the same 1 px rules. */
-.site-cells {
-  gap: var(--dsgn-border-width);
-  border: var(--dsgn-border-width) solid var(--dsgn-text);
-  background: var(--dsgn-text);
-}
-
-.site-cells > * {
-  padding: var(--dsgn-space-24);
-  background: var(--dsgn-surface-base);
-}
-
 /* ── Sections ──────────────────────────────────────────────────────────── */
 
-.section-intro {
-  max-inline-size: 48rem;
+/* Every home section is one .sheet: a head cell (section name, heading, lead, optional action)
+   and content cells on the 12-column grid. Sections sit 48 px apart on the base colour, so the
+   page reads as one long sheet. */
+
+.sheet-section { padding-block: var(--dsgn-space-24); }
+.sheet-section:last-of-type { padding-block-end: calc(var(--dsgn-space-48) * 2); }
+
+:where(.sheet .sheet-cell:not(.sheet-meta)) { padding: var(--dsgn-space-24); }
+
+@media (min-width: 40rem) {
+  .sheet-cell[data-span-tablet="2"] { grid-column: span 2; }
+  .sheet-cell[data-span-tablet="3"] { grid-column: span 3; }
+  .sheet-cell[data-span-tablet="4"] { grid-column: span 4; }
 }
+
+@media (min-width: 64rem) {
+  :where(.sheet .sheet-cell:not(.sheet-meta)) { padding: var(--dsgn-space-32); }
+  .sheet-cell[data-span="3"] { grid-column: span 3; }
+  .sheet-cell[data-span="4"] { grid-column: span 4; }
+  .sheet-cell[data-span="6"] { grid-column: span 6; }
+  .sheet-cell[data-span="8"] { grid-column: span 8; }
+  .sheet-cell[data-span="9"] { grid-column: span 9; }
+}
+
+.sheet-head {
+  display: grid;
+  gap: var(--dsgn-space-24);
+  align-content: start;
+}
+
+@media (min-width: 40rem) {
+  .sheet-head { grid-template-columns: minmax(0, 1fr) auto; align-items: end; }
+}
+
+.sheet-head-text { display: grid; gap: var(--dsgn-space-12); max-inline-size: 48rem; }
+.sheet-head-text > * { margin: 0; }
+
+.sheet-stack {
+  display: grid;
+  align-content: start;
+  gap: var(--dsgn-space-16);
+}
+
+.sheet-stack > * { margin: 0; }
+
+/* A cell whose content runs to its rules (a table). */
+.sheet > .sheet-cell.sheet-flush { padding: 0; }
+
+/* Components that bring their own box (stat, table wrap) sit bare in a cell: the cell is the box. */
+.sheet-cell > .dsgn-stat { padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; }
+.sheet-cell > .dsgn-table-wrap { border: 0; border-radius: 0; box-shadow: none; }
+
+/* A list of cells (the steps): the list takes the whole row and lays its items on the sheet's grid. */
+.sheet-list {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* A cell that is a link card: the title link covers the cell. */
+.sheet-card {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: var(--dsgn-space-12);
+}
+
+.sheet-card > * { margin: 0; }
+.sheet-card .dsgn-card-media { margin: calc(var(--dsgn-space-24) * -1) calc(var(--dsgn-space-24) * -1) var(--dsgn-space-8); border-block-end: var(--dsgn-border-width) solid var(--dsgn-text); }
+
+@media (min-width: 64rem) {
+  .sheet-card .dsgn-card-media { margin: calc(var(--dsgn-space-32) * -1) calc(var(--dsgn-space-32) * -1) var(--dsgn-space-8); }
+}
+
+.sheet-card .dsgn-card-link::after { content: ''; position: absolute; inset: 0; }
 
 .code {
   margin: 0;
@@ -303,6 +364,8 @@ code {
 }
 
 /* ── Scale ─────────────────────────────────────────────────────────────── */
+
+.scale-cell { display: grid; gap: var(--dsgn-space-24); align-content: start; margin: 0; }
 
 .scale {
   display: grid;
@@ -344,15 +407,6 @@ code {
 
 /* ── Modes ─────────────────────────────────────────────────────────────── */
 
-.modes {
-  display: grid;
-  gap: var(--dsgn-space-32);
-}
-
-@media (min-width: 64rem) {
-  .modes { grid-template-columns: 18rem minmax(0, 1fr); align-items: start; }
-}
-
 .modes-controls {
   display: grid;
   gap: var(--dsgn-space-20);
@@ -367,62 +421,37 @@ code {
 
 .preview {
   padding: var(--dsgn-space-24);
-  border: var(--site-frame);
+  border: var(--dsgn-border-width) solid var(--dsgn-text);
   background: var(--dsgn-surface-sunken);
   color: var(--dsgn-text);
   transition: background-color var(--dsgn-duration) var(--dsgn-ease);
 }
 
-/* ── Get started ───────────────────────────────────────────────────────── */
+/* ── CTA ───────────────────────────────────────────────────────────────── */
 
-.start-steps {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.start-steps > li {
-  align-content: start;
-}
-
-.step-number {
-  margin: 0;
-  font-family: var(--site-font-mono);
-  font-size: var(--dsgn-font-size-caption);
-  line-height: var(--dsgn-line-height-caption);
-  font-weight: var(--dsgn-font-weight-semibold);
-  color: var(--dsgn-accent-text);
-}
-
-/* ── CTA band ──────────────────────────────────────────────────────────── */
-
-.cta-inner {
+.cta-mark-cell {
+  position: relative;
   display: grid;
-  gap: var(--dsgn-space-32);
-  align-items: center;
-}
-
-@media (min-width: 40rem) {
-  .cta-inner { grid-template-columns: auto minmax(0, 1fr); gap: var(--dsgn-space-48); }
+  place-items: center;
 }
 
 .cta-mark {
   display: block;
-  inline-size: calc(var(--dsgn-space-64) * 2.5);
+  inline-size: min(100%, calc(var(--dsgn-space-64) * 2.5));
   block-size: auto;
 }
 
 .cta-mark .mark-bg { fill: var(--dsgn-brand); }
+.cta-mark g { fill: var(--dsgn-neutral-14); }
+
+.cta-text { align-content: center; }
 
 /* Pauses every animation on the page (WCAG 2.2.2): this mark, the hero background, the header wordmark. */
-.cta { position: relative; }
-
 .cta-control {
   position: absolute;
-  inset-block-end: var(--dsgn-space-16);
-  inset-inline-end: var(--dsgn-page-margin, var(--dsgn-space-16));
+  inset-block-end: var(--dsgn-space-8);
+  inset-inline-end: var(--dsgn-space-8);
 }
-.cta-mark g { fill: var(--dsgn-neutral-14); }
 
 /* ── Docs ──────────────────────────────────────────────────────────────── */
 
