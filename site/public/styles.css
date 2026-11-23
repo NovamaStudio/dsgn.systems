@@ -31,11 +31,9 @@ code {
 
 /* ── Header ───────────────────────────────────────────────────────────── */
 
-/* The header ends in a 1 px ink rule in every state, like the sheet's rules (dsgn draws its edge
-   as an inset shadow, transparent while a transparent header is at the top). */
-.dsgn-header {
-  box-shadow: inset 0 calc(-1 * var(--dsgn-border-width)) 0 var(--dsgn-text);
-}
+/* Home: the header is transparent over the sheet and solid once scrolled, never with an edge line
+   (dsgn draws the edge on ::before). Other pages keep dsgn's solid header with its edge. */
+.dsgn-header[data-surface="transparent"]::before { box-shadow: none; }
 
 /* ── Brand ─────────────────────────────────────────────────────────────── */
 
@@ -154,7 +152,8 @@ code {
 /* Hero: the first band of the page sheet. */
 
 .hero {
-  padding-block-start: var(--dsgn-space-48);
+  /* the transparent header overlaps the page by its height (dsgn) */
+  padding-block-start: calc(var(--dsgn-header-height, 4rem) + var(--dsgn-space-48));
   background: var(--dsgn-surface-base);
   color: var(--dsgn-text);
 }
