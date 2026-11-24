@@ -97,8 +97,10 @@
       bp.style.setProperty('--font', st.font);
       bp.style.setProperty('--line', st.line);
       bp.style.setProperty('--pad', st.pad);
-      // centred in the square, rounded down to the 2 px grid; set at its end value so the move stays smooth
-      bp.style.setProperty('--top', Math.floor((50 - height / 2) / 2) * 2);
+      // centred in the drawing (taller than square when the legend is), rounded to the 2 px grid;
+      // set at its end value so the move stays smooth
+      var middle = 50 * bp.clientHeight / bp.clientWidth;
+      bp.style.setProperty('--top', Math.round((middle - height / 2) / 2) * 2);
       bp.querySelectorAll('.bp-dim').forEach(function (d) {
         var key = parts[d.getAttribute('data-part')];
         d.querySelector('.bp-val').textContent = key === 'height' ? height : st[key];
@@ -110,6 +112,7 @@
     // it plays until the visitor picks a step (that is its pause, WCAG 2.2.2); with reduced motion the
     // steps change without moving (CSS)
     show(0);
+    if ('ResizeObserver' in window) new ResizeObserver(function () { show(bpAt); }).observe(bp);
     var stop = loop(bp, 2800, function () { show((bpAt + 1) % bpSteps.length); }, true);
     legend.querySelectorAll('button').forEach(function (b, n) { b.addEventListener('click', function () { stop(); show(n); }); });
   }
