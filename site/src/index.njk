@@ -289,7 +289,7 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
           <div class="sheet-cell collection" data-span="quarter">
             <p class="sheet-meta"><span class="sheet-key">{{ c.name }}</span></p>
             <p class="collection-count">{{ c.variables }} <span class="collection-unit">variables</span></p>
-            <p class="collection-modes"><span class="dsgn-visually-hidden">Modes: </span>{% for m in c.modes %}<span>{{ m }}</span>{% endfor %}</p>
+            <p class="collection-modes"><span class="dsgn-visually-hidden">Modes: </span>{{ c.modes | join(" · ") }}</p>
             <p class="collection-code">In code: <code>{{ c.code }}</code></p>
           </div>
           {%- endif %}{% endfor %}
