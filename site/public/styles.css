@@ -595,7 +595,7 @@ main:has(+ .site-foot) > .sheet-section:last-of-type { padding-block-end: 0; }
 .mode-values button:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: var(--dsgn-focus-offset); }
 @media (max-width: 39.99rem) { .modes-legend li { padding-inline: var(--dsgn-space-16); } }
 /* brand colour: the contrast check of the colour on the card */
-.brand-check { margin-block-start: var(--dsgn-space-8); }
+.mode-text > .brand-check { margin-block-start: var(--dsgn-space-12); }
 
 /* Below 64rem the card sits above its legend: it stays on screen (sticky in the sheet) while the
    legend scrolls under it, so every switch shows its effect. The stage is shorter there. */
