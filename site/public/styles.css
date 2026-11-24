@@ -201,7 +201,7 @@ code {
 
 .hero-install-cell {
   display: grid;
-  align-content: start;
+  align-content: center;
   gap: var(--dsgn-space-12);
 }
 
