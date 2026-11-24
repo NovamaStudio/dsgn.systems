@@ -1,5 +1,10 @@
 // Site-wide settings. `lang` is the default; a language folder (e.g. src/cs/) overrides it
 // with its own directory data file when translations are added.
+// The showcase demos are not finished: their pages build (unlisted, noindex in src/showcase/showcase.json),
+// but no link leads there. true puts Showcase back in the navigation and the footer; on the home page
+// also set homeShowcase: true in src/index.njk, and drop the noindex.
+const showcasePublic = false;
+
 export default {
   name: "dsgn.systems",
   url: "https://dsgn.systems",
@@ -20,11 +25,12 @@ export default {
     figmaPlugin: "https://github.com/NovamaStudio/dsgn.systems/tree/main/figma-plugin",
     skill: "https://github.com/NovamaStudio/dsgn.systems/tree/main/skills/dsgn-systems",
   },
+  showcasePublic,
   // Main navigation. Home sections use "/#id" so the links also work from other pages. A page link is
   // current on its own subpages too (Docs, Showcase). The two calls to action sit beside it in the header.
   nav: [
     { label: "Why dsgn", href: "/#why" },
-    { label: "Showcase", href: "/showcase/" },
+    ...(showcasePublic ? [{ label: "Showcase", href: "/showcase/" }] : []),
     { label: "Figma", href: "/#figma" },
     { label: "Docs", href: "/docs/" },
   ],

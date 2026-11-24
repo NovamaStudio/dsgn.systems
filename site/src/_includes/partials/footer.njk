@@ -16,7 +16,7 @@
           <ul class="dsgn-footer-links">
             <li><a href="{{ site.links.docs }}">Documentation</a></li>
             <li><a href="{{ site.links.themeCustomizer }}">Theme customizer</a></li>
-            <li><a href="{{ site.links.showcase }}">Showcase</a></li>
+            {% if site.showcasePublic %}<li><a href="{{ site.links.showcase }}">Showcase</a></li>{% endif %}
             <li><a href="{{ site.links.changelog }}">Changelog</a></li>
           </ul>
         </nav>
@@ -63,7 +63,7 @@
             <ul class="dsgn-footer-links">
               <li><a href="{{ site.links.docs }}">Documentation</a></li>
               <li><a href="{{ site.links.themeCustomizer }}">Theme customizer</a></li>
-              <li><a href="{{ site.links.showcase }}">Showcase</a></li>
+              {% if site.showcasePublic %}<li><a href="{{ site.links.showcase }}">Showcase</a></li>{% endif %}
               <li><a href="{{ site.links.changelog }}">Changelog</a></li>
             </ul>
           </div>
