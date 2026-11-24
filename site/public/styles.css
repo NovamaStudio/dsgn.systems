@@ -585,12 +585,39 @@ main:has(+ .site-foot) > .sheet-section:last-of-type { padding-block-end: 0; }
 .mode-values button:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: var(--dsgn-focus-offset); }
 @media (max-width: 39.99rem) { .modes-legend li { padding-inline: var(--dsgn-space-16); } }
 
-/* ── Figma: one cell per variable collection ───────────────────────────── */
+/* ── Figma: the collections as a list, the totals beside them ─────────── */
 
-.collection { display: grid; gap: var(--dsgn-space-8); align-content: start; }
-.collection > * { margin: 0; }
-.collection-count { font-size: var(--dsgn-font-size-display); line-height: var(--dsgn-line-height-display); font-weight: var(--dsgn-font-weight-semibold); font-variant-numeric: tabular-nums; }
-.collection-modes { color: var(--dsgn-text-muted); font-size: var(--dsgn-font-size-body-s); }
+/* one row per collection: name and variable count, its modes below (same chips as Modes) */
+.fig-list { display: grid; block-size: 100%; margin: 0; padding: 0; list-style: none; }
+.fig-list li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-content: center;
+  gap: var(--dsgn-space-4) var(--dsgn-space-16);
+  padding: var(--dsgn-space-12) var(--dsgn-space-24);
+}
+.fig-list li + li { border-block-start: var(--dsgn-border-width) solid var(--dsgn-border); }
+/* name and count read as one line, like the Modes legend */
+.fig-list strong { font-weight: var(--dsgn-font-weight-semibold); }
+.fig-count { font-family: var(--site-font-mono); font-variant-numeric: tabular-nums; }
+.fig-modes { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: var(--dsgn-space-4); color: var(--dsgn-text-muted); font-size: var(--dsgn-font-size-body-s); }
+.fig-modes > span {
+  padding: var(--dsgn-space-2) var(--dsgn-space-8);
+  border: var(--dsgn-border-width) solid var(--dsgn-border-strong);
+  font-family: var(--site-font-mono);
+  font-size: var(--dsgn-font-size-caption);
+  line-height: var(--dsgn-line-height-caption);
+}
+
+/* totals: large numbers sharing the height of the list */
+.fig-stats { display: grid; block-size: 100%; margin: 0; }
+.fig-stats > div { display: grid; align-content: center; gap: var(--dsgn-space-8); padding: var(--dsgn-space-24); }
+.fig-stats > div + div { border-block-start: var(--dsgn-border-width) solid var(--dsgn-border); }
+.fig-stats dt, .fig-stats dd { margin: 0; }
+.fig-stats dt { color: var(--dsgn-text-muted); font-size: var(--dsgn-font-size-body-s); }
+.fig-stats dd { font-size: var(--dsgn-font-size-display); line-height: var(--dsgn-line-height-display); font-weight: var(--dsgn-font-weight-semibold); font-variant-numeric: tabular-nums; }
+.fig-note { display: block; color: var(--dsgn-text-muted); font-size: var(--dsgn-font-size-body-s); line-height: var(--dsgn-line-height-body-s); font-weight: var(--dsgn-font-weight-regular); }
+@media (max-width: 39.99rem) { .fig-list li, .fig-stats > div { padding-inline: var(--dsgn-space-16); } }
 
 /* ── Showcase: screenshots of the demos ────────────────────────────────── */
 

@@ -285,20 +285,24 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
             </div>
             <a class="dsgn-button" data-variant="subtle" data-intent="neutral" href="{{ site.links.figmaPlugin }}">Figma theme plugin<span class="dsgn-icon" data-end aria-hidden="true">arrow_outward</span></a>
           </div>
-          {%- for c in dsgn.figma.collections %}{% if c.modes | length %}
-          <div class="sheet-cell collection" data-span="quarter">
-            <p class="sheet-meta"><span class="sheet-key">{{ c.name }}</span></p>
-            <p class="collection-count">{{ c.variables }}<span class="dsgn-visually-hidden"> variables</span></p>
-            <p class="collection-modes">{{ c.modes | join(" · ") }}</p>
+          <div class="sheet-cell sheet-flush" data-span="half">
+            <ul class="fig-list" aria-label="Variable collections in the Figma library">
+              {%- for c in dsgn.figma.collections %}
+              <li>
+                <strong>{{ c.name }}</strong>
+                <span class="fig-count">{{ c.variables }}<span class="dsgn-visually-hidden"> variables</span></span>
+                <span class="fig-modes">{% if c.modes | length %}{% for m in c.modes %}<span>{{ m }}</span>{% endfor %}{% else %}one mode{% endif %}</span>
+              </li>
+              {%- endfor %}
+            </ul>
           </div>
-          {%- endif %}{% endfor %}
-          <div class="sheet-cell collection" data-span="half" data-tone="sunken">
-            <p class="sheet-meta"><span class="sheet-key">One mode</span></p>
-            <p class="collection-modes">{% for c in dsgn.figma.collections %}{% if not (c.modes | length) %}{{ c.name }} {{ c.variables }}{% if not loop.last %} · {% endif %}{% endif %}{% endfor %}</p>
-          </div>
-          <div class="sheet-cell collection" data-span="half" data-tone="sunken">
-            <p class="sheet-meta"><span class="sheet-key">In total</span></p>
-            <p class="collection-modes">{{ dsgn.figma.variables }} variables · {{ dsgn.figma.textStyles }} text styles · markup in every component</p>
+          <div class="sheet-cell sheet-flush" data-span="half">
+            <dl class="fig-stats">
+              <div><dt>Variables</dt><dd>{{ dsgn.figma.variables }}</dd></div>
+              <div><dt>Collections</dt><dd>{{ dsgn.figma.collections | length }}</dd></div>
+              <div><dt>Text styles</dt><dd>{{ dsgn.figma.textStyles }}</dd></div>
+              <div><dt>Version</dt><dd>{{ dsgn.minor }}<span class="fig-note">npm package and library, with the markup in every component</span></dd></div>
+            </dl>
           </div>
         </div>
       </div>
