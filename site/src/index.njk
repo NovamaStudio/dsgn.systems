@@ -368,11 +368,23 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
               <div class="sheet-cell step-code" data-span="half"><div class="install"><code class="install-command">npx dsgn theme --init</code><button class="dsgn-icon-button" data-variant="ghost" data-intent="neutral" type="button" data-copy="npx dsgn theme --init" aria-label="Copy theme command"><span class="dsgn-icon" aria-hidden="true">content_copy</span></button></div></div>
             </li>
           </ol>
-          <div class="sheet-cell step" data-span="half">
-            <p class="step-index">—</p>
-            <div class="step-text"><h3 class="dsgn-card-title">No build step?</h3><p class="dsgn-card-text">Skip 01 and 02 and link the file from the CDN. Pin the minor version.</p></div>
-          </div>
-          <div class="sheet-cell step-code" data-span="half"><div class="install"><code class="install-command">&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dsgn.systems@{{ dsgn.minor }}/dist/dsgn.min.css"&gt;</code><button class="dsgn-icon-button" data-variant="ghost" data-intent="neutral" type="button" data-copy="&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/dsgn.systems@{{ dsgn.minor }}/dist/dsgn.min.css&quot;&gt;" aria-label="Copy the CDN link"><span class="dsgn-icon" aria-hidden="true">content_copy</span></button></div></div>
+          <p class="sheet-cell sheet-meta"><span class="sheet-key">No build step?</span> Instead of 01 and 02, pick one of these</p>
+          <ol class="sheet-list" type="A">
+            <li class="sheet-row">
+              <div class="sheet-cell step" data-span="half">
+                <p class="step-index">A</p>
+                <div class="step-text"><h3 class="dsgn-card-title">Copy the files</h3><p class="dsgn-card-text">Puts <code>dsgn.css</code> and <code>dsgn.js</code> in <code>vendor/dsgn/</code>; link them like your own files. Everything stays on your domain. Run it again to update.</p></div>
+              </div>
+              <div class="sheet-cell step-code" data-span="half"><div class="install"><code class="install-command">npx dsgn copy</code><button class="dsgn-icon-button" data-variant="ghost" data-intent="neutral" type="button" data-copy="npx dsgn copy" aria-label="Copy the copy command"><span class="dsgn-icon" aria-hidden="true">content_copy</span></button></div></div>
+            </li>
+            <li class="sheet-row">
+              <div class="sheet-cell step" data-span="half">
+                <p class="step-index">B</p>
+                <div class="step-text"><h3 class="dsgn-card-title">Link the CDN</h3><p class="dsgn-card-text">Nothing to install: the file comes from jsDelivr. Pin the minor version.</p></div>
+              </div>
+              <div class="sheet-cell step-code" data-span="half"><div class="install"><code class="install-command">&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dsgn.systems@{{ dsgn.minor }}/dist/dsgn.min.css"&gt;</code><button class="dsgn-icon-button" data-variant="ghost" data-intent="neutral" type="button" data-copy="&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/dsgn.systems@{{ dsgn.minor }}/dist/dsgn.min.css&quot;&gt;" aria-label="Copy the CDN link"><span class="dsgn-icon" aria-hidden="true">content_copy</span></button></div></div>
+            </li>
+          </ol>
         </div>
       </div>
     </section>
