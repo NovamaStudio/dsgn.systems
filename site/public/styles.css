@@ -368,11 +368,10 @@ main:has(+ .site-foot) > .sheet-section:last-of-type { padding-block-end: 0; }
 @property --font { syntax: "<number>"; inherits: true; initial-value: 14; }
 @property --line { syntax: "<number>"; inherits: true; initial-value: 20; }
 @property --pad { syntax: "<number>"; inherits: true; initial-value: 0; }
+@property --top { syntax: "<number>"; inherits: true; initial-value: 30; }
 
 .bp {
   --h: calc(var(--line) + 2 * var(--pad));
-  --top: calc(40 - var(--h) / 2);
-  --top: round(down, calc(40 - var(--h) / 2), 2);
   position: relative;
   container-type: inline-size;
   inline-size: 100%;
@@ -380,7 +379,9 @@ main:has(+ .site-foot) > .sheet-section:last-of-type { padding-block-end: 0; }
   min-block-size: 100%;
   overflow: hidden;
   background: var(--dsgn-surface-base);
-  transition: --font 600ms var(--dsgn-ease), --line 600ms var(--dsgn-ease), --pad 600ms var(--dsgn-ease);
+  transition-property: --font, --line, --pad, --top;
+  transition-duration: 600ms;
+  transition-timing-function: var(--dsgn-ease);
 }
 .bp > * { position: absolute; margin: 0; }
 /* the grid: 2, 4 and 8 px (lines at the start of each step, like every edge in the drawing) */
@@ -431,10 +432,12 @@ main:has(+ .site-foot) > .sheet-section:last-of-type { padding-block-end: 0; }
   display: grid;
   place-items: center;
   block-size: calc(var(--line) * 1cqi);
-  font-size: calc(var(--font) * 1cqi);
+  font-size: 14cqi;
   font-weight: var(--dsgn-font-weight-medium);
-  line-height: calc(var(--line) * 1cqi);
+  line-height: 1;
 }
+/* the text grows by scale, not by font size, so it moves without re-rendering every frame */
+.bp-text > span { scale: calc(var(--font) / 14); }
 
 /* dimension chain on the right (padding, line, padding), the full height on the left */
 .bp-dim {
@@ -456,7 +459,7 @@ main:has(+ .site-foot) > .sheet-section:last-of-type { padding-block-end: 0; }
 .bp-dim[data-part="pad-bottom"] { inset-block-start: calc((var(--top) + var(--pad) + var(--line)) * 1cqi); block-size: calc(var(--pad) * 1cqi); }
 .bp-dim[data-part="height"] { inset-inline-start: 16cqi; inset-block-start: calc(var(--top) * 1cqi); block-size: calc(var(--h) * 1cqi); }
 .bp[data-step="1"] :is(.bp-dim[data-part*="pad"], .bp-dim[data-part="height"]) { opacity: 0; }
-.bp-val, .bp-caption {
+.bp-val {
   font-family: var(--site-font-mono);
   font-size: max(var(--dsgn-font-size-caption), 2.6cqi);
   line-height: 1;
@@ -465,7 +468,6 @@ main:has(+ .site-foot) > .sheet-section:last-of-type { padding-block-end: 0; }
 .bp-dim[data-part="height"] .bp-val { inset-inline: auto 2.5cqi; font-weight: var(--dsgn-font-weight-semibold); }
 
 /* the sum, large */
-.bp-caption { inset: auto 4cqi 16cqi; color: var(--dsgn-text-muted); }
 .bp-eq {
   inset: auto 4cqi 4cqi;
   font-size: 8cqi;
@@ -493,7 +495,7 @@ main:has(+ .site-foot) > .sheet-section:last-of-type { padding-block-end: 0; }
   cursor: pointer;
   transition: background-color var(--dsgn-duration) var(--dsgn-ease), color var(--dsgn-duration) var(--dsgn-ease);
 }
-.bp-legend button:hover { color: var(--dsgn-text); }
+.bp-legend button:hover { background: color-mix(in oklab, var(--dsgn-surface-sunken) 50%, var(--dsgn-surface-base)); color: var(--dsgn-text); }
 .bp-legend button[aria-current] { background: var(--dsgn-surface-sunken); color: var(--dsgn-text); }
 .bp-legend button:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: calc(-1 * var(--dsgn-focus-width)); }
 .bp-legend strong { display: block; color: var(--dsgn-text); font-weight: var(--dsgn-font-weight-semibold); }
