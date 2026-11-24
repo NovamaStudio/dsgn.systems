@@ -468,11 +468,14 @@ main:has(+ .site-foot) > .sheet-section:last-of-type { padding-block-end: 0; }
 .bp-dim[data-part="height"] .bp-val { inset-inline: auto 2.5cqi; font-weight: var(--dsgn-font-weight-semibold); }
 
 /* legend: the steps of the drawing; the current one is sunken, any of them can be picked */
-.bp-legend { margin: 0; padding: 0; list-style: none; }
+/* the steps share the height of the drawing when it is taller, so nothing is left empty below */
+.bp-legend { display: grid; block-size: 100%; margin: 0; padding: 0; list-style: none; }
+.bp-legend li { display: grid; }
 .bp-legend li + li { border-block-start: var(--dsgn-border-width) solid var(--dsgn-border); }
 .bp-legend button {
   display: grid;
   grid-template-columns: var(--dsgn-space-48) minmax(0, 1fr);
+  align-content: center;
   gap: var(--dsgn-space-16);
   inline-size: 100%;
   padding: var(--dsgn-space-16) var(--dsgn-space-24);
