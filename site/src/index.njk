@@ -6,29 +6,34 @@ headerScrolledSurface: solid
 footerSheet: true
 footerFaq: true
 headerHideOnScroll: true
-title: dsgn.systems — CSS design system with guaranteed contrast
-description: "Token-driven CSS design system: plain HTML classes, OKLCH colours with guaranteed contrast, light and dark, density and corner modes, mirrored 1:1 in Figma."
-ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode one attribute away, mirrored 1:1 in Figma.
+title: dsgn.systems — your brand colour, guaranteed contrast
+description: "CSS design system for any stack: pick any brand colour and every text, border and focus pair still passes WCAG 2.2 AA, light and dark. Plain HTML, a Figma library checked against the code, a skill for AI agents."
+ogDescription: Pick any brand colour and every pair still passes WCAG 2.2 AA. Plain HTML for any stack, a Figma library checked against the code.
 ---
     <!-- Hero as a technical sheet (Swiss, data-log): cells divided by 1 px ink rules on the 12-column
          grid, holding only information. It is the first band of one page-long sheet; the sections
-         below continue it with no gap, thematic groups on. The CTAs live in the header. -->
+         below continue it with no gap, thematic groups on. The promise is the one thing no other kit
+         makes: any brand colour, contrast guaranteed; the first action tries it on the card below. -->
     <section class="hero" aria-labelledby="hero-title">
       <div class="dsgn-container">
         <div class="sheet hero-sheet">
-          <p class="sheet-cell sheet-meta" data-span="quarter" data-tone="sunken">Token-driven CSS design system</p>
-          <p class="sheet-cell sheet-meta" data-span="quarter" data-tone="sunken"><span class="sheet-key">Version</span> {{ dsgn.minor }}</p>
-          <p class="sheet-cell sheet-meta" data-span="quarter" data-tone="sunken"><span class="sheet-key">Licence</span> MIT</p>
-          <p class="sheet-cell sheet-meta" data-span="quarter" data-tone="sunken"><span class="sheet-key">Figma</span> 1:1 with code</p>
+          <p class="sheet-cell sheet-meta" data-span="quarter" data-tone="sunken">CSS design system for any stack</p>
+          <p class="sheet-cell sheet-meta" data-span="quarter" data-tone="sunken"><span class="sheet-key">WCAG</span> 2.2 AA in any colour</p>
+          <p class="sheet-cell sheet-meta" data-span="quarter" data-tone="sunken"><span class="sheet-key">Figma</span> Checked against code</p>
+          <p class="sheet-cell sheet-meta" data-span="quarter" data-tone="sunken"><span class="sheet-key">Licence</span> MIT, free</p>
 
           <div class="sheet-cell hero-title-cell">
-            <h1 class="hero-title" id="hero-title">Accessible UI from <span class="hero-highlight">plain&nbsp;HTML.</span></h1>
+            <h1 class="hero-title" id="hero-title">Your brand colour. <span class="hero-highlight">Guaranteed contrast.</span></h1>
           </div>
 
           <div class="sheet-cell hero-lead-cell" data-span="half">
-            <p class="dsgn-lead">Write semantic HTML with dsgn classes and data attributes: contrast, focus, spacing and dark mode are already solved, and every component exists 1:1 in&nbsp;Figma.</p>
+            <p class="dsgn-lead">Pick any colour and every text, border and focus ring still passes WCAG&nbsp;2.2&nbsp;AA, in light and dark. {{ components.count }} components in plain HTML for any stack, and a Figma library the build checks against the&nbsp;code.</p>
           </div>
           <div class="sheet-cell hero-install-cell" data-span="half">
+            <div class="dsgn-cluster">
+              <a class="dsgn-button" href="#modes">Try your colour<span class="dsgn-icon" data-end aria-hidden="true">arrow_downward</span></a>
+              <a class="dsgn-button" data-variant="subtle" data-intent="neutral" href="{{ site.links.showcase }}">See the demos</a>
+            </div>
             <div class="install">
               <code class="install-command" id="install-command">npm i dsgn.systems</code>
               <button class="dsgn-icon-button" data-variant="ghost" data-intent="neutral" type="button" data-copy="npm i dsgn.systems" aria-label="Copy install command">
@@ -40,7 +45,7 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
       </div>
     </section>
 
-    <!-- Numbers -->
+    <!-- Numbers: what a buyer weighs (coverage, weight, effort), each with the fact behind it. -->
     <section class="dsgn-section sheet-section" aria-label="dsgn in numbers">
       <div class="dsgn-container">
         <div class="sheet">
@@ -48,7 +53,14 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
             <div class="dsgn-stat">
               <p class="dsgn-stat-label">Colour pairs that pass WCAG</p>
               <p class="dsgn-stat-value">{{ dsgn.contrast.pass }} / {{ dsgn.contrast.pairs }}</p>
-              <p class="dsgn-stat-meta">checked for every hue on every build</p>
+              <p class="dsgn-stat-meta">for any brand colour, checked for every hue on every build</p>
+            </div>
+          </div>
+          <div class="sheet-cell" data-span="quarter">
+            <div class="dsgn-stat">
+              <p class="dsgn-stat-label">Components</p>
+              <p class="dsgn-stat-value">{{ components.count }}</p>
+              <p class="dsgn-stat-meta">plus layout primitives, each one also in Figma</p>
             </div>
           </div>
           <div class="sheet-cell" data-span="quarter">
@@ -60,84 +72,183 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
           </div>
           <div class="sheet-cell" data-span="quarter">
             <div class="dsgn-stat">
-              <p class="dsgn-stat-label">Figma variables</p>
-              <p class="dsgn-stat-value">{{ dsgn.figma.variables }}</p>
-              <p class="dsgn-stat-meta">in {{ dsgn.figma.collections | length }} collections with modes</p>
-            </div>
-          </div>
-          <div class="sheet-cell" data-span="quarter">
-            <div class="dsgn-stat">
               <p class="dsgn-stat-label">Build steps in your project</p>
               <p class="dsgn-stat-value">0</p>
-              <p class="dsgn-stat-meta">plain HTML, CSS and data attributes</p>
+              <p class="dsgn-stat-meta">plain HTML in any framework, CMS or static page</p>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Why -->
+    <!-- Modes: one card, one attribute at a time, laid out like The scale. The brand colour comes first:
+         main.js changes the attributes in turn until a value is picked, home-brand.js recolours the card
+         with the theme engine and shows its contrast check; the legend marks every current value.
+         Without a brand the card is monochrome, and it takes glass here (in dsgn only chrome does). -->
+    <section class="dsgn-section sheet-section" id="modes" aria-labelledby="modes-title">
+      <div class="dsgn-container">
+        <div class="sheet">
+          <div class="sheet-cell sheet-head" data-tone="sunken">
+            <div class="sheet-head-text">
+              <p class="sheet-meta sheet-key">Try it</p>
+              <h2 class="dsgn-display" id="modes-title">Your brand, every mode, one attribute.</h2>
+              <p class="dsgn-body">Pick a colour: the card is recoloured by the same theme engine that <code>npx dsgn theme</code> runs, and every colour pair is checked as you go. Then switch the modes on <code>&lt;html&gt;</code> or any section; the markup stays the same.</p>
+            </div>
+            <a class="dsgn-button" data-variant="subtle" data-intent="neutral" href="{{ site.links.themeCustomizer }}">Theme customizer<span class="dsgn-icon" data-end aria-hidden="true">arrow_forward</span></a>
+          </div>
+          <div class="sheet-cell sheet-flush preview-cell" data-span="half">
+            <div class="preview">
+              <div class="preview-card" id="preview" data-brand="#2f6fed" data-theme="light" data-density="m" data-radius="default" data-elevation="flat" data-lines="on" data-material="solid" inert>
+                <article class="dsgn-card">
+                  <div class="dsgn-cluster" data-justify="between" data-nowrap>
+                    <h3 class="dsgn-card-title">Invoice 2026-114</h3>
+                    <span class="dsgn-badge" data-intent="success">Paid</span>
+                  </div>
+                  <dl class="dsgn-dl">
+                    <div><dt>Client</dt><dd>Studio Kolo s.r.o.</dd></div>
+                    <div><dt>Total</dt><dd>CZK 24&nbsp;200</dd></div>
+                  </dl>
+                  <label class="dsgn-choice"><input type="checkbox" class="dsgn-switch" role="switch" checked> Overdue reminders</label>
+                  <div class="dsgn-card-actions">
+                    <button class="dsgn-button" data-variant="subtle" data-intent="neutral" type="button"><span class="dsgn-icon" aria-hidden="true">download</span>PDF</button>
+                    <button class="dsgn-button" type="button">Send reminder</button>
+                  </div>
+                </article>
+              </div>
+            </div>
+          </div>
+          <div class="sheet-cell sheet-flush" data-span="half">
+            <ol class="modes-legend" id="modes-legend">
+              <li data-attr="brand">
+                <span class="step-index">01</span>
+                <div class="mode-text">
+                  <p><strong>Brand colour</strong> <code>dsgn.theme.mjs</code></p>
+                  <p>Any hue. Lightness stays fixed per step, so contrast holds.</p>
+                  <div class="mode-values" role="group" aria-label="Brand colour">
+                    {%- for c in [["#2f6fed", "blue"], ["#ff4400", "orange"], ["#0f8a5f", "green"], ["#7a3fd1", "violet"], ["#d6336c", "pink"], ["mono", "mono"]] %}<button type="button" data-value="{{ c[0] }}" aria-pressed="false">{% if c[0] != "mono" %}<span class="mode-swatch" style="--swatch: {{ c[0] }}" aria-hidden="true"></span>{% endif %}{{ c[1] }}</button>{% endfor %}
+                  </div>
+                  <p class="sc-contrast brand-check" id="brand-check" data-intent="success"><span class="dsgn-icon" aria-hidden="true">check_circle</span><span>All {{ dsgn.contrast.pairs }} colour pairs pass WCAG, light and dark</span></p>
+                </div>
+              </li>
+              <li data-attr="theme">
+                <span class="step-index">02</span>
+                <div class="mode-text">
+                  <p><strong>Theme</strong> <code>data-theme</code></p>
+                  <p>Light or dark; every text and border pair is checked in both.</p>
+                  <div class="mode-values" role="group" aria-label="Theme"><button type="button" data-value="light" aria-pressed="false">light</button><button type="button" data-value="dark" aria-pressed="false">dark</button></div>
+                </div>
+              </li>
+              <li data-attr="density">
+                <span class="step-index">03</span>
+                <div class="mode-text">
+                  <p><strong>Density</strong> <code>data-density</code></p>
+                  <p>Padding and line height of controls, 44&nbsp;px targets on touch.</p>
+                  <div class="mode-values" role="group" aria-label="Density"><button type="button" data-value="s" aria-pressed="false">s</button><button type="button" data-value="m" aria-pressed="false">m</button><button type="button" data-value="l" aria-pressed="false">l</button></div>
+                </div>
+              </li>
+              <li data-attr="radius">
+                <span class="step-index">04</span>
+                <div class="mode-text">
+                  <p><strong>Radius</strong> <code>data-radius</code></p>
+                  <p>Corners, from square to pill.</p>
+                  <div class="mode-values" role="group" aria-label="Radius"><button type="button" data-value="sharp" aria-pressed="false">sharp</button><button type="button" data-value="default" aria-pressed="false">default</button><button type="button" data-value="rounded" aria-pressed="false">rounded</button><button type="button" data-value="pill" aria-pressed="false">pill</button></div>
+                </div>
+              </li>
+              <li data-attr="elevation">
+                <span class="step-index">05</span>
+                <div class="mode-text">
+                  <p><strong>Elevation</strong> <code>data-elevation</code></p>
+                  <p>Borders only, or soft shadows.</p>
+                  <div class="mode-values" role="group" aria-label="Elevation"><button type="button" data-value="flat" aria-pressed="false">flat</button><button type="button" data-value="soft" aria-pressed="false">soft</button></div>
+                </div>
+              </li>
+              <li data-attr="lines">
+                <span class="step-index">06</span>
+                <div class="mode-text">
+                  <p><strong>Lines</strong> <code>data-lines</code></p>
+                  <p>Outlines and separators, separators only, or none.</p>
+                  <div class="mode-values" role="group" aria-label="Lines"><button type="button" data-value="on" aria-pressed="false">on</button><button type="button" data-value="minimal" aria-pressed="false">minimal</button><button type="button" data-value="none" aria-pressed="false">none</button></div>
+                </div>
+              </li>
+              <li data-attr="material">
+                <span class="step-index">07</span>
+                <div class="mode-text">
+                  <p><strong>Material</strong> <code>data-material</code></p>
+                  <p>Solid or frosted glass on bars, toasts and backdrops; shown here on the card.</p>
+                  <div class="mode-values" role="group" aria-label="Material"><button type="button" data-value="solid" aria-pressed="false">solid</button><button type="button" data-value="glass" aria-pressed="false">glass</button></div>
+                </div>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why: the three things other kits leave to you (a row each: title | text), then four that make daily work easy. -->
     <section class="dsgn-section sheet-section" id="why" aria-labelledby="why-title">
       <div class="dsgn-container">
         <div class="sheet">
           <div class="sheet-cell sheet-head" data-tone="sunken">
             <div class="sheet-head-text">
               <p class="sheet-meta sheet-key">Why dsgn</p>
-              <h2 class="dsgn-display" id="why-title">The hard parts are already in the stylesheet.</h2>
-              <p class="dsgn-lead">You compose pages from components and layout primitives. dsgn takes care of what usually goes wrong late in a project.</p>
+              <h2 class="dsgn-display" id="why-title">What other kits leave to you.</h2>
+              <p class="dsgn-lead">Most UI kits hand you components and wish you luck with your colours, your Figma file and your agents. dsgn checks all three on every build.</p>
             </div>
           </div>
-          <div class="sheet-cell" data-span="half">
-            <div class="dsgn-feature" data-layout="stack">
-              <span class="sheet-meta sheet-key feature-index" aria-hidden="true">01</span>
-              <div class="dsgn-feature-body">
-                <h3 class="dsgn-feature-title">Contrast is guaranteed</h3>
-                <p class="dsgn-feature-text">OKLCH palettes keep lightness fixed per step and change only hue and chroma. Pick any brand colour and every text, border and focus pair still passes.</p>
-              </div>
-            </div>
+          <div class="sheet-cell why-pillar" data-span="half">
+            <span class="sheet-meta sheet-key feature-index" aria-hidden="true">01</span>
+            <h3 class="dsgn-title">Contrast for any brand colour</h3>
           </div>
-          <div class="sheet-cell" data-span="half">
-            <div class="dsgn-feature" data-layout="stack">
-              <span class="sheet-meta sheet-key feature-index" aria-hidden="true">02</span>
-              <div class="dsgn-feature-body">
-                <h3 class="dsgn-feature-title">Plain HTML, any stack</h3>
-                <p class="dsgn-feature-text">dsgn styles native elements with classes and data attributes. It works in React, a CMS template or a static page, with no build step in your project.</p>
-              </div>
-            </div>
+          <div class="sheet-cell why-pillar-text" data-span="half">
+            <p class="dsgn-body">Other kits ship fixed palettes, and the contrast of your own colour is yours to check. dsgn builds its palettes in OKLCH with the lightness fixed per step, so any hue passes: {{ dsgn.contrast.pairs }} text, border and focus pairs are checked across every hue, light and dark, before a release.</p>
           </div>
-          <div class="sheet-cell" data-span="half">
-            <div class="dsgn-feature" data-layout="stack">
-              <span class="sheet-meta sheet-key feature-index" aria-hidden="true">03</span>
-              <div class="dsgn-feature-body">
-                <h3 class="dsgn-feature-title">Your CSS always wins</h3>
-                <p class="dsgn-feature-text">Everything ships in cascade layers, so one plain rule in your stylesheet overrides it. No <code>!important</code>, no specificity fights.</p>
-              </div>
-            </div>
+          <div class="sheet-cell why-pillar" data-span="half">
+            <span class="sheet-meta sheet-key feature-index" aria-hidden="true">02</span>
+            <h3 class="dsgn-title">A Figma library that stays in step</h3>
           </div>
-          <div class="sheet-cell" data-span="half">
+          <div class="sheet-cell why-pillar-text" data-span="half">
+            <p class="dsgn-body">Figma kits usually drift from the code within months. dsgn&rsquo;s library has the same tokens, components, modes and version number as the package, and the build fails when the two differ. Every component carries its markup, so handoff is a copy and paste.</p>
+          </div>
+          <div class="sheet-cell why-pillar" data-span="half">
+            <span class="sheet-meta sheet-key feature-index" aria-hidden="true">03</span>
+            <h3 class="dsgn-title">Built for AI agents</h3>
+          </div>
+          <div class="sheet-cell why-pillar-text" data-span="half">
+            <p class="dsgn-body">The package ships a <a class="dsgn-link" href="{{ site.links.skill }}">skill</a> that teaches coding agents to build with dsgn, with a definition of done for accessibility, SEO, form security and performance. <code>npx dsgn lint</code> keeps their CSS, and yours, on the tokens: no stray pixels, no stray colours.</p>
+          </div>
+          <div class="sheet-cell" data-span="quarter">
             <div class="dsgn-feature" data-layout="stack">
               <span class="sheet-meta sheet-key feature-index" aria-hidden="true">04</span>
               <div class="dsgn-feature-body">
-                <h3 class="dsgn-feature-title">Accessible by default</h3>
-                <p class="dsgn-feature-text">WCAG 2.2 AA is checked with axe, keyboard and forced-colours tests on every build. Focus rings, target sizes and reduced motion come built in.</p>
+                <h3 class="dsgn-feature-title">Plain HTML, any stack</h3>
+                <p class="dsgn-feature-text">Classes and data attributes on native elements. React, a CMS template or a static page, no build step.</p>
               </div>
             </div>
           </div>
-          <div class="sheet-cell" data-span="half">
+          <div class="sheet-cell" data-span="quarter">
             <div class="dsgn-feature" data-layout="stack">
               <span class="sheet-meta sheet-key feature-index" aria-hidden="true">05</span>
               <div class="dsgn-feature-body">
-                <h3 class="dsgn-feature-title">Mirrored 1:1 in Figma</h3>
-                <p class="dsgn-feature-text">The same tokens, components and version number in code and in the Figma library. Each component carries its markup in the description.</p>
+                <h3 class="dsgn-feature-title">Your CSS always wins</h3>
+                <p class="dsgn-feature-text">Everything ships in cascade layers, so one plain rule overrides it. No <code>!important</code>.</p>
               </div>
             </div>
           </div>
-          <div class="sheet-cell" data-span="half">
+          <div class="sheet-cell" data-span="quarter">
             <div class="dsgn-feature" data-layout="stack">
               <span class="sheet-meta sheet-key feature-index" aria-hidden="true">06</span>
               <div class="dsgn-feature-body">
-                <h3 class="dsgn-feature-title">Ready for AI agents</h3>
-                <p class="dsgn-feature-text">The package ships a skill that teaches coding agents to build with dsgn, including accessibility, SEO, form security and a definition of done.</p>
+                <h3 class="dsgn-feature-title">Accessible by default</h3>
+                <p class="dsgn-feature-text">WCAG 2.2 AA tested with axe, keyboard and forced colours on every build.</p>
+              </div>
+            </div>
+          </div>
+          <div class="sheet-cell" data-span="quarter">
+            <div class="dsgn-feature" data-layout="stack">
+              <span class="sheet-meta sheet-key feature-index" aria-hidden="true">07</span>
+              <div class="dsgn-feature-body">
+                <h3 class="dsgn-feature-title">Documented with examples</h3>
+                <p class="dsgn-feature-text">Every component with live examples, its markup and when to use it, in the <a class="dsgn-link" href="{{ site.links.docs }}">docs</a>.</p>
               </div>
             </div>
           </div>
@@ -145,16 +256,78 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
       </div>
     </section>
 
-    <!-- Scale: a construction drawing of how dsgn sizes things, square so it stands on its own (a post).
+    <!-- Showcase: one cell per demo with its screen (site/scripts/showcase-shots.mjs), each in its own brand. -->
+    <section class="dsgn-section sheet-section" id="showcase" aria-labelledby="showcase-title">
+      <div class="dsgn-container">
+        <div class="sheet">
+          <div class="sheet-cell sheet-head" data-tone="sunken">
+            <div class="sheet-head-text">
+              <p class="sheet-meta sheet-key">Showcase</p>
+              <h2 class="dsgn-display" id="showcase-title">One system, any brand.</h2>
+              <p class="dsgn-body">Two real screens built only from dsgn components, each in its own brand. Open one, give it your colour, corners and density, and copy the theme when it looks right.</p>
+            </div>
+            <a class="dsgn-button" data-variant="subtle" data-intent="neutral" href="{{ site.links.showcase }}">All demos<span class="dsgn-icon" data-end aria-hidden="true">arrow_forward</span></a>
+          </div>
+          <article class="sheet-cell sheet-card demo-card" data-span="half">
+            <div class="dsgn-media dsgn-card-media"><img src="/img/showcase/billing.jpg" alt="" width="1656" height="1034" loading="lazy" decoding="async"></div>
+            <h3 class="dsgn-card-title"><a class="dsgn-card-link" href="/showcase/billing/">Billing app</a></h3>
+            <p class="dsgn-card-text">An invoicing tool in blue: app shell, stats, tabs and a table of invoices with statuses.</p>
+          </article>
+          <article class="sheet-cell sheet-card demo-card" data-span="half">
+            <div class="dsgn-media dsgn-card-media"><img src="/img/showcase/shop.jpg" alt="" width="1656" height="1034" loading="lazy" decoding="async"></div>
+            <h3 class="dsgn-card-title"><a class="dsgn-card-link" href="/showcase/shop/">Shop product page</a></h3>
+            <p class="dsgn-card-text">A ceramics shop in terracotta, rounded and soft: gallery, ratings, option cards, a cart toast and reviews.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Figma: the variable collections as cells, no table to scroll sideways. -->
+    <section class="dsgn-section sheet-section" id="figma" aria-labelledby="figma-title">
+      <div class="dsgn-container">
+        <div class="sheet">
+          <div class="sheet-cell sheet-head" data-tone="sunken">
+            <div class="sheet-head-text">
+              <p class="sheet-meta sheet-key">Figma</p>
+              <h2 class="dsgn-display" id="figma-title">The same system on the canvas.</h2>
+              <p class="dsgn-body">The library keeps the tokens as Figma variables, grouped in collections. Each mode of a collection is the same switch a developer sets in code, so designers try dark, dense or pill on a frame exactly as the page will do it. One version number covers the npm package and the library, and the build checks that they match.</p>
+            </div>
+            <div class="dsgn-cluster">
+              {%- if site.links.figmaFile %}
+              <a class="dsgn-button" data-variant="subtle" data-intent="neutral" href="{{ site.links.figmaFile }}">Figma library<span class="dsgn-icon" data-end aria-hidden="true">arrow_outward</span></a>
+              {%- endif %}
+              <a class="dsgn-button" data-variant="subtle" data-intent="neutral" href="{{ site.links.figmaPlugin }}">Figma theme plugin<span class="dsgn-icon" data-end aria-hidden="true">arrow_outward</span></a>
+            </div>
+          </div>
+          {%- for c in dsgn.figma.collections %}{% if c.modes | length %}
+          <div class="sheet-cell collection" data-span="quarter">
+            <p class="sheet-meta"><span class="sheet-key">{{ c.name }}</span></p>
+            <p class="collection-count">{{ c.variables }}<span class="dsgn-visually-hidden"> variables</span></p>
+            <p class="collection-modes">{{ c.modes | join(" · ") }}</p>
+          </div>
+          {%- endif %}{% endfor %}
+          <div class="sheet-cell collection" data-span="half">
+            <p class="sheet-meta"><span class="sheet-key">One mode</span></p>
+            <p class="collection-modes">{% for c in dsgn.figma.collections %}{% if not (c.modes | length) %}{{ c.name }} {{ c.variables }}{% if not loop.last %} · {% endif %}{% endif %}{% endfor %}</p>
+          </div>
+          <div class="sheet-cell collection" data-span="half">
+            <p class="sheet-meta"><span class="sheet-key">In total</span></p>
+            <p class="collection-modes">{{ dsgn.figma.variables }} variables · {{ dsgn.figma.textStyles }} text styles · markup in every component</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Scale: a construction drawing of how dsgn sizes things, for the curious, before Get started.
          main.js steps through the legend until a step is picked; the drawing is a diagram at 1 % of its width = 1 px. -->
     <section class="dsgn-section sheet-section" id="scale" aria-labelledby="scale-title">
       <div class="dsgn-container">
         <div class="sheet">
           <div class="sheet-cell sheet-head" data-tone="sunken">
             <div class="sheet-head-text">
-              <p class="sheet-meta sheet-key">The scale</p>
+              <p class="sheet-meta sheet-key">Under the hood</p>
               <h2 class="dsgn-display" id="scale-title">Controls are sized by type.</h2>
-              <p class="dsgn-body">A button, field or select is its line of text plus padding from the spacing scale, on a 2&nbsp;px grid. Density sets the padding, and your browser&rsquo;s font size sets the rest.</p>
+              <p class="dsgn-body">A button, field or select is its line of text plus padding from the spacing scale, on a 2&nbsp;px grid. Density sets the padding, and your visitor&rsquo;s font size sets the rest, so a page zoomed for reading never breaks its layout.</p>
             </div>
           </div>
           <div class="sheet-cell sheet-flush" data-span="half">
@@ -184,157 +357,6 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
       </div>
     </section>
 
-    <!-- Modes: one card, one attribute at a time, laid out like The scale. main.js changes the attributes
-         in turn until a value is picked; the legend marks every current value. The card is monochrome, and it takes glass here (in dsgn only chrome does). -->
-    <section class="dsgn-section sheet-section" id="modes" aria-labelledby="modes-title">
-      <div class="dsgn-container">
-        <div class="sheet">
-          <div class="sheet-cell sheet-head" data-tone="sunken">
-            <div class="sheet-head-text">
-              <p class="sheet-meta sheet-key">Modes</p>
-              <h2 class="dsgn-display" id="modes-title">Every mode is one attribute.</h2>
-              <p class="dsgn-body">Light or dark, dense or roomy, square or pill. Set it on <code>&lt;html&gt;</code> for the whole page or on any section; the markup stays the same.</p>
-            </div>
-          </div>
-          <div class="sheet-cell sheet-flush" data-span="half">
-            <div class="preview">
-              <div class="preview-card" id="preview" data-theme="light" data-density="m" data-radius="sharp" data-elevation="flat" data-lines="on" data-material="solid" inert>
-                <article class="dsgn-card">
-                  <div class="dsgn-cluster" data-justify="between" data-nowrap>
-                    <h3 class="dsgn-card-title">Invoice 2026-114</h3>
-                    <span class="dsgn-badge">Paid</span>
-                  </div>
-                  <dl class="dsgn-dl">
-                    <div><dt>Client</dt><dd>Studio Kolo s.r.o.</dd></div>
-                    <div><dt>Total</dt><dd>CZK 24&nbsp;200</dd></div>
-                  </dl>
-                  <label class="dsgn-choice"><input type="checkbox" class="dsgn-switch" role="switch" checked> Overdue reminders</label>
-                  <div class="dsgn-card-actions">
-                    <button class="dsgn-button" data-variant="subtle" data-intent="neutral" type="button"><span class="dsgn-icon" aria-hidden="true">download</span>PDF</button>
-                    <button class="dsgn-button" type="button">Send reminder</button>
-                  </div>
-                </article>
-              </div>
-            </div>
-          </div>
-          <div class="sheet-cell sheet-flush" data-span="half">
-            <ol class="modes-legend" id="modes-legend">
-              <li data-attr="theme">
-                <span class="step-index">01</span>
-                <div class="mode-text">
-                  <p><strong>Theme</strong> <code>data-theme</code></p>
-                  <p>Light or dark; every text and border pair is checked in both.</p>
-                  <div class="mode-values" role="group" aria-label="Theme"><button type="button" data-value="light" aria-pressed="false">light</button><button type="button" data-value="dark" aria-pressed="false">dark</button></div>
-                </div>
-              </li>
-              <li data-attr="density">
-                <span class="step-index">02</span>
-                <div class="mode-text">
-                  <p><strong>Density</strong> <code>data-density</code></p>
-                  <p>Padding and line height of controls, from the scale above.</p>
-                  <div class="mode-values" role="group" aria-label="Density"><button type="button" data-value="s" aria-pressed="false">s</button><button type="button" data-value="m" aria-pressed="false">m</button><button type="button" data-value="l" aria-pressed="false">l</button></div>
-                </div>
-              </li>
-              <li data-attr="radius">
-                <span class="step-index">03</span>
-                <div class="mode-text">
-                  <p><strong>Radius</strong> <code>data-radius</code></p>
-                  <p>Corners, from square to pill.</p>
-                  <div class="mode-values" role="group" aria-label="Radius"><button type="button" data-value="sharp" aria-pressed="false">sharp</button><button type="button" data-value="default" aria-pressed="false">default</button><button type="button" data-value="rounded" aria-pressed="false">rounded</button><button type="button" data-value="pill" aria-pressed="false">pill</button></div>
-                </div>
-              </li>
-              <li data-attr="elevation">
-                <span class="step-index">04</span>
-                <div class="mode-text">
-                  <p><strong>Elevation</strong> <code>data-elevation</code></p>
-                  <p>Borders only, or soft shadows.</p>
-                  <div class="mode-values" role="group" aria-label="Elevation"><button type="button" data-value="flat" aria-pressed="false">flat</button><button type="button" data-value="soft" aria-pressed="false">soft</button></div>
-                </div>
-              </li>
-              <li data-attr="lines">
-                <span class="step-index">05</span>
-                <div class="mode-text">
-                  <p><strong>Lines</strong> <code>data-lines</code></p>
-                  <p>Outlines and separators, separators only, or none.</p>
-                  <div class="mode-values" role="group" aria-label="Lines"><button type="button" data-value="on" aria-pressed="false">on</button><button type="button" data-value="minimal" aria-pressed="false">minimal</button><button type="button" data-value="none" aria-pressed="false">none</button></div>
-                </div>
-              </li>
-              <li data-attr="material">
-                <span class="step-index">06</span>
-                <div class="mode-text">
-                  <p><strong>Material</strong> <code>data-material</code></p>
-                  <p>Solid or frosted glass on bars, toasts and backdrops; shown here on the card.</p>
-                  <div class="mode-values" role="group" aria-label="Material"><button type="button" data-value="solid" aria-pressed="false">solid</button><button type="button" data-value="glass" aria-pressed="false">glass</button></div>
-                </div>
-              </li>
-            </ol>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Figma: the variable collections as cells, no table to scroll sideways. -->
-    <section class="dsgn-section sheet-section" id="figma" aria-labelledby="figma-title">
-      <div class="dsgn-container">
-        <div class="sheet">
-          <div class="sheet-cell sheet-head" data-tone="sunken">
-            <div class="sheet-head-text">
-              <p class="sheet-meta sheet-key">Figma</p>
-              <h2 class="dsgn-display" id="figma-title">The same system on the canvas.</h2>
-              <p class="dsgn-body">The library keeps the tokens as Figma variables, grouped in collections. Each mode of a collection is the same switch a developer sets in code, so designers try dark, dense or pill on a frame exactly as the page will do it. One version number covers the npm package and the library.</p>
-            </div>
-            <div class="dsgn-cluster">
-              {%- if site.links.figmaFile %}
-              <a class="dsgn-button" data-variant="subtle" data-intent="neutral" href="{{ site.links.figmaFile }}">Figma library<span class="dsgn-icon" data-end aria-hidden="true">arrow_outward</span></a>
-              {%- endif %}
-              <a class="dsgn-button" data-variant="subtle" data-intent="neutral" href="{{ site.links.figmaPlugin }}">Figma theme plugin<span class="dsgn-icon" data-end aria-hidden="true">arrow_outward</span></a>
-            </div>
-          </div>
-          {%- for c in dsgn.figma.collections %}{% if c.modes | length %}
-          <div class="sheet-cell collection" data-span="quarter">
-            <p class="sheet-meta"><span class="sheet-key">{{ c.name }}</span></p>
-            <p class="collection-count">{{ c.variables }}<span class="dsgn-visually-hidden"> variables</span></p>
-            <p class="collection-modes">{{ c.modes | join(" · ") }}</p>
-          </div>
-          {%- endif %}{% endfor %}
-          <div class="sheet-cell collection" data-span="half">
-            <p class="sheet-meta"><span class="sheet-key">One mode</span></p>
-            <p class="collection-modes">{% for c in dsgn.figma.collections %}{% if not (c.modes | length) %}{{ c.name }} {{ c.variables }}{% if not loop.last %} · {% endif %}{% endif %}{% endfor %}</p>
-          </div>
-          <div class="sheet-cell collection" data-span="half">
-            <p class="sheet-meta"><span class="sheet-key">In total</span></p>
-            <p class="collection-modes">{{ dsgn.figma.variables }} variables · {{ dsgn.figma.textStyles }} text styles · markup in every component</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Showcase: one cell per demo, an icon instead of a screenshot. -->
-    <section class="dsgn-section sheet-section" id="showcase" aria-labelledby="showcase-title">
-      <div class="dsgn-container">
-        <div class="sheet">
-          <div class="sheet-cell sheet-head" data-tone="sunken">
-            <div class="sheet-head-text">
-              <p class="sheet-meta sheet-key">Showcase</p>
-              <h2 class="dsgn-display" id="showcase-title">One system, any brand.</h2>
-              <p class="dsgn-body">Real screens built only from dsgn components. Give them your colour, corners and density, and copy the theme when it looks right.</p>
-            </div>
-            <a class="dsgn-button" data-variant="subtle" data-intent="neutral" href="{{ site.links.showcase }}">All demos<span class="dsgn-icon" data-end aria-hidden="true">arrow_forward</span></a>
-          </div>
-          <article class="sheet-cell sheet-card demo-card" data-span="half">
-            <span class="dsgn-icon" data-size="xl" aria-hidden="true">receipt_long</span>
-            <h3 class="dsgn-card-title"><a class="dsgn-card-link" href="/showcase/billing/">Billing app</a></h3>
-            <p class="dsgn-card-text">App shell, stats, tabs and a table of invoices with statuses.</p>
-          </article>
-          <article class="sheet-cell sheet-card demo-card" data-span="half">
-            <span class="dsgn-icon" data-size="xl" aria-hidden="true">shopping_bag</span>
-            <h3 class="dsgn-card-title"><a class="dsgn-card-link" href="/showcase/shop/">Shop product page</a></h3>
-            <p class="dsgn-card-text">Gallery, ratings, option cards, a cart toast and reviews.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
     <!-- Get started: one row per step, what to do on the left, the line to paste on the right. -->
     <section class="dsgn-section sheet-section" id="start" aria-labelledby="start-title">
       <div class="dsgn-container">
@@ -350,7 +372,7 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
             <li class="sheet-row">
               <div class="sheet-cell step" data-span="half">
                 <p class="step-index">01</p>
-                <div class="step-text"><h3 class="dsgn-card-title">Install</h3><p class="dsgn-card-text">The CSS, the optional script and the <code>dsgn</code> command line tool.</p></div>
+                <div class="step-text"><h3 class="dsgn-card-title">Install</h3><p class="dsgn-card-text">The CSS, the optional script, the <code>dsgn</code> command line tool and the skill for AI agents.</p></div>
               </div>
               <div class="sheet-cell step-code" data-span="half"><div class="install"><code class="install-command">npm i dsgn.systems</code><button class="dsgn-icon-button" data-variant="ghost" data-intent="neutral" type="button" data-copy="npm i dsgn.systems" aria-label="Copy install command"><span class="dsgn-icon" aria-hidden="true">content_copy</span></button></div></div>
             </li>
@@ -364,7 +386,7 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
             <li class="sheet-row">
               <div class="sheet-cell step" data-span="half">
                 <p class="step-index">03</p>
-                <div class="step-text"><h3 class="dsgn-card-title">Add your brand</h3><p class="dsgn-card-text">Colour, corners and density, checked for contrast before anything is written. Or try it in the <a class="dsgn-link" href="{{ site.links.themeCustomizer }}">theme customizer</a>.</p></div>
+                <div class="step-text"><h3 class="dsgn-card-title">Add your brand</h3><p class="dsgn-card-text">Colour, corners and density, checked for contrast before anything is written, plus a matching Figma mode. Or try it in the <a class="dsgn-link" href="{{ site.links.themeCustomizer }}">theme customizer</a>.</p></div>
               </div>
               <div class="sheet-cell step-code" data-span="half"><div class="install"><code class="install-command">npx dsgn theme --init</code><button class="dsgn-icon-button" data-variant="ghost" data-intent="neutral" type="button" data-copy="npx dsgn theme --init" aria-label="Copy theme command"><span class="dsgn-icon" aria-hidden="true">content_copy</span></button></div></div>
             </li>
@@ -381,13 +403,15 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
             <li class="sheet-row">
               <div class="sheet-cell step" data-span="half">
                 <p class="step-index">B</p>
-                <div class="step-text"><h3 class="dsgn-card-title">Link the CDN</h3><p class="dsgn-card-text">Nothing to install: the file comes from jsDelivr. Pin the minor version.</p></div>
+                <div class="step-text"><h3 class="dsgn-card-title">Link the CDN</h3><p class="dsgn-card-text">Nothing to install: the files come from jsDelivr. Pin the minor version. The script is optional; add it for tabs, menus, tooltips and toasts.</p></div>
               </div>
-              <div class="sheet-cell step-code" data-span="half"><div class="install"><code class="install-command">&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dsgn.systems@{{ dsgn.minor }}/dist/dsgn.min.css"&gt;</code><button class="dsgn-icon-button" data-variant="ghost" data-intent="neutral" type="button" data-copy="&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/dsgn.systems@{{ dsgn.minor }}/dist/dsgn.min.css&quot;&gt;" aria-label="Copy the CDN link"><span class="dsgn-icon" aria-hidden="true">content_copy</span></button></div></div>
+              {%- set cdn = "https://cdn.jsdelivr.net/npm/dsgn.systems@" + dsgn.minor + "/dist/dsgn.min" %}
+              <div class="sheet-cell step-code" data-span="half"><div class="install"><code class="install-command">&lt;link rel="stylesheet" href="{{ cdn }}.css"&gt;<br>&lt;script src="{{ cdn }}.js" defer&gt;&lt;/script&gt;</code><button class="dsgn-icon-button" data-variant="ghost" data-intent="neutral" type="button" data-copy="&lt;link rel=&quot;stylesheet&quot; href=&quot;{{ cdn }}.css&quot;&gt;&#10;&lt;script src=&quot;{{ cdn }}.js&quot; defer&gt;&lt;/script&gt;" aria-label="Copy the CDN lines"><span class="dsgn-icon" aria-hidden="true">content_copy</span></button></div></div>
             </li>
           </ol>
         </div>
       </div>
     </section>
 
+    <script type="module" src="/home-brand.js"></script>
 

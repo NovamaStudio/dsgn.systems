@@ -253,8 +253,15 @@ main:has(+ .site-foot) > .sheet-section:last-of-type { padding-block-end: 0; }
 .site-foot .site-foot-meta { display: flex; align-items: flex-end; padding: var(--dsgn-space-24); }
 @media (min-width: 64rem) { .site-foot .site-foot-meta { padding: var(--dsgn-space-32); } }
 
-/* Why: a mono index (01–06) in place of icons, the same micro type as the sheet labels. */
+/* Why: a mono index (01–07) in place of icons, the same micro type as the sheet labels.
+   The three pillars (what other kits leave to you) are rows: index and title | text. */
 .feature-index { margin: 0; }
+.why-pillar { display: grid; align-content: start; gap: var(--dsgn-space-12); }
+.why-pillar > *, .why-pillar-text > * { margin: 0; }
+.why-pillar-text .dsgn-body { max-inline-size: 40rem; }
+@media (min-width: 64rem) {
+  .sheet > .why-pillar, .sheet > .why-pillar-text { padding-block: var(--dsgn-space-48); }
+}
 .sheet-section .sheet { border-block-start: 0; }
 .sheet .sheet-cell[data-tone="sunken"] { background: var(--dsgn-surface-sunken); }
 
@@ -571,6 +578,11 @@ main:has(+ .site-foot) > .sheet-section:last-of-type { padding-block-end: 0; }
 .mode-text code { margin-inline-start: var(--dsgn-space-4); }
 .mode-values { display: flex; flex-wrap: wrap; gap: var(--dsgn-space-4); margin-block-start: var(--dsgn-space-8); }
 .mode-values button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dsgn-space-6);
+  /* at least 24 px high (WCAG 2.5.8) */
+  min-block-size: var(--dsgn-space-24);
   padding: var(--dsgn-space-2) var(--dsgn-space-8);
   border: var(--dsgn-border-width) solid var(--dsgn-border-strong);
   background: none;
@@ -585,6 +597,28 @@ main:has(+ .site-foot) > .sheet-section:last-of-type { padding-block-end: 0; }
 .mode-values button[aria-pressed="true"] { border-color: var(--dsgn-text); background: var(--dsgn-text); color: var(--dsgn-surface-base); }
 .mode-values button:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: var(--dsgn-focus-offset); }
 @media (max-width: 39.99rem) { .modes-legend li { padding-inline: var(--dsgn-space-16); } }
+/* brand colour: a swatch before the name, and the contrast check of the colour on the card */
+.mode-swatch {
+  inline-size: var(--dsgn-space-8);
+  block-size: var(--dsgn-space-8);
+  border-radius: 50%;
+  background: var(--swatch);
+  box-shadow: 0 0 0 1px var(--dsgn-border);
+}
+.brand-check { margin-block-start: var(--dsgn-space-8); }
+
+/* Below 64rem the card sits above its legend: it stays on screen (sticky in the sheet) while the
+   legend scrolls under it, so every switch shows its effect. The stage is shorter there. */
+@media (max-width: 63.99rem) {
+  .preview-cell {
+    position: sticky;
+    inset-block-start: 0;
+    z-index: 2;
+    border-block-end: var(--site-rule);
+  }
+  .preview { padding-block: var(--dsgn-space-24); }
+  .preview::before { padding-block-start: 0; }
+}
 
 /* ── Figma: one cell per variable collection ───────────────────────────── */
 
@@ -593,9 +627,10 @@ main:has(+ .site-foot) > .sheet-section:last-of-type { padding-block-end: 0; }
 .collection-count { font-size: var(--dsgn-font-size-display); line-height: var(--dsgn-line-height-display); font-weight: var(--dsgn-font-weight-semibold); font-variant-numeric: tabular-nums; }
 .collection-modes { color: var(--dsgn-text-muted); font-size: var(--dsgn-font-size-body-s); }
 
-/* ── Showcase: one cell per demo, its icon above the title ─────────────── */
+/* ── Showcase: one cell per demo, its screen above the title ───────────── */
 
-.demo-card > .dsgn-icon { margin-block-end: var(--dsgn-space-16); }
+.demo-card .dsgn-card-media { aspect-ratio: 16 / 10; }
+.demo-card .dsgn-card-media img { inline-size: 100%; block-size: 100%; object-fit: cover; object-position: top left; }
 
 /* ── Get started: index, step, line to paste ───────────────────────────── */
 

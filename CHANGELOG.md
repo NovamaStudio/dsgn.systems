@@ -4,6 +4,9 @@ One version for the npm package and the Figma library. [Semantic versioning](htt
 
 ## Unreleased
 
+### Fixed
+- README quoted 226 checked colour pairs; the build checks 216 (`dist/contrast-report.md`).
+
 ### Changed
 - Copyright holder and package author are **Novama Studio** (was Novama) in `LICENSE`, `package.json`, the README and the skill.
 

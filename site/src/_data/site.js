@@ -22,10 +22,9 @@ export default {
   },
   // Main navigation. Home sections use "/#id" so the links also work from other pages.
   nav: [
+    { label: "Try it", href: "/#modes" },
     { label: "Why dsgn", href: "/#why" },
-    { label: "The scale", href: "/#scale" },
-    { label: "Modes", href: "/#modes" },
-    { label: "Figma", href: "/#figma" },
     { label: "Showcase", href: "/showcase/" },
+    { label: "Figma", href: "/#figma" },
   ],
 };

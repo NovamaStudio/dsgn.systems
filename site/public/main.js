@@ -118,13 +118,14 @@
   }
 
   // Modes: one attribute changes at a time until the visitor picks a value; the legend marks every
-  // value the card has now.
+  // value the card has now. data-brand is recoloured by home-brand.js (the theme engine).
   var preview = document.getElementById('preview');
   var modes = document.getElementById('modes-legend');
   if (preview && modes) {
-    var steps = [['theme', 'dark'], ['radius', 'rounded'], ['density', 'l'], ['elevation', 'soft'], ['lines', 'minimal'],
-      ['material', 'glass'], ['theme', 'light'], ['radius', 'pill'], ['density', 's'], ['lines', 'none'], ['elevation', 'flat'],
-      ['material', 'solid'], ['radius', 'sharp'], ['lines', 'on'], ['density', 'm']];
+    var steps = [['brand', '#ff4400'], ['theme', 'dark'], ['radius', 'rounded'], ['brand', '#0f8a5f'], ['density', 'l'],
+      ['elevation', 'soft'], ['brand', '#7a3fd1'], ['lines', 'minimal'], ['material', 'glass'], ['theme', 'light'],
+      ['brand', '#d6336c'], ['radius', 'pill'], ['density', 's'], ['brand', 'mono'], ['lines', 'none'], ['elevation', 'flat'],
+      ['material', 'solid'], ['brand', '#2f6fed'], ['radius', 'default'], ['lines', 'on'], ['density', 'm']];
     var at = 0;
     function mark() {
       modes.querySelectorAll('li[data-attr]').forEach(function (li) {

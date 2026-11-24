@@ -22,7 +22,7 @@ h1 { margin: 0; font-size: 76px; line-height: 1; font-weight: 600; letter-spacin
 .bar { position: absolute; left: 72px; top: 300px; width: 96px; height: 12px; background: #FF4400; }
 svg { position: absolute; left: 60px; top: 360px; width: 1240px; height: auto; fill: #191B1D; }
 </style></head><body>
-<div class="copy"><p class="eyebrow">CSS design system · MIT</p><h1>Accessible UI<br>from plain HTML.</h1></div>
+<div class="copy"><p class="eyebrow">CSS design system · MIT</p><h1>Your brand colour.<br>Guaranteed contrast.</h1></div>
 <div class="url">dsgn.systems</div>
 <div class="bar"></div>
 <svg viewBox="7 -2 534 150" aria-hidden="true"><path d="${path}"/></svg>
