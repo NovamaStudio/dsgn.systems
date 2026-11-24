@@ -494,22 +494,55 @@ main:has(+ .site-foot) > .sheet-section:last-of-type { padding-block-end: 0; }
 @media (max-width: 39.99rem) { .bp-legend button { padding-inline: var(--dsgn-space-16); } }
 @media (prefers-reduced-motion: reduce) { .bp { transition: none; } }
 
-/* ── Modes: the log of attributes and the card they change ─────────────── */
+/* ── Modes: the card and the legend of attributes (laid out like The scale) ─ */
 
-.modes-log-cell { display: grid; align-content: space-between; }
-.modes-log td { font-family: var(--site-font-mono); color: var(--dsgn-text-muted); }
-.modes-log td > span { padding-inline: var(--dsgn-space-4); transition: background-color var(--dsgn-duration) var(--dsgn-ease), color var(--dsgn-duration) var(--dsgn-ease); }
-.modes-log td > span[data-current] { background: var(--dsgn-text); color: var(--dsgn-surface-base); }
-.modes-play { padding: var(--dsgn-space-12) var(--dsgn-space-16); }
-
-.modes-cell { display: grid; align-items: center; }
+/* the card on its own theme's sunken surface, square like the drawing above */
 .preview {
+  display: grid;
+  place-items: center;
+  inline-size: 100%;
+  aspect-ratio: 1;
+  min-block-size: 100%;
   padding: var(--dsgn-space-24);
-  border: var(--dsgn-border-width) solid var(--dsgn-text);
   background: var(--dsgn-surface-sunken);
   color: var(--dsgn-text);
   transition: background-color var(--dsgn-duration) var(--dsgn-ease);
 }
+.preview > .dsgn-card { inline-size: min(100%, 24rem); }
+
+/* legend: one row per attribute; the one that just changed is sunken, the current values inverse */
+.modes-legend { display: grid; block-size: 100%; margin: 0; padding: 0; list-style: none; }
+.modes-legend li {
+  display: grid;
+  grid-template-columns: var(--dsgn-space-48) minmax(0, 1fr);
+  align-content: center;
+  gap: var(--dsgn-space-16);
+  padding: var(--dsgn-space-16) var(--dsgn-space-24);
+  color: var(--dsgn-text-muted);
+  transition: background-color var(--dsgn-duration) var(--dsgn-ease), color var(--dsgn-duration) var(--dsgn-ease);
+}
+.modes-legend li + li { border-block-start: var(--dsgn-border-width) solid var(--dsgn-border); }
+.modes-legend li[data-current] { background: var(--dsgn-surface-sunken); color: var(--dsgn-text); }
+.mode-text { display: grid; gap: var(--dsgn-space-4); }
+.mode-text > p { margin: 0; }
+.mode-text strong { color: var(--dsgn-text); font-weight: var(--dsgn-font-weight-semibold); }
+.mode-text code { margin-inline-start: var(--dsgn-space-4); }
+.mode-values { display: flex; flex-wrap: wrap; gap: var(--dsgn-space-4); margin-block-start: var(--dsgn-space-8); }
+.mode-values button {
+  padding: var(--dsgn-space-2) var(--dsgn-space-8);
+  border: var(--dsgn-border-width) solid var(--dsgn-border-strong);
+  background: none;
+  color: var(--dsgn-text-muted);
+  font-family: var(--site-font-mono);
+  font-size: var(--dsgn-font-size-caption);
+  line-height: var(--dsgn-line-height-caption);
+  cursor: pointer;
+  transition: background-color var(--dsgn-duration) var(--dsgn-ease), color var(--dsgn-duration) var(--dsgn-ease), border-color var(--dsgn-duration) var(--dsgn-ease);
+}
+.mode-values button:hover { border-color: var(--dsgn-text); color: var(--dsgn-text); }
+.mode-values button[aria-pressed="true"] { border-color: var(--dsgn-text); background: var(--dsgn-text); color: var(--dsgn-surface-base); }
+.mode-values button:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: var(--dsgn-focus-offset); }
+@media (max-width: 39.99rem) { .modes-legend li { padding-inline: var(--dsgn-space-16); } }
 
 /* ── Figma: one cell per variable collection ───────────────────────────── */
 

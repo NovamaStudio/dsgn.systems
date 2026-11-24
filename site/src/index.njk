@@ -184,8 +184,8 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
       </div>
     </section>
 
-    <!-- Modes: one card, one attribute at a time. main.js changes the attributes in turn and marks the
-         current value in the log; the pause button stops it (WCAG 2.2.2). -->
+    <!-- Modes: one card, one attribute at a time, laid out like The scale. main.js changes the attributes
+         in turn until a value is picked; the legend marks the attribute that changed and every current value. -->
     <section class="dsgn-section sheet-section" id="modes" aria-labelledby="modes-title">
       <div class="dsgn-container">
         <div class="sheet">
@@ -196,21 +196,7 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
               <p class="dsgn-body">Light or dark, dense or roomy, square or pill. Set it on <code>&lt;html&gt;</code> for the whole page or on any section; the markup stays the same.</p>
             </div>
           </div>
-          <div class="sheet-cell sheet-flush modes-log-cell" data-span="half">
-            <table class="log modes-log" id="modes-log">
-              <caption class="dsgn-visually-hidden">Attributes on the card and their values</caption>
-              <tbody>
-                <tr data-attr="theme"><th scope="row">data-theme</th><td><span data-value="light">light</span> <span data-value="dark">dark</span></td></tr>
-                <tr data-attr="density"><th scope="row">data-density</th><td><span data-value="s">s</span> <span data-value="m">m</span> <span data-value="l">l</span></td></tr>
-                <tr data-attr="radius"><th scope="row">data-radius</th><td><span data-value="sharp">sharp</span> <span data-value="default">default</span> <span data-value="rounded">rounded</span> <span data-value="pill">pill</span></td></tr>
-                <tr data-attr="elevation"><th scope="row">data-elevation</th><td><span data-value="flat">flat</span> <span data-value="soft">soft</span></td></tr>
-              </tbody>
-            </table>
-            <div class="modes-play">
-              <button class="dsgn-button" data-variant="ghost" data-intent="neutral" type="button" aria-pressed="false" data-motion-toggle="mode animation"><span class="dsgn-icon" aria-hidden="true">pause</span><span class="modes-play-text">Pause</span></button>
-            </div>
-          </div>
-          <div class="sheet-cell modes-cell" data-span="half">
+          <div class="sheet-cell sheet-flush" data-span="half">
             <div class="preview" id="preview" data-theme="light" data-density="m" data-radius="sharp" data-elevation="flat" inert>
               <article class="dsgn-card">
                 <div class="dsgn-cluster" data-justify="between" data-nowrap>
@@ -228,6 +214,42 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
                 </div>
               </article>
             </div>
+          </div>
+          <div class="sheet-cell sheet-flush" data-span="half">
+            <ol class="modes-legend" id="modes-legend">
+              <li data-attr="theme">
+                <span class="step-index">01</span>
+                <div class="mode-text">
+                  <p><strong>Theme</strong> <code>data-theme</code></p>
+                  <p>Light or dark; every text and border pair is checked in both.</p>
+                  <div class="mode-values" role="group" aria-label="Theme"><button type="button" data-value="light" aria-pressed="false">light</button><button type="button" data-value="dark" aria-pressed="false">dark</button></div>
+                </div>
+              </li>
+              <li data-attr="density">
+                <span class="step-index">02</span>
+                <div class="mode-text">
+                  <p><strong>Density</strong> <code>data-density</code></p>
+                  <p>Padding and line height of controls, from the scale above.</p>
+                  <div class="mode-values" role="group" aria-label="Density"><button type="button" data-value="s" aria-pressed="false">s</button><button type="button" data-value="m" aria-pressed="false">m</button><button type="button" data-value="l" aria-pressed="false">l</button></div>
+                </div>
+              </li>
+              <li data-attr="radius">
+                <span class="step-index">03</span>
+                <div class="mode-text">
+                  <p><strong>Radius</strong> <code>data-radius</code></p>
+                  <p>Corners, from square to pill.</p>
+                  <div class="mode-values" role="group" aria-label="Radius"><button type="button" data-value="sharp" aria-pressed="false">sharp</button><button type="button" data-value="default" aria-pressed="false">default</button><button type="button" data-value="rounded" aria-pressed="false">rounded</button><button type="button" data-value="pill" aria-pressed="false">pill</button></div>
+                </div>
+              </li>
+              <li data-attr="elevation">
+                <span class="step-index">04</span>
+                <div class="mode-text">
+                  <p><strong>Elevation</strong> <code>data-elevation</code></p>
+                  <p>Borders only, or soft shadows.</p>
+                  <div class="mode-values" role="group" aria-label="Elevation"><button type="button" data-value="flat" aria-pressed="false">flat</button><button type="button" data-value="soft" aria-pressed="false">soft</button></div>
+                </div>
+              </li>
+            </ol>
           </div>
         </div>
       </div>

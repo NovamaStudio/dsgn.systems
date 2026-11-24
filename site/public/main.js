@@ -26,8 +26,8 @@
   var root = document.documentElement;
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-  // Motion: the modes animation runs unless paused (WCAG 2.2.2) or reduced motion is
-  // asked for. The choice is remembered per visitor.
+  // Motion: html[data-motion="off"] stops the logo loop (logo-motion.css). It follows reduced motion,
+  // or a choice remembered from a [data-motion-toggle] button where a page has one.
   var KEY = 'dsgn-landing-motion';
   var onMotion = [];
 
@@ -117,28 +117,31 @@
     legend.querySelectorAll('button').forEach(function (b, n) { b.addEventListener('click', function () { stop(); show(n); }); });
   }
 
-  // Modes: one attribute changes at a time; the log marks the value the card has now.
+  // Modes: one attribute changes at a time until the visitor picks a value; the legend marks the
+  // attribute that just changed and every value the card has now.
   var preview = document.getElementById('preview');
-  var log = document.getElementById('modes-log');
-  if (preview && log) {
+  var modes = document.getElementById('modes-legend');
+  if (preview && modes) {
     var steps = [['theme', 'dark'], ['radius', 'rounded'], ['density', 'l'], ['elevation', 'soft'], ['theme', 'light'],
       ['radius', 'pill'], ['density', 's'], ['elevation', 'flat'], ['radius', 'sharp'], ['density', 'm']];
     var at = 0;
     function mark(changed) {
-      log.querySelectorAll('tr[data-attr]').forEach(function (tr) {
-        var attr = tr.getAttribute('data-attr'), value = preview.getAttribute('data-' + attr);
-        tr.toggleAttribute('data-current', attr === changed);
-        tr.querySelectorAll('[data-value]').forEach(function (v) { v.toggleAttribute('data-current', v.getAttribute('data-value') === value); });
+      modes.querySelectorAll('li[data-attr]').forEach(function (li) {
+        var attr = li.getAttribute('data-attr'), value = preview.getAttribute('data-' + attr);
+        li.toggleAttribute('data-current', attr === changed);
+        li.querySelectorAll('[data-value]').forEach(function (v) { v.setAttribute('aria-pressed', String(v.getAttribute('data-value') === value)); });
       });
     }
+    function set(attr, value) { preview.setAttribute('data-' + attr, value); mark(attr); }
     mark(null);
-    loop(log, 2200, function () {
-      var step = steps[at];
-      preview.setAttribute('data-' + step[0], step[1]);
-      mark(step[0]);
-      at = (at + 1) % steps.length;
+    var stopModes = loop(modes, 2200, function () { set(steps[at][0], steps[at][1]); at = (at + 1) % steps.length; }, true);
+    modes.querySelectorAll('li[data-attr]').forEach(function (li) {
+      li.querySelectorAll('[data-value]').forEach(function (v) {
+        v.addEventListener('click', function () { stopModes(); set(li.getAttribute('data-attr'), v.getAttribute('data-value')); });
+      });
     });
   }
+
 
   setMotion(stored ? stored === 'off' : reduce.matches);
 
