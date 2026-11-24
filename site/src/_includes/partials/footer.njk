@@ -1,3 +1,38 @@
+{%- if footerSheet %}
+  {#- Home: the footer is the last band of the page sheet (same rules and grid as the sections). #}
+  <footer class="site-foot">
+    <div class="dsgn-container">
+      <div class="sheet">
+        <div class="sheet-cell sheet-stack" data-span="half">
+          <a class="dsgn-brand site-brand" href="/" aria-label="dsgn.systems, home">
+            <svg class="site-wordmark" aria-hidden="true" focusable="false"><use href="#dsgn-wordmark"></use></svg>
+          </a>
+          <p class="dsgn-body-s dsgn-muted">Token-driven CSS design system, mirrored 1:1 in Figma.</p>
+        </div>
+        <nav class="sheet-cell sheet-stack" data-span="quarter" aria-labelledby="foot-learn">
+          <h2 class="sheet-meta sheet-key" id="foot-learn">Learn</h2>
+          <ul class="dsgn-footer-links">
+            <li><a href="{{ site.links.docs }}">Documentation</a></li>
+            <li><a href="{{ site.links.themeCustomizer }}">Theme customizer</a></li>
+            <li><a href="{{ site.links.showcase }}">Showcase</a></li>
+            <li><a href="{{ site.links.changelog }}">Changelog</a></li>
+          </ul>
+        </nav>
+        <nav class="sheet-cell sheet-stack" data-span="quarter" aria-labelledby="foot-code">
+          <h2 class="sheet-meta sheet-key" id="foot-code">Code</h2>
+          <ul class="dsgn-footer-links">
+            <li><a href="{{ site.links.repo }}">GitHub</a></li>
+            <li><a href="{{ site.links.npm }}">npm</a></li>
+            <li><a href="{{ site.links.figmaPlugin }}">Figma theme plugin</a></li>
+            <li><a href="{{ site.links.skill }}">Skill for AI agents</a></li>
+          </ul>
+        </nav>
+        <p class="sheet-cell sheet-meta" data-span="half" data-tone="sunken"><span class="sheet-key">©</span>{{ site.year }} {{ site.org }}</p>
+        <p class="sheet-cell sheet-meta" data-span="half" data-tone="sunken"><span class="sheet-key">Licence</span><a href="{{ site.links.license }}">MIT</a></p>
+      </div>
+    </div>
+  </footer>
+{%- else %}
   <footer class="dsgn-footer">
     <div class="dsgn-container dsgn-stack" data-gap="xl">
       <div class="dsgn-footer-top">
@@ -34,3 +69,4 @@
       </div>
     </div>
   </footer>
+{%- endif %}

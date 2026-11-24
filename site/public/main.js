@@ -73,4 +73,21 @@
       try { window.localStorage.setItem(KEY, off ? 'off' : 'on'); } catch (e) { /* storage blocked */ }
     });
   });
+  // Home header: hide while scrolling down, show on scrolling up, at the top or on focus (all widths).
+  var header = document.querySelector('.dsgn-header[data-site-hide-on-scroll]');
+  if (header) {
+    var lastY = window.scrollY, ticking = false;
+    function hideUpdate() {
+      ticking = false;
+      var y = Math.max(0, window.scrollY), dy = y - lastY;
+      if (y <= header.offsetHeight || header.contains(document.activeElement)) header.removeAttribute('data-site-hidden');
+      else if (dy > 6) header.setAttribute('data-site-hidden', '');
+      else if (dy < -6) header.removeAttribute('data-site-hidden');
+      if (Math.abs(dy) > 6 || y <= header.offsetHeight) lastY = y;
+    }
+    window.addEventListener('scroll', function () {
+      if (!ticking) { ticking = true; requestAnimationFrame(hideUpdate); }
+    }, { passive: true });
+    header.addEventListener('focusin', function () { header.removeAttribute('data-site-hidden'); });
+  }
 })();

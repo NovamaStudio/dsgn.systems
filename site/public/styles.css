@@ -36,6 +36,9 @@ code {
 .dsgn-header[data-surface="transparent"]::before { box-shadow: none; }
 /* home: the header sits off the page edge, as far from it as from the sheet below */
 .dsgn-header[data-surface="transparent"] { padding-block: var(--dsgn-space-24); }
+/* home: the header slides away while scrolling down at every width, back on scrolling up
+   (dsgn's data-hide-on-scroll does this on phones only; main.js sets data-site-hidden) */
+.dsgn-header[data-site-hide-on-scroll][data-site-hidden] { translate: 0 -100%; }
 
 /* ── Brand ─────────────────────────────────────────────────────────────── */
 
@@ -239,6 +242,18 @@ code {
 
 .sheet-section { padding-block: 0; }
 .sheet-section:last-of-type { padding-block-end: calc(var(--dsgn-space-48) * 2); }
+/* Home footer: the last band of the sheet, so the sections above end with no gap. */
+main:has(+ .site-foot) > .sheet-section:last-of-type { padding-block-end: 0; }
+.site-foot { padding-block-end: calc(var(--dsgn-space-48) * 2); }
+.site-foot .sheet { border-block-start: 0; }
+.site-foot .sheet-stack > * { margin: 0; }
+.site-foot { font-size: var(--dsgn-font-size-body-s); }
+.site-foot a:not([class]) { color: var(--dsgn-text-muted); text-decoration: none; }
+@media (hover: hover) { .site-foot a:not([class]):hover { color: var(--dsgn-text); text-decoration: underline; text-underline-offset: 0.2em; } }
+.site-foot .sheet-meta a:not([class]) { color: inherit; }
+
+/* Why: a mono index (01–06) in place of icons, the same micro type as the sheet labels. */
+.feature-index { margin: 0; }
 .sheet-section .sheet { border-block-start: 0; }
 .sheet .sheet-cell[data-tone="sunken"] { background: var(--dsgn-surface-sunken); }
 
@@ -379,7 +394,7 @@ code {
 .scale-row:nth-child(5) .scale-bar { block-size: var(--dsgn-space-12); }
 .scale-row:nth-child(6) .scale-bar { block-size: var(--dsgn-space-16); }
 .scale-row:nth-child(7) .scale-bar { block-size: var(--dsgn-space-24); }
-.scale-row:nth-child(8) .scale-bar { block-size: var(--dsgn-space-32); background: var(--dsgn-accent-solid); }
+.scale-row:nth-child(8) .scale-bar { block-size: var(--dsgn-space-32); }
 
 /* ── Modes ─────────────────────────────────────────────────────────────── */
 

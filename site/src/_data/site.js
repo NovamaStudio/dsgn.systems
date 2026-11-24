@@ -24,7 +24,6 @@ export default {
     { label: "The scale", href: "/#scale" },
     { label: "Modes", href: "/#modes" },
     { label: "Figma", href: "/#figma" },
-    { label: "Get started", href: "/#start" },
     { label: "Showcase", href: "/showcase/" },
   ],
 };
