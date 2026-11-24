@@ -506,31 +506,36 @@ main:has(+ .site-foot) > .sheet-section:last-of-type { padding-block-end: 0; }
   min-block-size: 100%;
   padding: var(--dsgn-space-48) var(--dsgn-space-24);
   background: var(--dsgn-surface-base);
+  isolation: isolate;
 }
 .preview::before { content: ""; grid-area: 1 / 1; padding-block-start: 100%; }
-/* glass needs something behind it: a halftone raster fading across the stage */
+/* glass needs something behind it: a halftone raster fading across the stage, shown in glass mode */
 .preview::after {
   content: "";
   position: absolute;
   inset: 0;
   background: radial-gradient(circle, var(--dsgn-text) 32%, transparent 34%) 0 0 / var(--dsgn-space-8) var(--dsgn-space-8);
-  -webkit-mask-image: linear-gradient(135deg, transparent 15%, var(--dsgn-text) 85%);
-  mask-image: linear-gradient(135deg, transparent 15%, var(--dsgn-text) 85%);
+  -webkit-mask-image: linear-gradient(135deg, transparent, var(--dsgn-text) 70%);
+  mask-image: linear-gradient(135deg, transparent, var(--dsgn-text) 70%);
   opacity: 0;
   transition: opacity var(--dsgn-duration) var(--dsgn-ease);
 }
-.preview:has(> .preview-card[data-material="glass"])::after { opacity: 0.5; }
+.preview:has(> .preview-card[data-material="glass"])::after { opacity: 0.7; }
 .preview-card {
   grid-area: 1 / 1;
   position: relative;
   z-index: 1;
-  display: grid;
-  gap: var(--dsgn-space-16);
   inline-size: min(100%, 24rem);
   background: none;
   color: var(--dsgn-text);
 }
-.preview-card > .dsgn-toast { inline-size: auto; }
+/* a liberty of this demo: in dsgn glass is for chrome (bars, toasts, backdrops); here the card takes
+   the same chrome surface and blur, so the effect shows over the raster */
+.preview-card[data-material="glass"] > .dsgn-card {
+  background: var(--dsgn-surface-chrome);
+  -webkit-backdrop-filter: blur(var(--dsgn-blur-chrome));
+  backdrop-filter: blur(var(--dsgn-blur-chrome));
+}
 
 /* the card is monochrome: modes/dsgn.theme.css (site/scripts/mono-theme.mjs) */
 
