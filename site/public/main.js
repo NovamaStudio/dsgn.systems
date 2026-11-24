@@ -133,6 +133,29 @@
       });
     }
     function set(attr, value) { preview.setAttribute('data-' + attr, value); mark(); }
+    // reserve the stage for the tallest card (any density, radius and lines), so the page never moves
+    var stage = preview.parentElement;
+    function reserve() {
+      var keep = {}, tallest = 0;
+      ['density', 'radius', 'lines'].forEach(function (a) { keep[a] = preview.getAttribute('data-' + a); });
+      preview.setAttribute('data-measure', '');
+      ['s', 'm', 'l'].forEach(function (d) {
+        ['sharp', 'pill'].forEach(function (r) {
+          ['on', 'none'].forEach(function (l) {
+            preview.setAttribute('data-density', d); preview.setAttribute('data-radius', r); preview.setAttribute('data-lines', l);
+            tallest = Math.max(tallest, preview.offsetHeight);
+          });
+        });
+      });
+      Object.keys(keep).forEach(function (a) { preview.setAttribute('data-' + a, keep[a]); });
+      void preview.offsetHeight;
+      preview.removeAttribute('data-measure');
+      var pad = window.getComputedStyle(stage);
+      stage.style.setProperty('--stage', Math.ceil(tallest + parseFloat(pad.paddingTop) + parseFloat(pad.paddingBottom)) + 'px');
+    }
+    reserve();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(reserve);
+    window.addEventListener('resize', reserve);
     mark();
     var stopModes = loop(modes, 2200, function () { set(steps[at][0], steps[at][1]); at = (at + 1) % steps.length; }, true);
     modes.querySelectorAll('li[data-attr]').forEach(function (li) {

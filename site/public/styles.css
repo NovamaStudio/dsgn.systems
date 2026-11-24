@@ -375,6 +375,7 @@ main:has(+ .site-foot) > .sheet-section:last-of-type { padding-block-end: 0; }
   position: relative;
   container-type: inline-size;
   inline-size: 100%;
+  overflow-anchor: none;
   aspect-ratio: 1;
   min-block-size: 100%;
   overflow: hidden;
@@ -503,10 +504,13 @@ main:has(+ .site-foot) > .sheet-section:last-of-type { padding-block-end: 0; }
   display: grid;
   place-items: center;
   inline-size: 100%;
-  min-block-size: 100%;
+  /* --stage: room for the card at its tallest (main.js), so switching modes never moves the page */
+  min-block-size: max(100%, var(--stage, 0px));
   padding: var(--dsgn-space-48) var(--dsgn-space-24);
   background: var(--dsgn-surface-base);
   isolation: isolate;
+  /* never the browser's scroll anchor: the card changing size must not scroll the page */
+  overflow-anchor: none;
 }
 .preview::before { content: ""; grid-area: 1 / 1; padding-block-start: 100%; }
 /* glass needs something behind it, shown in glass mode: two large discs (brand and ink) the card
@@ -531,6 +535,14 @@ main:has(+ .site-foot) > .sheet-section:last-of-type { padding-block-end: 0; }
   background: none;
   color: var(--dsgn-text);
 }
+/* the card moves from mode to mode instead of jumping (not while main.js measures it) */
+.preview-card, .preview-card * {
+  transition-property: padding, margin, gap, inline-size, block-size, min-block-size, border-radius, box-shadow, background-color, border-color, color, font-size, line-height, -webkit-backdrop-filter, backdrop-filter;
+  transition-duration: 300ms;
+  transition-timing-function: var(--dsgn-ease);
+}
+.preview-card[data-measure], .preview-card[data-measure] * { transition: none; }
+@media (prefers-reduced-motion: reduce) { .preview-card, .preview-card * { transition: none; } }
 /* a liberty of this demo: in dsgn glass is for chrome (bars, toasts, backdrops); here the card takes
    the same chrome surface and blur, so the effect shows over the raster */
 .preview-card[data-material="glass"] > .dsgn-card {
