@@ -5,16 +5,14 @@
       </a>
       <nav class="dsgn-nav" data-variant="text" aria-label="Main" data-hide-below="desktop">
         {%- for item in site.nav %}
-        <a class="dsgn-nav-link" href="{{ item.href }}"{% if page.url == item.href %} aria-current="page"{% endif %}>{{ item.label }}</a>
+        <a class="dsgn-nav-link" href="{{ item.href }}"{% if page.url == item.href or ("#" not in item.href and item.href != "/" and page.url.startsWith(item.href)) %} aria-current="page"{% endif %}>{{ item.label }}</a>
         {%- endfor %}
       </nav>
+      {#- The site's two calls to action, the only ones on the home page: try the brand colour on the
+          home demo, or get started. Docs is in the navigation, GitHub in the footer and the menu. #}
       <div class="dsgn-cluster dsgn-header-actions" data-nowrap>
-        <a class="dsgn-button" data-variant="ghost" data-intent="neutral" href="{{ site.links.repo }}" data-hide-below="tablet">GitHub</a>
-        <a class="dsgn-button" data-variant="subtle" data-intent="neutral" href="{{ site.links.docs }}" data-hide-below="tablet"{% if page.url.startsWith("/docs/") %} aria-current="page"{% endif %}>Docs</a>
-        {#- the home page has its two calls to action in the hero (headerCta: false) #}
-        {%- if headerCta !== false %}
-        <a class="dsgn-button" href="/#start">Get started</a>
-        {%- endif %}
+        <a class="dsgn-button" data-variant="subtle" data-intent="neutral" href="/#start" data-hide-below="tablet">Get started</a>
+        <a class="dsgn-button" href="/#modes">Try your colour</a>
       </div>
       <button class="dsgn-icon-button dsgn-header-menu" data-variant="ghost" data-intent="neutral" data-hide-above="tablet" aria-label="Menu" command="show-modal" commandfor="menu">
         <span class="dsgn-icon" aria-hidden="true">menu</span>
@@ -32,9 +30,9 @@
     <div class="dsgn-dialog-body">
       <nav class="dsgn-nav" data-orientation="vertical" aria-label="Main, mobile">
         {%- for item in site.nav %}
-        <a class="dsgn-nav-link" href="{{ item.href }}"{% if page.url == item.href %} aria-current="page"{% endif %}>{{ item.label }}</a>
+        <a class="dsgn-nav-link" href="{{ item.href }}"{% if page.url == item.href or ("#" not in item.href and item.href != "/" and page.url.startsWith(item.href)) %} aria-current="page"{% endif %}>{{ item.label }}</a>
         {%- endfor %}
-        <a class="dsgn-nav-link" href="{{ site.links.docs }}">Documentation</a>
+        <a class="dsgn-nav-link" href="/#start">Get started</a>
         <a class="dsgn-nav-link" href="{{ site.links.repo }}">GitHub</a>
       </nav>
     </div>

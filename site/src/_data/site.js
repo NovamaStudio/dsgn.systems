@@ -20,11 +20,12 @@ export default {
     figmaPlugin: "https://github.com/NovamaStudio/dsgn.systems/tree/main/figma-plugin",
     skill: "https://github.com/NovamaStudio/dsgn.systems/tree/main/skills/dsgn-systems",
   },
-  // Main navigation. Home sections use "/#id" so the links also work from other pages.
+  // Main navigation. Home sections use "/#id" so the links also work from other pages. A page link is
+  // current on its own subpages too (Docs, Showcase). The two calls to action sit beside it in the header.
   nav: [
-    { label: "Try it", href: "/#modes" },
     { label: "Why dsgn", href: "/#why" },
     { label: "Showcase", href: "/showcase/" },
     { label: "Figma", href: "/#figma" },
+    { label: "Docs", href: "/docs/" },
   ],
 };
