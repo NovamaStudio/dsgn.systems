@@ -578,9 +578,6 @@ main:has(+ .site-foot) > .sheet-section:last-of-type { padding-block-end: 0; }
 .mode-text code { margin-inline-start: var(--dsgn-space-4); }
 .mode-values { display: flex; flex-wrap: wrap; gap: var(--dsgn-space-4); margin-block-start: var(--dsgn-space-8); }
 .mode-values button {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--dsgn-space-6);
   /* at least 24 px high (WCAG 2.5.8) */
   min-block-size: var(--dsgn-space-24);
   padding: var(--dsgn-space-2) var(--dsgn-space-8);
@@ -597,14 +594,7 @@ main:has(+ .site-foot) > .sheet-section:last-of-type { padding-block-end: 0; }
 .mode-values button[aria-pressed="true"] { border-color: var(--dsgn-text); background: var(--dsgn-text); color: var(--dsgn-surface-base); }
 .mode-values button:focus-visible { outline: var(--dsgn-focus-width) solid var(--dsgn-focus); outline-offset: var(--dsgn-focus-offset); }
 @media (max-width: 39.99rem) { .modes-legend li { padding-inline: var(--dsgn-space-16); } }
-/* brand colour: a swatch before the name, and the contrast check of the colour on the card */
-.mode-swatch {
-  inline-size: var(--dsgn-space-8);
-  block-size: var(--dsgn-space-8);
-  border-radius: 50%;
-  background: var(--swatch);
-  box-shadow: 0 0 0 1px var(--dsgn-border);
-}
+/* brand colour: the contrast check of the colour on the card */
 .brand-check { margin-block-start: var(--dsgn-space-8); }
 
 /* Below 64rem the card sits above its legend: it stays on screen (sticky in the sheet) while the

@@ -122,7 +122,7 @@ ogDescription: Pick any brand colour and every pair still passes WCAG 2.2 AA. Pl
                   <p><strong>Brand colour</strong> <code>dsgn.theme.mjs</code></p>
                   <p>Any hue. Lightness stays fixed per step, so contrast holds.</p>
                   <div class="mode-values" role="group" aria-label="Brand colour">
-                    {%- for c in [["#2f6fed", "blue"], ["#ff4400", "orange"], ["#0f8a5f", "green"], ["#7a3fd1", "violet"], ["#d6336c", "pink"], ["mono", "mono"]] %}<button type="button" data-value="{{ c[0] }}" aria-pressed="false">{% if c[0] != "mono" %}<span class="mode-swatch" style="--swatch: {{ c[0] }}" aria-hidden="true"></span>{% endif %}{{ c[1] }}</button>{% endfor %}
+                    {%- for c in [["#2f6fed", "blue"], ["#ff4400", "orange"], ["#0f8a5f", "green"], ["#7a3fd1", "violet"], ["#d6336c", "pink"], ["mono", "mono"]] %}<button type="button" data-value="{{ c[0] }}" aria-pressed="false">{{ c[1] }}</button>{% endfor %}
                   </div>
                   <p class="sc-contrast brand-check" id="brand-check" data-intent="success"><span class="dsgn-icon" aria-hidden="true">check_circle</span><span>All {{ dsgn.contrast.pairs }} colour pairs pass WCAG, light and dark</span></p>
                 </div>
