@@ -589,21 +589,8 @@ main:has(+ .site-foot) > .sheet-section:last-of-type { padding-block-end: 0; }
 
 .collection { display: grid; gap: var(--dsgn-space-8); align-content: start; }
 .collection > * { margin: 0; }
-/* name, count and spec line up across a row of cells (subgrid), whatever wraps */
-@supports (grid-template-rows: subgrid) {
-  .collection[data-span="quarter"] { grid-row: span 3; grid-template-rows: subgrid; row-gap: var(--dsgn-space-8); }
-}
 .collection-count { font-size: var(--dsgn-font-size-display); line-height: var(--dsgn-line-height-display); font-weight: var(--dsgn-font-weight-semibold); font-variant-numeric: tabular-nums; }
-.collection-unit { color: var(--dsgn-text-muted); font-size: var(--dsgn-font-size-body-s); font-weight: var(--dsgn-font-weight-regular); }
-/* modes and the switch in code as a small spec: mono labels in one column, values beside them */
-.collection-spec { display: grid; gap: var(--dsgn-space-4); align-self: start; font-family: var(--site-font-mono); font-size: var(--dsgn-font-size-caption); line-height: var(--dsgn-line-height-caption); }
-.collection-spec > div { display: grid; grid-template-columns: var(--dsgn-space-48) minmax(0, 1fr); gap: var(--dsgn-space-8); }
-.collection-spec dt, .collection-spec dd { margin: 0; }
-.collection-spec dd { overflow-wrap: anywhere; }
-/* phones: two cells a row, so each label sits above its value */
-@media (max-width: 39.99rem) { .collection-spec > div { grid-template-columns: minmax(0, 1fr); gap: 0; } .collection-spec { gap: var(--dsgn-space-8); } }
-.collection-spec dt { color: var(--dsgn-text-muted); text-transform: uppercase; letter-spacing: 0.04em; }
-.collection-text { color: var(--dsgn-text-muted); font-size: var(--dsgn-font-size-body-s); }
+.collection-modes { color: var(--dsgn-text-muted); font-size: var(--dsgn-font-size-body-s); }
 
 /* ── Showcase: screenshots of the demos ────────────────────────────────── */
 

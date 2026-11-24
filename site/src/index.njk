@@ -288,20 +288,17 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
           {%- for c in dsgn.figma.collections %}{% if c.modes | length %}
           <div class="sheet-cell collection" data-span="quarter">
             <p class="sheet-meta"><span class="sheet-key">{{ c.name }}</span></p>
-            <p class="collection-count">{{ c.variables }} <span class="collection-unit">variables</span></p>
-            <dl class="collection-spec">
-              <div><dt>Modes</dt><dd>{{ c.modes | join(" · ") }}</dd></div>
-              <div><dt>Code</dt><dd>{{ c.code }}</dd></div>
-            </dl>
+            <p class="collection-count">{{ c.variables }}<span class="dsgn-visually-hidden"> variables</span></p>
+            <p class="collection-modes">{{ c.modes | join(" · ") }}</p>
           </div>
           {%- endif %}{% endfor %}
           <div class="sheet-cell collection" data-span="half" data-tone="sunken">
-            <p class="sheet-meta"><span class="sheet-key">Collections with one mode</span></p>
-            <p class="collection-text">{% for c in dsgn.figma.collections %}{% if not (c.modes | length) %}{{ c.name }} {{ c.variables }}{% if not loop.last %} · {% endif %}{% endif %}{% endfor %} variables, the same in every mode</p>
+            <p class="sheet-meta"><span class="sheet-key">One mode</span></p>
+            <p class="collection-modes">{% for c in dsgn.figma.collections %}{% if not (c.modes | length) %}{{ c.name }} {{ c.variables }}{% if not loop.last %} · {% endif %}{% endif %}{% endfor %}</p>
           </div>
           <div class="sheet-cell collection" data-span="half" data-tone="sunken">
             <p class="sheet-meta"><span class="sheet-key">In total</span></p>
-            <p class="collection-text">{{ dsgn.figma.variables }} variables in {{ dsgn.figma.collections | length }} collections · {{ dsgn.figma.textStyles }} text styles · the markup in every component's description</p>
+            <p class="collection-modes">{{ dsgn.figma.variables }} variables · {{ dsgn.figma.textStyles }} text styles · markup in every component</p>
           </div>
         </div>
       </div>
