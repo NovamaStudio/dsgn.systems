@@ -522,13 +522,15 @@ main:has(+ .site-foot) > .sheet-section:last-of-type { padding-block-end: 0; }
 }
 .preview::before { content: ""; grid-area: 1 / 1; padding-block-start: 100%; }
 /* glass needs something behind it, shown in glass mode: two large discs (brand and ink) the card
-   half covers, over fine stripes, so the blur and the tint read at a glance */
+   half covers, over fine stripes, so the blur and the tint read at a glance. --preview-accent is the
+   card's own brand fill (home-brand.js copies it from the card), so the disc follows the picked colour. */
+.preview { --preview-accent: var(--dsgn-accent-solid); }
 .preview::after {
   content: "";
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle closest-side, var(--dsgn-accent-solid) 99%, transparent) 88% 18% / 46% 46% no-repeat,
+    radial-gradient(circle closest-side, var(--preview-accent) 99%, transparent) 88% 18% / 46% 46% no-repeat,
     radial-gradient(circle closest-side, var(--dsgn-text) 99%, transparent) 10% 86% / 36% 36% no-repeat,
     repeating-linear-gradient(-45deg, var(--dsgn-border-strong) 0 1px, transparent 1px var(--dsgn-space-12));
   opacity: 0;

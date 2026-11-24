@@ -1,7 +1,7 @@
 // Home, Modes card: the brand colour row. main.js sets data-brand on the card (in turn, or when the
 // visitor picks a colour); this recolours the card with the dsgn theme engine (the same code
 // `npx dsgn theme` runs) and shows the result of its contrast check. "mono" leaves the card to its
-// monochrome theme (modes/dsgn.theme.css) and checks that one.
+// monochrome theme (modes/dsgn.theme.css) and checks that one. The glass discs behind the card take its fill.
 import { resolveTheme, buildPalette, PALETTES, ROLES, roleVar, checkContrast } from '/vendor/dsgn/theme/theme.mjs';
 import { fmtOklch } from '/vendor/dsgn/theme/color.mjs';
 import { ladder } from '/vendor/dsgn/theme/tokens.config.mjs';
@@ -56,8 +56,17 @@ if (card && check) {
       : `All ${total} colour pairs pass WCAG, light and dark`;
   }
 
+  // The glass discs behind the card sit on the stage, outside the card's theme: give them the card's
+  // brand fill (resolved for its light or dark theme).
+  const stage = card.parentElement;
+  function disc() {
+    stage.style.setProperty('--preview-accent', getComputedStyle(card).getPropertyValue('--dsgn-accent-solid').trim());
+  }
+
   new MutationObserver(render).observe(card, { attributes: true, attributeFilter: ['data-brand'] });
+  new MutationObserver(disc).observe(card, { attributes: true, attributeFilter: ['data-brand', 'data-theme'] });
   render();
+  disc();
 
   // Announce the check once the visitor picks a colour (not while the card plays on its own).
   document.querySelectorAll('#modes-legend [data-attr="brand"] [data-value]').forEach((button) => {
