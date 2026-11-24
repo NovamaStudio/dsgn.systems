@@ -6,6 +6,7 @@ headerScrolledSurface: solid
 footerSheet: true
 footerFaq: true
 headerHideOnScroll: true
+headerCta: false
 title: dsgn.systems — your brand colour, guaranteed contrast
 description: "CSS design system for any stack: pick any brand colour and every text, border and focus pair still passes WCAG 2.2 AA, light and dark. Plain HTML, a Figma library checked against the code, a skill for AI agents."
 ogDescription: Pick any brand colour and every pair still passes WCAG 2.2 AA. Plain HTML for any stack, a Figma library checked against the code.
@@ -13,7 +14,8 @@ ogDescription: Pick any brand colour and every pair still passes WCAG 2.2 AA. Pl
     <!-- Hero as a technical sheet (Swiss, data-log): cells divided by 1 px ink rules on the 12-column
          grid, holding only information. It is the first band of one page-long sheet; the sections
          below continue it with no gap, thematic groups on. The promise is the one thing no other kit
-         makes: any brand colour, contrast guaranteed; the first action tries it on the card below. -->
+         makes: any brand colour, contrast guaranteed. The page's only two calls to action are here (the home header has
+         none): try it on the card below, or get started. -->
     <section class="hero" aria-labelledby="hero-title">
       <div class="dsgn-container">
         <div class="sheet hero-sheet">
@@ -32,7 +34,7 @@ ogDescription: Pick any brand colour and every pair still passes WCAG 2.2 AA. Pl
           <div class="sheet-cell hero-install-cell" data-span="half">
             <div class="dsgn-cluster">
               <a class="dsgn-button" href="#modes">Try your colour<span class="dsgn-icon" data-end aria-hidden="true">arrow_downward</span></a>
-              <a class="dsgn-button" data-variant="subtle" data-intent="neutral" href="{{ site.links.showcase }}">See the demos</a>
+              <a class="dsgn-button" data-variant="subtle" data-intent="neutral" href="#start">Get started</a>
             </div>
             <div class="install">
               <code class="install-command" id="install-command">npm i dsgn.systems</code>
