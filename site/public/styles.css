@@ -496,29 +496,41 @@ main:has(+ .site-foot) > .sheet-section:last-of-type { padding-block-end: 0; }
 
 /* ── Modes: the card and the legend of attributes (laid out like The scale) ─ */
 
-/* the stage keeps the page's surface; the modes are set on the card only */
-/* at least square, taller when the card needs it (density L on a phone) or the legend is taller */
+/* the stage keeps the page's surface; the modes are set on the card and its toast only.
+   At least square, taller when the card needs it (density L on a phone) or the legend is taller. */
 .preview {
+  position: relative;
   display: grid;
   place-items: center;
   inline-size: 100%;
   min-block-size: 100%;
-  /* more room below for the toast that hangs off the card */
-  padding: var(--dsgn-space-48) var(--dsgn-space-24) calc(var(--dsgn-space-48) + var(--dsgn-space-32));
-  background: var(--dsgn-surface-sunken);
+  padding: var(--dsgn-space-48) var(--dsgn-space-24);
+  background: var(--dsgn-surface-base);
 }
 .preview::before { content: ""; grid-area: 1 / 1; padding-block-start: 100%; }
-.preview-card { grid-area: 1 / 1; position: relative; inline-size: min(100%, 24rem); background: none; color: var(--dsgn-text); }
-/* the toast overlaps the bottom of the card, so glass has something to blur */
-.preview-card > .dsgn-toast {
+/* glass needs something behind it: a halftone raster fading across the stage */
+.preview::after {
+  content: "";
   position: absolute;
-  inset-inline: var(--dsgn-space-24) calc(-1 * var(--dsgn-space-24));
-  inset-block-start: 100%;
-  translate: 0 calc(-1 * var(--dsgn-space-12));
-  inline-size: auto;
-  max-inline-size: none;
+  inset: 0;
+  background: radial-gradient(circle, var(--dsgn-text) 32%, transparent 34%) 0 0 / var(--dsgn-space-8) var(--dsgn-space-8);
+  -webkit-mask-image: linear-gradient(135deg, transparent 15%, var(--dsgn-text) 85%);
+  mask-image: linear-gradient(135deg, transparent 15%, var(--dsgn-text) 85%);
+  opacity: 0;
+  transition: opacity var(--dsgn-duration) var(--dsgn-ease);
 }
-@media (max-width: 39.99rem) { .preview-card > .dsgn-toast { inset-inline: var(--dsgn-space-16) 0; } }
+.preview:has(> .preview-card[data-material="glass"])::after { opacity: 0.5; }
+.preview-card {
+  grid-area: 1 / 1;
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: var(--dsgn-space-16);
+  inline-size: min(100%, 24rem);
+  background: none;
+  color: var(--dsgn-text);
+}
+.preview-card > .dsgn-toast { inline-size: auto; }
 
 /* the card is monochrome: modes/dsgn.theme.css (site/scripts/mono-theme.mjs) */
 
