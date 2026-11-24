@@ -2,6 +2,11 @@
 
 One version for the npm package and the Figma library. [Semantic versioning](https://semver.org): patch = fix, minor = addition, major = rename or removal (with migration notes).
 
+## Unreleased
+
+### Changed
+- Copyright holder and package author are **Novama Studio** (was Novama) in `LICENSE`, `package.json`, the README and the skill.
+
 ## 0.16.0 — 2026-11-23
 
 ### Added

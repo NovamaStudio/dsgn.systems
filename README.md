@@ -125,4 +125,4 @@ in `vercel.json`. The social image is rendered by `node site/scripts/og.mjs`.
 
 ## Licence
 
-MIT © Novama. See [LICENSE](LICENSE).
+MIT © Novama Studio. See [LICENSE](LICENSE).

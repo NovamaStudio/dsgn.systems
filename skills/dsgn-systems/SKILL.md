@@ -1,6 +1,6 @@
 ---
 name: dsgn-systems
-description: Build websites, landing pages and web apps with the dsgn.systems CSS design system (Novama), accessible (WCAG 2.2 AA), SEO-ready, secure forms, fast and GDPR-aware. Use for any page, prototype or app UI that should use dsgn.systems or Novama's design system.
+description: Build websites, landing pages and web apps with the dsgn.systems CSS design system (Novama Studio), accessible (WCAG 2.2 AA), SEO-ready, secure forms, fast and GDPR-aware. Use for any page, prototype or app UI that should use dsgn.systems or Novama Studio's design system.
 ---
 
 # Building with dsgn.systems

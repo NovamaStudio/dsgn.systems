@@ -5,7 +5,7 @@ export default {
   url: "https://dsgn.systems",
   lang: "en",
   themeColor: "#191B1D",
-  org: "Novama",
+  org: "Novama Studio",
   year: new Date().getFullYear(),
   links: {
     repo: "https://github.com/NovamaStudio/dsgn.systems",
