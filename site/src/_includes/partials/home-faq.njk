@@ -1,0 +1,31 @@
+{#- Home FAQ, the first rows of the footer sheet: the questions sit beside the footer links. #}
+        <div class="sheet-cell sheet-head" data-tone="sunken">
+          <div class="sheet-head-text">
+            <p class="sheet-meta sheet-key">FAQ</p>
+            <h2 class="dsgn-display" id="faq-title">Questions</h2>
+          </div>
+        </div>
+        <div class="sheet-cell faq" data-span="half">
+        <div class="dsgn-accordion">
+          <details name="faq">
+            <summary>Do I need React, Vue or Tailwind?<span class="dsgn-icon" aria-hidden="true">expand_more</span></summary>
+            <div class="dsgn-accordion-content"><p>No. dsgn is CSS with an optional small script, and it styles semantic HTML, so it works in any framework, CMS template or static page. If a project already uses Tailwind, keep it for layout utilities and put its preflight in a cascade layer below dsgn.</p></div>
+          </details>
+          <details name="faq">
+            <summary>How do I use my brand colour?<span class="dsgn-icon" aria-hidden="true">expand_more</span></summary>
+            <div class="dsgn-accordion-content"><p>Run <code>npx dsgn theme --init</code>, set your brand hex in <code>dsgn.theme.mjs</code> and run <code>npx dsgn theme</code>. It checks every colour pair and writes <code>dsgn.theme.css</code> plus a matching Figma mode. The <a class="dsgn-link" href="{{ site.links.themeCustomizer }}">theme customizer</a> does the same in the browser.</p></div>
+          </details>
+          <details name="faq">
+            <summary>What does dsgn.js do?<span class="dsgn-icon" aria-hidden="true">expand_more</span></summary>
+            <div class="dsgn-accordion-content"><p>It adds keyboard support and behaviour that CSS cannot provide: tabs, menus, combobox, tooltips, toasts, drag-and-drop upload, slider and number steps, and the header scroll states. Everything else is CSS only, so you load the script only when a page needs it.</p></div>
+          </details>
+          <details name="faq">
+            <summary>How do I change a component?<span class="dsgn-icon" aria-hidden="true">expand_more</span></summary>
+            <div class="dsgn-accordion-content"><p>Use its attributes first (<code>data-variant</code>, <code>data-intent</code>, <code>data-size</code>), then a project theme. For anything else, write a plain rule with dsgn tokens: it wins over the cascade layers without <code>!important</code>. <code>npx dsgn lint</code> checks that your CSS sticks to the tokens.</p></div>
+          </details>
+          <details name="faq">
+            <summary>Is it free to use?<span class="dsgn-icon" aria-hidden="true">expand_more</span></summary>
+            <div class="dsgn-accordion-content"><p>Yes. The package is released under the MIT licence by Novama, for personal and commercial projects.</p></div>
+          </details>
+        </div>
+        </div>

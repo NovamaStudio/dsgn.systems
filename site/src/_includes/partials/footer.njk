@@ -3,12 +3,14 @@
   <footer class="site-foot">
     <div class="dsgn-container">
       <div class="sheet">
+        {%- if footerFaq %}{% include "partials/home-faq.njk" %}{% else %}
         <div class="sheet-cell sheet-stack" data-span="half">
           <a class="dsgn-brand site-brand" href="/" aria-label="dsgn.systems, home">
             <svg class="site-wordmark" aria-hidden="true" focusable="false"><use href="#dsgn-wordmark"></use></svg>
           </a>
           <p class="dsgn-body-s dsgn-muted">Token-driven CSS design system, mirrored 1:1 in Figma.</p>
         </div>
+        {%- endif %}
         <nav class="sheet-cell sheet-stack" data-span="quarter" aria-labelledby="foot-learn">
           <h2 class="sheet-meta sheet-key" id="foot-learn">Learn</h2>
           <ul class="dsgn-footer-links">
@@ -28,8 +30,20 @@
             <li><a href="{{ site.links.skill }}">Skill for AI agents</a></li>
           </ul>
         </nav>
+        {%- if footerFaq %}
+        {#- the brand moves to the last row, beside the copyright #}
+        <div class="sheet-cell sheet-stack site-foot-brand" data-span="half">
+          <a class="dsgn-brand site-brand" href="/" aria-label="dsgn.systems, home">
+            <svg class="site-wordmark" aria-hidden="true" focusable="false"><use href="#dsgn-wordmark"></use></svg>
+          </a>
+          <p class="dsgn-body-s dsgn-muted">Token-driven CSS design system, mirrored 1:1 in Figma.</p>
+        </div>
+        <p class="sheet-cell sheet-meta site-foot-meta" data-span="quarter"><span class="sheet-key">©</span>{{ site.year }} {{ site.org }}</p>
+        <p class="sheet-cell sheet-meta site-foot-meta" data-span="quarter"><span class="sheet-key">Licence</span><a href="{{ site.links.license }}">MIT</a></p>
+        {%- else %}
         <p class="sheet-cell sheet-meta" data-span="half" data-tone="sunken"><span class="sheet-key">©</span>{{ site.year }} {{ site.org }}</p>
         <p class="sheet-cell sheet-meta" data-span="half" data-tone="sunken"><span class="sheet-key">Licence</span><a href="{{ site.links.license }}">MIT</a></p>
+        {%- endif %}
       </div>
     </div>
   </footer>
