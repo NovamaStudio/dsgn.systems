@@ -36,9 +36,9 @@ code {
 .dsgn-header[data-surface="transparent"]::before { box-shadow: none; }
 /* home: the header sits off the page edge, as far from it as from the sheet below */
 .dsgn-header[data-surface="transparent"] { padding-block: var(--dsgn-space-24); }
-/* home: the header slides away while scrolling down at every width, back on scrolling up
-   (dsgn's data-hide-on-scroll does this on phones only; main.js sets data-site-hidden) */
-.dsgn-header[data-site-hide-on-scroll][data-site-hidden] { translate: 0 -100%; }
+/* home: the header scrolls away with the page and slides back when scrolling up, at every width
+   (dsgn's data-hide-on-scroll does this on phones only; main.js moves it) */
+.dsgn-header[data-site-hide-on-scroll][data-ready] { transition: color var(--dsgn-duration) var(--dsgn-ease); }
 
 /* ── Brand ─────────────────────────────────────────────────────────────── */
 
@@ -308,16 +308,8 @@ main:has(+ .site-foot) > .sheet-section:last-of-type { padding-block-end: 0; }
   list-style: none;
 }
 
-/* Get started: three steps in halves leave the last row half empty; the CDN note (outside the
-   list, it is not a step) takes that half. The list spans two rows of the sheet's grid. */
-@media (min-width: 40rem) {
-  #start .sheet-list { grid-row: 2 / span 2; grid-template-rows: subgrid; }
-  .sheet-cell.start-cdn { grid-row: 3; grid-column: span 1 / -1; }
-}
-
-@media (min-width: 64rem) {
-  .sheet-cell.start-cdn { grid-column: span 2 / -1; }
-}
+/* A list item that is one row of the sheet (Get started: a step and its line to paste). */
+.sheet-row { display: grid; grid-column: 1 / -1; grid-template-columns: subgrid; }
 
 /* A cell that is a link card: the title link covers the cell. */
 .sheet-card {
@@ -354,62 +346,62 @@ main:has(+ .site-foot) > .sheet-section:last-of-type { padding-block-end: 0; }
   font-size: inherit;
 }
 
-/* ── Scale ─────────────────────────────────────────────────────────────── */
+/* ── Log: a table drawn as sheet rows (mono keys, hairline rules) ───────── */
 
-.scale-cell { display: grid; gap: var(--dsgn-space-24); align-content: start; margin: 0; }
-
-.scale {
-  display: grid;
-  gap: var(--dsgn-space-12);
-  inline-size: 100%;
-  margin: 0;
-  padding: 0;
-  list-style: none;
+.log { inline-size: 100%; border-collapse: collapse; font-size: var(--dsgn-font-size-body-s); line-height: var(--dsgn-line-height-body-s); }
+.log th, .log td { padding: var(--dsgn-space-12) var(--dsgn-space-24); border-block-end: var(--dsgn-border-width) solid var(--dsgn-border); text-align: start; font-weight: normal; }
+.log thead th, .log tbody th { font-family: var(--site-font-mono); color: var(--dsgn-text-muted); }
+.log thead th { font-size: var(--dsgn-font-size-caption); text-transform: uppercase; letter-spacing: 0.04em; }
+.log [data-numeric] { text-align: end; font-variant-numeric: tabular-nums; }
+.log tr[data-current] th, .log tr[data-current] td { background: var(--dsgn-surface-sunken); color: var(--dsgn-text); }
+.log-note { margin-inline-start: var(--dsgn-space-8); color: var(--dsgn-text-muted); text-transform: lowercase; }
+@media (max-width: 39.99rem) {
+  .log th, .log td { padding-inline: var(--dsgn-space-12); }
+  .log tbody th { white-space: nowrap; }
 }
+.log-foot { margin: 0; padding: var(--dsgn-space-12) var(--dsgn-space-24); color: var(--dsgn-text-muted); font-size: var(--dsgn-font-size-body-s); }
 
-.scale-row {
-  display: grid;
-  grid-template-columns: var(--dsgn-space-32) minmax(0, 1fr);
-  align-items: center;
-  gap: var(--dsgn-space-16);
+/* ── Scale: the measured button ────────────────────────────────────────── */
+
+.anatomy-cell { display: grid; gap: var(--dsgn-space-24); align-content: start; margin: 0; }
+.anatomy { position: relative; display: grid; place-items: center; min-block-size: calc(var(--dsgn-space-64) * 4); }
+/* drawn larger than life (scale), measured at its real size */
+.anatomy-button { pointer-events: none; scale: 2.5; }
+@media (max-width: 39.99rem) {
+  .anatomy { min-block-size: calc(var(--dsgn-space-64) * 2); }
+  .anatomy-button { scale: 1.75; }
 }
-
-.scale-name {
+/* dimension lines across the whole cell, at the button's edges and around its line of text */
+.anatomy-line {
+  position: absolute;
+  inset-inline: calc(-1 * var(--dsgn-space-24));
+  inset-block-start: var(--y, 50%);
+  border-block-start: var(--dsgn-border-width) dashed var(--dsgn-border-strong);
+  transition: inset-block-start var(--dsgn-duration) var(--dsgn-ease);
+}
+.anatomy-line:is([data-edge="top"], [data-edge="bottom"]) { border-block-start-style: solid; border-color: var(--dsgn-text); }
+.anatomy-value {
+  position: absolute;
+  inset-block-start: var(--y, 50%);
+  inset-inline-end: 0;
+  translate: 0 -50%;
   font-family: var(--site-font-mono);
   font-size: var(--dsgn-font-size-caption);
-  line-height: var(--dsgn-line-height-caption);
+  line-height: 1;
   color: var(--dsgn-text-muted);
-  text-align: end;
+  transition: inset-block-start var(--dsgn-duration) var(--dsgn-ease);
 }
+.anatomy-value[data-part="height"] { inset-inline: 0 auto; color: var(--dsgn-text); }
 
-.scale-bar {
-  display: block;
-  background: var(--dsgn-text);
-}
+/* ── Modes: the log of attributes and the card they change ─────────────── */
 
-.scale-row:nth-child(1) .scale-bar { block-size: var(--dsgn-space-2); }
-.scale-row:nth-child(2) .scale-bar { block-size: var(--dsgn-space-4); }
-.scale-row:nth-child(3) .scale-bar { block-size: var(--dsgn-space-6); }
-.scale-row:nth-child(4) .scale-bar { block-size: var(--dsgn-space-8); }
-.scale-row:nth-child(5) .scale-bar { block-size: var(--dsgn-space-12); }
-.scale-row:nth-child(6) .scale-bar { block-size: var(--dsgn-space-16); }
-.scale-row:nth-child(7) .scale-bar { block-size: var(--dsgn-space-24); }
-.scale-row:nth-child(8) .scale-bar { block-size: var(--dsgn-space-32); }
+.modes-log-cell { display: grid; align-content: space-between; }
+.modes-log td { font-family: var(--site-font-mono); color: var(--dsgn-text-muted); }
+.modes-log td > span { padding-inline: var(--dsgn-space-4); transition: background-color var(--dsgn-duration) var(--dsgn-ease), color var(--dsgn-duration) var(--dsgn-ease); }
+.modes-log td > span[data-current] { background: var(--dsgn-text); color: var(--dsgn-surface-base); }
+.modes-play { padding: var(--dsgn-space-12) var(--dsgn-space-16); }
 
-/* ── Modes ─────────────────────────────────────────────────────────────── */
-
-.modes-controls {
-  display: grid;
-  gap: var(--dsgn-space-20);
-  align-content: start;
-}
-
-.modes-stage {
-  display: grid;
-  gap: var(--dsgn-space-12);
-  min-inline-size: 0;
-}
-
+.modes-cell { display: grid; align-items: center; }
 .preview {
   padding: var(--dsgn-space-24);
   border: var(--dsgn-border-width) solid var(--dsgn-text);
@@ -418,31 +410,29 @@ main:has(+ .site-foot) > .sheet-section:last-of-type { padding-block-end: 0; }
   transition: background-color var(--dsgn-duration) var(--dsgn-ease);
 }
 
-/* ── CTA ───────────────────────────────────────────────────────────────── */
+/* ── Figma: one cell per variable collection ───────────────────────────── */
 
-.cta-mark-cell {
-  position: relative;
-  display: grid;
-  place-items: center;
-}
+.collection { display: grid; gap: var(--dsgn-space-8); align-content: start; }
+.collection > * { margin: 0; }
+.collection-count { font-size: var(--dsgn-font-size-display); line-height: var(--dsgn-line-height-display); font-weight: var(--dsgn-font-weight-semibold); font-variant-numeric: tabular-nums; }
+.collection-modes { color: var(--dsgn-text-muted); font-size: var(--dsgn-font-size-body-s); }
 
-.cta-mark {
-  display: block;
-  inline-size: min(100%, calc(var(--dsgn-space-64) * 2.5));
-  block-size: auto;
-}
+/* ── Showcase: screenshots of the demos ────────────────────────────────── */
 
-.cta-mark .mark-bg { fill: var(--dsgn-brand); }
-.cta-mark g { fill: var(--dsgn-neutral-14); }
+.shot { display: block; inline-size: 100%; block-size: auto; aspect-ratio: 16 / 10; object-fit: cover; object-position: top left; border: var(--dsgn-border-width) solid var(--dsgn-border); }
 
-.cta-text { align-content: center; }
+/* ── Get started: index, step, line to paste ───────────────────────────── */
 
-/* Pauses every animation on the page (WCAG 2.2.2): this mark and the header wordmark. */
-.cta-control {
-  position: absolute;
-  inset-block-end: var(--dsgn-space-8);
-  inset-inline-end: var(--dsgn-space-8);
-}
+.step { display: grid; grid-template-columns: var(--dsgn-space-48) minmax(0, 1fr); gap: var(--dsgn-space-16); align-content: start; }
+.step-index { margin: 0; font-family: var(--site-font-mono); color: var(--dsgn-text-muted); }
+.step-text { display: grid; gap: var(--dsgn-space-4); }
+.step-text > * { margin: 0; }
+.step-code { display: grid; align-content: center; }
+
+/* ── FAQ: no rules between the questions; the cell is the frame ───────── */
+
+.faq .dsgn-accordion > details,
+.faq .dsgn-accordion > details:first-child { box-shadow: none; }
 
 /* ── Docs ──────────────────────────────────────────────────────────────── */
 

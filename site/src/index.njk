@@ -145,42 +145,50 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
       </div>
     </section>
 
-    <!-- Scale -->
+    <!-- Scale: a real dsgn button measured live. main.js steps it through the densities and draws
+         its line height and padding as dimension lines; the table holds the measured values. -->
     <section class="dsgn-section sheet-section" id="scale" aria-labelledby="scale-title">
       <div class="dsgn-container">
         <div class="sheet">
           <div class="sheet-cell sheet-head" data-tone="sunken">
             <div class="sheet-head-text">
               <p class="sheet-meta sheet-key">The scale</p>
-              <h2 class="dsgn-display" id="scale-title">One scale, from a hairline to a block.</h2>
-              <p class="dsgn-body">The logo is drawn from the same spacing tokens as every gap and padding in dsgn: 2, 4, 6, 8, 12, 16, 24 and 32. Thin lines at the top, solid mass at the bottom, all from one unit.</p>
+              <h2 class="dsgn-display" id="scale-title">Sizes come from type.</h2>
+              <p class="dsgn-body">A control is its line of text plus padding from the spacing scale, snapped to a 2&nbsp;px grid at any browser font size. Density sets the padding, and L opens up the line for touch.</p>
             </div>
           </div>
-          <div class="sheet-cell" data-span="half">
-            <ul class="dsgn-list" data-variant="plain">
-              <li><div class="dsgn-list-item"><span class="dsgn-icon" aria-hidden="true">grid_4x4</span><div class="dsgn-list-item-content"><p class="dsgn-list-item-title">Every size on a 2&nbsp;px grid</p><p class="dsgn-list-item-text">Snapped at any browser font size, so nothing lands on half pixels.</p></div></div></li>
-              <li><div class="dsgn-list-item"><span class="dsgn-icon" aria-hidden="true">format_size</span><div class="dsgn-list-item-content"><p class="dsgn-list-item-title">Sizes come from type</p><p class="dsgn-list-item-text">Control height = line height + 2 × padding, in every density.</p></div></div></li>
-              <li><div class="dsgn-list-item"><span class="dsgn-icon" aria-hidden="true">touch_app</span><div class="dsgn-list-item-content"><p class="dsgn-list-item-title">Touch screens get room</p><p class="dsgn-list-item-text">Without a density set, touch devices switch to L with 44&nbsp;px controls.</p></div></div></li>
-            </ul>
-          </div>
-          <figure class="sheet-cell scale-cell" data-span="half">
-            <figcaption class="sheet-meta"><span class="sheet-key">Tokens</span> --dsgn-space-2 … --dsgn-space-32<span class="dsgn-visually-hidden">: eight bars, each as tall as its spacing token, 2, 4, 6, 8, 12, 16, 24 and 32 pixels, the rows the logo is drawn from.</span></figcaption>
-            <ol class="scale" aria-label="Spacing tokens from 2 to 32 pixels">
-              <li class="scale-row"><span class="scale-name">2</span><span class="scale-bar"></span></li>
-              <li class="scale-row"><span class="scale-name">4</span><span class="scale-bar"></span></li>
-              <li class="scale-row"><span class="scale-name">6</span><span class="scale-bar"></span></li>
-              <li class="scale-row"><span class="scale-name">8</span><span class="scale-bar"></span></li>
-              <li class="scale-row"><span class="scale-name">12</span><span class="scale-bar"></span></li>
-              <li class="scale-row"><span class="scale-name">16</span><span class="scale-bar"></span></li>
-              <li class="scale-row"><span class="scale-name">24</span><span class="scale-bar"></span></li>
-              <li class="scale-row"><span class="scale-name">32</span><span class="scale-bar"></span></li>
-            </ol>
+          <figure class="sheet-cell anatomy-cell" data-span="half">
+            <figcaption class="sheet-meta"><span class="sheet-key">Button</span> <span id="anatomy-label">density M</span></figcaption>
+            <div class="anatomy" id="anatomy" data-density="m" aria-hidden="true">
+              <span class="anatomy-line" data-edge="top"></span>
+              <span class="anatomy-line" data-edge="text-top"></span>
+              <span class="anatomy-line" data-edge="text-bottom"></span>
+              <span class="anatomy-line" data-edge="bottom"></span>
+              <span class="anatomy-value" data-part="pad-top"></span>
+              <span class="anatomy-value" data-part="line"></span>
+              <span class="anatomy-value" data-part="pad-bottom"></span>
+              <span class="anatomy-value" data-part="height"></span>
+              <span class="dsgn-button anatomy-button">Send reminder</span>
+            </div>
           </figure>
+          <div class="sheet-cell sheet-flush" data-span="half">
+            <table class="log" id="anatomy-table">
+              <caption class="dsgn-visually-hidden">Button height in each density, measured in this page</caption>
+              <thead><tr><th scope="col">Density</th><th scope="col" data-numeric>Text</th><th scope="col" data-numeric>Padding</th><th scope="col" data-numeric>Height</th></tr></thead>
+              <tbody>
+                <tr data-density="s"><th scope="row">S</th><td data-numeric>–</td><td data-numeric>–</td><td data-numeric>–</td></tr>
+                <tr data-density="m"><th scope="row">M</th><td data-numeric>–</td><td data-numeric>–</td><td data-numeric>–</td></tr>
+                <tr data-density="l"><th scope="row">L <span class="log-note">touch</span></th><td data-numeric>–</td><td data-numeric>–</td><td data-numeric>–</td></tr>
+              </tbody>
+            </table>
+            <p class="log-foot">Height = text + 2 × padding, in px at this font size. Touch screens without a density set use L.</p>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- Modes -->
+    <!-- Modes: one card, one attribute at a time. main.js changes the attributes in turn and marks the
+         current value in the log; the pause button stops it (WCAG 2.2.2). -->
     <section class="dsgn-section sheet-section" id="modes" aria-labelledby="modes-title">
       <div class="dsgn-container">
         <div class="sheet">
@@ -188,86 +196,47 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
             <div class="sheet-head-text">
               <p class="sheet-meta sheet-key">Modes</p>
               <h2 class="dsgn-display" id="modes-title">Every mode is one attribute.</h2>
-              <p class="dsgn-lead">Light or dark, dense or roomy, square or pill. Set it on <code>&lt;html&gt;</code> for the whole page or on any section. Try it on the panel below.</p>
+              <p class="dsgn-body">Light or dark, dense or roomy, square or pill. Set it on <code>&lt;html&gt;</code> for the whole page or on any section; the markup stays the same.</p>
             </div>
           </div>
-          <div class="sheet-cell" data-span="half">
-            <form class="modes-controls" aria-label="Preview modes">
-              <div class="dsgn-field">
-                <span class="dsgn-label" id="mode-theme-label">Theme</span>
-                <div class="dsgn-segmented" data-width="full" role="radiogroup" aria-labelledby="mode-theme-label">
-                  <label class="dsgn-segment"><input type="radio" name="theme" value="light" checked><span class="dsgn-icon" aria-hidden="true">light_mode</span>Light</label>
-                  <label class="dsgn-segment"><input type="radio" name="theme" value="dark"><span class="dsgn-icon" aria-hidden="true">dark_mode</span>Dark</label>
-                </div>
-              </div>
-              <div class="dsgn-field">
-                <span class="dsgn-label" id="mode-density-label">Density</span>
-                <div class="dsgn-segmented" data-width="full" role="radiogroup" aria-labelledby="mode-density-label">
-                  <label class="dsgn-segment"><input type="radio" name="density" value="s">S</label>
-                  <label class="dsgn-segment"><input type="radio" name="density" value="m" checked>M</label>
-                  <label class="dsgn-segment"><input type="radio" name="density" value="l">L</label>
-                </div>
-              </div>
-              <div class="dsgn-field">
-                <span class="dsgn-label" id="mode-radius-label">Corners</span>
-                <div class="dsgn-segmented" data-width="full" role="radiogroup" aria-labelledby="mode-radius-label">
-                  <label class="dsgn-segment"><input type="radio" name="radius" value="sharp" checked>Sharp</label>
-                  <label class="dsgn-segment"><input type="radio" name="radius" value="default">Default</label>
-                  <label class="dsgn-segment"><input type="radio" name="radius" value="rounded">Rounded</label>
-                  <label class="dsgn-segment"><input type="radio" name="radius" value="pill">Pill</label>
-                </div>
-              </div>
-              <div class="dsgn-field">
-                <span class="dsgn-label" id="mode-elevation-label">Shadows</span>
-                <div class="dsgn-segmented" data-width="full" role="radiogroup" aria-labelledby="mode-elevation-label">
-                  <label class="dsgn-segment"><input type="radio" name="elevation" value="flat" checked>Flat</label>
-                  <label class="dsgn-segment"><input type="radio" name="elevation" value="soft">Soft</label>
-                </div>
-              </div>
-            </form>
+          <div class="sheet-cell sheet-flush modes-log-cell" data-span="half">
+            <table class="log modes-log" id="modes-log">
+              <caption class="dsgn-visually-hidden">Attributes on the card and their values</caption>
+              <tbody>
+                <tr data-attr="theme"><th scope="row">data-theme</th><td><span data-value="light">light</span> <span data-value="dark">dark</span></td></tr>
+                <tr data-attr="density"><th scope="row">data-density</th><td><span data-value="s">s</span> <span data-value="m">m</span> <span data-value="l">l</span></td></tr>
+                <tr data-attr="radius"><th scope="row">data-radius</th><td><span data-value="sharp">sharp</span> <span data-value="default">default</span> <span data-value="rounded">rounded</span> <span data-value="pill">pill</span></td></tr>
+                <tr data-attr="elevation"><th scope="row">data-elevation</th><td><span data-value="flat">flat</span> <span data-value="soft">soft</span></td></tr>
+              </tbody>
+            </table>
+            <div class="modes-play">
+              <button class="dsgn-button" data-variant="ghost" data-intent="neutral" type="button" aria-pressed="false" data-motion-toggle="mode animation"><span class="dsgn-icon" aria-hidden="true">pause</span><span class="modes-play-text">Pause</span></button>
+            </div>
           </div>
           <div class="sheet-cell modes-cell" data-span="half">
-            <div class="modes-stage">
-              <pre class="code modes-code"><code id="modes-code">&lt;section data-theme="light" data-density="m" data-radius="sharp" data-elevation="flat"&gt;</code></pre>
-              <div class="preview" id="preview" data-theme="light" data-density="m" data-radius="sharp" data-elevation="flat">
-                <div class="dsgn-grid" data-cols="1" data-cols-tablet="2">
-                  <article class="dsgn-card">
-                    <div class="dsgn-cluster" data-justify="between" data-nowrap>
-                      <h3 class="dsgn-card-title">Invoice 2026-114</h3>
-                      <span class="dsgn-badge" data-intent="success">Paid</span>
-                    </div>
-                    <dl class="dsgn-dl">
-                      <div><dt>Client</dt><dd>Studio Kolo s.r.o.</dd></div>
-                      <div><dt>Issued</dt><dd>28 Oct 2026</dd></div>
-                      <div><dt>Total</dt><dd>CZK 24&nbsp;200</dd></div>
-                    </dl>
-                    <div class="dsgn-card-actions">
-                      <button class="dsgn-button" data-variant="subtle" data-intent="neutral" type="button"><span class="dsgn-icon" aria-hidden="true">download</span>PDF</button>
-                      <button class="dsgn-button" type="button">Send reminder</button>
-                    </div>
-                  </article>
-                  <article class="dsgn-card">
-                    <h3 class="dsgn-card-title">Notifications</h3>
-                    <div class="dsgn-field">
-                      <label class="dsgn-label" for="preview-email">E-mail for receipts</label>
-                      <input class="dsgn-input" id="preview-email" type="email" autocomplete="off" value="jana@studiokolo.cz">
-                    </div>
-                    <label class="dsgn-choice"><input type="checkbox" class="dsgn-switch" role="switch" checked> Overdue reminders</label>
-                    <div class="dsgn-chip-group" role="group" aria-label="Send on">
-                      <button class="dsgn-chip" type="button" aria-pressed="true">Mon</button>
-                      <button class="dsgn-chip" type="button" aria-pressed="false">Wed</button>
-                      <button class="dsgn-chip" type="button" aria-pressed="true">Fri</button>
-                    </div>
-                  </article>
+            <div class="preview" id="preview" data-theme="light" data-density="m" data-radius="sharp" data-elevation="flat" inert>
+              <article class="dsgn-card">
+                <div class="dsgn-cluster" data-justify="between" data-nowrap>
+                  <h3 class="dsgn-card-title">Invoice 2026-114</h3>
+                  <span class="dsgn-badge" data-intent="success">Paid</span>
                 </div>
-              </div>
+                <dl class="dsgn-dl">
+                  <div><dt>Client</dt><dd>Studio Kolo s.r.o.</dd></div>
+                  <div><dt>Total</dt><dd>CZK 24&nbsp;200</dd></div>
+                </dl>
+                <label class="dsgn-choice"><input type="checkbox" class="dsgn-switch" role="switch" checked> Overdue reminders</label>
+                <div class="dsgn-card-actions">
+                  <button class="dsgn-button" data-variant="subtle" data-intent="neutral" type="button"><span class="dsgn-icon" aria-hidden="true">download</span>PDF</button>
+                  <button class="dsgn-button" type="button">Send reminder</button>
+                </div>
+              </article>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Figma -->
+    <!-- Figma: the variable collections as cells, no table to scroll sideways. -->
     <section class="dsgn-section sheet-section" id="figma" aria-labelledby="figma-title">
       <div class="dsgn-container">
         <div class="sheet">
@@ -277,37 +246,28 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
               <h2 class="dsgn-display" id="figma-title">The same system on the canvas.</h2>
               <p class="dsgn-body">Designers switch the same modes as developers do, through Figma variable modes. One version number covers the npm package and the library, so a design never points at a component that the code does not have.</p>
             </div>
+            <a class="dsgn-button" data-variant="subtle" data-intent="neutral" href="{{ site.links.figmaPlugin }}">Figma theme plugin<span class="dsgn-icon" data-end aria-hidden="true">arrow_outward</span></a>
           </div>
-          <div class="sheet-cell sheet-stack" data-span="half">
-            <ul class="dsgn-list" data-variant="plain">
-              <li><div class="dsgn-list-item"><span class="dsgn-icon" aria-hidden="true">integration_instructions</span><div class="dsgn-list-item-content"><p class="dsgn-list-item-title">Code in every component</p><p class="dsgn-list-item-text">Dev Mode shows the markup and how each property maps to an attribute.</p></div></div></li>
-              <li><div class="dsgn-list-item"><span class="dsgn-icon" aria-hidden="true">palette</span><div class="dsgn-list-item-content"><p class="dsgn-list-item-title">Your brand as a mode</p><p class="dsgn-list-item-text"><code>npx dsgn theme</code> writes the CSS and the Figma mode from one config.</p></div></div></li>
-              <li><div class="dsgn-list-item"><span class="dsgn-icon" aria-hidden="true">devices</span><div class="dsgn-list-item-content"><p class="dsgn-list-item-title">Responsive frames</p><p class="dsgn-list-item-text">Switch the Layout mode and a page reflows to mobile, tablet or desktop.</p></div></div></li>
-            </ul>
-            <div class="dsgn-cluster">
-              <a class="dsgn-button" data-variant="subtle" data-intent="neutral" href="{{ site.links.figmaPlugin }}">Figma theme plugin<span class="dsgn-icon" data-end aria-hidden="true">arrow_outward</span></a>
-            </div>
+          {%- for c in dsgn.figma.collections %}{% if c.modes | length %}
+          <div class="sheet-cell collection" data-span="quarter">
+            <p class="sheet-meta"><span class="sheet-key">{{ c.name }}</span></p>
+            <p class="collection-count">{{ c.variables }}<span class="dsgn-visually-hidden"> variables</span></p>
+            <p class="collection-modes">{{ c.modes | join(" · ") }}</p>
           </div>
-          <div class="sheet-cell sheet-flush" data-span="half">
-            <div class="dsgn-table-wrap" tabindex="0" role="region" aria-labelledby="figma-table-caption">
-              <table class="dsgn-table">
-                <caption id="figma-table-caption" class="dsgn-visually-hidden">Figma variable collections in dsgn {{ dsgn.minor }}</caption>
-                <thead>
-                  <tr><th scope="col">Collection</th><th scope="col">Modes</th><th scope="col" data-numeric>Variables</th></tr>
-                </thead>
-                <tbody>
-                  {%- for c in dsgn.figma.collections %}
-                  <tr><th scope="row">{{ c.name }}</th><td>{{ c.modes | join(", ") if c.modes | length else "One, fixed" }}</td><td data-numeric>{{ c.variables }}</td></tr>
-                  {%- endfor %}
-                </tbody>
-              </table>
-            </div>
+          {%- endif %}{% endfor %}
+          <div class="sheet-cell collection" data-span="half" data-tone="sunken">
+            <p class="sheet-meta"><span class="sheet-key">One mode</span></p>
+            <p class="collection-modes">{% for c in dsgn.figma.collections %}{% if not (c.modes | length) %}{{ c.name }} {{ c.variables }}{% if not loop.last %} · {% endif %}{% endif %}{% endfor %}</p>
+          </div>
+          <div class="sheet-cell collection" data-span="half" data-tone="sunken">
+            <p class="sheet-meta"><span class="sheet-key">In total</span></p>
+            <p class="collection-modes">{{ dsgn.figma.variables }} variables · {{ dsgn.figma.textStyles }} text styles · markup in every component</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Showcase -->
+    <!-- Showcase: screenshots of the demos (node site/scripts/showcase-shots.mjs). -->
     <section class="dsgn-section sheet-section" id="showcase" aria-labelledby="showcase-title">
       <div class="dsgn-container">
         <div class="sheet">
@@ -315,27 +275,25 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
             <div class="sheet-head-text">
               <p class="sheet-meta sheet-key">Showcase</p>
               <h2 class="dsgn-display" id="showcase-title">One system, any brand.</h2>
-              <p class="dsgn-lead">Real screens built only from dsgn components. Give them your colour, corners and density, and copy the theme when it looks right.</p>
+              <p class="dsgn-body">Real screens built only from dsgn components. Give them your colour, corners and density, and copy the theme when it looks right.</p>
             </div>
             <a class="dsgn-button" data-variant="subtle" data-intent="neutral" href="{{ site.links.showcase }}">All demos<span class="dsgn-icon" data-end aria-hidden="true">arrow_forward</span></a>
           </div>
-          <article class="sheet-cell sheet-card" data-span="half">
-            <div class="dsgn-media dsgn-card-media"><img src="/img/docs/card-sample.svg" alt="" width="640" height="360"></div>
+          <article class="sheet-cell sheet-card shot-card" data-span="half">
+            <img class="shot" src="/img/showcase/billing.jpg" alt="" width="1872" height="1170" loading="lazy" decoding="async">
             <h3 class="dsgn-card-title"><a class="dsgn-card-link" href="/showcase/billing/">Billing app</a></h3>
             <p class="dsgn-card-text">App shell, stats, tabs and a table of invoices with statuses.</p>
-
           </article>
-          <article class="sheet-cell sheet-card" data-span="half">
-            <div class="dsgn-media dsgn-card-media" data-glaze="brand">{% include "svg/mug.svg" %}</div>
+          <article class="sheet-cell sheet-card shot-card" data-span="half">
+            <img class="shot" src="/img/showcase/shop.jpg" alt="" width="1872" height="1170" loading="lazy" decoding="async">
             <h3 class="dsgn-card-title"><a class="dsgn-card-link" href="/showcase/shop/">Shop product page</a></h3>
             <p class="dsgn-card-text">Gallery, ratings, option cards, a cart toast and reviews.</p>
-
           </article>
         </div>
       </div>
     </section>
 
-    <!-- Get started -->
+    <!-- Get started: one row per step, what to do on the left, the line to paste on the right. -->
     <section class="dsgn-section sheet-section" id="start" aria-labelledby="start-title">
       <div class="dsgn-container">
         <div class="sheet">
@@ -346,43 +304,39 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
             </div>
           </div>
           <ol class="sheet-list">
-          <li class="sheet-cell sheet-stack" data-span="half">
-            <p class="sheet-meta"><span class="sheet-key">Step</span> 1 of 3</p>
-            <h3 class="dsgn-card-title">Install</h3>
-            <p class="dsgn-card-text">Add the package. It brings the CSS, the optional script and the <code>dsgn</code> command line tool.</p>
-            <pre class="code"><code>npm i dsgn.systems</code></pre>
-
-          </li>
-          <li class="sheet-cell sheet-stack" data-span="half">
-            <p class="sheet-meta"><span class="sheet-key">Step</span> 2 of 3</p>
-            <h3 class="dsgn-card-title">Link it</h3>
-                        <p class="dsgn-card-text">On a static site, copy the minified files into the folder you deploy and link them.</p>
-                        <pre class="code"><code>npx dsgn copy public/vendor/dsgn
-
-&lt;link rel="stylesheet" href="vendor/dsgn/dsgn.css"&gt;
-&lt;script src="vendor/dsgn/dsgn.js" defer&gt;&lt;/script&gt;</code></pre>
-
-          </li>
-          <li class="sheet-cell sheet-stack" data-span="half">
-            <p class="sheet-meta"><span class="sheet-key">Step</span> 3 of 3</p>
-            <h3 class="dsgn-card-title">Make it yours</h3>
-                        <p class="dsgn-card-text">Set your brand colour, corners and density. The contrast check runs before anything is written.</p>
-                        <pre class="code"><code>npx dsgn theme --init
-npx dsgn theme</code></pre>
-                        <p class="dsgn-card-text"><a class="dsgn-link" href="{{ site.links.themeCustomizer }}">Or try colours in the theme customizer</a> first.</p>
-
-          </li>
+            <li class="sheet-row">
+              <div class="sheet-cell step" data-span="half">
+                <p class="step-index">01</p>
+                <div class="step-text"><h3 class="dsgn-card-title">Install</h3><p class="dsgn-card-text">The CSS, the optional script and the <code>dsgn</code> command line tool.</p></div>
+              </div>
+              <div class="sheet-cell step-code" data-span="half"><pre class="code"><code>npm i dsgn.systems</code></pre></div>
+            </li>
+            <li class="sheet-row">
+              <div class="sheet-cell step" data-span="half">
+                <p class="step-index">02</p>
+                <div class="step-text"><h3 class="dsgn-card-title">Import the CSS</h3><p class="dsgn-card-text">In your main stylesheet. Your own rules after it always win.</p></div>
+              </div>
+              <div class="sheet-cell step-code" data-span="half"><pre class="code"><code>@import "dsgn.systems/css";</code></pre></div>
+            </li>
+            <li class="sheet-row">
+              <div class="sheet-cell step" data-span="half">
+                <p class="step-index">03</p>
+                <div class="step-text"><h3 class="dsgn-card-title">Add your brand</h3><p class="dsgn-card-text">Colour, corners and density, checked for contrast before anything is written. Or try it in the <a class="dsgn-link" href="{{ site.links.themeCustomizer }}">theme customizer</a>.</p></div>
+              </div>
+              <div class="sheet-cell step-code" data-span="half"><pre class="code"><code>npx dsgn theme --init</code></pre></div>
+            </li>
           </ol>
-          <div class="sheet-cell sheet-stack start-cdn" data-span="half">
-            <p class="sheet-meta"><span class="sheet-key">Prototyping</span> Use the CDN</p>
-            <p>Link <code>https://cdn.jsdelivr.net/npm/dsgn.systems@{{ dsgn.minor }}/dist/dsgn.min.css</code> and you are done. Pin the minor version.</p>
+          <div class="sheet-cell step" data-span="half" data-tone="sunken">
+            <p class="step-index">—</p>
+            <div class="step-text"><h3 class="dsgn-card-title">No build step?</h3><p class="dsgn-card-text">Skip 01 and 02 and link the file from the CDN. Pin the minor version.</p></div>
           </div>
+          <div class="sheet-cell step-code" data-span="half" data-tone="sunken"><pre class="code"><code>&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dsgn.systems@{{ dsgn.minor }}/dist/dsgn.min.css"&gt;</code></pre></div>
         </div>
       </div>
     </section>
 
     <!-- FAQ -->
-    <section class="dsgn-section sheet-section" aria-labelledby="faq-title">
+    <section class="dsgn-section sheet-section faq" aria-labelledby="faq-title">
       <div class="dsgn-container">
         <div class="sheet">
           <div class="sheet-cell sheet-head" data-span="half" data-tone="sunken">
@@ -419,24 +373,3 @@ npx dsgn theme</code></pre>
       </div>
     </section>
 
-    <!-- CTA -->
-    <section class="dsgn-section sheet-section cta" aria-labelledby="cta-title">
-      <div class="dsgn-container">
-        <div class="sheet">
-          <div class="sheet-cell cta-mark-cell" data-span="half">
-            {% include "svg/cta-mark.svg" %}
-            <button class="dsgn-icon-button cta-control" data-variant="ghost" data-intent="neutral" type="button" aria-pressed="false" data-motion-toggle="animations" aria-label="Pause animations">
-              <span class="dsgn-icon" aria-hidden="true">pause</span>
-            </button>
-          </div>
-          <div class="sheet-cell sheet-stack cta-text" data-span="half">
-            <h2 class="dsgn-display" id="cta-title">Start with one stylesheet.</h2>
-            <p class="dsgn-lead">Install the package, link the CSS and build your first page with real components today.</p>
-            <div class="dsgn-cluster">
-              <a class="dsgn-button" href="#start">Get started<span class="dsgn-icon" data-end aria-hidden="true">arrow_forward</span></a>
-              <a class="dsgn-button" data-variant="subtle" data-intent="neutral" href="{{ site.links.docs }}">Read the docs</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
