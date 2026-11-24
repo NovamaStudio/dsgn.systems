@@ -592,9 +592,9 @@ main:has(+ .site-foot) > .sheet-section:last-of-type { padding-block-end: 0; }
 .collection-count { font-size: var(--dsgn-font-size-display); line-height: var(--dsgn-line-height-display); font-weight: var(--dsgn-font-weight-semibold); font-variant-numeric: tabular-nums; }
 .collection-modes { color: var(--dsgn-text-muted); font-size: var(--dsgn-font-size-body-s); }
 
-/* ── Showcase: screenshots of the demos ────────────────────────────────── */
+/* ── Showcase: one cell per demo, its icon above the title ─────────────── */
 
-.shot { display: block; inline-size: 100%; block-size: auto; aspect-ratio: 16 / 10; object-fit: cover; object-position: top left; border: var(--dsgn-border-width) solid var(--dsgn-border); }
+.demo-card > .dsgn-icon { margin-block-end: var(--dsgn-space-16); }
 
 /* ── Get started: index, step, line to paste ───────────────────────────── */
 
