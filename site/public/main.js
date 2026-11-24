@@ -60,9 +60,9 @@
 
   // A loop that steps only while motion is on and its element is on screen.
   function loop(el, ms, step) {
-    var timer = null, visible = false;
+    var timer = null, visible = false, stopped = false;
     function sync() {
-      var run = visible && motionOn();
+      var run = visible && motionOn() && !stopped;
       if (run && !timer) timer = window.setInterval(step, ms);
       if (!run && timer) { window.clearInterval(timer); timer = null; }
     }
@@ -71,11 +71,11 @@
     } else { visible = true; }
     onMotion.push(sync);
     sync();
-    // restart the wait, e.g. after the visitor picked a step by hand
-    return function () { if (timer) { window.clearInterval(timer); timer = null; } sync(); };
+    // stop for good, e.g. once the visitor picks a step by hand
+    return function () { stopped = true; sync(); };
   }
 
-  // Scale: the construction drawing steps through its legend. Values are the token values at a
+  // Scale: the construction drawing steps through its legend until a step is picked. Values are the token values at a
   // 16 px browser font size; step 5 is 20 px (× 1.25, line heights rounded up, the rest to 2 px).
   var bp = document.getElementById('bp');
   var legend = document.getElementById('bp-legend');
@@ -104,14 +104,13 @@
       bp.querySelector('.bp-eq').innerHTML = st.pad
         ? st.line + ' <span class="bp-op">+ 2 × </span>' + st.pad + ' <span class="bp-op">=</span> ' + height
         : st.line + ' <span class="bp-op">px line</span>';
-      bp.querySelector('.bp-sheet').textContent = '0' + (i + 1) + ' / 0' + bpSteps.length;
       legend.querySelectorAll('button').forEach(function (b, n) {
         if (n === i) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current');
       });
     }
     show((stored ? stored === 'off' : reduce.matches) ? 1 : 0);
-    var restart = loop(bp, 2800, function () { show((bpAt + 1) % bpSteps.length); });
-    legend.querySelectorAll('button').forEach(function (b, n) { b.addEventListener('click', function () { show(n); restart(); }); });
+    var stop = loop(bp, 2800, function () { show((bpAt + 1) % bpSteps.length); });
+    legend.querySelectorAll('button').forEach(function (b, n) { b.addEventListener('click', function () { stop(); show(n); }); });
   }
 
   // Modes: one attribute changes at a time; the log marks the value the card has now.

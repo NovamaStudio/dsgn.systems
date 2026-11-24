@@ -146,7 +146,7 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
     </section>
 
     <!-- Scale: a construction drawing of how dsgn sizes things, square so it stands on its own (a post).
-         main.js steps through the legend; the drawing is a diagram at 1 % of its width = 1 px. -->
+         main.js steps through the legend until a step is picked; the drawing is a diagram at 1 % of its width = 1 px. -->
     <section class="dsgn-section sheet-section" id="scale" aria-labelledby="scale-title">
       <div class="dsgn-container">
         <div class="sheet">
@@ -171,10 +171,9 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
               <span class="bp-dim" data-part="height"><span class="bp-val"></span></span>
               <p class="bp-caption"></p>
               <p class="bp-eq"></p>
-              <p class="bp-title"><span>dsgn.systems</span><span>Sizes come from type</span><span class="bp-sheet"></span></p>
             </div>
           </div>
-          <div class="sheet-cell sheet-flush bp-legend-cell" data-span="half">
+          <div class="sheet-cell sheet-flush" data-span="half">
             <ol class="bp-legend" id="bp-legend">
               <li><button type="button" data-step="1"><span class="step-index">01</span><span><strong>Type</strong> The line height comes from the type scale: 20&nbsp;px for 14&nbsp;px text.</span></button></li>
               <li><button type="button" data-step="2"><span class="step-index">02</span><span><strong>Padding</strong> Space from the spacing scale, above and below: 20 + 2&nbsp;&times;&nbsp;8 = 36.</span></button></li>
@@ -182,9 +181,6 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
               <li><button type="button" data-step="4"><span class="step-index">04</span><span><strong>Density L</strong> Larger text and padding for touch: 24 + 2&nbsp;&times;&nbsp;10 = 44.</span></button></li>
               <li><button type="button" data-step="5"><span class="step-index">05</span><span><strong>Your font size</strong> At 20&nbsp;px in the browser everything grows by a quarter and snaps back to the 2&nbsp;px grid: 26 + 2&nbsp;&times;&nbsp;10 = 46.</span></button></li>
             </ol>
-            <div class="modes-play">
-              <button class="dsgn-button" data-variant="ghost" data-intent="neutral" type="button" aria-pressed="false" data-motion-toggle="drawing animation"><span class="dsgn-icon" aria-hidden="true">pause</span><span class="modes-play-text">Pause</span></button>
-            </div>
           </div>
         </div>
       </div>
