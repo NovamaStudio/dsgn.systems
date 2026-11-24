@@ -283,7 +283,12 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
               <h2 class="dsgn-display" id="figma-title">The same system on the canvas.</h2>
               <p class="dsgn-body">The library keeps the tokens as Figma variables, grouped in collections. Each mode of a collection is the same switch a developer sets in code, so designers try dark, dense or pill on a frame exactly as the page will do it. One version number covers the npm package and the library.</p>
             </div>
-            <a class="dsgn-button" data-variant="subtle" data-intent="neutral" href="{{ site.links.figmaPlugin }}">Figma theme plugin<span class="dsgn-icon" data-end aria-hidden="true">arrow_outward</span></a>
+            <div class="dsgn-cluster">
+              {%- if site.links.figmaFile %}
+              <a class="dsgn-button" data-variant="subtle" data-intent="neutral" href="{{ site.links.figmaFile }}">Figma library<span class="dsgn-icon" data-end aria-hidden="true">arrow_outward</span></a>
+              {%- endif %}
+              <a class="dsgn-button" data-variant="subtle" data-intent="neutral" href="{{ site.links.figmaPlugin }}">Figma theme plugin<span class="dsgn-icon" data-end aria-hidden="true">arrow_outward</span></a>
+            </div>
           </div>
           {%- for c in dsgn.figma.collections %}{% if c.modes | length %}
           <div class="sheet-cell collection" data-span="quarter">

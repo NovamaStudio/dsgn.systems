@@ -15,6 +15,8 @@ export default {
     showcase: "/showcase/",
     changelog: "/docs/changelog/",
     license: "https://github.com/NovamaStudio/dsgn.systems/blob/main/LICENSE",
+    // The Figma library (community file). Empty until it is published: the links to it stay hidden.
+    figmaFile: "",
     figmaPlugin: "https://github.com/NovamaStudio/dsgn.systems/tree/main/figma-plugin",
     skill: "https://github.com/NovamaStudio/dsgn.systems/tree/main/skills/dsgn-systems",
   },

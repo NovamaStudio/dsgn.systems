@@ -23,6 +23,7 @@
           <ul class="dsgn-footer-links">
             <li><a href="{{ site.links.repo }}">GitHub</a></li>
             <li><a href="{{ site.links.npm }}">npm</a></li>
+            {% if site.links.figmaFile %}<li><a href="{{ site.links.figmaFile }}">Figma library</a></li>{% endif %}
             <li><a href="{{ site.links.figmaPlugin }}">Figma theme plugin</a></li>
             <li><a href="{{ site.links.skill }}">Skill for AI agents</a></li>
           </ul>
@@ -57,7 +58,8 @@
             <ul class="dsgn-footer-links">
               <li><a href="{{ site.links.repo }}">GitHub</a></li>
               <li><a href="{{ site.links.npm }}">npm</a></li>
-              <li><a href="{{ site.links.figmaPlugin }}">Figma theme plugin</a></li>
+              {% if site.links.figmaFile %}<li><a href="{{ site.links.figmaFile }}">Figma library</a></li>{% endif %}
+            <li><a href="{{ site.links.figmaPlugin }}">Figma theme plugin</a></li>
               <li><a href="{{ site.links.skill }}">Skill for AI agents</a></li>
             </ul>
           </div>
