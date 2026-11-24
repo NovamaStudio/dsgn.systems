@@ -603,6 +603,10 @@ main:has(+ .site-foot) > .sheet-section:last-of-type { padding-block-end: 0; }
 .step-text { display: grid; gap: var(--dsgn-space-4); }
 .step-text > * { margin: 0; }
 .step-code { display: grid; align-content: center; }
+/* the line to paste and its copy button, like the install command in the hero; the cell is the frame.
+   Long lines (the CDN link) wrap instead of hiding behind an ellipsis. */
+.step-code .install { justify-content: space-between; }
+.step-code .install-command { white-space: normal; overflow-wrap: anywhere; }
 
 /* ── FAQ: no rules between the questions; the cell is the frame ───────── */
 

@@ -351,28 +351,28 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
                 <p class="step-index">01</p>
                 <div class="step-text"><h3 class="dsgn-card-title">Install</h3><p class="dsgn-card-text">The CSS, the optional script and the <code>dsgn</code> command line tool.</p></div>
               </div>
-              <div class="sheet-cell step-code" data-span="half"><pre class="code"><code>npm i dsgn.systems</code></pre></div>
+              <div class="sheet-cell step-code" data-span="half"><div class="install"><code class="install-command">npm i dsgn.systems</code><button class="dsgn-icon-button" data-variant="ghost" data-intent="neutral" type="button" data-copy="npm i dsgn.systems" aria-label="Copy install command"><span class="dsgn-icon" aria-hidden="true">content_copy</span></button></div></div>
             </li>
             <li class="sheet-row">
               <div class="sheet-cell step" data-span="half">
                 <p class="step-index">02</p>
                 <div class="step-text"><h3 class="dsgn-card-title">Import the CSS</h3><p class="dsgn-card-text">In your main stylesheet. Your own rules after it always win.</p></div>
               </div>
-              <div class="sheet-cell step-code" data-span="half"><pre class="code"><code>@import "dsgn.systems/css";</code></pre></div>
+              <div class="sheet-cell step-code" data-span="half"><div class="install"><code class="install-command">@import "dsgn.systems/css";</code><button class="dsgn-icon-button" data-variant="ghost" data-intent="neutral" type="button" data-copy="@import &quot;dsgn.systems/css&quot;;" aria-label="Copy the import"><span class="dsgn-icon" aria-hidden="true">content_copy</span></button></div></div>
             </li>
             <li class="sheet-row">
               <div class="sheet-cell step" data-span="half">
                 <p class="step-index">03</p>
                 <div class="step-text"><h3 class="dsgn-card-title">Add your brand</h3><p class="dsgn-card-text">Colour, corners and density, checked for contrast before anything is written. Or try it in the <a class="dsgn-link" href="{{ site.links.themeCustomizer }}">theme customizer</a>.</p></div>
               </div>
-              <div class="sheet-cell step-code" data-span="half"><pre class="code"><code>npx dsgn theme --init</code></pre></div>
+              <div class="sheet-cell step-code" data-span="half"><div class="install"><code class="install-command">npx dsgn theme --init</code><button class="dsgn-icon-button" data-variant="ghost" data-intent="neutral" type="button" data-copy="npx dsgn theme --init" aria-label="Copy theme command"><span class="dsgn-icon" aria-hidden="true">content_copy</span></button></div></div>
             </li>
           </ol>
           <div class="sheet-cell step" data-span="half" data-tone="sunken">
             <p class="step-index">—</p>
             <div class="step-text"><h3 class="dsgn-card-title">No build step?</h3><p class="dsgn-card-text">Skip 01 and 02 and link the file from the CDN. Pin the minor version.</p></div>
           </div>
-          <div class="sheet-cell step-code" data-span="half" data-tone="sunken"><pre class="code"><code>&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dsgn.systems@{{ dsgn.minor }}/dist/dsgn.min.css"&gt;</code></pre></div>
+          <div class="sheet-cell step-code" data-span="half" data-tone="sunken"><div class="install"><code class="install-command">&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dsgn.systems@{{ dsgn.minor }}/dist/dsgn.min.css"&gt;</code><button class="dsgn-icon-button" data-variant="ghost" data-intent="neutral" type="button" data-copy="&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/dsgn.systems@{{ dsgn.minor }}/dist/dsgn.min.css&quot;&gt;" aria-label="Copy the CDN link"><span class="dsgn-icon" aria-hidden="true">content_copy</span></button></div></div>
         </div>
       </div>
     </section>
