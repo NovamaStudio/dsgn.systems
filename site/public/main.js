@@ -71,54 +71,47 @@
     } else { visible = true; }
     onMotion.push(sync);
     sync();
+    // restart the wait, e.g. after the visitor picked a step by hand
+    return function () { if (timer) { window.clearInterval(timer); timer = null; } sync(); };
   }
 
-  // Scale: the button is measured in each density; the dimension lines and the table show the values.
-  var anatomy = document.getElementById('anatomy');
-  if (anatomy) {
-    var button = anatomy.querySelector('.anatomy-button');
-    var label = document.getElementById('anatomy-label');
-    var table = document.getElementById('anatomy-table');
-    var densities = ['s', 'm', 'l'], current = 1;
-
-    // real values from the unscaled box; k = how much larger the button is drawn
-    function measure() {
-      var pad = parseFloat(window.getComputedStyle(button).paddingTop), height = button.offsetHeight;
-      return { pad: Math.round(pad), line: Math.round(height - 2 * pad), height: Math.round(height), k: button.getBoundingClientRect().height / height };
-    }
-    function fillTable() {
-      var keep = anatomy.getAttribute('data-density');
-      densities.forEach(function (d) {
-        anatomy.setAttribute('data-density', d);
-        var m = measure(), cells = table.querySelectorAll('tr[data-density="' + d + '"] td');
-        cells[0].textContent = m.line; cells[1].textContent = '2 × ' + m.pad; cells[2].textContent = m.height;
+  // Scale: the construction drawing steps through its legend. Values are the token values at a
+  // 16 px browser font size; step 5 is 20 px (× 1.25, line heights rounded up, the rest to 2 px).
+  var bp = document.getElementById('bp');
+  var legend = document.getElementById('bp-legend');
+  if (bp && legend) {
+    var bpSteps = [
+      { font: 14, line: 20, pad: 0, caption: '01 Type · the line height' },
+      { font: 14, line: 20, pad: 8, caption: '02 Padding · density M' },
+      { font: 14, line: 20, pad: 4, caption: '03 Density S' },
+      { font: 16, line: 24, pad: 10, caption: '04 Density L · touch' },
+      { font: 17.5, line: 26, pad: 10, caption: '05 Browser font 20 px' }
+    ];
+    var bpAt = 1;
+    var parts = { 'pad-top': 'pad', line: 'line', 'pad-bottom': 'pad', height: 'height' };
+    function show(i) {
+      bpAt = i;
+      var st = bpSteps[i], height = st.line + 2 * st.pad;
+      bp.setAttribute('data-step', String(i + 1));
+      bp.style.setProperty('--font', st.font);
+      bp.style.setProperty('--line', st.line);
+      bp.style.setProperty('--pad', st.pad);
+      bp.querySelectorAll('.bp-dim').forEach(function (d) {
+        var key = parts[d.getAttribute('data-part')];
+        d.querySelector('.bp-val').textContent = key === 'height' ? height : st[key];
       });
-      anatomy.setAttribute('data-density', keep);
-    }
-    function draw() {
-      var d = densities[current];
-      anatomy.setAttribute('data-density', d);
-      label.textContent = 'density ' + d.toUpperCase();
-      table.querySelectorAll('tbody tr').forEach(function (tr) { tr.toggleAttribute('data-current', tr.getAttribute('data-density') === d); });
-      var m = measure(), k = m.k, pad = m.pad * k, line = m.line * k, height = m.height * k;
-      var top = (anatomy.clientHeight - height) / 2;
-      var ys = { top: top, 'text-top': top + pad, 'text-bottom': top + pad + line, bottom: top + height };
-      anatomy.querySelectorAll('.anatomy-line').forEach(function (l) { l.style.setProperty('--y', ys[l.getAttribute('data-edge')] + 'px'); });
-      var parts = {
-        'pad-top': [top + pad / 2, m.pad], line: [top + pad + line / 2, m.line],
-        'pad-bottom': [top + pad * 1.5 + line, m.pad], height: [top + height / 2, m.height]
-      };
-      anatomy.querySelectorAll('.anatomy-value').forEach(function (v) {
-        var p = parts[v.getAttribute('data-part')];
-        v.style.setProperty('--y', p[0] + 'px');
-        v.textContent = p[1];
+      bp.querySelector('.bp-caption').textContent = st.caption;
+      bp.querySelector('.bp-eq').innerHTML = st.pad
+        ? st.line + ' <span class="bp-op">+ 2 × </span>' + st.pad + ' <span class="bp-op">=</span> ' + height
+        : st.line + ' <span class="bp-op">px line</span>';
+      bp.querySelector('.bp-sheet').textContent = '0' + (i + 1) + ' / 0' + bpSteps.length;
+      legend.querySelectorAll('button').forEach(function (b, n) {
+        if (n === i) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current');
       });
     }
-    function refresh() { fillTable(); draw(); }
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(refresh);
-    refresh();
-    window.addEventListener('resize', draw);
-    loop(anatomy, 2400, function () { current = (current + 1) % densities.length; draw(); });
+    show((stored ? stored === 'off' : reduce.matches) ? 1 : 0);
+    var restart = loop(bp, 2800, function () { show((bpAt + 1) % bpSteps.length); });
+    legend.querySelectorAll('button').forEach(function (b, n) { b.addEventListener('click', function () { show(n); restart(); }); });
   }
 
   // Modes: one attribute changes at a time; the log marks the value the card has now.

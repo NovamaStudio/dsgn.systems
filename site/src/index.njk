@@ -145,8 +145,8 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
       </div>
     </section>
 
-    <!-- Scale: a real dsgn button measured live. main.js steps it through the densities and draws
-         its line height and padding as dimension lines; the table holds the measured values. -->
+    <!-- Scale: a construction drawing of how dsgn sizes things, square so it stands on its own (a post).
+         main.js steps through the legend; the drawing is a diagram at 1 % of its width = 1 px. -->
     <section class="dsgn-section sheet-section" id="scale" aria-labelledby="scale-title">
       <div class="dsgn-container">
         <div class="sheet">
@@ -154,34 +154,37 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
             <div class="sheet-head-text">
               <p class="sheet-meta sheet-key">The scale</p>
               <h2 class="dsgn-display" id="scale-title">Sizes come from type.</h2>
-              <p class="dsgn-body">A control is its line of text plus padding from the spacing scale, snapped to a 2&nbsp;px grid at any browser font size. Density sets the padding, and L opens up the line for touch.</p>
+              <p class="dsgn-body">A control is its line of text plus padding from the spacing scale, on a 2&nbsp;px grid. Density sets the padding, and your browser&rsquo;s font size sets the rest.</p>
             </div>
           </div>
-          <figure class="sheet-cell anatomy-cell" data-span="half">
-            <figcaption class="sheet-meta"><span class="sheet-key">Button</span> <span id="anatomy-label">density M</span></figcaption>
-            <div class="anatomy" id="anatomy" data-density="m" aria-hidden="true">
-              <span class="anatomy-line" data-edge="top"></span>
-              <span class="anatomy-line" data-edge="text-top"></span>
-              <span class="anatomy-line" data-edge="text-bottom"></span>
-              <span class="anatomy-line" data-edge="bottom"></span>
-              <span class="anatomy-value" data-part="pad-top"></span>
-              <span class="anatomy-value" data-part="line"></span>
-              <span class="anatomy-value" data-part="pad-bottom"></span>
-              <span class="anatomy-value" data-part="height"></span>
-              <span class="dsgn-button anatomy-button">Send reminder</span>
-            </div>
-          </figure>
           <div class="sheet-cell sheet-flush" data-span="half">
-            <table class="log" id="anatomy-table">
-              <caption class="dsgn-visually-hidden">Button height in each density, measured in this page</caption>
-              <thead><tr><th scope="col">Density</th><th scope="col" data-numeric>Text</th><th scope="col" data-numeric>Padding</th><th scope="col" data-numeric>Height</th></tr></thead>
-              <tbody>
-                <tr data-density="s"><th scope="row">S</th><td data-numeric>–</td><td data-numeric>–</td><td data-numeric>–</td></tr>
-                <tr data-density="m"><th scope="row">M</th><td data-numeric>–</td><td data-numeric>–</td><td data-numeric>–</td></tr>
-                <tr data-density="l"><th scope="row">L <span class="log-note">touch</span></th><td data-numeric>–</td><td data-numeric>–</td><td data-numeric>–</td></tr>
-              </tbody>
-            </table>
-            <p class="log-foot">Height = text + 2 × padding, in px at this font size. Touch screens without a density set use L.</p>
+            <div class="bp" id="bp" data-step="1" aria-hidden="true">
+              <span class="bp-ext" data-edge="top"></span>
+              <span class="bp-ext" data-edge="bottom"></span>
+              <span class="bp-guide" data-edge="text-top"></span>
+              <span class="bp-guide" data-edge="text-bottom"></span>
+              <span class="bp-box"><span class="bp-pad" data-edge="top"></span><span class="bp-pad" data-edge="bottom"></span></span>
+              <span class="bp-text">Aa</span>
+              <span class="bp-dim" data-part="pad-top"><span class="bp-val"></span></span>
+              <span class="bp-dim" data-part="line"><span class="bp-val"></span></span>
+              <span class="bp-dim" data-part="pad-bottom"><span class="bp-val"></span></span>
+              <span class="bp-dim" data-part="height"><span class="bp-val"></span></span>
+              <p class="bp-caption"></p>
+              <p class="bp-eq"></p>
+              <p class="bp-title"><span>dsgn.systems</span><span>Sizes come from type</span><span class="bp-sheet"></span></p>
+            </div>
+          </div>
+          <div class="sheet-cell sheet-flush bp-legend-cell" data-span="half">
+            <ol class="bp-legend" id="bp-legend">
+              <li><button type="button" data-step="1"><span class="step-index">01</span><span><strong>Type</strong> The line height comes from the type scale: 20&nbsp;px for 14&nbsp;px text.</span></button></li>
+              <li><button type="button" data-step="2"><span class="step-index">02</span><span><strong>Padding</strong> Space from the spacing scale, above and below: 20 + 2&nbsp;&times;&nbsp;8 = 36.</span></button></li>
+              <li><button type="button" data-step="3"><span class="step-index">03</span><span><strong>Density S</strong> Less padding for dense screens: 20 + 2&nbsp;&times;&nbsp;4 = 28.</span></button></li>
+              <li><button type="button" data-step="4"><span class="step-index">04</span><span><strong>Density L</strong> Larger text and padding for touch: 24 + 2&nbsp;&times;&nbsp;10 = 44.</span></button></li>
+              <li><button type="button" data-step="5"><span class="step-index">05</span><span><strong>Your font size</strong> At 20&nbsp;px in the browser everything grows by a quarter and snaps back to the 2&nbsp;px grid: 26 + 2&nbsp;&times;&nbsp;10 = 46.</span></button></li>
+            </ol>
+            <div class="modes-play">
+              <button class="dsgn-button" data-variant="ghost" data-intent="neutral" type="button" aria-pressed="false" data-motion-toggle="drawing animation"><span class="dsgn-icon" aria-hidden="true">pause</span><span class="modes-play-text">Pause</span></button>
+            </div>
           </div>
         </div>
       </div>
