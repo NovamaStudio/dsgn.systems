@@ -292,11 +292,11 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
             <p class="collection-modes">{{ c.modes | join(" · ") }}</p>
           </div>
           {%- endif %}{% endfor %}
-          <div class="sheet-cell collection" data-span="half" data-tone="sunken">
+          <div class="sheet-cell collection" data-span="half">
             <p class="sheet-meta"><span class="sheet-key">One mode</span></p>
             <p class="collection-modes">{% for c in dsgn.figma.collections %}{% if not (c.modes | length) %}{{ c.name }} {{ c.variables }}{% if not loop.last %} · {% endif %}{% endif %}{% endfor %}</p>
           </div>
-          <div class="sheet-cell collection" data-span="half" data-tone="sunken">
+          <div class="sheet-cell collection" data-span="half">
             <p class="sheet-meta"><span class="sheet-key">In total</span></p>
             <p class="collection-modes">{{ dsgn.figma.variables }} variables · {{ dsgn.figma.textStyles }} text styles · markup in every component</p>
           </div>
