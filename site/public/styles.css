@@ -496,21 +496,33 @@ main:has(+ .site-foot) > .sheet-section:last-of-type { padding-block-end: 0; }
 
 /* ── Modes: the card and the legend of attributes (laid out like The scale) ─ */
 
-/* the card on its own theme's sunken surface, square like the drawing above */
+/* the stage keeps the page's surface; the modes are set on the card only */
+/* at least square, taller when the card needs it (density L on a phone) or the legend is taller */
 .preview {
   display: grid;
   place-items: center;
   inline-size: 100%;
-  aspect-ratio: 1;
   min-block-size: 100%;
-  padding: var(--dsgn-space-24);
+  /* more room below for the toast that hangs off the card */
+  padding: var(--dsgn-space-48) var(--dsgn-space-24) calc(var(--dsgn-space-48) + var(--dsgn-space-32));
   background: var(--dsgn-surface-sunken);
-  color: var(--dsgn-text);
-  transition: background-color var(--dsgn-duration) var(--dsgn-ease);
 }
-.preview > .dsgn-card { inline-size: min(100%, 24rem); }
+.preview::before { content: ""; grid-area: 1 / 1; padding-block-start: 100%; }
+.preview-card { grid-area: 1 / 1; position: relative; inline-size: min(100%, 24rem); background: none; color: var(--dsgn-text); }
+/* the toast overlaps the bottom of the card, so glass has something to blur */
+.preview-card > .dsgn-toast {
+  position: absolute;
+  inset-inline: var(--dsgn-space-24) calc(-1 * var(--dsgn-space-24));
+  inset-block-start: 100%;
+  translate: 0 calc(-1 * var(--dsgn-space-12));
+  inline-size: auto;
+  max-inline-size: none;
+}
+@media (max-width: 39.99rem) { .preview-card > .dsgn-toast { inset-inline: var(--dsgn-space-16) 0; } }
 
-/* legend: one row per attribute; the one that just changed is sunken, the current values inverse */
+/* the card is monochrome: modes/dsgn.theme.css (site/scripts/mono-theme.mjs) */
+
+/* legend: one row per attribute, the current values inverse */
 .modes-legend { display: grid; block-size: 100%; margin: 0; padding: 0; list-style: none; }
 .modes-legend li {
   display: grid;
@@ -519,10 +531,8 @@ main:has(+ .site-foot) > .sheet-section:last-of-type { padding-block-end: 0; }
   gap: var(--dsgn-space-16);
   padding: var(--dsgn-space-16) var(--dsgn-space-24);
   color: var(--dsgn-text-muted);
-  transition: background-color var(--dsgn-duration) var(--dsgn-ease), color var(--dsgn-duration) var(--dsgn-ease);
 }
 .modes-legend li + li { border-block-start: var(--dsgn-border-width) solid var(--dsgn-border); }
-.modes-legend li[data-current] { background: var(--dsgn-surface-sunken); color: var(--dsgn-text); }
 .mode-text { display: grid; gap: var(--dsgn-space-4); }
 .mode-text > p { margin: 0; }
 .mode-text strong { color: var(--dsgn-text); font-weight: var(--dsgn-font-weight-semibold); }

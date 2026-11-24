@@ -80,7 +80,7 @@
     "test:a11y": "node test/a11y.test.mjs",
     "parity:report": "node build/parity.mjs --report figma/parity-report.json",
     "prepublishOnly": "npm test",
-    "site:theme": "node bin/dsgn.mjs theme site/dsgn.theme.mjs --out site/public",
+    "site:theme": "node bin/dsgn.mjs theme site/dsgn.theme.mjs --out site/public && node site/scripts/mono-theme.mjs",
     "site:build": "npm run site:theme && eleventy --config=site/eleventy.config.mjs",
     "site:dev": "npm run site:theme && eleventy --config=site/eleventy.config.mjs --serve --port=4174",
     "site:lint": "node bin/dsgn.mjs lint site/public",

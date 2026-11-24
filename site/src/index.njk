@@ -185,7 +185,7 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
     </section>
 
     <!-- Modes: one card, one attribute at a time, laid out like The scale. main.js changes the attributes
-         in turn until a value is picked; the legend marks the attribute that changed and every current value. -->
+         in turn until a value is picked; the legend marks every current value. The card is monochrome. -->
     <section class="dsgn-section sheet-section" id="modes" aria-labelledby="modes-title">
       <div class="dsgn-container">
         <div class="sheet">
@@ -197,22 +197,28 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
             </div>
           </div>
           <div class="sheet-cell sheet-flush" data-span="half">
-            <div class="preview" id="preview" data-theme="light" data-density="m" data-radius="sharp" data-elevation="flat" inert>
-              <article class="dsgn-card">
-                <div class="dsgn-cluster" data-justify="between" data-nowrap>
-                  <h3 class="dsgn-card-title">Invoice 2026-114</h3>
-                  <span class="dsgn-badge" data-intent="success">Paid</span>
+            <div class="preview">
+              <div class="preview-card" id="preview" data-theme="light" data-density="m" data-radius="sharp" data-elevation="flat" data-lines="on" data-material="solid" inert>
+                <article class="dsgn-card">
+                  <div class="dsgn-cluster" data-justify="between" data-nowrap>
+                    <h3 class="dsgn-card-title">Invoice 2026-114</h3>
+                    <span class="dsgn-badge">Paid</span>
+                  </div>
+                  <dl class="dsgn-dl">
+                    <div><dt>Client</dt><dd>Studio Kolo s.r.o.</dd></div>
+                    <div><dt>Total</dt><dd>CZK 24&nbsp;200</dd></div>
+                  </dl>
+                  <label class="dsgn-choice"><input type="checkbox" class="dsgn-switch" role="switch" checked> Overdue reminders</label>
+                  <div class="dsgn-card-actions">
+                    <button class="dsgn-button" data-variant="subtle" data-intent="neutral" type="button"><span class="dsgn-icon" aria-hidden="true">download</span>PDF</button>
+                    <button class="dsgn-button" type="button">Send reminder</button>
+                  </div>
+                </article>
+                <div class="dsgn-toast">
+                  <span class="dsgn-icon" aria-hidden="true">check_circle</span>
+                  <div class="dsgn-toast-body"><p>Reminder sent to Studio Kolo.</p></div>
                 </div>
-                <dl class="dsgn-dl">
-                  <div><dt>Client</dt><dd>Studio Kolo s.r.o.</dd></div>
-                  <div><dt>Total</dt><dd>CZK 24&nbsp;200</dd></div>
-                </dl>
-                <label class="dsgn-choice"><input type="checkbox" class="dsgn-switch" role="switch" checked> Overdue reminders</label>
-                <div class="dsgn-card-actions">
-                  <button class="dsgn-button" data-variant="subtle" data-intent="neutral" type="button"><span class="dsgn-icon" aria-hidden="true">download</span>PDF</button>
-                  <button class="dsgn-button" type="button">Send reminder</button>
-                </div>
-              </article>
+              </div>
             </div>
           </div>
           <div class="sheet-cell sheet-flush" data-span="half">
@@ -247,6 +253,22 @@ ogDescription: Plain HTML, OKLCH colours with guaranteed contrast, every mode on
                   <p><strong>Elevation</strong> <code>data-elevation</code></p>
                   <p>Borders only, or soft shadows.</p>
                   <div class="mode-values" role="group" aria-label="Elevation"><button type="button" data-value="flat" aria-pressed="false">flat</button><button type="button" data-value="soft" aria-pressed="false">soft</button></div>
+                </div>
+              </li>
+              <li data-attr="lines">
+                <span class="step-index">05</span>
+                <div class="mode-text">
+                  <p><strong>Lines</strong> <code>data-lines</code></p>
+                  <p>Outlines and separators, separators only, or none.</p>
+                  <div class="mode-values" role="group" aria-label="Lines"><button type="button" data-value="on" aria-pressed="false">on</button><button type="button" data-value="minimal" aria-pressed="false">minimal</button><button type="button" data-value="none" aria-pressed="false">none</button></div>
+                </div>
+              </li>
+              <li data-attr="material">
+                <span class="step-index">06</span>
+                <div class="mode-text">
+                  <p><strong>Material</strong> <code>data-material</code></p>
+                  <p>Solid or frosted glass on bars and toasts.</p>
+                  <div class="mode-values" role="group" aria-label="Material"><button type="button" data-value="solid" aria-pressed="false">solid</button><button type="button" data-value="glass" aria-pressed="false">glass</button></div>
                 </div>
               </li>
             </ol>

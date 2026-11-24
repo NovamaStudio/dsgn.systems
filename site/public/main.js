@@ -117,23 +117,23 @@
     legend.querySelectorAll('button').forEach(function (b, n) { b.addEventListener('click', function () { stop(); show(n); }); });
   }
 
-  // Modes: one attribute changes at a time until the visitor picks a value; the legend marks the
-  // attribute that just changed and every value the card has now.
+  // Modes: one attribute changes at a time until the visitor picks a value; the legend marks every
+  // value the card has now.
   var preview = document.getElementById('preview');
   var modes = document.getElementById('modes-legend');
   if (preview && modes) {
-    var steps = [['theme', 'dark'], ['radius', 'rounded'], ['density', 'l'], ['elevation', 'soft'], ['theme', 'light'],
-      ['radius', 'pill'], ['density', 's'], ['elevation', 'flat'], ['radius', 'sharp'], ['density', 'm']];
+    var steps = [['theme', 'dark'], ['radius', 'rounded'], ['density', 'l'], ['elevation', 'soft'], ['lines', 'minimal'],
+      ['material', 'glass'], ['theme', 'light'], ['radius', 'pill'], ['density', 's'], ['lines', 'none'], ['elevation', 'flat'],
+      ['material', 'solid'], ['radius', 'sharp'], ['lines', 'on'], ['density', 'm']];
     var at = 0;
-    function mark(changed) {
+    function mark() {
       modes.querySelectorAll('li[data-attr]').forEach(function (li) {
         var attr = li.getAttribute('data-attr'), value = preview.getAttribute('data-' + attr);
-        li.toggleAttribute('data-current', attr === changed);
         li.querySelectorAll('[data-value]').forEach(function (v) { v.setAttribute('aria-pressed', String(v.getAttribute('data-value') === value)); });
       });
     }
-    function set(attr, value) { preview.setAttribute('data-' + attr, value); mark(attr); }
-    mark(null);
+    function set(attr, value) { preview.setAttribute('data-' + attr, value); mark(); }
+    mark();
     var stopModes = loop(modes, 2200, function () { set(steps[at][0], steps[at][1]); at = (at + 1) % steps.length; }, true);
     modes.querySelectorAll('li[data-attr]').forEach(function (li) {
       li.querySelectorAll('[data-value]').forEach(function (v) {

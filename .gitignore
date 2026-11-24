@@ -7,5 +7,6 @@ dist/
 # website (site/): build output and generated theme files
 site/_site/
 site/public/dsgn.theme.css
+site/public/modes/
 site/dsgn.theme.figma.js
 site/dsgn.theme.figma.json
