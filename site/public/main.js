@@ -26,7 +26,7 @@
   var root = document.documentElement;
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-  // Motion: the home animations (scale, modes) run unless paused (WCAG 2.2.2) or reduced motion is
+  // Motion: the modes animation runs unless paused (WCAG 2.2.2) or reduced motion is
   // asked for. The choice is remembered per visitor.
   var KEY = 'dsgn-landing-motion';
   var onMotion = [];
@@ -59,10 +59,11 @@
   });
 
   // A loop that steps only while motion is on and its element is on screen.
-  function loop(el, ms, step) {
+  // always: the loop ignores the motion setting (it is stopped by its own controls instead)
+  function loop(el, ms, step, always) {
     var timer = null, visible = false, stopped = false;
     function sync() {
-      var run = visible && motionOn() && !stopped;
+      var run = visible && (always || motionOn()) && !stopped;
       if (run && !timer) timer = window.setInterval(step, ms);
       if (!run && timer) { window.clearInterval(timer); timer = null; }
     }
@@ -75,7 +76,7 @@
     return function () { stopped = true; sync(); };
   }
 
-  // Scale: the construction drawing steps through its legend until a step is picked. Values are the token values at a
+  // Scale: the construction drawing steps through its legend until a step is picked, whatever the motion setting. Values are the token values at a
   // 16 px browser font size; step 5 is 20 px (× 1.25, line heights rounded up, the rest to 2 px).
   var bp = document.getElementById('bp');
   var legend = document.getElementById('bp-legend');
@@ -106,8 +107,10 @@
         if (n === i) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current');
       });
     }
-    show((stored ? stored === 'off' : reduce.matches) ? 1 : 0);
-    var stop = loop(bp, 2800, function () { show((bpAt + 1) % bpSteps.length); });
+    // it plays until the visitor picks a step (that is its pause, WCAG 2.2.2); with reduced motion the
+    // steps change without moving (CSS)
+    show(0);
+    var stop = loop(bp, 2800, function () { show((bpAt + 1) % bpSteps.length); }, true);
     legend.querySelectorAll('button').forEach(function (b, n) { b.addEventListener('click', function () { stop(); show(n); }); });
   }
 
