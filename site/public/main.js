@@ -96,15 +96,12 @@
       bp.style.setProperty('--font', st.font);
       bp.style.setProperty('--line', st.line);
       bp.style.setProperty('--pad', st.pad);
-      // centred on 40, rounded down to the 2 px grid; set at its end value so the move stays smooth
-      bp.style.setProperty('--top', Math.floor((40 - height / 2) / 2) * 2);
+      // centred in the square, rounded down to the 2 px grid; set at its end value so the move stays smooth
+      bp.style.setProperty('--top', Math.floor((50 - height / 2) / 2) * 2);
       bp.querySelectorAll('.bp-dim').forEach(function (d) {
         var key = parts[d.getAttribute('data-part')];
         d.querySelector('.bp-val').textContent = key === 'height' ? height : st[key];
       });
-      bp.querySelector('.bp-eq').innerHTML = st.pad
-        ? st.line + ' <span class="bp-op">+ 2 × </span>' + st.pad + ' <span class="bp-op">=</span> ' + height
-        : st.line + ' <span class="bp-op">px line</span>';
       legend.querySelectorAll('button').forEach(function (b, n) {
         if (n === i) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current');
       });

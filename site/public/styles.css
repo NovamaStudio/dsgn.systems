@@ -368,7 +368,7 @@ main:has(+ .site-foot) > .sheet-section:last-of-type { padding-block-end: 0; }
 @property --font { syntax: "<number>"; inherits: true; initial-value: 14; }
 @property --line { syntax: "<number>"; inherits: true; initial-value: 20; }
 @property --pad { syntax: "<number>"; inherits: true; initial-value: 0; }
-@property --top { syntax: "<number>"; inherits: true; initial-value: 30; }
+@property --top { syntax: "<number>"; inherits: true; initial-value: 40; }
 
 .bp {
   --h: calc(var(--line) + 2 * var(--pad));
@@ -466,17 +466,6 @@ main:has(+ .site-foot) > .sheet-section:last-of-type { padding-block-end: 0; }
 }
 .bp-val { position: absolute; inset-block-start: 50%; inset-inline-start: 2.5cqi; translate: 0 -50%; }
 .bp-dim[data-part="height"] .bp-val { inset-inline: auto 2.5cqi; font-weight: var(--dsgn-font-weight-semibold); }
-
-/* the sum, large */
-.bp-eq {
-  inset: auto 4cqi 4cqi;
-  font-size: 8cqi;
-  font-weight: var(--dsgn-font-weight-semibold);
-  line-height: 1;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: -0.02em;
-}
-.bp-eq .bp-op { color: var(--dsgn-text-muted); font-weight: var(--dsgn-font-weight-regular); }
 
 /* legend: the steps of the drawing; the current one is sunken, any of them can be picked */
 .bp-legend { margin: 0; padding: 0; list-style: none; }
