@@ -6,6 +6,7 @@ headerScrolledSurface: solid
 footerSheet: true
 footerFaq: true
 headerHideOnScroll: true
+homeShowcase: false
 title: dsgn.systems — your brand colour, guaranteed contrast
 description: "CSS design system for any stack: pick any brand colour and every text, border and focus pair still passes WCAG 2.2 AA, light and dark. Plain HTML, a Figma library checked against the code, a skill for AI agents."
 ogDescription: Pick any brand colour and every pair still passes WCAG 2.2 AA. Plain HTML for any stack, a Figma library checked against the code.
@@ -253,6 +254,8 @@ ogDescription: Pick any brand colour and every pair still passes WCAG 2.2 AA. Pl
       </div>
     </section>
 
+    {#- Showcase: hidden until the demos are finished; set homeShowcase: true in the front matter to show it again. #}
+    {%- if homeShowcase %}
     <!-- Showcase: one cell per demo with its screen (site/scripts/showcase-shots.mjs), each in its own brand. -->
     <section class="dsgn-section sheet-section" id="showcase" aria-labelledby="showcase-title">
       <div class="dsgn-container">
@@ -278,6 +281,7 @@ ogDescription: Pick any brand colour and every pair still passes WCAG 2.2 AA. Pl
         </div>
       </div>
     </section>
+    {%- endif %}
 
     <!-- Figma: the variable collections as cells, no table to scroll sideways. -->
     <section class="dsgn-section sheet-section" id="figma" aria-labelledby="figma-title">
