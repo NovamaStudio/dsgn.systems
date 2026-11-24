@@ -590,7 +590,21 @@ main:has(+ .site-foot) > .sheet-section:last-of-type { padding-block-end: 0; }
 .collection { display: grid; gap: var(--dsgn-space-8); align-content: start; }
 .collection > * { margin: 0; }
 .collection-count { font-size: var(--dsgn-font-size-display); line-height: var(--dsgn-line-height-display); font-weight: var(--dsgn-font-weight-semibold); font-variant-numeric: tabular-nums; }
-.collection-modes { color: var(--dsgn-text-muted); font-size: var(--dsgn-font-size-body-s); }
+.collection-unit { color: var(--dsgn-text-muted); font-size: var(--dsgn-font-size-body-s); font-weight: var(--dsgn-font-weight-regular); }
+/* modes as the same chips as in Modes above, so the two read as one thing */
+.collection-modes { display: flex; flex-wrap: wrap; gap: var(--dsgn-space-4); }
+.collection-modes > span:not(.dsgn-visually-hidden) {
+  padding: var(--dsgn-space-2) var(--dsgn-space-8);
+  border: var(--dsgn-border-width) solid var(--dsgn-border-strong);
+  color: var(--dsgn-text-muted);
+  font-family: var(--site-font-mono);
+  font-size: var(--dsgn-font-size-caption);
+  line-height: var(--dsgn-line-height-caption);
+}
+.collection-code, .collection-text { color: var(--dsgn-text-muted); font-size: var(--dsgn-font-size-body-s); }
+/* "in code" sits at the bottom, so it lines up across a row of cells */
+.collection:has(.collection-code) { grid-template-rows: auto auto auto 1fr; }
+.collection-code { align-self: end; }
 
 /* ── Showcase: screenshots of the demos ────────────────────────────────── */
 

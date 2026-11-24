@@ -19,8 +19,13 @@ const order = ["Color", "Accent", "Density", "Radius", "Elevation", "Material", 
 const modeOrder = { Density: ["S", "M", "L"], Radius: ["Sharp", "Default", "Rounded", "Pill"] };
 const sortModes = (name, modes) =>
   modeOrder[name] ? [...modes].sort((a, b) => modeOrder[name].indexOf(a) - modeOrder[name].indexOf(b)) : modes;
+// What switches the same thing in code, shown under each collection with modes.
+const code = {
+  Color: "data-theme", Accent: "dsgn.theme.mjs", Density: "data-density", Radius: "data-radius",
+  Elevation: "data-elevation", Material: "data-material", Lines: "data-lines", Layout: "screen width",
+};
 const collections = figma.collections
-  .map((c) => ({ name: c.name, modes: c.modes.length > 1 ? sortModes(c.name, c.modes) : [], variables: c.variables.length }))
+  .map((c) => ({ name: c.name, modes: c.modes.length > 1 ? sortModes(c.name, c.modes) : [], variables: c.variables.length, code: code[c.name] }))
   .sort((a, b) => order.indexOf(a.name) - order.indexOf(b.name));
 
 export default {
