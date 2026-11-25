@@ -33,6 +33,8 @@
   <link rel="stylesheet" href="/logo-motion.css">
   <script src="/vendor/dsgn/dsgn.js" defer></script>
   <script src="/main.js" defer></script>
+  {#- Vercel Web Analytics: same-origin script, no cookies, so the CSP stays as is. #}
+  <script src="/_vercel/insights/script.js" defer></script>
 {#- Extra head markup for one page: `head: partials/….njk` in its front matter. #}
 {% if head %}{% include head %}{% endif %}
 </head>
