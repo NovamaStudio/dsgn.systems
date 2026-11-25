@@ -2,7 +2,7 @@
 
 [Website and documentation](https://dsgn.systems/) · [npm](https://www.npmjs.com/package/dsgn.systems) · MIT
 
-Token-driven CSS design system. Plain HTML classes and `data-*` attributes, no framework, no build step in your project. The same tokens and components exist 1:1 in the Figma library.
+Token-driven CSS design system. Plain HTML classes and `data-*` attributes, no framework, no build step in your project. The same tokens and components exist 1:1 in the [Figma library](https://www.figma.com/community/file/1707409667973930578).
 
 - **Colour**: OKLCH palettes where only hue and chroma change; lightness is fixed per step, so contrast is guaranteed for every hue (216 colour pairs checked across every hue on every build).
 - **Density** S / M / L (touch screens get L automatically, 44 px controls), **corners** sharp / default / rounded / pill, **elevation** flat / soft, **material** solid / glass, **lines** on / minimal / none, **light and dark**: switch with one attribute, on the page or on any section.

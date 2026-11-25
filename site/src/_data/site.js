@@ -20,8 +20,8 @@ export default {
     showcase: "/showcase/",
     changelog: "/docs/changelog/",
     license: "https://github.com/NovamaStudio/dsgn.systems/blob/main/LICENSE",
-    // The Figma library (community file). Empty until it is published: the links to it stay hidden.
-    figmaFile: "",
+    // The Figma library (Figma Community file). Empty would hide the links to it.
+    figmaFile: "https://www.figma.com/community/file/1707409667973930578",
     figmaPlugin: "https://github.com/NovamaStudio/dsgn.systems/tree/main/figma-plugin",
     skill: "https://github.com/NovamaStudio/dsgn.systems/tree/main/skills/dsgn-systems",
   },

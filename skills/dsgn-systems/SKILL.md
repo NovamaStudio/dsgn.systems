@@ -5,7 +5,7 @@ description: Build websites, landing pages and web apps with the dsgn.systems CS
 
 # Building with dsgn.systems
 
-dsgn.systems is a token-driven CSS design system: plain HTML, `dsgn-*` classes and `data-*` attributes, no framework and no build step in the project. A small optional script (`dsgn.js`) adds keyboard and behaviour where CSS cannot. Every component exists 1:1 in the Figma library, so code and design stay in sync.
+dsgn.systems is a token-driven CSS design system: plain HTML, `dsgn-*` classes and `data-*` attributes, no framework and no build step in the project. A small optional script (`dsgn.js`) adds keyboard and behaviour where CSS cannot. Every component exists 1:1 in the [Figma library](https://www.figma.com/community/file/1707409667973930578), so code and design stay in sync.
 
 Docs: https://dsgn.systems/docs/ · npm: `dsgn.systems` · source: github.com/NovamaStudio/dsgn.systems
 

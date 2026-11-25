@@ -2,6 +2,11 @@
 
 One version for the npm package and the Figma library. [Semantic versioning](https://semver.org): patch = fix, minor = addition, major = rename or removal (with migration notes).
 
+## Unreleased
+
+### Added
+- The Figma library is published on Figma Community: https://www.figma.com/community/file/1707409667973930578 (linked from the website header section, footer, README and the skill).
+
 ## 0.17.0 — 2026-11-25
 
 ### Fixed
