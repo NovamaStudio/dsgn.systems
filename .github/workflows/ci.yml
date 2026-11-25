@@ -66,7 +66,7 @@ jobs:
       - run: npm ci
       - run: npm run build
       - run: mkdir pages && cp site/redirect/index.html pages/ && cp dist/preview.html dist/layout-demo.html pages/
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v4
         with: { path: pages }
       - id: deploy
         uses: actions/deploy-pages@v4
