@@ -2,7 +2,7 @@
 
 One version for the npm package and the Figma library. [Semantic versioning](https://semver.org): patch = fix, minor = addition, major = rename or removal (with migration notes).
 
-## Unreleased
+## 0.17.0 — 2026-11-25
 
 ### Fixed
 - README quoted 226 checked colour pairs; the build checks 216 (`dist/contrast-report.md`).
