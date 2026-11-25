@@ -194,20 +194,20 @@ out('dsgn.tokens.json', JSON.stringify(dtcg, null, 2));
 const code = (n) => ({ WEB: `var(${v(n)})` });
 const figma = { collections: [] };
 
-const primitives = { name: 'Primitives', modes: ['Value'], hiddenFromPublishing: true, variables: [] };
+const primitives = { name: 'Primitives', modes: ['DSGN'], hiddenFromPublishing: true, variables: [] };
 for (const [pal, steps] of Object.entries(prims))
   for (const [step, c] of Object.entries(steps))
     primitives.variables.push({ name: `color/${pal}/${step}`, type: 'COLOR', scopes: [], codeSyntax: code(`${pal}-${step}`),
-      values: { Value: c.hex }, description: fmtOklch(c) });
+      values: { DSGN: c.hex }, description: fmtOklch(c) });
 const glassHex = (pal) => (th) => pal[T.glass[th][0]][T.glass[th][1]].hex + Math.round(T.glass.alpha * 255).toString(16).padStart(2, '0');
 for (const th of ['light', 'dark'])
-  primitives.variables.push({ name: `color/glass/${th}`, type: 'COLOR', scopes: [], values: { Value: glassHex(prims)(th) },
+  primitives.variables.push({ name: `color/glass/${th}`, type: 'COLOR', scopes: [], values: { DSGN: glassHex(prims)(th) },
     description: `${T.glass[th].join('-')} at ${Math.round(T.glass.alpha * 100)} % (Figma cannot fade a bound fill in instances). Used by Color › surface/glass.` });
 for (const s of T.space)
-  primitives.variables.push({ name: `space/${s}`, type: 'FLOAT', scopes: ['GAP', 'WIDTH_HEIGHT'], codeSyntax: code(`space-${s}`), values: { Value: s } });
-primitives.variables.push({ name: 'radius/full', type: 'FLOAT', scopes: ['CORNER_RADIUS'], codeSyntax: code('radius-full'), values: { Value: 9999 } });
+  primitives.variables.push({ name: `space/${s}`, type: 'FLOAT', scopes: ['GAP', 'WIDTH_HEIGHT'], codeSyntax: code(`space-${s}`), values: { DSGN: s } });
+primitives.variables.push({ name: 'radius/full', type: 'FLOAT', scopes: ['CORNER_RADIUS'], codeSyntax: code('radius-full'), values: { DSGN: 9999 } });
 for (const [k, n] of Object.entries(T.misc))
-  primitives.variables.push({ name: `stroke/${k}`, type: 'FLOAT', scopes: ['STROKE_FLOAT'], codeSyntax: code(k), values: { Value: n } });
+  primitives.variables.push({ name: `stroke/${k}`, type: 'FLOAT', scopes: ['STROKE_FLOAT'], codeSyntax: code(k), values: { DSGN: n } });
 figma.collections.push(primitives);
 
 // Accent: the role slots (which palette step a button fill, control tint … uses) and a mode switch on

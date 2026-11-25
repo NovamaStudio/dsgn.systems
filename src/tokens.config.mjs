@@ -43,9 +43,12 @@ export const ladder = [
 // 2. PALETTES — only hue + chroma. Change these two numbers, contrast holds.
 // ─────────────────────────────────────────────────────────────────────────────
 export const palettes = {
-  neutral: { h: 260, c: 0.014 },
-  accent:  { h: 260, c: 0.17 },
-  danger:  { h: 25,  c: 0.20 },
+  // default brand = DSGN orange #FF4400 (hue 35.2, chroma 0.23), greys barely tinted towards it.
+  // The former blue default (accent h 260 c 0.17, neutral h 260 c 0.014) is the Figma mode "Blue"
+  // (figma/themes/blue.theme.mjs) and one theme away in code.
+  neutral: { h: 35.2, c: 0.004 },
+  accent:  { h: 35.2, c: 0.2301 },
+  danger:  { h: 10,  c: 0.20 },   // crimson: 25 (until 0.16) sat 10° from the orange accent
   success: { h: 150, c: 0.16 },
   warning: { h: 70,  c: 0.16 },
 };

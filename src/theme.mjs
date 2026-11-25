@@ -338,7 +338,7 @@ export default {
   colors: {
     accent: '#2f6fed',                    // brand hex: its hue and chroma drive buttons, links, focus
     neutral: { h: 'accent', c: 0.012 },   // greys, slightly tinted towards the accent (c 0 … 0.04)
-    // danger:  { h: 25,  c: 0.20 },      // hue 0–360, chroma 0 … 0.30
+    // danger:  { h: 10,  c: 0.20 },      // hue 0–360, chroma 0 … 0.30
     // success: { h: 150, c: 0.16 },
     // warning: { h: 70,  c: 0.16 },
   },

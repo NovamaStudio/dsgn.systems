@@ -1,6 +1,6 @@
 # dsgn.systems — working rules
 
-Code-first design system mirrored into the Figma library **DSGN-NEW** (fileKey `NsEDago50AMdafJkdni3K6`).
+Code-first design system mirrored into the Figma library **DSGN.systems** (fileKey `NsEDago50AMdafJkdni3K6`).
 Code, Figma, documentation and handoff must never drift apart.
 
 ## Every change is synced everywhere (non-negotiable)

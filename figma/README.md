@@ -56,3 +56,10 @@ Code Connect needs a Figma Organization or Enterprise plan, so dsgn writes the s
 - **Documentation link** of each component → its page in the docs.
 
 The source is `src/docs/figma-map.mjs`. `npm run build` checks it against the docs (every docs page's Figma components must be mapped) and writes `dist/figma-handoff.js`; run that in the library file through the Figma MCP or a scratch plugin and save the result as `figma/handoff-report.json` (`ok: true` = every component and property value mapped). The designer's own text above the **— Code —** marker is kept.
+
+## How the library file is laid out
+
+- **Cover** (first page): the DSGN wordmark and the library facts. Set it as the file thumbnail by hand (right-click the Cover frame → Set as thumbnail); the Plugin API cannot.
+- **Foundations** and one page per component group. Each page starts with its documentation sheet (meta row, title, facts) and every component set, component, example and template sits in its own technical sheet (header: title · type · variant count, then the property names). Components were only moved into the sheets, so their keys and every instance stay as they are; the assets panel groups them by sheet. Put new components into a sheet of their own the same way.
+- **Primitives modes**: **DSGN** (first = default, the package palette) and **Blue** (the blue default of 0.16 and earlier, from `figma/themes/blue.theme.mjs`; regenerate with `node bin/dsgn.mjs theme figma/themes/blue.theme.mjs --out <scratch dir>` and rename the two `dsgn.theme.figma.*` files to `blue.theme.figma.*`). Parity checks DSGN against the code and lists Blue as a theme mode.
+- **Accent › Vivid** is set on every page except Cover (a page-level mode), so the file looks like dsgn.systems. It does not travel with the components: in files that use the library they start from Default.

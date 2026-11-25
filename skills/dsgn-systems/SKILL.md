@@ -175,6 +175,8 @@ npx dsgn theme --init   # writes dsgn.theme.mjs; edit brand hex or hue + chroma
 npx dsgn theme          # checks contrast, writes dsgn.theme.css (--out public for a static site; Figma files stay next to the config)
 ```
 
+Without a theme the accent is the DSGN orange (#FF4400); a project brand always goes through `dsgn theme`. In the Figma library the Primitives collection has the modes **DSGN** (default) and **Blue** (the pre-0.17 blue default), plus one mode per project theme.
+
 Options include `accentFill: 'default' | 'strong' | 'stronger' | 'vivid' | 'auto'` and `monochrome: true` (no accent colour at all). Lightness per step is fixed, so contrast holds for any hue. **`vivid`** keeps a bright brand fill (step 64, lighter on hover) in both themes with near-black text on it (`--dsgn-accent-solid-text` follows); it is for fills behind text (buttons, solid badges and icons, highlights) while checkboxes, switches, sliders, progress and other controls keep the default fill; `auto` never picks it. To show the brand colour as a field behind text, use `--dsgn-accent-solid` with `--dsgn-accent-solid-text`, not `--dsgn-brand`. Never redefine colour tokens by hand; that bypasses the contrast guarantee. `--dsgn-brand` is the exact brand colour for logos and illustrations only.
 
 ## 3. Tokens: the only values you may use

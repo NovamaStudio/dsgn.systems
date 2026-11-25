@@ -8,7 +8,16 @@ One version for the npm package and the Figma library. [Semantic versioning](htt
 - README quoted 226 checked colour pairs; the build checks 216 (`dist/contrast-report.md`).
 
 ### Changed
+- **Default brand colour is the DSGN orange.** `palettes.accent` is hue 35.2, chroma 0.23 (#FF4400) and `palettes.neutral` hue 35.2, chroma 0.004 (greys barely warmed); every other token, step and contrast pair is unchanged and the build still checks all 216 pairs.
+  **Danger** moves from hue 25 to **hue 10** (crimson, chroma 0.20): at 25 it sat 10° from the orange, so a danger button looked like the primary one (OKLab ΔE 0.036 → 0.085 at step 54). Applies to every theme that does not set its own `danger`, and to both Figma modes. Figma: the Primitives mode **Value** is renamed **DSGN** (still the default) and a second mode **Blue** carries the former values (`figma/themes/blue.theme.mjs`).
+  **Migration**: to keep the blue look, add a theme with `colors: { accent: { h: 260, c: 0.17 }, neutral: { h: 260, c: 0.014 } }` (`npx dsgn theme`), or in Figma set Primitives to **Blue** on your frames. Projects that already have a dsgn theme are not affected.
 - Copyright holder and package author are **Novama Studio** (was Novama) in `LICENSE`, `package.json`, the README and the skill.
+- Figma: the **Primitives** collection no longer carries the project theme modes **Evano** and **Vetmnisek** (no frame or instance used them); only the package mode is left (now **DSGN**, see above). Add a brand as a mode with `npx dsgn theme` as before.
+- Figma: every page's documentation (Foundations and the 13 component pages) uses the dsgn.systems sheet look: 1 px ink rules, a sunken meta row (components · code file · 1:1 with code) in JetBrains Mono, Inter Extra Bold titles, facts as key | value rows; colours stay bound to the Color variables. Component titles on the canvas are Extra Bold.
+- Figma: tidier pages. Navigation & layout and Patterns no longer have overlapping component sets (Card, Media, Breadcrumbs, Pagination, Skip link; Header, Footer, Hero, Header surface), Input's Field sits beside Textarea, and Icon, Feature, Testimonial, Rating and Header surface have titles. A leftover test copy of Templates › Landing / Responsive (768 px) was removed.
+- Figma: every component set, component, example and template now sits in its own technical sheet: a frame with a 1 px ink rule and a sunken header (title · type · variant count · property names), laid out in rows under the page documentation. The components were only moved into the sheets: their ids, variants, properties and the 581 instances that use them are unchanged; the assets panel now groups them by sheet.
+- Figma: every page of the library file except Cover is set to the **Accent › Vivid** mode (a page-level mode, so new frames follow too), so the library looks like dsgn.systems (bright orange fill, near-black text on it). The mode belongs to the pages of this file only; the components keep **Default**, so files that use the library still start from the package default.
+- Figma: new **Cover** page (first page) with the DSGN wordmark, the homepage claim and the library facts.
 
 ## 0.16.0 — 2026-11-23
 
