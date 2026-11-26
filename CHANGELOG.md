@@ -5,7 +5,7 @@ One version for the npm package and the Figma library. [Semantic versioning](htt
 ## Unreleased
 
 ### Added
-- The Figma library is published on Figma Community: https://www.figma.com/community/file/1707409667973930578 (linked from the website header section, footer, README and the skill).
+- The Figma library is published on [Figma Community](https://www.figma.com/community/file/1707409667973930578) (linked from the website header section, footer, README and the skill).
 - Website: Vercel Web Analytics (cookieless, same-origin script; the CSP is unchanged).
 
 ## 0.17.0 — 2026-11-25
