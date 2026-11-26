@@ -6,7 +6,7 @@ One version for the npm package and the Figma library. [Semantic versioning](htt
 
 ### Added
 - The Figma library is published on [Figma Community](https://www.figma.com/community/file/1707409667973930578) (linked from the website header section, footer, README and the skill).
-- Figma: **Community cover** frame (1920 × 1080) on the Cover page, the thumbnail of the Figma Community listing, built from real component instances. The Cover's version reads 0.17.0 (was 0.16.0).
+- Figma: **Community cover** frame (1920 × 1080) on the Cover page, the thumbnail of the Figma Community listing, built from real component instances: one card shown in four mode combinations (colour scheme, brand, accent, radius). The Cover's version reads 0.17.0 (was 0.16.0).
 - Website: Vercel Web Analytics (cookieless, same-origin script; the CSP is unchanged).
 
 ## 0.17.0 — 2026-11-25
